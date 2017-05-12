@@ -34,7 +34,8 @@ public class ControllerPagerAdapter implements DelegatedPagerAdapter.Delegate, S
 
     public void set(int index, Controller controller) {
         controllerList.set(index, controller);
-        if (parent.isAttached() && pagerAdapter != null) {
+        if (pagerAdapter != null && parent.isAttached() &&
+                parent.getActivity() != null && !parent.asFragment().getChildFragmentManager().isDestroyed()) {
             pagerAdapter.notifyDataSetChanged(); // TODO: optimize
         }
     }
