@@ -69,46 +69,46 @@ public abstract class AbstractController<B extends ViewDataBinding> extends Base
     }
 
     public final void show(AbstractController controller) {
-        if (getActivity() != null) {
+        if (isAttached && getActivity() != null && !getActivity().isFinishing()) {
             getActivity().show(controller);
         }
     }
 
     public final void show(@NonNull AbstractController next,
                            @AnimRes int enter, @AnimRes int exit){
-        if (getActivity() != null) {
+        if (isAttached && getActivity() != null && !getActivity().isFinishing()) {
             getActivity().show(next, enter, exit);
         }
     }
 
     public final void back() {
-        if (isAttached && getActivity() != null) {
+        if (isAttached && getActivity() != null && !getActivity().isFinishing()) {
             getActivity().back();
         }
     }
 
     public final void back(@AnimRes int enter, @AnimRes int exit) {
-        if (isAttached && getActivity() != null) {
+        if (isAttached && getActivity() != null && !getActivity().isFinishing()) {
             getActivity().back(enter, exit);
         }
     }
 
 
     public final void replace(AbstractController controller) {
-        if (getActivity() != null) {
+        if (isAttached && getActivity() != null && !getActivity().isFinishing()) {
             getActivity().replace(controller);
         }
     }
 
     protected final void goBackTo(AbstractController controller) {
-        if (getActivity() != null) {
+        if (isAttached && getActivity() != null && !getActivity().isFinishing()) {
             getActivity().goBackTo(controller);
         }
     }
 
     // go back with custom
     protected final void goBackTo(AbstractController controller, @AnimRes int enter, @AnimRes int exit) {
-        if (getActivity() != null) {
+        if (isAttached && getActivity() != null && !getActivity().isFinishing()) {
             getActivity().goBackTo(controller, enter, exit);
         }
     }
