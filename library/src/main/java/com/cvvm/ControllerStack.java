@@ -3,9 +3,7 @@ package com.cvvm;
 import android.support.annotation.Nullable;
 
 import java.io.Serializable;
-import java.util.Iterator;
-import java.util.ListIterator;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by Vadim Ovcharenko
@@ -52,14 +50,16 @@ public class ControllerStack implements Serializable, Iterable<AbstractControlle
         };
     }
 
-    AbstractController pop(int i) {
-        if (i > controllers.size()) throw new IllegalArgumentException();
+    List<AbstractController> pop(int i) {
+        if (i > controllers.size() || i < 1) throw new IllegalArgumentException();
 
-        AbstractController controller = null;
+        List<AbstractController> popped = new ArrayList<>();
+
         for (int j = 0; j < i; j++) {
-            controller = controllers.pop();
+            popped.add(controllers.pop());
         }
-        return controller;
+
+        return popped;
     }
 
     AbstractController peek(int i) {

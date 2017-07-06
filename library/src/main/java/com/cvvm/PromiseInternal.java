@@ -1,6 +1,5 @@
 package com.cvvm;
 
-import retrofit2.Call;
 
 /**
  * Created by Vadim Ovcharenko

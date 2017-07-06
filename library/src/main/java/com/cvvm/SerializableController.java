@@ -39,8 +39,8 @@ abstract class SerializableController<B extends ViewDataBinding> extends Abstrac
         }
     }
 
-    @Override void onDetached() {
-        super.onDetached();
+    @Override void onDetachedFromStack() {
+        super.onDetachedFromStack();
         for (PromiseInternal promise : promises.values()) {
             if (!promise.hasTerminated()) {
                 promise.cancel();

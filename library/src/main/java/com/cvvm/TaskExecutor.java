@@ -46,7 +46,7 @@ final class TaskExecutor {
 
         if (queue.put(taskHash, promise) != null) {
             // means that execution is already running
-            return;
+            return; // TODO: throw fatal
         }
 
         workerThreadExecutor.execute(new Runnable() {

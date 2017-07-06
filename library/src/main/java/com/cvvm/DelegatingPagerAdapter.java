@@ -4,6 +4,7 @@ import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.ViewGroup;
 
 import java.io.Serializable;
 
@@ -13,11 +14,11 @@ import java.io.Serializable;
  * 04.11.2016.
  */
 
-class DelegatedPagerAdapter extends FragmentStatePagerAdapter implements Serializable {
+class DelegatingPagerAdapter extends FragmentStatePagerAdapter implements Serializable {
 
     private final Delegate delegate;
 
-    DelegatedPagerAdapter(FragmentManager fm, Delegate delegate) {
+    DelegatingPagerAdapter(FragmentManager fm, Delegate delegate) {
         super(fm);
         this.delegate = delegate;
     }
@@ -44,6 +45,17 @@ class DelegatedPagerAdapter extends FragmentStatePagerAdapter implements Seriali
 
     @Override public void restoreState(Parcelable state, ClassLoader loader) {
         // no need to restore state
+    }
+
+    @Override public Object instantiateItem(ViewGroup container, int position) {
+        Object o =  super.instantiateItem(container, position);
+        delegate.getItem(position).onAttachedToScreen();
+        return o;
+    }
+
+    @Override public void destroyItem(ViewGroup container, int position, Object object) {
+        super.destroyItem(container, position, object);
+        delegate.getItem(position).onDetachedFromScreen();
     }
 
     interface Delegate {

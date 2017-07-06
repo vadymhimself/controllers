@@ -6,6 +6,7 @@ import android.support.annotation.AnimRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 
 /**
@@ -15,8 +16,21 @@ import android.support.v4.app.Fragment;
 
 public abstract class AbstractController<B extends ViewDataBinding> extends BaseObservable implements IController, ExecutionContext {
 
+    public static final String TAG = AbstractController.class.getSimpleName();
+
+    /**
+     * Strategy of the Controller representation in terms of Android
+     */
+    interface Strategy<B extends ViewDataBinding> {
+        ControllerActivity getActivity();
+        Fragment asFragment();
+        B getBinding();
+    }
+
     private transient Strategy<B> strategy;
-    private transient boolean isAttached;
+    private transient boolean attachedToScreen;
+
+    private boolean attachedToStack;
 
     // must be public with no arguments
     public AbstractController() {
@@ -34,20 +48,32 @@ public abstract class AbstractController<B extends ViewDataBinding> extends Base
         return strategy.asFragment();
     }
 
-    void onAttached() {
-        isAttached = true;
+    void onAttachedToScreen() {
+        if (attachedToScreen) throw new IllegalStateException();
+        attachedToScreen = true;
     }
 
-    void onDetached() {
-        isAttached = false;
+    void onDetachedFromScreen() {
+        if (!attachedToScreen) throw new IllegalStateException();
+        attachedToScreen = false;
+    }
+
+    void onAttachedToStack() {
+        if (attachedToStack) throw new IllegalStateException();
+        attachedToStack = true;
+    }
+
+    void onDetachedFromStack() {
+        if (!attachedToStack) throw new IllegalStateException();
+        attachedToStack = false;
     }
 
     void onRestored() {
 
     }
 
-    boolean isAttached() {
-        return isAttached;
+    boolean isAttachedToScreen() {
+        return attachedToScreen;
     }
 
     @Nullable protected B getBinding() {
@@ -69,47 +95,61 @@ public abstract class AbstractController<B extends ViewDataBinding> extends Base
     }
 
     public final void show(AbstractController controller) {
-        if (isAttached && getActivity() != null && !getActivity().isFinishing()) {
+        if (attachedToScreen && getActivity() != null && !getActivity().isFinishing()) {
             getActivity().show(controller);
+        } else {
+            Log.w(TAG, "show: ignored call from detached controller");
         }
     }
 
     public final void show(@NonNull AbstractController next,
                            @AnimRes int enter, @AnimRes int exit){
-        if (isAttached && getActivity() != null && !getActivity().isFinishing()) {
+        if (attachedToScreen && getActivity() != null && !getActivity().isFinishing()) {
             getActivity().show(next, enter, exit);
+        } else {
+            Log.w(TAG, "show: ignored call from detached controller");
         }
     }
 
     public final void back() {
-        if (isAttached && getActivity() != null && !getActivity().isFinishing()) {
+        if (attachedToScreen && getActivity() != null && !getActivity().isFinishing()) {
             getActivity().back();
+        } else {
+            Log.w(TAG, "back: ignored call from detached controller");
         }
     }
 
     public final void back(@AnimRes int enter, @AnimRes int exit) {
-        if (isAttached && getActivity() != null && !getActivity().isFinishing()) {
+        if (attachedToScreen && getActivity() != null && !getActivity().isFinishing()) {
             getActivity().back(enter, exit);
+        } else {
+            Log.w(TAG, "back: ignored call from detached controller");
         }
     }
 
 
     public final void replace(AbstractController controller) {
-        if (isAttached && getActivity() != null && !getActivity().isFinishing()) {
+        if (attachedToScreen && getActivity() != null && !getActivity().isFinishing()) {
             getActivity().replace(controller);
+        } else {
+            Log.w(TAG, "replace: ignored call from detached controller");
         }
     }
 
     protected final void goBackTo(AbstractController controller) {
-        if (isAttached && getActivity() != null && !getActivity().isFinishing()) {
+        if (attachedToScreen && getActivity() != null && !getActivity().isFinishing()) {
             getActivity().goBackTo(controller);
+        } else {
+            Log.w(TAG, "goBackTo: ignored call from detached controller");
         }
     }
 
     // go back with custom
     protected final void goBackTo(AbstractController controller, @AnimRes int enter, @AnimRes int exit) {
-        if (isAttached && getActivity() != null && !getActivity().isFinishing()) {
+        if (attachedToScreen && getActivity() != null && !getActivity().isFinishing()) {
             getActivity().goBackTo(controller, enter, exit);
+        } else {
+            Log.w(TAG, "goBackTo: ignored call from detached controller");
         }
     }
 
@@ -148,23 +188,10 @@ public abstract class AbstractController<B extends ViewDataBinding> extends Base
         return false;
     }
 
-    public final <T> RequestBuilder<T> getRequestBuilder(Class<T> service) {
-        return new RequestBuilderImpl<>(this, service);
-    }
-
     // result will be returned to the calling controller
     protected void requestPermission(String permission, PermissionListener callback) {
         if (getActivity() != null) {
             getActivity().requestPermission(permission, callback);
         }
-    }
-
-    /**
-     * Strategy of the Controller representation in terms of Android
-     */
-    interface Strategy<B extends ViewDataBinding> {
-        ControllerActivity getActivity();
-        Fragment asFragment();
-        B getBinding();
     }
 }

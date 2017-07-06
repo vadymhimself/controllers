@@ -1,6 +1,5 @@
 package com.cvvm;
 
-import okhttp3.*;
 
 /**
  * Created by Vadim Ovcharenko

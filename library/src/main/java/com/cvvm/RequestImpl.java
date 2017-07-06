@@ -37,7 +37,7 @@ class RequestImpl<T> implements Request<T> {
         return this;
     }
 
-    @Override public final Promise<T> execute(@NonNull Promise.SuccessAction<T> successAction) {
+    @Override public final Promise<T> execute(Promise.SuccessAction<T> successAction) {
         PromiseImpl<T> promise = new PromiseImpl<>(
                 context,
                 task,

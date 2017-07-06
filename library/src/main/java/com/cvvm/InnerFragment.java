@@ -14,10 +14,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import com.cvvm.BR;
-
 import java.lang.reflect.Field;
-import java.util.Map;
 
 /**
  * Representation of the basic Controller in Android

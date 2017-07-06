@@ -12,15 +12,18 @@ import java.util.List;
  * 04.11.2016.
  */
 
-public class ControllerPagerAdapter implements DelegatedPagerAdapter.Delegate, Serializable {
+public class ControllerPagerAdapter implements DelegatingPagerAdapter.Delegate, Serializable {
 
     private List<Controller> controllerList = new ArrayList<>();
     @NonNull private final AbstractController parent;
 
-    transient private DelegatedPagerAdapter pagerAdapter;
+    transient private DelegatingPagerAdapter pagerAdapter;
 
-    public ControllerPagerAdapter(@NonNull AbstractController parent) {
+    public ControllerPagerAdapter(@NonNull final ObservableController parent) {
         this.parent = parent;
+        // controllers inside the viewpager do not receive lifecycle signals,
+        // so we have to push it manually from the parent controller
+        parent.addObserver(new ParentControllerObserver());
     }
 
     @Override
@@ -34,7 +37,7 @@ public class ControllerPagerAdapter implements DelegatedPagerAdapter.Delegate, S
 
     public void set(int index, Controller controller) {
         controllerList.set(index, controller);
-        if (pagerAdapter != null && parent.isAttached() &&
+        if (pagerAdapter != null && parent.isAttachedToScreen() &&
                 parent.getActivity() != null && !parent.asFragment().getChildFragmentManager().isDestroyed()) {
             pagerAdapter.notifyDataSetChanged(); // TODO: optimize
         }
@@ -54,7 +57,34 @@ public class ControllerPagerAdapter implements DelegatedPagerAdapter.Delegate, S
         if (parent.getActivity() == null) {
             throw new IllegalStateException("Parent controller is not attached yet.");
         }
-        pagerAdapter = new DelegatedPagerAdapter(parent.asFragment().getChildFragmentManager(), this);
+        pagerAdapter = new DelegatingPagerAdapter(parent.asFragment().getChildFragmentManager(), this);
         return pagerAdapter;
+    }
+
+    private final class ParentControllerObserver implements ObservableController.Observer {
+        @Override public void onAttachedToStack(ObservableController observable) {
+            for (Controller controller : controllerList) {
+                controller.onAttachedToStack();
+            }
+        }
+
+        @Override public void onDetachedFromStack(ObservableController observable) {
+            for (Controller controller : controllerList) {
+                controller.onDetachedFromStack();
+            }
+        }
+
+        @Override public void onAttachedToScreen(ObservableController observable) {
+
+        }
+
+        @Override public void onDetachedFromScreen(ObservableController observable) {
+            for (Controller controller : controllerList) {
+                // forward signal of the parent detach
+                if (controller.isAttachedToScreen()) {
+                    controller.onDetachedFromScreen();
+                }
+            }
+        }
     }
 }
