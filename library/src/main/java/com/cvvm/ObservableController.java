@@ -8,11 +8,13 @@ import java.util.Set;
 
 abstract class ObservableController<B extends ViewDataBinding> extends SerializableController<B> {
 
+
     public interface Observer extends Serializable {
         void onAttachedToStack(ObservableController observable);
         void onDetachedFromStack(ObservableController observable);
         void onAttachedToScreen(ObservableController observable);
         void onDetachedFromScreen(ObservableController observable);
+        void onRestored(ObservableController observable);
     }
 
     private Set<Observer> observers;
@@ -31,8 +33,8 @@ abstract class ObservableController<B extends ViewDataBinding> extends Serializa
         return observers != null && observers.remove(observer);
     }
 
-    @Override void onAttachedToStack() {
-        super.onAttachedToStack();
+    @Override void onAttachedToStackInternal() {
+        super.onAttachedToStackInternal();
         if (observers != null) {
             for (Observer observer : observers) {
                 observer.onAttachedToStack(this);
@@ -40,8 +42,8 @@ abstract class ObservableController<B extends ViewDataBinding> extends Serializa
         }
     }
 
-    @Override void onDetachedFromStack() {
-        super.onDetachedFromStack();
+    @Override void onDetachedFromStackInternal() {
+        super.onDetachedFromStackInternal();
         if (observers != null) {
             for (Observer observer : observers) {
                 observer.onDetachedFromStack(this);
@@ -63,6 +65,16 @@ abstract class ObservableController<B extends ViewDataBinding> extends Serializa
         if (observers != null) {
             for (Observer observer : observers) {
                 observer.onDetachedFromScreen(this);
+            }
+        }
+    }
+
+    @Override
+    void onRestored() {
+        super.onRestored();
+        if (observers != null) {
+            for (Observer observer : observers) {
+                observer.onRestored(this);
             }
         }
     }

@@ -15,9 +15,4 @@ public class BindingAdapters {
     public static void bindPagerAdapter(final ViewPager viewPager, final ControllerPagerAdapter adapter) {
         viewPager.setAdapter(adapter.asFragmentPagerAdapter());
     }
-
-    @BindingAdapter("android:visibility")
-    public static void bindVisibility(final View view, boolean visible) {
-        view.setVisibility(visible ? View.VISIBLE : View.GONE);
-    }
 }

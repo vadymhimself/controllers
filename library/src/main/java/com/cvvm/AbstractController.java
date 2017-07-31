@@ -14,7 +14,8 @@ import android.util.Log;
  * 18.10.2016.
  */
 
-public abstract class AbstractController<B extends ViewDataBinding> extends BaseObservable implements IController, ExecutionContext {
+public abstract class AbstractController<B extends ViewDataBinding> extends
+        BaseObservable implements IController {
 
     public static final String TAG = AbstractController.class.getSimpleName();
 
@@ -23,7 +24,9 @@ public abstract class AbstractController<B extends ViewDataBinding> extends Base
      */
     interface Strategy<B extends ViewDataBinding> {
         ControllerActivity getActivity();
+
         Fragment asFragment();
+
         B getBinding();
     }
 
@@ -40,11 +43,14 @@ public abstract class AbstractController<B extends ViewDataBinding> extends Base
 
     abstract Strategy<B> createStrategy();
 
-    @Nullable public ControllerActivity getActivity() {
+    @Nullable
+    public ControllerActivity getActivity() {
         return strategy.getActivity();
     }
 
-    @NonNull @Override public final Fragment asFragment() {
+    @NonNull
+    @Override
+    public final Fragment asFragment() {
         return strategy.asFragment();
     }
 
@@ -58,14 +64,24 @@ public abstract class AbstractController<B extends ViewDataBinding> extends Base
         attachedToScreen = false;
     }
 
-    void onAttachedToStack() {
+    void onAttachedToStackInternal() {
         if (attachedToStack) throw new IllegalStateException();
         attachedToStack = true;
+        onAttachedToStack();
     }
 
-    void onDetachedFromStack() {
+    void onDetachedFromStackInternal() {
         if (!attachedToStack) throw new IllegalStateException();
         attachedToStack = false;
+        onDetachedFromStack();
+    }
+
+    protected void onAttachedToStack() {
+
+    }
+
+    protected void onDetachedFromStack() {
+
     }
 
     void onRestored() {
@@ -76,7 +92,8 @@ public abstract class AbstractController<B extends ViewDataBinding> extends Base
         return attachedToScreen;
     }
 
-    @Nullable protected B getBinding() {
+    @Nullable
+    protected B getBinding() {
         return strategy.getBinding();
     }
 
@@ -95,7 +112,8 @@ public abstract class AbstractController<B extends ViewDataBinding> extends Base
     }
 
     public final void show(AbstractController controller) {
-        if (attachedToScreen && getActivity() != null && !getActivity().isFinishing()) {
+        if (attachedToScreen && getActivity() != null && !getActivity()
+                .isFinishing()) {
             getActivity().show(controller);
         } else {
             Log.w(TAG, "show: ignored call from detached controller");
@@ -103,8 +121,9 @@ public abstract class AbstractController<B extends ViewDataBinding> extends Base
     }
 
     public final void show(@NonNull AbstractController next,
-                           @AnimRes int enter, @AnimRes int exit){
-        if (attachedToScreen && getActivity() != null && !getActivity().isFinishing()) {
+                           @AnimRes int enter, @AnimRes int exit) {
+        if (attachedToScreen && getActivity() != null && !getActivity()
+                .isFinishing()) {
             getActivity().show(next, enter, exit);
         } else {
             Log.w(TAG, "show: ignored call from detached controller");
@@ -112,7 +131,8 @@ public abstract class AbstractController<B extends ViewDataBinding> extends Base
     }
 
     public final void back() {
-        if (attachedToScreen && getActivity() != null && !getActivity().isFinishing()) {
+        if (attachedToScreen && getActivity() != null && !getActivity()
+                .isFinishing()) {
             getActivity().back();
         } else {
             Log.w(TAG, "back: ignored call from detached controller");
@@ -120,7 +140,8 @@ public abstract class AbstractController<B extends ViewDataBinding> extends Base
     }
 
     public final void back(@AnimRes int enter, @AnimRes int exit) {
-        if (attachedToScreen && getActivity() != null && !getActivity().isFinishing()) {
+        if (attachedToScreen && getActivity() != null && !getActivity()
+                .isFinishing()) {
             getActivity().back(enter, exit);
         } else {
             Log.w(TAG, "back: ignored call from detached controller");
@@ -129,7 +150,8 @@ public abstract class AbstractController<B extends ViewDataBinding> extends Base
 
 
     public final void replace(AbstractController controller) {
-        if (attachedToScreen && getActivity() != null && !getActivity().isFinishing()) {
+        if (attachedToScreen && getActivity() != null && !getActivity()
+                .isFinishing()) {
             getActivity().replace(controller);
         } else {
             Log.w(TAG, "replace: ignored call from detached controller");
@@ -137,7 +159,8 @@ public abstract class AbstractController<B extends ViewDataBinding> extends Base
     }
 
     protected final void goBackTo(AbstractController controller) {
-        if (attachedToScreen && getActivity() != null && !getActivity().isFinishing()) {
+        if (attachedToScreen && getActivity() != null && !getActivity()
+                .isFinishing()) {
             getActivity().goBackTo(controller);
         } else {
             Log.w(TAG, "goBackTo: ignored call from detached controller");
@@ -145,8 +168,10 @@ public abstract class AbstractController<B extends ViewDataBinding> extends Base
     }
 
     // go back with custom
-    protected final void goBackTo(AbstractController controller, @AnimRes int enter, @AnimRes int exit) {
-        if (attachedToScreen && getActivity() != null && !getActivity().isFinishing()) {
+    protected final void goBackTo(AbstractController controller, @AnimRes int
+            enter, @AnimRes int exit) {
+        if (attachedToScreen && getActivity() != null && !getActivity()
+                .isFinishing()) {
             getActivity().goBackTo(controller, enter, exit);
         } else {
             Log.w(TAG, "goBackTo: ignored call from detached controller");
@@ -189,7 +214,8 @@ public abstract class AbstractController<B extends ViewDataBinding> extends Base
     }
 
     // result will be returned to the calling controller
-    protected void requestPermission(String permission, PermissionListener callback) {
+    protected void requestPermission(String permission, PermissionListener
+            callback) {
         if (getActivity() != null) {
             getActivity().requestPermission(permission, callback);
         }

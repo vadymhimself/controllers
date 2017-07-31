@@ -8,12 +8,10 @@ import android.databinding.ViewDataBinding;
  * 20.10.2016.
  */
 
-public abstract class Controller<B extends ViewDataBinding> extends ObservableController<B> {
-    @Override Strategy<B> createStrategy() {
+public abstract class Controller<B extends ViewDataBinding> extends
+        ObservableController<B> {
+    @Override
+    Strategy<B> createStrategy() {
         return new FragmentStrategy<>(this);
-    }
-
-    public final <T> Request<T> request(Task<T> task) {
-        return new RequestImpl<>(this, task);
     }
 }

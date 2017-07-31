@@ -29,16 +29,5 @@ class FragmentStrategy<B extends ViewDataBinding> implements AbstractController.
     public B getBinding() {
         return fragment.binding;
     }
-//
-//    @SuppressWarnings("unchecked")
-//    @Override public void setViewModel(int variableId, Object viewModel) {
-//        if (fragment.binding != null) {
-//            fragment.binding.setVariable(variableId, viewModel);
-//            if (viewModel instanceof AbstractViewModel) {
-//                AbstractViewModel vm = (AbstractViewModel) viewModel;
-//                vm.onAttach(fragment.controller, fragment.binding);
-//            }
-//        }
-//    }
 
 }
