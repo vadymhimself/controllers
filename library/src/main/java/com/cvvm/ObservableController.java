@@ -6,6 +6,9 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Controller that notifies of its lifecycle. All observers are serialized.
+ */
 abstract class ObservableController<B extends ViewDataBinding> extends SerializableController<B> {
 
 
