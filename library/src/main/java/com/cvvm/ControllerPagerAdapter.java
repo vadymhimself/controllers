@@ -55,7 +55,7 @@ public class ControllerPagerAdapter implements DelegatingPagerAdapter
         return controllerList.size();
     }
 
-    PagerAdapter asFragmentPagerAdapter() {
+    public PagerAdapter asFragmentPagerAdapter() {
         if (parent.getActivity() == null) {
             throw new IllegalStateException("Parent controller is not " +
                     "attached yet.");
