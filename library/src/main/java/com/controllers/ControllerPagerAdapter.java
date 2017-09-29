@@ -1,4 +1,4 @@
-package com.cvvm;
+package com.controllers;
 
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;

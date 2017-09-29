@@ -1,4 +1,4 @@
-package com.cvvm;
+package com.controllers;
 
 import android.databinding.BaseObservable;
 import android.databinding.ViewDataBinding;
@@ -214,7 +214,8 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         }
     }
 
-    String getTitle() {
+    // TODO: I don't really like it
+    protected String getTitle() {
         return "Untitled controller";
     }
 

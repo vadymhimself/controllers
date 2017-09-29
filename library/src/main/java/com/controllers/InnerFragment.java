@@ -1,4 +1,4 @@
-package com.cvvm;
+package com.controllers;
 
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;

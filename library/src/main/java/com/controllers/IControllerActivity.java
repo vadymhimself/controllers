@@ -1,4 +1,4 @@
-package com.cvvm;
+package com.controllers;
 
 interface IControllerActivity {
 }

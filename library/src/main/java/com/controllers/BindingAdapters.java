@@ -1,4 +1,4 @@
-package com.cvvm;
+package com.controllers;
 
 import android.databinding.BindingAdapter;
 import android.support.v4.view.ViewPager;

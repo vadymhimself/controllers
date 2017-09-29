@@ -1,4 +1,4 @@
-package com.cvvm;
+package com.controllers;
 
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
