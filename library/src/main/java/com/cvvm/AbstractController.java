@@ -111,7 +111,8 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         return false;
     }
 
-    public final void show(AbstractController controller) {
+    @Override
+    public final void show(Controller controller) {
         if (attachedToScreen && getActivity() != null && !getActivity()
                 .isFinishing()) {
             getActivity().show(controller);
@@ -120,7 +121,8 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         }
     }
 
-    public final void show(@NonNull AbstractController next,
+    @Override
+    public final void show(@NonNull Controller next,
                            @AnimRes int enter, @AnimRes int exit) {
         if (attachedToScreen && getActivity() != null && !getActivity()
                 .isFinishing()) {
@@ -130,6 +132,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         }
     }
 
+    @Override
     public final void back() {
         if (attachedToScreen && getActivity() != null && !getActivity()
                 .isFinishing()) {
@@ -139,6 +142,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         }
     }
 
+    @Override
     public final void back(@AnimRes int enter, @AnimRes int exit) {
         if (attachedToScreen && getActivity() != null && !getActivity()
                 .isFinishing()) {
@@ -148,8 +152,8 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         }
     }
 
-
-    public final void replace(AbstractController controller) {
+    @Override
+    public final void replace(Controller controller) {
         if (attachedToScreen && getActivity() != null && !getActivity()
                 .isFinishing()) {
             getActivity().replace(controller);
@@ -158,7 +162,8 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         }
     }
 
-    protected final void goBackTo(AbstractController controller) {
+    @Override
+    public final void goBackTo(Controller controller) {
         if (attachedToScreen && getActivity() != null && !getActivity()
                 .isFinishing()) {
             getActivity().goBackTo(controller);
@@ -167,8 +172,8 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         }
     }
 
-    // go back with custom
-    protected final void goBackTo(AbstractController controller, @AnimRes int
+    @Override
+    public final void goBackTo(AbstractController controller, @AnimRes int
             enter, @AnimRes int exit) {
         if (attachedToScreen && getActivity() != null && !getActivity()
                 .isFinishing()) {
@@ -178,8 +183,9 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         }
     }
 
+    @Override
     @Nullable
-    protected final <T extends Controller> T findByClass(Class<T> clazz) {
+    public final <T extends Controller> T findByClass(Class<T> clazz) {
         if (getActivity() != null) {
             return getActivity().findByClass(clazz);
         } else {
@@ -187,15 +193,18 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         }
     }
 
+    @Override
     @Nullable
-    protected final AbstractController findByTag(String tag) {
+    public final Controller findByTag(String tag) {
         if (getActivity() != null) {
-            return getActivity().findByTag(tag);
+            // TODO: top level controller abstraction
+            return (Controller) getActivity().findByTag(tag);
         } else {
             return null;
         }
     }
 
+    @Override
     @Nullable
     public Controller getPrevious() {
         if (getActivity() != null && getActivity().stack.size() > 1) {
@@ -205,19 +214,11 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         }
     }
 
-    public String getTitle() {
+    String getTitle() {
         return "Untitled controller";
     }
 
     boolean beforeChanged(AbstractController next) {
         return false;
-    }
-
-    // result will be returned to the calling controller
-    protected void requestPermission(String permission, PermissionListener
-            callback) {
-        if (getActivity() != null) {
-            getActivity().requestPermission(permission, callback);
-        }
     }
 }

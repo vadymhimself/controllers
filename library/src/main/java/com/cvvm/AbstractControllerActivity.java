@@ -29,9 +29,6 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
     protected ControllerStack stack;
     private @IdRes int containerId;
 
-    // TODO: save inside intent, not here
-    private final Map<String, PermissionListener> pendingPermissionRequests = new HashMap<>();
-
     protected void setControllerContainer(@IdRes int containerResId) {
         this.containerId = containerResId;
     }
@@ -263,37 +260,6 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
     @Override public void onBackPressed() {
         if (stack == null || stack.size() == 0 || !stack.peek().onBackPressed()) {
             super.onBackPressed();
-        }
-    }
-
-    void requestPermission(String permission, @NonNull PermissionListener permissionListener) {
-        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
-                // TODO: Show an explanation
-            }
-            ActivityCompat.requestPermissions(this,
-                    new String[]{permission},
-                    0);
-            pendingPermissionRequests.put(permission, permissionListener);
-        } else {
-            permissionListener.onPermissionGranted(permission);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        for (Pair<String, Integer> pair : Utils.zip(Arrays.asList(permissions), Utils.toIntList(grantResults))) {
-            PermissionListener callback = pendingPermissionRequests.remove(pair.first);
-            if (callback != null) {
-                if (pair.second == PackageManager.PERMISSION_GRANTED) {
-                    callback.onPermissionGranted(pair.first);
-                } else {
-                    callback.onPermissionDenied(pair.first);
-                }
-            }
         }
     }
 }

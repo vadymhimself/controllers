@@ -5,7 +5,8 @@ package com.cvvm;
  * 21.10.2016.
  */
 
-public abstract class ControllerActivity extends AbstractControllerActivity {
+public abstract class ControllerActivity extends AbstractControllerActivity
+        implements IControllerActivity {
 
     // TODO: WTF?
     @Override
