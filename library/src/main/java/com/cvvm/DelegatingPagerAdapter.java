@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 /**
  * Delegates call to the delegate
- * Created by Vadim Ovcharenko
+ * Created by Vadym Ovcharenko
  * 04.11.2016.
  */
 

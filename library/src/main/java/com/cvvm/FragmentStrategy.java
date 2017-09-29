@@ -4,7 +4,7 @@ import android.databinding.ViewDataBinding;
 import android.support.v4.app.Fragment;
 
 /**
- * Created by Vadim Ovcharenko
+ * Created by Vadym Ovcharenko
  * 07.11.2016.
  */
 

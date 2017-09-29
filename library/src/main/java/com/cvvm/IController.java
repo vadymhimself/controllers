@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 /**
- * Created by Vadim Ovcharenko
+ * Created by Vadym Ovcharenko
  * 18.10.2016.
  */
 

@@ -1,7 +1,7 @@
 package com.cvvm;
 
 /**
- * Created by Vadim Ovcharenko
+ * Created by Vadym Ovcharenko
  * 21.10.2016.
  */
 

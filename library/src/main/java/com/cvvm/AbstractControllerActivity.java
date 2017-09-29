@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Vadim Ovcharenko
+ * Created by Vadym Ovcharenko
  * 18.10.2016.
  */
 

@@ -4,7 +4,7 @@ import android.databinding.ViewDataBinding;
 
 /**
  * Fragment-based controller
- * Created by Vadim Ovcharenko
+ * Created by Vadym Ovcharenko
  * 20.10.2016.
  */
 

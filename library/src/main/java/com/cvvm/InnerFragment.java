@@ -18,7 +18,7 @@ import java.lang.reflect.Field;
 
 /**
  * Representation of the basic Controller in Android
- * Created by Vadim Ovcharenko
+ * Created by Vadym Ovcharenko
  * 27.11.2016.
  */
 
