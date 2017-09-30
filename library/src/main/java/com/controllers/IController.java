@@ -31,7 +31,7 @@ interface IController {
     void replace(Controller controller);
 
     void goBackTo(Controller controller);
-    void goBackTo(AbstractController controller, @AnimRes int
+    void goBackTo(Controller controller, @AnimRes int
             enter, @AnimRes int exit);
 
     @Nullable

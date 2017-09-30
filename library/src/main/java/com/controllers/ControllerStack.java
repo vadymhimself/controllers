@@ -10,19 +10,19 @@ import java.util.*;
  * 18.10.2016.
  */
 
-public class ControllerStack implements Serializable, Iterable<AbstractController> {
+public class ControllerStack implements Serializable, Iterable<Controller> {
 
-    private final Stack<AbstractController> controllers = new Stack<>();
+    private final Stack<Controller> controllers = new Stack<>();
 
     @Nullable
-    AbstractController peek() {
+    Controller peek() {
         if (controllers.isEmpty()) {
             return null;
         }
         return controllers.peek();
     }
 
-    public void add(AbstractController controller) {
+    public void add(Controller controller) {
         controllers.add(controller);
     }
 
@@ -35,25 +35,25 @@ public class ControllerStack implements Serializable, Iterable<AbstractControlle
     }
 
     @Override
-    public Iterator<AbstractController> iterator() {
+    public Iterator<Controller> iterator() {
         // reverse order iterator
-        return new Iterator<AbstractController>() {
-            ListIterator<AbstractController> it = controllers.listIterator(controllers.size());
+        return new Iterator<Controller>() {
+            ListIterator<Controller> it = controllers.listIterator(controllers.size());
 
             @Override public boolean hasNext() {
                 return it.hasPrevious();
             }
 
-            @Override public AbstractController next() {
+            @Override public Controller next() {
                 return it.previous();
             }
         };
     }
 
-    List<AbstractController> pop(int i) {
+    List<Controller> pop(int i) {
         if (i > controllers.size() || i < 1) throw new IllegalArgumentException();
 
-        List<AbstractController> popped = new ArrayList<>();
+        List<Controller> popped = new ArrayList<>();
 
         for (int j = 0; j < i; j++) {
             popped.add(controllers.pop());
@@ -62,10 +62,10 @@ public class ControllerStack implements Serializable, Iterable<AbstractControlle
         return popped;
     }
 
-    AbstractController peek(int i) {
+    Controller peek(int i) {
         if (i > controllers.size()) throw new IllegalArgumentException();
         int j = 0;
-        for (AbstractController controller : this) {
+        for (Controller controller : this) {
             if (j == i) return controller;
             j++;
         }

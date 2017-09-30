@@ -173,7 +173,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
     }
 
     @Override
-    public final void goBackTo(AbstractController controller, @AnimRes int
+    public final void goBackTo(Controller controller, @AnimRes int
             enter, @AnimRes int exit) {
         if (attachedToScreen && getActivity() != null && !getActivity()
                 .isFinishing()) {
@@ -197,8 +197,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
     @Nullable
     public final Controller findByTag(String tag) {
         if (getActivity() != null) {
-            // TODO: top level controller abstraction
-            return (Controller) getActivity().findByTag(tag);
+            return getActivity().findByTag(tag);
         } else {
             return null;
         }
@@ -208,7 +207,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
     @Nullable
     public Controller getPrevious() {
         if (getActivity() != null && getActivity().stack.size() > 1) {
-            return (Controller) getActivity().stack.peek(1);
+            return getActivity().stack.peek(1);
         } else {
             return null;
         }

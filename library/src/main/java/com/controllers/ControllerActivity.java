@@ -8,13 +8,5 @@ package com.controllers;
 public abstract class ControllerActivity extends AbstractControllerActivity
         implements IControllerActivity {
 
-    // TODO: WTF?
-    @Override
-    boolean beforeControllersChanged(AbstractController previous, AbstractController next) {
-        return this.beforeControllersChanged((Controller)previous, (Controller)next);
-    }
 
-    protected boolean beforeControllersChanged(Controller previous, Controller next) {
-        return false;
-    }
 }

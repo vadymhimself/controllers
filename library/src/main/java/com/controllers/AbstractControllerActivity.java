@@ -33,10 +33,10 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
         this.containerId = containerResId;
     }
 
-    protected AbstractController show(@NonNull AbstractController next,
+    protected Controller show(@NonNull Controller next,
                         @AnimRes int enter, @AnimRes int exit) {
 
-        AbstractController prev = stack.peek();
+        Controller prev = stack.peek();
         if (beforeControllersChanged(prev, next) || prev != null && prev.beforeChanged(next)) {
             return null;
         }
@@ -47,16 +47,16 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
         return changeControllersInternal(prev, next, enter, exit);
     }
 
-    private void restore(@NonNull AbstractController controller) {
+    private void restore(@NonNull Controller controller) {
         changeControllersInternal(null, controller, 0, 0);
     }
 
     @SuppressWarnings("ConstantConditions")
-    @Nullable protected AbstractController back(@AnimRes int enter, @AnimRes int exit) {
+    @Nullable protected Controller back(@AnimRes int enter, @AnimRes int exit) {
         if (stack.size() <= 1) throw new IllegalStateException("Stack must be bigger than 1");
 
-        AbstractController prev = stack.peek();
-        AbstractController next = stack.peek(1);
+        Controller prev = stack.peek();
+        Controller next = stack.peek(1);
 
         if (beforeControllersChanged(prev, next) || prev != null && prev.beforeChanged(next)) {
             return null;
@@ -68,14 +68,14 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
         return changeControllersInternal(prev, next, enter, exit);
     }
 
-    protected AbstractController goBackTo(AbstractController controller, @AnimRes int enter, @AnimRes int exit) {
-        AbstractController prev = stack.peek();
-        AbstractController next = null;
+    protected Controller goBackTo(Controller controller, @AnimRes int enter, @AnimRes int exit) {
+        Controller prev = stack.peek();
+        Controller next = null;
 
         int i = 0;
         boolean found = false;
 
-        for (AbstractController one : stack) {
+        for (Controller one : stack) {
             if (one == controller) {
                 next = one;
                 found = true;
@@ -93,18 +93,20 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
             return null;
         }
 
-        for (AbstractController c : stack.pop(i)) {
+        for (Controller c : stack.pop(i)) {
             c.onDetachedFromStackInternal();
         }
 
         return replaceInternal(prev, next, enter, exit);
     }
 
-    @Nullable protected AbstractController replace(AbstractController next,
-                                                   @AnimRes int enter, @AnimRes int exit) {
-        AbstractController prev = stack.peek();
+    @Nullable
+    protected Controller replace(Controller next,
+                                 @AnimRes int enter, @AnimRes int exit) {
+        Controller prev = stack.peek();
 
-        if (beforeControllersChanged(prev, next) || prev != null && prev.beforeChanged(next)) {
+        if (beforeControllersChanged(prev, next) ||
+                prev != null && prev.beforeChanged(next)) {
             return null;
         }
 
@@ -112,8 +114,8 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
     }
 
     // replaces top controller with the new one
-    private AbstractController replaceInternal(AbstractController prev, AbstractController next,
-                                 @AnimRes int enter, @AnimRes int exit) {
+    private Controller replaceInternal(Controller prev, Controller next,
+                                       @AnimRes int enter, @AnimRes int exit) {
         stack.pop();
         prev.onDetachedFromStackInternal();
         stack.add(next);
@@ -121,8 +123,10 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
         return changeControllersInternal(prev, next, enter, exit);
     }
 
-    private AbstractController changeControllersInternal(AbstractController prev, final AbstractController next,
-                                                         @AnimRes int enter, @AnimRes int exit) {
+    private Controller changeControllersInternal(@Nullable Controller prev,
+                                                 final Controller next,
+                                                 @AnimRes int enter,
+                                                 @AnimRes int exit) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
         if (enter != 0 || exit != 0) {
@@ -140,9 +144,9 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
 
     @Nullable
     @SuppressWarnings("unchecked")
-    protected <T extends AbstractController> T findByClass(Class<T> clazz) {
+    protected <T extends Controller> T findByClass(Class<T> clazz) {
         if (stack == null) throw new IllegalStateException();
-        for (AbstractController controller : stack) {
+        for (Controller controller : stack) {
             if (controller.getClass() == clazz) {
                 return (T) controller;
             }
@@ -151,9 +155,9 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
     }
 
     @Nullable
-    protected AbstractController findByTag(String tag){
+    protected Controller findByTag(String tag){
         if (stack == null) throw new IllegalStateException();
-        for (AbstractController controller : stack) {
+        for (Controller controller : stack) {
             if (controller.getTag().equals(tag)) {
                 return controller;
             }
@@ -161,11 +165,17 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
         return null;
     }
 
-    boolean beforeControllersChanged(AbstractController previous, AbstractController next) {
+    /**
+     *
+     * This method can be used to prevent controllers change.
+     * TODO: unit-tests
+     * @return true if want to override controllers change.
+     */
+    protected boolean beforeControllersChanged(Controller previous, Controller next) {
         return false; // stub
     }
 
-    protected void onControllerChanged(AbstractController controller) {
+    protected void onControllerChanged(Controller controller) {
 
     }
 
@@ -179,7 +189,7 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
                 throw new IllegalStateException("Stack should be saved");
             }
 
-            for (AbstractController controller : stack) {
+            for (Controller controller : stack) {
                 controller.onRestored();
             }
         } else {
@@ -192,7 +202,7 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
         if (savedInstanceState != null) {
             // restore top controller after recreation
-            AbstractController controller = stack.peek();
+            Controller controller = stack.peek();
             if (controller == null) throw new IllegalStateException();
             restore(controller);
         }
@@ -215,7 +225,7 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (isChangingConfigurations()) {
-            for (AbstractController controller : stack) {
+            for (Controller controller : stack) {
                 controller.onDetachedFromScreen();
             }
         }
@@ -226,31 +236,31 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
     /**
      * Shows controller with default animation
      */
-    protected AbstractController show(@NonNull AbstractController controller) {
+    protected Controller show(@NonNull Controller controller) {
         return show(controller, R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     /**
      * Pops top controller with default animation
      */
-    protected AbstractController back() {
+    protected Controller back() {
         return back(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
     /**
      * Backs to given controller with default animation
      */
-    protected AbstractController goBackTo(AbstractController controller) {
+    protected Controller goBackTo(Controller controller) {
         return goBackTo(controller, R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
-    protected AbstractController replace(AbstractController controller) {
+    protected Controller replace(Controller controller) {
         return replace(controller, android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Nullable protected Controller getTop() {
         if (stack != null) {
-            return (Controller) stack.peek();
+            return stack.peek();
         } else {
             return null;
         }
