@@ -73,6 +73,7 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment {
 
         // inject controller
         binding.setVariable(BR.controller, controller);
+        binding.executePendingBindings();
 
         for (FragmentObserver o : observers) {
             o.onCreate(savedInstanceState);
