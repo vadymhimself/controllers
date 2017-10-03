@@ -14,9 +14,12 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import com.cvvm.AbstractController.FragmentObserver;
 import com.cvvm.BR;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,6 +35,8 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment {
 
     AbstractController controller;
     B binding;
+
+    private final List<FragmentObserver> observers = new ArrayList<>();
 
     static <B extends ViewDataBinding> InnerFragment<B> createInstance(SerializableController c) {
         InnerFragment<B> fragment = new InnerFragment<>();
@@ -68,7 +73,53 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment {
 
         // inject controller
         binding.setVariable(BR.controller, controller);
+
+        for (FragmentObserver o : observers) {
+            o.onCreate(savedInstanceState);
+        }
+
         return binding.getRoot();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        for (FragmentObserver o : observers) {
+            o.onStart();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        for (FragmentObserver o : observers) {
+            o.onResume();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        for (FragmentObserver o : observers) {
+            o.onPause();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        for (FragmentObserver o : observers) {
+            o.onStop();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        for (FragmentObserver o : observers) {
+            o.onDestroy();
+        }
+        observers.clear();
     }
 
     @Override public void onDestroyView() {
@@ -78,6 +129,10 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment {
             binding.unbind();
             binding = null;
         }
+    }
+
+    void subscribe(FragmentObserver observer) {
+        observers.add(observer);
     }
 
     private static final int DEFAULT_CHILD_ANIMATION_DURATION = 250;

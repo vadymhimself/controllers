@@ -2,6 +2,7 @@ package com.cvvm;
 
 import android.databinding.BaseObservable;
 import android.databinding.ViewDataBinding;
+import android.os.Bundle;
 import android.support.annotation.AnimRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,6 +33,10 @@ public abstract class AbstractController<B extends ViewDataBinding> extends Base
 
     @NonNull @Override public final Fragment asFragment() {
         return strategy.asFragment();
+    }
+
+    public final void subscribe(FragmentObserver observer) {
+        strategy.subscribe(observer);
     }
 
     void onAttached() {
@@ -165,6 +170,16 @@ public abstract class AbstractController<B extends ViewDataBinding> extends Base
     interface Strategy<B extends ViewDataBinding> {
         ControllerActivity getActivity();
         Fragment asFragment();
+        void subscribe(FragmentObserver observer);
         B getBinding();
+    }
+
+    public interface FragmentObserver {
+        void onCreate(Bundle savedState);
+        void onStart();
+        void onResume();
+        void onPause();
+        void onStop();
+        void onDestroy();
     }
 }

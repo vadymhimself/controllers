@@ -26,6 +26,11 @@ class FragmentStrategy<B extends ViewDataBinding> implements AbstractController.
     }
 
     @Override
+    public void subscribe(AbstractController.FragmentObserver observer) {
+        fragment.subscribe(observer);
+    }
+
+    @Override
     public B getBinding() {
         return fragment.binding;
     }
