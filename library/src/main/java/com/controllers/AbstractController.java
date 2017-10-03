@@ -173,8 +173,8 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
     }
 
     @Override
-    public final void goBackTo(Controller controller, @AnimRes int
-            enter, @AnimRes int exit) {
+    public final void goBackTo(Controller controller,
+                               @AnimRes int enter, @AnimRes int exit) {
         if (attachedToScreen && getActivity() != null && !getActivity()
                 .isFinishing()) {
             getActivity().goBackTo(controller, enter, exit);

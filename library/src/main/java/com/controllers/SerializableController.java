@@ -15,7 +15,7 @@ import java.util.UUID;
 abstract class SerializableController<B extends ViewDataBinding> extends
         AbstractController<B> implements Serializable {
 
-    private String tag = UUID.randomUUID().toString();
+    private final String tag = UUID.randomUUID().toString();
 
     @NonNull
     @Override
