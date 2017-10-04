@@ -37,6 +37,12 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
+// build a jar with source files
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
 task javadoc(type: Javadoc) {
     failOnError  false
     source = android.sourceSets.main.java.sourceFiles
@@ -51,5 +57,6 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 }
 
 artifacts {
+    archives sourcesJar
     archives javadocJar
 }
