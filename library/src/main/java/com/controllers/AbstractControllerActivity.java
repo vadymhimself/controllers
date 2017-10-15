@@ -1,20 +1,12 @@
 package com.controllers;
 
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.AnimRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Pair;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Vadym Ovcharenko
@@ -133,11 +125,11 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
             transaction.setCustomAnimations(enter, exit);
         }
 
-        if (prev != null) prev.onDetachedFromScreen();
+        if (prev != null) prev.onDetachedFromScreenInternal();
 
         transaction.replace(containerId, next.asFragment(), next.getTag())
                 .commitNowAllowingStateLoss();
-        next.onAttachedToScreen();
+        next.onAttachedToScreenInternal();
         onControllerChanged(next);
         return prev;
     }
@@ -190,7 +182,7 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
             }
 
             for (Controller controller : stack) {
-                controller.onRestored();
+                controller.onRestoredInternal();
             }
         } else {
             stack = new ControllerStack();
@@ -225,8 +217,9 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (isChangingConfigurations()) {
+            // activity is about to die
             for (Controller controller : stack) {
-                controller.onDetachedFromScreen();
+                controller.onDetachedFromScreenInternal();
             }
         }
         outState.putInt(KEY_CONTAINER_ID, containerId);

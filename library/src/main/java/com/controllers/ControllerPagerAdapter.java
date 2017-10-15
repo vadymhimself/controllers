@@ -91,7 +91,7 @@ public class ControllerPagerAdapter implements DelegatingPagerAdapter
             for (Controller controller : controllerList) {
                 // forward signal of the parent detach
                 if (controller.isAttachedToScreen()) {
-                    controller.onDetachedFromScreen();
+                    controller.onDetachedFromScreenInternal();
                 }
             }
         }

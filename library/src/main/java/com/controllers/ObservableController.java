@@ -54,8 +54,8 @@ abstract class ObservableController<B extends ViewDataBinding> extends Serializa
         }
     }
 
-    @Override void onAttachedToScreen() {
-        super.onAttachedToScreen();
+    @Override void onAttachedToScreenInternal() {
+        super.onAttachedToScreenInternal();
         if (observers != null) {
             for (Observer observer : observers) {
                 observer.onAttachedToScreen(this);
@@ -63,8 +63,8 @@ abstract class ObservableController<B extends ViewDataBinding> extends Serializa
         }
     }
 
-    @Override void onDetachedFromScreen() {
-        super.onDetachedFromScreen();
+    @Override void onDetachedFromScreenInternal() {
+        super.onDetachedFromScreenInternal();
         if (observers != null) {
             for (Observer observer : observers) {
                 observer.onDetachedFromScreen(this);
@@ -73,8 +73,8 @@ abstract class ObservableController<B extends ViewDataBinding> extends Serializa
     }
 
     @Override
-    void onRestored() {
-        super.onRestored();
+    void onRestoredInternal() {
+        super.onRestoredInternal();
         if (observers != null) {
             for (Observer observer : observers) {
                 observer.onRestored(this);
