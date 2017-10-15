@@ -1,0 +1,4 @@
+include ':app', ':controllers', ':controllers-req', ':model'
+project(":controllers").projectDir = file("controllers/library")
+project(":controllers-req").projectDir = new File(settingsDir, 'controllers-request/library')
+

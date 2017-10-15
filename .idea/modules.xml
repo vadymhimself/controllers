@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/controllers/library/controllers.iml" filepath="$PROJECT_DIR$/controllers/library/controllers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/controllers-request/library/controllers-req.iml" filepath="$PROJECT_DIR$/controllers-request/library/controllers-req.iml" />
+      <module fileurl="file://$PROJECT_DIR$/model/model.iml" filepath="$PROJECT_DIR$/model/model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/xfit.iml" filepath="$PROJECT_DIR$/.idea/xfit.iml" />
+    </modules>
+  </component>
+</project>
