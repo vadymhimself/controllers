@@ -1,0 +1,8 @@
+[submodule "controllers"]
+	path = controllers
+	url = https://github.com/bolein/controllers.git
+	branch = xfit_dev
+[submodule "controllers-request"]
+	path = controllers-request
+	url = https://github.com/bolein/controllers-request.git
+	branch = xfit_dev
