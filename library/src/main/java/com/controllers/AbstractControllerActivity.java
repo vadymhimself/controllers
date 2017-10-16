@@ -182,6 +182,7 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
             }
 
             for (Controller controller : stack) {
+                controller.onAttachedToStack();
                 controller.onRestoredInternal();
             }
         } else {
@@ -216,7 +217,7 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (isChangingConfigurations()) {
+        if (isChangingConfigurations() || isFinishing()) {
             // activity is about to die
             for (Controller controller : stack) {
                 controller.onDetachedFromScreenInternal();

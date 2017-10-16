@@ -99,7 +99,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
      * @param deserialized true if the controller was deserialized during the
      *                     recreation.
      */
-    protected void onRestored(boolean deserialized) {
+    void onRestored(boolean deserialized) {
 
     }
 
