@@ -8,11 +8,11 @@ import android.support.v4.app.Fragment;
  * 07.11.2016.
  */
 
-class FragmentStrategy<B extends ViewDataBinding> implements AbstractController.Strategy<B> {
+class FragmentViewStrategy<B extends ViewDataBinding> implements AbstractController.ViewStrategy<B> {
 
     private transient final InnerFragment<B> fragment;
 
-    FragmentStrategy(SerializableController controller) {
+    FragmentViewStrategy(SerializableController controller) {
         fragment = InnerFragment.createInstance(controller);
         fragment.setRetainInstance(false);
     }
@@ -30,4 +30,13 @@ class FragmentStrategy<B extends ViewDataBinding> implements AbstractController.
         return fragment.binding;
     }
 
+    @Override
+    public void subscribe(AbstractController.ViewLifecycleConsumer consumer) {
+        fragment.subscribe(consumer);
+    }
+
+    @Override
+    public void unsubscribe(AbstractController.ViewLifecycleConsumer consumer) {
+        fragment.unsubscribe(consumer);
+    }
 }

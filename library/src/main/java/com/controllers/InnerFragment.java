@@ -13,11 +13,14 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import com.controllers.AbstractController.ViewLifecycleConsumer;
 
 import java.lang.reflect.Field;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * Representation of the basic Controller in Android
+ * Representation of the basic Controller in terms of Android
  * Created by Vadym Ovcharenko
  * 27.11.2016.
  */
@@ -29,6 +32,8 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment {
 
     AbstractController controller;
     B binding;
+
+    private final Set<ViewLifecycleConsumer> consumers = new HashSet<>();
 
     static <B extends ViewDataBinding> InnerFragment<B> createInstance(SerializableController c) {
         InnerFragment<B> fragment = new InnerFragment<>();
@@ -65,7 +70,45 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment {
 
         // inject controller
         binding.setVariable(BR.controller, controller);
+        binding.executePendingBindings();
+
+        for (ViewLifecycleConsumer c : consumers) {
+            c.onCreate(savedInstanceState);
+        }
+
         return binding.getRoot();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        for (ViewLifecycleConsumer c : consumers) {
+            c.onStart();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        for (ViewLifecycleConsumer c : consumers) {
+            c.onResume();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        for (ViewLifecycleConsumer c : consumers) {
+            c.onPause();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        for (ViewLifecycleConsumer c : consumers) {
+            c.onStop();
+        }
     }
 
     @Override public void onDestroyView() {
@@ -74,6 +117,15 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment {
         if (binding != null) {
             binding.unbind();
             binding = null;
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        for (ViewLifecycleConsumer c : consumers) {
+            c.onDestroy();
+            unsubscribe(c);
         }
     }
 
@@ -112,5 +164,13 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment {
             Log.w(InnerFragment.class.getSimpleName(), "Unable to load next animation from parent.", ex);
             return defValue;
         }
+    }
+
+    void subscribe(ViewLifecycleConsumer consumer) {
+        consumers.add(consumer);
+    }
+
+    void unsubscribe(ViewLifecycleConsumer consumer) {
+        consumers.remove(consumer);
     }
 }

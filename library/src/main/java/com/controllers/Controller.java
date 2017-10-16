@@ -11,7 +11,7 @@ import android.databinding.ViewDataBinding;
 public abstract class Controller<B extends ViewDataBinding> extends
         ObservableController<B> {
     @Override
-    Strategy<B> createStrategy() {
-        return new FragmentStrategy<>(this);
+    ViewStrategy<B> createStrategy() {
+        return new FragmentViewStrategy<>(this);
     }
 }
