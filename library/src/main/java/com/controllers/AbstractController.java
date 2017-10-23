@@ -31,7 +31,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         void unsubscribe(ViewLifecycleConsumer consumer);
     }
 
-    interface ViewLifecycleConsumer {
+    public interface ViewLifecycleConsumer {
         void onCreate(Bundle var1);
         void onStart();
         void onResume();
