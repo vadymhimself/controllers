@@ -9,7 +9,7 @@
   * All kicked-off network requests will be restarted upon activity recreation
 
 # How to use
-## Instalation
+## Installation
 ## Setup
 ### Controllers
 1. Define your xml layout. Note that your controller variable must be named **controller**. 
