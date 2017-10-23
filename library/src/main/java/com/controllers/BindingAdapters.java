@@ -3,6 +3,7 @@ package com.controllers;
 import android.databinding.BindingAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.View;
 import com.controllers.AbstractController.ViewLifecycleConsumer;
 
 /**
@@ -21,9 +22,14 @@ public class BindingAdapters {
     }
 
     @BindingAdapter("lifecycle")
-    public static void bindLifeCycle(final ViewLifecycleConsumer consumer,
+    public static void bindLifeCycle(final View view,
                                      Controller controller) {
-        // TODO: unsubscribe on view detach?
-        controller.subscribe(consumer);
+        if (Const.LOGV)
+            Log.w(Const.TAG, "using default binding adapter");
+
+        if (view instanceof ViewLifecycleConsumer)
+            controller.subscribe((ViewLifecycleConsumer) view);
+        else
+            throw new IllegalArgumentException();
     }
 }
