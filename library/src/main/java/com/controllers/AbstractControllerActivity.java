@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
+import android.view.View;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -237,21 +238,21 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
      * Shows controller with default animation
      */
     protected Controller show(@NonNull Controller controller) {
-        return show(controller, R.anim.slide_in_right, R.anim.slide_out_left);
+        return show(controller, R.anim.slide_in_right, R.anim.fade_out);
     }
 
     /**
      * Pops top controller with default animation
      */
     protected Controller back() {
-        return back(R.anim.slide_in_left, R.anim.slide_out_right);
+        return back(0, R.anim.slide_out_right);
     }
 
     /**
      * Backs to given controller with default animation
      */
     protected Controller goBackTo(Controller controller) {
-        return goBackTo(controller, R.anim.slide_in_left, R.anim.slide_out_right);
+        return goBackTo(controller, 0, R.anim.slide_out_right);
     }
 
     protected Controller replace(Controller controller) {
