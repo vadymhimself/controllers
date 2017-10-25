@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#ff555658</color>
+    <color name="colorPrimaryDark">#ff1a1a1a</color>
+    <color name="colorAccent">#ffa0e52d</color>
+
+    <color name="buttonColor">#ffa0e52d</color>
+    <color name="validationFalse">#fffc2046</color>
+    <color name="radioBtn">#ff9a68c9</color>
+    <color name="labelNewColor">#ff28cedb</color>
+    <color name="labelMyClubColor">#ff926db5</color>
+    <color name="deepPurple">#ff4a1485</color>
+    <color name="textHintColor">#ff8e8e8e</color>
+    <color name="reportProblem">#ff1940</color>
 </resources>
