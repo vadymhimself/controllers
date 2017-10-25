@@ -29,6 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
+                android:onClick="@{controller.back}"
                 android:background="@drawable/ic_arrow_back"/>
 
             <RelativeLayout
@@ -62,6 +63,7 @@
                     android:textSize="17sp"
                     app:mask="+7(999) 999-99-99"
                     app:onMaskedTextChanged='@{controller.phone}'
+                    app:focusOnView='@{controller.phoneFocus}'
                     app:placeholder="_" />
 
                 <View
@@ -69,6 +71,7 @@
                     android:layout_height="1dp"
                     android:layout_below="@+id/phone"
                     android:layout_marginTop="9dp"
+                    app:onFocusChanged="@{controller.phoneFocus}"
                     android:background="@color/colorAccent" />
             </RelativeLayout>
 
@@ -97,9 +100,10 @@
                     android:background="@android:color/transparent"
                     android:fontFamily="sans-serif"
                     android:hint="@string/reg_name"
-                    android:text='@={controller.password}'
+                    android:text='@={controller.name}'
                     android:textColor="@android:color/white"
                     android:textColorHint="@color/textHintColor"
+                    app:focusOnView='@{controller.nameFocus}'
                     android:textSize="17sp" />
 
                 <View
@@ -108,6 +112,7 @@
                     android:layout_height="1dp"
                     android:layout_below="@+id/name"
                     android:layout_marginTop="9dp"
+                    app:onFocusChanged="@{controller.nameFocus}"
                     android:background="@android:color/white" />
             </RelativeLayout>
 
@@ -137,9 +142,10 @@
                     android:fontFamily="sans-serif"
                     android:hint="@string/reg_email"
                     android:inputType="textEmailAddress"
-                    android:text='@={controller.password}'
+                    android:text='@={controller.email}'
                     android:textColor="@android:color/white"
                     android:textColorHint="@color/textHintColor"
+                    app:focusOnView='@{controller.emailFocus}'
                     android:textSize="17sp" />
 
                 <View
@@ -148,6 +154,7 @@
                     android:layout_height="1dp"
                     android:layout_below="@+id/email"
                     android:layout_marginTop="9dp"
+                    app:onFocusChanged="@{controller.emailFocus}"
                     android:background="@android:color/white" />
             </RelativeLayout>
 
@@ -180,6 +187,7 @@
                     android:text='@={controller.password}'
                     android:textColor="@android:color/white"
                     android:textColorHint="@color/textHintColor"
+                    app:focusOnView='@{controller.passwordFocus}'
                     android:textSize="17sp" />
 
                 <View
@@ -188,6 +196,7 @@
                     android:layout_height="1dp"
                     android:layout_below="@+id/password"
                     android:layout_marginTop="9dp"
+                    app:onFocusChanged="@{controller.passwordFocus}"
                     android:background="@android:color/white" />
             </RelativeLayout>
 
@@ -217,9 +226,10 @@
                     android:fontFamily="sans-serif"
                     android:hint="@string/auth_passwd_rep_hint"
                     android:inputType="numberPassword"
-                    android:text='@={controller.password}'
+                    android:text='@={controller.passwordRepeat}'
                     android:textColor="@android:color/white"
                     android:textColorHint="@color/textHintColor"
+                    app:focusOnView='@{controller.passwordRepFocus}'
                     android:textSize="17sp" />
 
                 <View
@@ -228,6 +238,7 @@
                     android:layout_height="1dp"
                     android:layout_below="@+id/password_rep"
                     android:layout_marginTop="9dp"
+                    app:onFocusChanged="@{controller.passwordRepFocus}"
                     android:background="@android:color/white" />
             </RelativeLayout>
 
@@ -249,7 +260,7 @@
                     android:textColor="#ffffff"
                     android:text="@string/reg_date_birth"/>
 
-                <EditText
+                <com.github.reinaldoarrosi.maskededittext.MaskedEditText
                     android:id="@+id/date"
                     android:layout_below="@+id/date_label"
                     android:layout_width="wrap_content"
@@ -263,6 +274,9 @@
                     android:text='@={controller.password}'
                     android:textColor="@android:color/white"
                     android:textColorHint="@color/textHintColor"
+                    app:mask="99  99  9999"
+                    app:onMaskedTextChanged='@{controller.date}'
+                    app:focusOnView='@{controller.dateFocus}'
                     android:textSize="17sp" />
 
                 <View
@@ -270,6 +284,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
+                    app:onFocusChanged="@{controller.dateFocus}"
                     android:background="@android:color/white" />
             </RelativeLayout>
 

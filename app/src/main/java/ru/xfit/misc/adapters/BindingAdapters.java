@@ -1,6 +1,7 @@
 package ru.xfit.misc.adapters;
 
 import android.databinding.BindingAdapter;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
@@ -335,5 +336,19 @@ public abstract class BindingAdapters {
                 observableField.set(maskedEditText.getText(true).toString());
             }
         });
+    }
+
+    @BindingAdapter("focusOnView")
+    public static void bindFocusOnView(View view, ObservableBoolean focus) {
+        view.setOnFocusChangeListener((view1, b) -> focus.set(b));
+    }
+
+    @BindingAdapter("onFocusChanged")
+    public static void bindOnViewFocusChanged(View view, ObservableBoolean focus) {
+        if (focus.get()) {
+            view.setBackgroundColor(view.getContext().getResources().getColor(R.color.colorAccent));
+        } else {
+            view.setBackgroundColor(view.getContext().getResources().getColor(R.color.white));
+        }
     }
 }
