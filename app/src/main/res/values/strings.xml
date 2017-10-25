@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TheCVVM</string>
+    <string name="app_name">X-Fit</string>
     <string name="auth_passwd_hint">Пароль</string>
     <string name="auth_reset_pwd">Забыли пароль?</string>
     <string name="auth_registration">Зарегистрироваться</string>

@@ -1,5 +1,7 @@
 package ru.xfit;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import com.controllers.ControllerActivity;
@@ -7,6 +9,10 @@ import ru.xfit.screens.BusTestController;
 import ru.xfit.screens.HomeController;
 
 public class MainActivity extends XFitActivity {
+    public static void start(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

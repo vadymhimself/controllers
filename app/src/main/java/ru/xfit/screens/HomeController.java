@@ -17,7 +17,7 @@ public class HomeController extends XFitController<LayoutHomeBinding> {
     }
 
     public void onButtonClick() {
-        show(new AuthController());
+        show(new BusTestController());
     }
 
     @Subscribe

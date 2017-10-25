@@ -18,6 +18,7 @@ import javax.inject.Inject;
  */
 
 public class App extends Application {
+    public static final String PREFERENCES = "_app_prefs_ru.xfit_prettyPrefs";
 
     @SuppressLint("StaticFieldLeak")
     private static App context;
