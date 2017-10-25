@@ -12,4 +12,5 @@
     <color name="deepPurple">#ff4a1485</color>
     <color name="textHintColor">#ff8e8e8e</color>
     <color name="reportProblem">#ff1940</color>
+    <color name="ganderSelector">#9b65cb</color>
 </resources>

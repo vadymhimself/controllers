@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -8,9 +9,335 @@
             type="ru.xfit.screens.auth.RegisterController" />
 
     </data>
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical" android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-        </LinearLayout>
-    </layout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ff202020"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_marginTop="44dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorAccent"
+                android:background="@drawable/ic_arrow_back"/>
+
+            <RelativeLayout
+                android:id="@+id/phone_rl"
+                android:layout_below="@+id/back"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="12dp">
+
+                <ImageView
+                    android:id="@+id/phone_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/ic_phone" />
+
+                <com.github.reinaldoarrosi.maskededittext.MaskedEditText
+                    android:id="@+id/phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="17dp"
+                    android:layout_toRightOf="@+id/phone_icon"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="sans-serif"
+                    android:imeOptions="actionDone"
+                    android:inputType="number|phone"
+                    android:maxLines="1"
+                    android:textColor="@android:color/white"
+                    android:textSize="17sp"
+                    app:mask="+7(999) 999-99-99"
+                    app:onMaskedTextChanged='@{controller.phone}'
+                    app:placeholder="_" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/phone"
+                    android:layout_marginTop="9dp"
+                    android:background="@color/colorAccent" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/name_rl"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_below="@+id/phone_rl"
+                android:layout_marginTop="14dp">
+
+                <ImageView
+                    android:id="@+id/name_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/ic_perm_identity" />
+
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="17dp"
+                    android:layout_toRightOf="@+id/name_icon"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="sans-serif"
+                    android:hint="@string/reg_name"
+                    android:text='@={controller.password}'
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/textHintColor"
+                    android:textSize="17sp" />
+
+                <View
+                    android:id="@+id/name_underline"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/name"
+                    android:layout_marginTop="9dp"
+                    android:background="@android:color/white" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/email_rl"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_below="@+id/name_rl"
+                android:layout_marginTop="14dp">
+
+                <ImageView
+                    android:id="@+id/email_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/ic_mail_outline" />
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="17dp"
+                    android:layout_toRightOf="@+id/email_icon"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="sans-serif"
+                    android:hint="@string/reg_email"
+                    android:inputType="textEmailAddress"
+                    android:text='@={controller.password}'
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/textHintColor"
+                    android:textSize="17sp" />
+
+                <View
+                    android:id="@+id/email_underline"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/email"
+                    android:layout_marginTop="9dp"
+                    android:background="@android:color/white" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/pass_rl"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_below="@+id/email_rl"
+                android:layout_marginTop="14dp">
+
+                <ImageView
+                    android:id="@+id/pass_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/ic_lock_outline" />
+
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="17dp"
+                    android:layout_toRightOf="@+id/pass_icon"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="sans-serif"
+                    android:hint="@string/auth_passwd_hint"
+                    android:inputType="numberPassword"
+                    android:text='@={controller.password}'
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/textHintColor"
+                    android:textSize="17sp" />
+
+                <View
+                    android:id="@+id/password_underline"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/password"
+                    android:layout_marginTop="9dp"
+                    android:background="@android:color/white" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/pass_repeat_rl"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_below="@+id/pass_rl"
+                android:layout_marginTop="14dp">
+
+                <ImageView
+                    android:id="@+id/pass_rep_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/ic_lock_outline" />
+
+                <EditText
+                    android:id="@+id/password_rep"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="17dp"
+                    android:layout_toRightOf="@+id/pass_rep_icon"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="sans-serif"
+                    android:hint="@string/auth_passwd_rep_hint"
+                    android:inputType="numberPassword"
+                    android:text='@={controller.password}'
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/textHintColor"
+                    android:textSize="17sp" />
+
+                <View
+                    android:id="@+id/password_rep_underline"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/password_rep"
+                    android:layout_marginTop="9dp"
+                    android:background="@android:color/white" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/date_rl"
+                android:layout_width="120dp"
+                android:layout_height="60dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/pass_repeat_rl"
+                android:layout_marginTop="30dp">
+
+                <TextView
+                    android:id="@+id/date_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="normal"
+                    android:textColor="#ffffff"
+                    android:text="@string/reg_date_birth"/>
+
+                <EditText
+                    android:id="@+id/date"
+                    android:layout_below="@+id/date_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="sans-serif"
+                    android:hint="@string/reg_date_hint"
+                    android:inputType="date"
+                    android:text='@={controller.password}'
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/textHintColor"
+                    android:textSize="17sp" />
+
+                <View
+                    android:id="@+id/date_underline"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@android:color/white" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/gender_rl"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_below="@+id/pass_repeat_rl"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="30dp">
+
+                <TextView
+                    android:id="@+id/gender_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="normal"
+                    android:textColor="#ffffff"
+                    android:text="@string/reg_gender"/>
+                
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="9dp"
+                    android:layout_below="@+id/gender_label">
+
+                    <RadioButton
+                        android:id="@+id/male"
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:checked="true"
+                        android:textSize="14sp"
+                        android:background="@drawable/gender_bg"
+                        android:textColor="@drawable/gender_text_color"
+                        android:button="@android:color/transparent"
+                        android:textAlignment="center"
+                        android:text="Мужской"/>
+                    <RadioButton
+                        android:id="@+id/female"
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/gender_bg"
+                        android:textColor="@drawable/gender_text_color"
+                        android:button="@android:color/transparent"
+                        android:layout_marginLeft="8dp"
+                        android:textSize="14sp"
+                        android:textAlignment="center"
+                        android:text="Женский"/>
+
+                </RadioGroup>
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/login_btn"
+                android:layout_width="328dp"
+                android:layout_height="48dp"
+                android:layout_below="@+id/gender_rl"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="60dp"
+                android:background="@drawable/button_bg"
+                android:fontFamily="sans-serif"
+                android:text="@string/reg_registration"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:onClick='@{controller.register}'/>
+
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

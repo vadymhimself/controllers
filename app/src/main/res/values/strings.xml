@@ -1,7 +1,15 @@
 <resources>
     <string name="app_name">X-Fit</string>
     <string name="auth_passwd_hint">Пароль</string>
+    <string name="auth_passwd_rep_hint">Подтверждение пароля </string>
     <string name="auth_reset_pwd">Забыли пароль?</string>
     <string name="auth_registration">Зарегистрироваться</string>
     <string name="auth_login">войти</string>
+
+    <string name="reg_name">Фамилия Имя</string>
+    <string name="reg_email">E-mail</string>
+    <string name="reg_date_hint">ДД   ММ   ГГГ</string>
+    <string name="reg_date_birth">Дата рождения</string>
+    <string name="reg_gender">Пол</string>
+    <string name="reg_registration">Зарегистрироваться</string>
 </resources>
