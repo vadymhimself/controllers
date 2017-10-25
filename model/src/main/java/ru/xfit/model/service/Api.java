@@ -32,7 +32,7 @@ public interface Api {
 //
 //    Task<User> login(String code);
 
-    Task<AuthResponse> auth(String type, AuthRequest request);
+    Task<AuthResponse> authByPhone(String phone, String password);
 
     Task<AuthResponse> register(RegisterRequest request);
 

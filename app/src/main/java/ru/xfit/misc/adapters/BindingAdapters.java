@@ -1,6 +1,7 @@
 package ru.xfit.misc.adapters;
 
 import android.databinding.BindingAdapter;
+import android.databinding.ObservableField;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.ColorRes;
@@ -16,6 +17,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -24,6 +26,9 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.*;
+
+import com.github.reinaldoarrosi.maskededittext.MaskedEditText;
+
 import ru.xfit.R;
 import ru.xfit.misc.views.*;
 
@@ -310,5 +315,25 @@ public abstract class BindingAdapters {
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(cb);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    @BindingAdapter("onMaskedTextChanged")
+    public static void bindOnMaskedTextChangedListener(MaskedEditText maskedEditText, ObservableField<String> observableField) {
+        maskedEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                observableField.set(maskedEditText.getText(true).toString());
+            }
+        });
     }
 }

@@ -54,7 +54,8 @@
                 android:maxLines="1"
                 android:textSize="17sp"
                 app:mask="+7(999) 999-99-99"
-                app:placeholder="_" />
+                app:placeholder="_"
+                app:onMaskedTextChanged='@{controller.phone}'/>
 
             <View
                 android:layout_width="match_parent"
@@ -94,7 +95,8 @@
                 android:inputType="numberPassword"
                 android:textColor="@android:color/white"
                 android:textColorHint="@color/textHintColor"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                android:text='@={controller.password}'/>
 
             <View
                 android:id="@+id/password_underline"
@@ -110,15 +112,16 @@
             android:layout_marginLeft="16dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="7dp"
-            android:visibility="gone"
+            android:visibility="@{controller.errorResponse.get().length() > 0}"
             android:layout_below="@+id/pass_rl" >
             <TextView
                 android:id="@+id/password_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Неверный пароль"
+                android:text="@{controller.errorResponse}"
                 android:textSize="12sp"
                 android:fontFamily="sans-serif"
+                android:maxWidth="300dp"
                 android:textColor="@color/reportProblem"
                 android:layout_alignParentLeft="true"/>
 
@@ -140,7 +143,8 @@
             android:fontFamily="sans-serif"
             android:text="@string/auth_login"
             android:textColor="@android:color/white"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:onClick='@{controller.auth}'/>
 
         <TextView
             android:id="@+id/reset_passwd"
@@ -153,7 +157,8 @@
             android:text="@string/auth_reset_pwd"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="23dp"
-            android:textStyle="normal" />
+            android:textStyle="normal"
+            android:onClick="@{controller.onForgotPasswordClicked}" />
 
         <TextView
             android:id="@+id/registration"
@@ -166,7 +171,8 @@
             android:text="@string/auth_registration"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
-            android:textStyle="normal" />
+            android:textStyle="normal"
+            android:onClick='@{controller.register}'/>
 
     </RelativeLayout>
 </layout>

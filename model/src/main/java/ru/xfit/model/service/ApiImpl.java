@@ -44,11 +44,15 @@ final class ApiImpl implements Api {
     }
 
     @Override
-    public Task<AuthResponse> auth(String type, AuthRequest request) {
+    public Task<AuthResponse> authByPhone(String phone, String password) {
+        //String type, AuthRequest request
+        AuthRequest request = new AuthRequest();
+        request.id = phone;
+        request.pass = password;
         return new Task<AuthResponse>() {
             @Override
             public AuthResponse exec() throws Throwable {
-                return executeSync(networkInterface.auth(type, request));
+                return executeSync(networkInterface.auth("phone", request));
             }
 
             @Override
