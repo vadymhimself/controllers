@@ -11,7 +11,7 @@ class ApiModule {
 
     @Provides
     @Singleton
-    Api provideApi(GitHubNetworkInterface networkInterface, UserData userData) {
+    Api provideApi(NetworkInterface networkInterface, UserData userData) {
         return new ApiImpl(networkInterface, userData);
     }
 }

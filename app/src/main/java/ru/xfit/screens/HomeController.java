@@ -8,6 +8,7 @@ import ru.xfit.R;
 import ru.xfit.databinding.LayoutHomeBinding;
 import ru.xfit.domain.App;
 import ru.xfit.model.service.Api;
+import ru.xfit.screens.auth.AuthController;
 
 public class HomeController extends XFitController<LayoutHomeBinding> {
 
@@ -16,7 +17,7 @@ public class HomeController extends XFitController<LayoutHomeBinding> {
     }
 
     public void onButtonClick() {
-        show(new BusTestController());
+        show(new AuthController());
     }
 
     @Subscribe

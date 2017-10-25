@@ -17,11 +17,11 @@ import java.util.List;
 @Module
 class GitHubNetworkModule {
 
-    @Provides
-    @Named("baseUrl")
-    String provideBaseUrl() {
-        return "https://api.github.com";
-    }
+//    @Provides
+//    @Named("baseUrl")
+//    String provideBaseUrl() {
+//        return "https://api.github.com";
+//    }
 
     @Provides
     List<Interceptor> provideInterceptors(UserData userData) {
