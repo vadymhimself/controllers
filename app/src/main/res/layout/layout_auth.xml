@@ -31,31 +31,20 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="70dp">
 
-            <ImageView
-                android:id="@+id/phone_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/ic_phone" />
-
             <com.github.reinaldoarrosi.maskededittext.MaskedEditText
                 android:id="@+id/phone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="17dp"
-                android:layout_toRightOf="@+id/phone_icon"
-                android:background="@android:color/transparent"
-                android:fontFamily="sans-serif"
-                android:textColor="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:theme="@style/EditTextTheme"
+                android:drawableStart="@drawable/ic_phone"
                 android:imeOptions="actionDone"
                 android:inputType="number|phone"
                 android:maxLines="1"
                 android:textSize="17sp"
+
+                android:textColor="@android:color/white"
                 app:mask="+7(999) 999-99-99"
-                app:placeholder="_"
-                app:onMaskedTextChanged='@{controller.phone}'/>
+                app:placeholder="_"/>
 
             <View
                 android:layout_width="match_parent"
@@ -74,23 +63,12 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="14dp">
 
-            <ImageView
-                android:id="@+id/pass_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/ic_lock_outline" />
-
             <EditText
                 android:id="@+id/password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="17dp"
-                android:layout_toRightOf="@+id/pass_icon"
-                android:background="@android:color/transparent"
-                android:fontFamily="sans-serif"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:theme="@style/EditTextTheme"
+                android:drawableStart="@drawable/ic_lock_outline"
                 android:hint="@string/auth_passwd_hint"
                 android:inputType="numberPassword"
                 android:textColor="@android:color/white"

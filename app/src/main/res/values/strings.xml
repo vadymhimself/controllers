@@ -8,7 +8,7 @@
 
     <string name="reg_name">Фамилия Имя</string>
     <string name="reg_email">E-mail</string>
-    <string name="reg_date_hint">ДД   ММ   ГГГ</string>
+    <string name="reg_date_hint">ДД   ММ   ГГГГ</string>
     <string name="reg_date_birth">Дата рождения</string>
     <string name="reg_gender">Пол</string>
     <string name="reg_registration">Зарегистрироваться</string>

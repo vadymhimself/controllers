@@ -20,13 +20,6 @@ public class RegisterController extends XFitController<LayoutRegisterBinding>{
     public ObservableField<String> name = new ObservableField<>("");
     public ObservableField<String> email = new ObservableField<>("");
 
-    public ObservableBoolean phoneFocus = new ObservableBoolean(false);
-    public ObservableBoolean nameFocus = new ObservableBoolean(false);
-    public ObservableBoolean emailFocus = new ObservableBoolean(false);
-    public ObservableBoolean passwordFocus = new ObservableBoolean(false);
-    public ObservableBoolean passwordRepFocus = new ObservableBoolean(false);
-    public ObservableBoolean dateFocus = new ObservableBoolean(false);
-
     @Override
     public int getLayoutId() {
         return R.layout.layout_register;
