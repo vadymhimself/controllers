@@ -78,8 +78,19 @@ final class ApiImpl implements Api {
     }
 
     @Override
-    public Task<ConfirmationResponse> pleaseConfirm(ConfirmationRequest request) {
-        return null;
+    public Task<ConfirmationResponse> pleaseConfirm(String phone) {
+        ConfirmationRequest request = new ConfirmationRequest(phone);
+        return new Task<ConfirmationResponse>() {
+            @Override
+            public ConfirmationResponse exec() throws Throwable {
+                return executeSync(networkInterface.pleaseConfirm(request));
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        };
     }
 
     @Override

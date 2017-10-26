@@ -23,4 +23,9 @@
         <item name="android:drawablePadding">10dp</item>
     </style>
 
+    <style name="InputHintTextStyle" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/textHintColor</item>
+        <item name="android:textColorHint">@color/textHintColor</item>
+    </style>
+
 </resources>

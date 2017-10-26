@@ -11,4 +11,8 @@ public class ConfirmationRequest implements Serializable {
       "phone": "string"
     }*/
     public String phone;
+
+    public ConfirmationRequest(String phone) {
+        this.phone = phone;
+    }
 }

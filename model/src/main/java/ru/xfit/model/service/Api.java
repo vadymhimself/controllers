@@ -36,7 +36,7 @@ public interface Api {
 
     Task<AuthResponse> register(RegisterRequest request);
 
-    Task<ConfirmationResponse> pleaseConfirm(ConfirmationRequest request);
+    Task<ConfirmationResponse> pleaseConfirm(String phone);
 
     Task<List<Club>> getClubs();
 
