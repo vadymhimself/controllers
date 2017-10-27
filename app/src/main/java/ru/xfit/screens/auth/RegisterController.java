@@ -55,7 +55,9 @@ public class RegisterController extends XFitController<LayoutRegisterBinding>{
         if (isValidate) {
             RegisterRequest regData = new RegisterRequest();
             regData.phone = phone.get();
-            regData.birthday = date.get();
+            //01234567
+            String bDay = date.get().substring(4,7) + "-" + date.get().substring(0,1) + "-" + date.get().substring(2,3);
+            regData.birthday = bDay;
             regData.password = password.get();
             regData.name = name.get();
             regData.email = email.get();
@@ -68,12 +70,13 @@ public class RegisterController extends XFitController<LayoutRegisterBinding>{
                     .create(api -> api.pleaseConfirm(regData.phone))
                     .onError(error -> {
                         errorResponse.set(error.getMessage());
+                        Snackbar.make(view, "Error: " + error.getMessage(), BaseTransientBottomBar.LENGTH_LONG).show();
                     })
                     .execute(confirmationResponse -> {
                         if (confirmationResponse.sent) {
                             show(new SmsConfirmController(regData));
                         } else {
-                            Snackbar.make(view, "Next attempt" + confirmationResponse.nextAttempt, BaseTransientBottomBar.LENGTH_LONG).show();
+                            Snackbar.make(view, "Next attempt: " + confirmationResponse.nextAttempt, BaseTransientBottomBar.LENGTH_LONG).show();
                         }
                     });
         }
