@@ -1,6 +1,8 @@
 package ru.xfit.screens.auth;
 
 import android.databinding.ObservableField;
+import android.support.design.widget.BaseTransientBottomBar;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.controllers.Request;
@@ -52,6 +54,7 @@ public class SmsConfirmController extends XFitController<LayoutSmsConfirmBinding
                 .create(api -> api.register(regData))
                 .onError(error -> {
                     errorResponse.set(error.getMessage());
+                    Snackbar.make(view, "Error: " + error.getMessage(), BaseTransientBottomBar.LENGTH_LONG).show();
                 })
                 .execute(registrationResponse -> {
                     //save user

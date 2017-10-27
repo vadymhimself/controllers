@@ -73,7 +73,7 @@ public class RegisterController extends XFitController<LayoutRegisterBinding>{
                         if (confirmationResponse.sent) {
                             show(new SmsConfirmController(regData));
                         } else {
-                            Snackbar.make(view, confirmationResponse.nextAttempt, BaseTransientBottomBar.LENGTH_SHORT).show();
+                            Snackbar.make(view, "Next attempt" + confirmationResponse.nextAttempt, BaseTransientBottomBar.LENGTH_LONG).show();
                         }
                     });
         }

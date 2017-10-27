@@ -26,6 +26,10 @@
     <style name="InputHintTextStyle" parent="TextAppearance.AppCompat.Small">
         <item name="android:textColor">@color/textHintColor</item>
         <item name="android:textColorHint">@color/textHintColor</item>
+        <item name="colorAccent">@color/textHintColor</item>
+        <item name="colorControlNormal">@color/textHintColor</item>
+        <item name="colorControlActivated">@color/textHintColor</item>
+        <item name="colorControlHighlight">@color/textHintColor</item>
     </style>
 
 </resources>

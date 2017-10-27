@@ -17,7 +17,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ff202020"
+        android:background="@drawable/main_bg"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -57,13 +57,14 @@
                         android:layout_height="match_parent"
                         android:theme="@style/EditTextTheme"
                         android:drawableStart="@drawable/ic_phone"
-                        android:imeOptions="actionDone"
+                        android:imeOptions="actionNext"
                         android:inputType="number|phone"
                         android:maxLines="1"
                         android:textColor="@android:color/white"
                         android:textSize="17sp"
                         app:mask="+7(999) 999-99-99"
-                        app:placeholder="_" />
+                        app:placeholder="_"
+                        app:onMaskedTextChanged='@{controller.phone}'/>
                 </android.support.design.widget.TextInputLayout>
 
             </RelativeLayout>
@@ -78,6 +79,7 @@
                     android:id="@+id/name_inputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColorHint="@color/textHintColor"
                     app:hintTextAppearance="@style/InputHintTextStyle"
                     app:valid='@{controller.isNameValid}'
                     app:validationType='@{type.TEXT}'>
@@ -88,6 +90,9 @@
                         android:theme="@style/EditTextTheme"
                         android:drawableStart="@drawable/ic_perm_identity"
                         android:hint="@string/reg_name"
+                        android:maxLines="1"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
                         android:textColor="@android:color/white"
                         android:text='@={controller.name}'
                         android:textSize="17sp" />
@@ -106,6 +111,7 @@
                     android:id="@+id/email_inputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColorHint="@color/textHintColor"
                     app:hintTextAppearance="@style/InputHintTextStyle"
                     app:valid='@{controller.isEmailValid}'
                     app:validationType='@{type.EMAIL}'>
@@ -116,6 +122,8 @@
                         android:theme="@style/EditTextTheme"
                         android:drawableStart="@drawable/ic_mail_outline"
                         android:hint="@string/reg_email"
+                        android:maxLines="1"
+                        android:imeOptions="actionNext"
                         android:textColor="@android:color/white"
                         android:inputType="textEmailAddress"
                         android:text='@={controller.email}'
@@ -135,6 +143,7 @@
                     android:id="@+id/password_inputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColorHint="@color/textHintColor"
                     app:hintTextAppearance="@style/InputHintTextStyle"
                     app:valid='@{controller.isPasswordValid}'
                     app:validationType='@{type.PASSWORD}'>
@@ -145,6 +154,8 @@
                         android:theme="@style/EditTextTheme"
                         android:drawableStart="@drawable/ic_lock_outline"
                         android:hint="@string/auth_passwd_hint"
+                        android:maxLines="1"
+                        android:imeOptions="actionNext"
                         android:inputType="numberPassword"
                         android:textColor="@android:color/white"
                         android:text='@={controller.password}'
@@ -163,6 +174,7 @@
                     android:id="@+id/repassword_inputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColorHint="@color/textHintColor"
                     app:hintTextAppearance="@style/InputHintTextStyle"
                     app:checkValue='@{controller.password}'
                     app:valid='@{controller.isRePasswordValid}'>
@@ -175,6 +187,8 @@
                         android:drawableStart="@drawable/ic_lock_outline"
                         android:hint="@string/auth_passwd_rep_hint"
                         android:inputType="numberPassword"
+                        android:maxLines="1"
+                        android:imeOptions="actionNext"
                         android:textColor="@android:color/white"
                         android:text='@={controller.passwordRepeat}'
                         android:textSize="17sp" />
@@ -206,10 +220,13 @@
                     android:layout_height="match_parent"
                     android:theme="@style/EditTextTheme"
                     android:hint="@string/reg_date_hint"
-                    android:inputType="date"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:imeOptions="actionDone"
                     android:textColor="@android:color/white"
-                    android:text='@={controller.date}'
-                    app:mask="99  99  9999"
+                    app:onMaskedTextChanged='@{controller.date}'
+                    app:mask="99.99.9999"
+                    app:placeholder="_"
                     android:textSize="17sp" />
 
             </RelativeLayout>
