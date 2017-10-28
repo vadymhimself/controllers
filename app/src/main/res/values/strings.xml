@@ -19,4 +19,12 @@
     <string name="password_not_equal">Пароль не совпал</string>
     <string name="empty_field_error">Поле должно быть заполненным</string>
     <string name="incorrect_email">Неверный формат e-mail</string>
+
+    <string name="nav_menu_schedule"><font fgcolor='#ffa0e52d'>Моё расписание</font></string>
+    <string name="nav_menu_x_fit"><font fgcolor='#ffa0e52d'>Мой X-Fit</font></string>
+    <string name="nav_menu_services"><font fgcolor='#ffa0e52d'>Услуги</font></string>
+    <string name="nav_menu_clubs"><font fgcolor='#ffa0e52d'>Клубы</font></string>
+    <string name="nav_menu_contacts"><font fgcolor='#ffa0e52d'>Контакты</font></string>
+    <string name="nav_menu_settings"><font fgcolor='#ffa0e52d'>Настройки</font></string>
+    <string name="nav_menu_quit"><font fgcolor='#9b65cb'>Выйти</font></string>
 </resources>

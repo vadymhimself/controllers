@@ -12,6 +12,8 @@
             alias="type"
             type="ru.xfit.misc.utils.validation.ValidationType" />
 
+        <import type="ru.xfit.R" />
+
     </data>
 
     <RelativeLayout
@@ -156,7 +158,7 @@
                         android:hint="@string/auth_passwd_hint"
                         android:maxLines="1"
                         android:imeOptions="actionNext"
-                        android:inputType="numberPassword"
+                        android:inputType="textPassword"
                         android:textColor="@android:color/white"
                         android:text='@={controller.password}'
                         android:textSize="17sp" />
@@ -186,7 +188,7 @@
                         android:theme="@style/EditTextTheme"
                         android:drawableStart="@drawable/ic_lock_outline"
                         android:hint="@string/auth_passwd_rep_hint"
-                        android:inputType="numberPassword"
+                        android:inputType="textPassword"
                         android:maxLines="1"
                         android:imeOptions="actionNext"
                         android:textColor="@android:color/white"
@@ -298,5 +300,14 @@
                 android:onClick='@{controller.register}'/>
 
         </RelativeLayout>
+
+        <include
+            layout="@layout/progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@{R.color.loaderBackground}"
+            android:indeterminateTint="@{R.color.controlsColor}"
+            app:visibility="@{controller.progress}" />
+
     </RelativeLayout>
 </layout>

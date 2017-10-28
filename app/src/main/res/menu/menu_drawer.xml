@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/second">
+        <item
+            android:id="@+id/my_schedule"
+            android:icon="@drawable/ic_schedule"
+            android:title="@string/nav_menu_schedule" />
+        <item
+            android:id="@+id/my_xfit"
+            android:icon="@drawable/ic_xfit"
+            android:title="@string/nav_menu_x_fit" />
+        <item
+            android:id="@+id/services"
+            android:icon="@drawable/ic_services"
+            android:title="@string/nav_menu_services" />
+        <item
+            android:id="@+id/clubs"
+            android:icon="@drawable/ic_clubs"
+            android:title="@string/nav_menu_clubs" />
+        <item
+            android:id="@+id/contacts"
+            android:icon="@drawable/ic_contacts"
+            android:title="@string/nav_menu_contacts" />
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/nav_menu_settings" />
+        <item
+            android:id="@+id/quit"
+            android:icon="@drawable/ic_quit"
+            android:title="@string/nav_menu_quit" />
+    </group>
+</menu>

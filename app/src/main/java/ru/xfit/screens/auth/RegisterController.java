@@ -36,6 +36,8 @@ public class RegisterController extends XFitController<LayoutRegisterBinding>{
     public ObservableBoolean isTelValid = new ObservableBoolean();
     public ObservableBoolean isNameValid = new ObservableBoolean();
 
+    public ObservableBoolean progress = new ObservableBoolean();
+
     @Override
     public int getLayoutId() {
         return R.layout.layout_register;
@@ -53,10 +55,11 @@ public class RegisterController extends XFitController<LayoutRegisterBinding>{
         }
 
         if (isValidate) {
+            progress.set(true);
             RegisterRequest regData = new RegisterRequest();
             regData.phone = phone.get();
             //01234567
-            String bDay = date.get().substring(4,7) + "-" + date.get().substring(0,1) + "-" + date.get().substring(2,3);
+            String bDay = date.get().substring(4,8) + "-" + date.get().substring(0,2) + "-" + date.get().substring(2,4);
             regData.birthday = bDay;
             regData.password = password.get();
             regData.name = name.get();
@@ -69,14 +72,16 @@ public class RegisterController extends XFitController<LayoutRegisterBinding>{
             Request.with(this, Api.class)
                     .create(api -> api.pleaseConfirm(regData.phone))
                     .onError(error -> {
+                        progress.set(false);
                         errorResponse.set(error.getMessage());
                         Snackbar.make(view, "Error: " + error.getMessage(), BaseTransientBottomBar.LENGTH_LONG).show();
                     })
                     .execute(confirmationResponse -> {
+                        progress.set(false);
                         if (confirmationResponse.sent) {
                             show(new SmsConfirmController(regData));
                         } else {
-                            Snackbar.make(view, "Next attempt: " + confirmationResponse.nextAttempt, BaseTransientBottomBar.LENGTH_LONG).show();
+                            Snackbar.make(view, "Следующая попытка: " + confirmationResponse.nextAttempt, BaseTransientBottomBar.LENGTH_LONG).show();
                         }
                     });
         }

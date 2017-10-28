@@ -54,7 +54,7 @@ public class SmsConfirmController extends XFitController<LayoutSmsConfirmBinding
                 .create(api -> api.register(regData))
                 .onError(error -> {
                     errorResponse.set(error.getMessage());
-                    Snackbar.make(view, "Error: " + error.getMessage(), BaseTransientBottomBar.LENGTH_LONG).show();
+                    Snackbar.make(view, "Ошибка: " + error.getMessage(), BaseTransientBottomBar.LENGTH_LONG).show();
                 })
                 .execute(registrationResponse -> {
                     //save user

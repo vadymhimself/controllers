@@ -10,6 +10,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.MenuRes;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
@@ -40,6 +41,7 @@ import ru.xfit.misc.utils.validation.PasswordValidator;
 import ru.xfit.misc.utils.validation.StringValidator;
 import ru.xfit.misc.utils.validation.ValidationType;
 import ru.xfit.misc.views.*;
+import ru.xfit.screens.XFitController;
 
 public abstract class BindingAdapters {
 
@@ -479,5 +481,10 @@ public abstract class BindingAdapters {
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             observableInt.set(checkedId);
         });
+    }
+
+    @BindingAdapter("drawerPrepare")
+    public static void prepareDrawer(NavigationView navigationView, XFitController controller) {
+        navigationView.setItemIconTintList(null);
     }
 }

@@ -5,27 +5,27 @@
         android:state_pressed="true" >
         <shape android:shape="rectangle">
             <corners android:radius="2dp"/>
-            <solid android:color="@color/ganderSelector" />
+            <solid android:color="@color/controlsColor" />
         </shape>
     </item>
     <item
         android:state_pressed="true" >
         <shape android:shape="rectangle">
             <corners android:radius="2dp"/>
-            <solid android:color="@color/ganderSelector" />
+            <solid android:color="@color/controlsColor" />
         </shape>
     </item>
     <item
         android:state_checked="true" >
         <shape android:shape="rectangle">
             <corners android:radius="2dp"/>
-            <solid android:color="@color/ganderSelector" />
+            <solid android:color="@color/controlsColor" />
         </shape>
     </item>
     <item >
         <shape android:shape="rectangle">
             <corners android:radius="2dp"/>
-            <stroke android:color="@color/ganderSelector"
+            <stroke android:color="@color/controlsColor"
                 android:width="2dp"/>
         </shape>
     </item>

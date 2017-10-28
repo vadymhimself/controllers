@@ -24,7 +24,7 @@ class NetworkModule {
     @Provides
     @Named("baseUrl")
     String provideBaseUrl() {
-        return "http://xfit-api.azurewebsites.net/v1/";
+        return "https://xfit-api.herokuapp.com/v1/";
     }
 
     @Provides
