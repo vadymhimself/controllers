@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.controllers.Request;
 import com.hwangjr.rxbus.Bus;
 import ru.xfit.model.service.Api;
+import ru.xfit.model.service.ContextModule;
 import ru.xfit.model.service.DaggerModelComponent;
 
 import javax.inject.Inject;
@@ -37,7 +38,7 @@ public class App extends Application {
 
         injector = DaggerXFitComponent.builder()
                 .modelComponent(DaggerModelComponent.create())
-                .addModule(new DataModule(context))
+                .addModule(new ContextModule(context))
                 .build();
 
         injector.inject(this);
