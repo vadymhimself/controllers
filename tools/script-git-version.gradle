@@ -1,0 +1,36 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.ajoberstar:grgit:2.1.0'
+    }
+}
+
+import org.ajoberstar.grgit.Grgit
+
+project.ext.evalVersionCode = {
+    // number of commits from HEAD to oldest one, useful for releasing from one branch only
+    // def p = Runtime.getRuntime().exec("git rev-list HEAD --count")
+    // number of commit in all branches together (also dead one)
+    def p = Runtime.getRuntime().exec("git rev-list --all --count")
+
+    def result = p.waitFor()
+    if (result != 0) {
+        return 0 // no git revisions
+    }
+    return p.getInputStream().readLines().get(0).toInteger()
+}
+
+ext {
+    git = Grgit.open(currentDir: projectDir)
+    gitVersionName = git.describe()
+    gitVersionCode = project.ext.evalVersionCode()
+    gitVersionCodeTime = git.head().time
+}
+
+task printVersion() {
+    println("Version Name: $gitVersionName")
+    println("Version Code: $gitVersionCode")
+    println("Version Code Time: $gitVersionCodeTime")
+}

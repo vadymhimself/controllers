@@ -11,12 +11,12 @@ import ru.xfit.model.service.Api;
 public class BusTestController extends XFitController<LayoutHomeBinding> {
 
     public BusTestController() {
-        Request.with(this, Api.class)
-                .create(api -> api.getUser("bolein"))
-                .execute(user -> {
-                    App.getBus().post(new TestEvent(user.login));
-                    back();
-                });
+//        Request.with(this, Api.class)
+//                .create(api -> api.getUser("bolein"))
+//                .execute(user -> {
+//                    App.getBus().post(new TestEvent(user.login));
+//                    back();
+//                });
     }
 
     @Override

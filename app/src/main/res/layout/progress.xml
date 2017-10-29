@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="background"
+            type="java.lang.Integer" />
+
+        <variable
+            name="indeterminateTint"
+            type="java.lang.Integer" />
+
+        <variable
+            name="visibility"
+            type="java.lang.Boolean" />
+
+    </data>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@{background}"
+        android:clickable="true"
+        android:visibility="@{visibility}">
+
+        <ProgressBar
+            android:layout_width="124dp"
+            android:layout_height="124dp"
+            android:layout_gravity="center"
+            android:indeterminateTint="@{indeterminateTint}"
+            />
+
+    </FrameLayout>
+</layout>

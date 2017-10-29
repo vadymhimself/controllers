@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="controller"
+            type="ru.xfit.screens.auth.RegisterController" />
+
+        <import
+            alias="type"
+            type="ru.xfit.misc.utils.validation.ValidationType" />
+
+        <import type="ru.xfit.R" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/main_bg"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_marginTop="44dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorAccent"
+                android:onClick="@{controller.back}"
+                android:background="@drawable/ic_arrow_back"/>
+
+            <RelativeLayout
+                android:id="@+id/phone_rl"
+                android:layout_below="@+id/back"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="4dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/phone_inputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hintTextAppearance="@style/InputHintTextStyle"
+                    app:valid='@{controller.isTelValid}'
+                    app:validationType='@{type.TEXT}'>
+
+                    <com.github.reinaldoarrosi.maskededittext.MaskedEditText
+                        android:id="@+id/phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:theme="@style/EditTextTheme"
+                        android:drawableStart="@drawable/ic_phone"
+                        android:imeOptions="actionNext"
+                        android:inputType="number|phone"
+                        android:maxLines="1"
+                        android:textColor="@android:color/white"
+                        android:textSize="17sp"
+                        app:mask="+7(999) 999-99-99"
+                        app:placeholder="_"
+                        app:onMaskedTextChanged='@{controller.phone}'/>
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/name_rl"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_below="@+id/phone_rl"
+                android:layout_marginTop="4dp">
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/name_inputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/textHintColor"
+                    app:hintTextAppearance="@style/InputHintTextStyle"
+                    app:valid='@{controller.isNameValid}'
+                    app:validationType='@{type.TEXT}'>
+                    <EditText
+                        android:id="@+id/name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:theme="@style/EditTextTheme"
+                        android:drawableStart="@drawable/ic_perm_identity"
+                        android:hint="@string/reg_name"
+                        android:maxLines="1"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords"
+                        android:textColor="@android:color/white"
+                        android:text='@={controller.name}'
+                        android:textSize="17sp" />
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/email_rl"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_below="@+id/name_rl"
+                android:layout_marginTop="4dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/email_inputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/textHintColor"
+                    app:hintTextAppearance="@style/InputHintTextStyle"
+                    app:valid='@{controller.isEmailValid}'
+                    app:validationType='@{type.EMAIL}'>
+                    <EditText
+                        android:id="@+id/email"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:theme="@style/EditTextTheme"
+                        android:drawableStart="@drawable/ic_mail_outline"
+                        android:hint="@string/reg_email"
+                        android:maxLines="1"
+                        android:imeOptions="actionNext"
+                        android:textColor="@android:color/white"
+                        android:inputType="textEmailAddress"
+                        android:text='@={controller.email}'
+                        android:textSize="17sp" />
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/pass_rl"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_below="@+id/email_rl"
+                android:layout_marginTop="4dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/password_inputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/textHintColor"
+                    app:hintTextAppearance="@style/InputHintTextStyle"
+                    app:valid='@{controller.isPasswordValid}'
+                    app:validationType='@{type.PASSWORD}'>
+                    <EditText
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:theme="@style/EditTextTheme"
+                        android:drawableStart="@drawable/ic_lock_outline"
+                        android:hint="@string/auth_passwd_hint"
+                        android:maxLines="1"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPassword"
+                        android:textColor="@android:color/white"
+                        android:text='@={controller.password}'
+                        android:textSize="17sp" />
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/pass_repeat_rl"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_below="@+id/pass_rl"
+                android:layout_marginTop="4dp">
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/repassword_inputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/textHintColor"
+                    app:hintTextAppearance="@style/InputHintTextStyle"
+                    app:checkValue='@{controller.password}'
+                    app:valid='@{controller.isRePasswordValid}'>
+
+                    <EditText
+                        android:id="@+id/password_rep"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:theme="@style/EditTextTheme"
+                        android:drawableStart="@drawable/ic_lock_outline"
+                        android:hint="@string/auth_passwd_rep_hint"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:imeOptions="actionNext"
+                        android:textColor="@android:color/white"
+                        android:text='@={controller.passwordRepeat}'
+                        android:textSize="17sp" />
+                </android.support.design.widget.TextInputLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/date_rl"
+                android:layout_width="120dp"
+                android:layout_height="60dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/pass_repeat_rl"
+                android:layout_marginTop="30dp">
+
+                <TextView
+                    android:id="@+id/date_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="normal"
+                    android:textColor="#ffffff"
+                    android:text="@string/reg_date_birth"/>
+
+                <com.github.reinaldoarrosi.maskededittext.MaskedEditText
+                    android:id="@+id/date"
+                    android:layout_below="@+id/date_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:theme="@style/EditTextTheme"
+                    android:hint="@string/reg_date_hint"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:imeOptions="actionDone"
+                    android:textColor="@android:color/white"
+                    app:onMaskedTextChanged='@{controller.date}'
+                    app:mask="99.99.9999"
+                    app:placeholder="_"
+                    android:textSize="17sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/gender_rl"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_below="@+id/pass_repeat_rl"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="30dp">
+
+                <TextView
+                    android:id="@+id/gender_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="normal"
+                    android:textColor="#ffffff"
+                    android:text="@string/reg_gender"/>
+                
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="9dp"
+                    app:onCheckedChange='@{controller.gender}'
+                    android:layout_below="@+id/gender_label">
+
+                    <RadioButton
+                        android:id="@+id/male"
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:checked="true"
+                        android:textSize="14sp"
+                        android:background="@drawable/gender_bg"
+                        android:textColor="@drawable/gender_text_color"
+                        android:button="@android:color/transparent"
+                        android:textAlignment="center"
+                        android:text="Мужской"/>
+                    <RadioButton
+                        android:id="@+id/female"
+                        android:layout_width="90dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/gender_bg"
+                        android:textColor="@drawable/gender_text_color"
+                        android:button="@android:color/transparent"
+                        android:layout_marginLeft="8dp"
+                        android:textSize="14sp"
+                        android:textAlignment="center"
+                        android:text="Женский"/>
+
+                </RadioGroup>
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/login_btn"
+                android:layout_width="328dp"
+                android:layout_height="48dp"
+                android:layout_below="@+id/gender_rl"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="60dp"
+                android:background="@drawable/button_bg"
+                android:fontFamily="sans-serif"
+                android:text="@string/reg_registration"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:onClick='@{controller.register}'/>
+
+        </RelativeLayout>
+
+        <include
+            layout="@layout/progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@{R.color.loaderBackground}"
+            android:indeterminateTint="@{R.color.controlsColor}"
+            app:visibility="@{controller.progress}" />
+
+    </RelativeLayout>
+</layout>

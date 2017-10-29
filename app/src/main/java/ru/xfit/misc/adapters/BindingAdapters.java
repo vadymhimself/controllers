@@ -1,13 +1,18 @@
 package ru.xfit.misc.adapters;
 
 import android.databinding.BindingAdapter;
+import android.databinding.ObservableBoolean;
+import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.MenuRes;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,6 +21,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -24,8 +30,19 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.*;
+
+import com.github.reinaldoarrosi.maskededittext.MaskedEditText;
+
 import ru.xfit.R;
+import ru.xfit.misc.OnViewReadyListener;
+import ru.xfit.misc.utils.validation.EmailValidator;
+import ru.xfit.misc.utils.validation.EmptyValidator;
+import ru.xfit.misc.utils.validation.PasswordEqualValidator;
+import ru.xfit.misc.utils.validation.PasswordValidator;
+import ru.xfit.misc.utils.validation.StringValidator;
+import ru.xfit.misc.utils.validation.ValidationType;
 import ru.xfit.misc.views.*;
+import ru.xfit.screens.XFitController;
 
 public abstract class BindingAdapters {
 
@@ -310,5 +327,170 @@ public abstract class BindingAdapters {
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(cb);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    @BindingAdapter("onMaskedTextChanged")
+    public static void bindOnMaskedTextChangedListener(MaskedEditText maskedEditText, ObservableField<String> observableField) {
+        maskedEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                observableField.set(maskedEditText.getText(true).toString());
+            }
+        });
+    }
+
+    @BindingAdapter("focusOnView")
+    public static void bindFocusOnView(View view, ObservableBoolean focus) {
+        view.setOnFocusChangeListener((view1, b) -> focus.set(b));
+    }
+
+    @BindingAdapter("onFocusChanged")
+    public static void bindOnViewFocusChanged(View view, ObservableBoolean focus) {
+        if (focus.get()) {
+            view.setBackgroundColor(view.getContext().getResources().getColor(R.color.colorAccent));
+        } else {
+            view.setBackgroundColor(view.getContext().getResources().getColor(R.color.white));
+        }
+    }
+
+    @BindingAdapter(value = {"valid", "checkValue"})
+    public static void addRePasswordValidation(TextInputLayout textInputLayout, ObservableBoolean isValid, ObservableField<String> checkValue) {
+        if (checkValue == null)
+            return;
+        PasswordEqualValidator validator = new PasswordEqualValidator();
+        textInputLayout.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            int trig = 0;
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (trig == 1) {
+                    String s = validator.validate(textInputLayout.getEditText().getText().toString(), checkValue.get());
+                    if (s == null) {
+                        textInputLayout.setErrorEnabled(false);
+                        isValid.set(true);
+                    } else {
+                        isValid.set(false);
+                    }
+                    textInputLayout.setError(s);
+                    textInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+                            String valid = validator.validate(s.toString(), checkValue.get());
+                            if (valid == null) {
+                                textInputLayout.setErrorEnabled(false);
+                                isValid.set(true);
+                            } else {
+                                isValid.set(false);
+                            }
+                            textInputLayout.setError(valid);
+                        }
+                    });
+                }
+                trig++;
+            }
+        });
+    }
+
+    @BindingAdapter({"valid", "validationType"})
+    public static void addValidation(TextInputLayout textInputLayout, ObservableBoolean isValid, ValidationType validationType) {
+        if (validationType != null) {
+            EmptyValidator validator;
+            switch (validationType) {
+                case TEXT:
+                    validator = new StringValidator();
+                    break;
+                case EMAIL:
+                    validator = new EmailValidator();
+                    break;
+                case PASSWORD:
+                    validator = new PasswordValidator();
+                    break;
+                default:
+                    validator = new EmptyValidator();
+            }
+            textInputLayout.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+                int trig = 0;
+
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (trig == 1) {
+                        String s = validator.validate(textInputLayout.getEditText().getText().toString());
+                        if (s == null) {
+                            textInputLayout.setErrorEnabled(false);
+                            isValid.set(true);
+                        } else {
+                            isValid.set(false);
+                        }
+                        textInputLayout.setError(s);
+                        textInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                                String valid = validator.validate(s.toString());
+                                if (valid == null) {
+                                    textInputLayout.setErrorEnabled(false);
+                                    isValid.set(true);
+                                } else {
+                                    isValid.set(false);
+                                }
+                                textInputLayout.setError(valid);
+
+                            }
+                        });
+                    }
+                    trig++;
+                }
+            });
+
+        }
+    }
+
+    @BindingAdapter("onCheckedChange")
+    public static void setOnCheckedChangeListener(RadioGroup radioGroup, ObservableInt observableInt) {
+        radioGroup.check(observableInt.get());
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            observableInt.set(checkedId);
+        });
+    }
+
+    @BindingAdapter("drawerPrepare")
+    public static void prepareDrawer(NavigationView navigationView, XFitController controller) {
+        navigationView.setItemIconTintList(null);
+    }
+
+    @BindingAdapter("onViewReadyListener")
+    public static void bindOnViewReadyListener(View view, OnViewReadyListener onViewReadyListener) {
+        onViewReadyListener.onReady(view);
     }
 }

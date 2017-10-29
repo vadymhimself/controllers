@@ -16,10 +16,10 @@ public abstract class XFitController<B extends ViewDataBinding> extends Controll
         App.getBus().unregister(this);
     }
 
-    @Override
-    protected void onRestored(boolean deserialized) {
-        if (deserialized) {
-            App.getBus().register(this);
-        }
-    }
+//    @Override
+//    protected void onRestored(boolean deserialized) {
+//        if (deserialized) {
+//            App.getBus().register(this);
+//        }
+//    }
 }

@@ -3,17 +3,22 @@ plugins {
     id "net.ltgt.apt" version "0.10"
 }
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+apply from: "$project.rootDir/tools/script-git-version.gradle"
 
 android {
     compileSdkVersion 25
     buildToolsVersion '25.0.3'
     defaultConfig {
         applicationId "ru.xfit"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName gitVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ext.betaDistributionGroupAliases = "beta-android"
+        ext.betaDistributionReleaseNotesFilePath = "beta_release_notes.txt"
     }
     buildTypes {
         release {
@@ -56,6 +61,11 @@ dependencies {
 
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
+    compile 'com.github.reinaldoarrosi:maskededittext:1.1.0'
+
+    compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
+        transitive = true;
+    }
 
     testCompile 'junit:junit:4.12'
 }

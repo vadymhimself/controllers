@@ -1,3 +1,33 @@
 <resources>
-    <string name="app_name">TheCVVM</string>
+    <string name="app_name">X-Fit</string>
+    <string name="auth_passwd_hint">Пароль</string>
+    <string name="auth_passwd_rep_hint">Подтверждение пароля </string>
+    <string name="auth_reset_pwd">Забыли пароль?</string>
+    <string name="auth_registration">Зарегистрироваться</string>
+    <string name="auth_login">войти</string>
+
+    <string name="reg_name">Фамилия Имя</string>
+    <string name="reg_email">E-mail</string>
+    <string name="reg_date_hint">ДД   ММ   ГГГГ</string>
+    <string name="reg_date_birth">Дата рождения</string>
+    <string name="reg_gender">Пол</string>
+    <string name="reg_registration">Зарегистрироваться</string>
+    <string name="sms_confirm_title">Код активации из SMS</string>
+    <string name="sms_confirm_btn">Активировать</string>
+
+
+    <string name="password_not_equal">Пароль не совпал</string>
+    <string name="empty_field_error">Поле должно быть заполненным</string>
+    <string name="incorrect_email">Неверный формат e-mail</string>
+
+    <string name="nav_menu_schedule"><font fgcolor='#ffa0e52d'>Моё расписание</font></string>
+    <string name="nav_menu_x_fit"><font fgcolor='#ffa0e52d'>Мой X-Fit</font></string>
+    <string name="nav_menu_services"><font fgcolor='#ffa0e52d'>Услуги</font></string>
+    <string name="nav_menu_clubs"><font fgcolor='#ffa0e52d'>Клубы</font></string>
+    <string name="nav_menu_contacts"><font fgcolor='#ffa0e52d'>Контакты</font></string>
+    <string name="nav_menu_settings"><font fgcolor='#ffa0e52d'>Настройки</font></string>
+    <string name="nav_menu_quit"><font fgcolor='#9b65cb'>Выйти</font></string>
+
+    <string name="navigation_drawer_open">Open drawer</string>
+    <string name="navigation_drawer_close">Close drawer</string>
 </resources>
