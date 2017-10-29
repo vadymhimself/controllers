@@ -27,4 +27,7 @@
     <string name="nav_menu_contacts"><font fgcolor='#ffa0e52d'>Контакты</font></string>
     <string name="nav_menu_settings"><font fgcolor='#ffa0e52d'>Настройки</font></string>
     <string name="nav_menu_quit"><font fgcolor='#9b65cb'>Выйти</font></string>
+
+    <string name="navigation_drawer_open">Open drawer</string>
+    <string name="navigation_drawer_close">Close drawer</string>
 </resources>

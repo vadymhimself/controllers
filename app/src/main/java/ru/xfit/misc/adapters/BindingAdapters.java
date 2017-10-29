@@ -34,6 +34,7 @@ import android.widget.*;
 import com.github.reinaldoarrosi.maskededittext.MaskedEditText;
 
 import ru.xfit.R;
+import ru.xfit.misc.OnViewReadyListener;
 import ru.xfit.misc.utils.validation.EmailValidator;
 import ru.xfit.misc.utils.validation.EmptyValidator;
 import ru.xfit.misc.utils.validation.PasswordEqualValidator;
@@ -486,5 +487,10 @@ public abstract class BindingAdapters {
     @BindingAdapter("drawerPrepare")
     public static void prepareDrawer(NavigationView navigationView, XFitController controller) {
         navigationView.setItemIconTintList(null);
+    }
+
+    @BindingAdapter("onViewReadyListener")
+    public static void bindOnViewReadyListener(View view, OnViewReadyListener onViewReadyListener) {
+        onViewReadyListener.onReady(view);
     }
 }

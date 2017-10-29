@@ -18,12 +18,25 @@
         android:id="@+id/drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:onViewReadyListener='@{controller}'
         tools:openDrawer="start">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="24dp"
             android:orientation="vertical">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                >
+
+
+            </android.support.v7.widget.Toolbar>
 
             <Button
                 android:id="@+id/tv"
@@ -39,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="@color/colorPrimary"
+            android:background="@color/white"
             android:fitsSystemWindows="true"
             app:drawerPrepare='@{controller}'
             app:itemTextColor="@color/white"
