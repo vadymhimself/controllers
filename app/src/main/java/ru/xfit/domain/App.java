@@ -37,8 +37,7 @@ public class App extends Application {
         context = this;
 
         injector = DaggerXFitComponent.builder()
-                .modelComponent(DaggerModelComponent.create())
-                .addModule(new ContextModule(context))
+                .modelComponent(DaggerModelComponent.builder().contextModule(new ContextModule(context)).build())
                 .build();
 
         injector.inject(this);
