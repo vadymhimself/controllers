@@ -71,7 +71,7 @@
                 android:theme="@style/EditTextTheme"
                 android:drawableStart="@drawable/ic_lock_outline"
                 android:hint="@string/auth_passwd_hint"
-                android:inputType="numberPassword"
+                android:inputType="textPassword"
                 android:textColor="@android:color/white"
                 android:textColorHint="@color/textHintColor"
                 android:textSize="17sp"
