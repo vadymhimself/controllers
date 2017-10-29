@@ -32,4 +32,8 @@ public class User implements Serializable {
     public String id;
     public String login;
     public ResidenceCountry residenceCountry;
+
+    public ResidenceCity city;
+    public Language language;
+    public String token;
 }

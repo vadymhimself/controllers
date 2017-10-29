@@ -17,6 +17,8 @@ import ru.xfit.model.data.club.Club;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationRequest;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
 import ru.xfit.model.data.register.RegisterRequest;
+import ru.xfit.model.data.storage.Storage;
+import ru.xfit.model.data.storage.preferences.PreferencesStorage;
 import ru.xfit.model.retrorequest.TaskBuilder;
 
 import java.util.List;
@@ -24,11 +26,13 @@ import java.util.List;
 final class ApiImpl implements Api {
 
     private final NetworkInterface networkInterface;
+    private final PreferencesStorage storage;
     private final UserData userData;
 
-    ApiImpl(NetworkInterface networkInterface, UserData userData) {
+    ApiImpl(NetworkInterface networkInterface, UserData userData, PreferencesStorage preferencesStorage) {
         this.networkInterface = networkInterface;
         this.userData = userData;
+        this.storage = preferencesStorage;
     }
 
     private <T> T executeSync(Call<T> call) throws Throwable {
@@ -84,6 +88,53 @@ final class ApiImpl implements Api {
             @Override
             public ConfirmationResponse exec() throws Throwable {
                 return executeSync(networkInterface.pleaseConfirm(request));
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        };
+    }
+
+    @Override
+    public Task<ru.xfit.model.data.auth.User> getSavedUser() {
+        return new Task<ru.xfit.model.data.auth.User>() {
+            @Override
+            public ru.xfit.model.data.auth.User exec() throws Throwable {
+                return storage.getCurrentUser();
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        };
+    }
+
+    @Override
+    public Task<Void> deleteSavedUser() {
+        return new Task<Void>() {
+            @Override
+            public Void exec() throws Throwable {
+                storage.clearCurrentUser();
+                return null;
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        };
+    }
+
+    @Override
+    public Task<Void> saveUser(ru.xfit.model.data.auth.User user) {
+        return new Task<Void>() {
+            @Override
+            public Void exec() throws Throwable {
+                storage.saveCurrentUser(user);
+                return null;
             }
 
             @Override

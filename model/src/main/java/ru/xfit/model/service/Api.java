@@ -38,6 +38,12 @@ public interface Api {
 
     Task<ConfirmationResponse> pleaseConfirm(String phone);
 
+    Task<ru.xfit.model.data.auth.User> getSavedUser();
+
+    Task<Void> deleteSavedUser();
+
+    Task<Void> saveUser(ru.xfit.model.data.auth.User user);
+
     Task<List<Club>> getClubs();
 
     Task<List<Class>> getClasses(String id);

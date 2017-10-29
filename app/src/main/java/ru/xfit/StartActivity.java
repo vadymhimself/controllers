@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.controllers.Request;
+
 import ru.xfit.MainActivity;
 import ru.xfit.R;
 import ru.xfit.XFitActivity;
 import ru.xfit.misc.utils.PrefUtils;
+import ru.xfit.model.service.Api;
 import ru.xfit.screens.auth.AuthController;
 
 /**

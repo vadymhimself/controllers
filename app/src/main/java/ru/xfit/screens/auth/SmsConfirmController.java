@@ -9,10 +9,14 @@ import com.controllers.Request;
 
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutSmsConfirmBinding;
+import ru.xfit.misc.utils.PrefUtils;
+import ru.xfit.model.data.auth.User;
 import ru.xfit.model.data.register.RegisterRequest;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.HomeController;
 import ru.xfit.screens.XFitController;
+
+import static ru.xfit.domain.App.PREFS_IS_USER_ALREADY_LOGIN;
 
 /**
  * Created by TESLA on 27.10.2017.
@@ -58,8 +62,22 @@ public class SmsConfirmController extends XFitController<LayoutSmsConfirmBinding
                 })
                 .execute(registrationResponse -> {
                     //save user
+                    PrefUtils.getPreferences().edit().putBoolean(PREFS_IS_USER_ALREADY_LOGIN, true).commit();
+
+                    registrationResponse.user.language = registrationResponse.language;
+                    registrationResponse.user.city = registrationResponse.residenceCity;
+                    registrationResponse.user.token = registrationResponse.token;
+
+                    saveUser(registrationResponse.user);
+
                     show(new HomeController());
                 });
+    }
+
+    private void saveUser(User user) {
+        Request.with(this, Api.class)
+                .create(api -> api.saveUser(user))
+                .execute();
     }
 
 }

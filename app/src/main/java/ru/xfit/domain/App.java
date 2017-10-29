@@ -19,6 +19,7 @@ import javax.inject.Inject;
 
 public class App extends Application {
     public static final String PREFERENCES = "_app_prefs_ru.xfit_prettyPrefs";
+    public static final String PREFS_IS_USER_ALREADY_LOGIN = "is_user_already_login";
 
     @SuppressLint("StaticFieldLeak")
     private static App context;
@@ -36,6 +37,7 @@ public class App extends Application {
 
         injector = DaggerXFitComponent.builder()
                 .modelComponent(DaggerModelComponent.create())
+                .addModule(new DataModule(context))
                 .build();
 
         injector.inject(this);
