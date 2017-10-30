@@ -16,6 +16,7 @@ licenses:
   - android-sdk-license-.+
   - google-gdk-license-.+
 script:
+  - set -e
   - ./gradlew assembleRelease --stacktrace --no-daemon
 after_script:
   - ./gradlew crashlyticsUploadDistributionRelease
