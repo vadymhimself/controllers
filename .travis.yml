@@ -22,6 +22,18 @@ after_script:
   - ./gradlew crashlyticsUploadDistributionRelease
 before_install:
   - chmod +x gradlew
+  - openssl aes-256-cbc -K $encrypted_9f0b5b623ead_key -iv $encrypted_9f0b5b623ead_iv -in release.keystore.enc -out keystore/release.keystore -d
 branches:
   only:
   - master
+env:
+  global:
+  - secure: "pGB4SrbPpvC0Oaj6F3Jz9s8ZUDkc9ivYNQ1YKUO3NDrxYN/D3l/M9TNh07gVgrRUDXlDi75jLeKgNDGQ/IKdPb15SXy5yj1u+CbIXnpv2P+wJC2vklv4RWQtiFbsQ286dqjJqB65jjYVANH97VlIQGw4eFzpHM6qCgDOOLKv2tAyew7PquadY9D0ABAGqhVT77UJpnF2AaSdtH7uO6R1xjhF0SLJVjMsiJydulilsnSMT9NnhNmW/3drONbu8sS4cTPOPlyWcVTzhaWdg0lJnygF2FElkPubgFCSf9ETECDWDfHvPUeoAzBvZ3aTOWzKuUiJecyZ2IcIR+FgNxsn/hIoMXw4lA8ShBTL28aOFwzYFtsPLo+R0n8pBHXPaMtVt8+E8P6dknQH2wIr6VKlW0mCeacOlcxc1lPf35KiCjj8pyzVlpLxZTXiE/UkR3gjM75X5gcPf7ArO6+79bWomGaESSuBZuu18L88D0NtnjBmt317vxoJMOD89+Wnfq8oB0sz6iadT7IaK94nF9l+Bekny6uWuLJJqDVFCKqk3gU5+mMad4reknWbyNON38IYy/SKNupv/GKHnlpEKCjiMvQXorDhsjE+GGcbao0NurAxmcw6/mPT0RqSQzm860g1FI/kgG1XLg9LgsCa5OU43ApcNbX7KIy5tKvKg3A+UEI="
+  - secure: "PbqHQ902NQKQ/tdfdj0cnbXBtBjT64IyYtAp6AY0Wr8B45Cy0IxUBZF2MfCbE+crHzp1aN13SBCkAPxiDuB9cXdULgsuZJPqtm1hkz81e8Mr/wF72tz/5FV/Dqk5ZXlHBUmawpxfvHox8lxoNGxVel6OTIzkgHSalCxG2v8D0ksDff69VCVJ7bX3xtYgbb1BqoaQLLe+jcIwspld8cg5iIm6jtLj+Eqt94WYay6r1ZQhhgwLk1lWUajA4lwCXdZAHWoMzyH/OEUG7LWg5gc3oYk/NUVXasft4pRP2rZqTlFJyjYZVl/ScdZoWyQkB68jxyHk3I17E0FMLJ8ma4SfdFZX1TP+ro5s8eD4yXSfquTYBoeDfbHyR4WWsT8TW6nc6gm6Sou6lcKVv4XqacxAw4CjiPqihU4MMXeKRlKlhMySPD3Z/e1PDTMHpXSZCqKBBsUytVJj2isS8KGkVV4T97tJz0GO+bAjxzmfm98JArqmdmBioCULBtTrDtWNWP09BQ8jWTMWMQSaz87sSYluNcgDDWV6h3E0r7TognzrNci+PdLcbgZ0tA0oX0NVuFouPa0Ys8iRowDEjLGM0flRRPcOVaUt15dFbej6P3ZEMuuyuqVT1dxlWwQxDMnuG+p/HkGntYeQfU/pyurwSjNsaCvdNe4Vf1LiPRt8/q5gAmQ="
+before_deploy:
+  - cp $TRAVIS_BUILD_DIR/.keystore $HOME
+  - cd app/build/outputs/apk/
+  - jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/keystore.jks -storepass $storepass -keypass $keypass app-release-unsigned.apk prodkey
+  # Verification
+  - jarsigner -verify app-release-unsigned.apk
+  - "${ANDROID_HOME}/build-tools/25.0.3/zipalign -v 4 app-release-unsigned.apk xfit.apk"

@@ -27,6 +27,12 @@ android {
             storePassword 'android'
             storeFile file('../keystore/debug.keystore')
         }
+        release {
+            keyAlias 'prodkey'
+            keyPassword '123456qwe'
+            storePassword '123456qwe'
+            storeFile file('../keystore/release.keystore')
+        }
     }
 
     buildTypes {
