@@ -6,7 +6,9 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 import com.controllers.Request;
+import com.crashlytics.android.Crashlytics;
 import com.hwangjr.rxbus.Bus;
+import io.fabric.sdk.android.Fabric;
 import ru.xfit.model.service.Api;
 import ru.xfit.model.service.ContextModule;
 import ru.xfit.model.service.DaggerModelComponent;
@@ -33,6 +35,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
 
         context = this;
 

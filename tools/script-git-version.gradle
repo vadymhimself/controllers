@@ -22,9 +22,16 @@ project.ext.evalVersionCode = {
     return p.getInputStream().readLines().get(0).toInteger()
 }
 
+project.ext.getGitHash = {
+    // git hash
+    def command = Runtime.getRuntime().exec("git rev-parse --short HEAD")
+    def result = command.waitFor()
+    return (result == 0) ? command.inputStream.text.trim() : "nogit"
+}
+
 ext {
     git = Grgit.open(currentDir: projectDir)
-    gitVersionName = git.describe()
+    gitVersionName = "1.0-dev-" + project.ext.evalVersionCode() + "-" + project.ext.getGitHash()
     gitVersionCode = project.ext.evalVersionCode()
     gitVersionCodeTime = git.head().time
 }

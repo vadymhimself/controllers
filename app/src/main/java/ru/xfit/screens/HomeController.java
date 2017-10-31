@@ -25,7 +25,7 @@ public class HomeController extends XFitController<LayoutHomeBinding> implements
     }
 
     public void onButtonClick() {
-        show(new BusTestController());
+//        throw new RuntimeException("This is a crash");
     }
 
     @Subscribe

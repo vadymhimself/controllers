@@ -26,7 +26,7 @@ public class MainActivity extends XFitActivity {
         setContentView(R.layout.activity_main);
         setControllerContainer(R.id.container);
         if (savedInstanceState == null) {
-            show(new HomeController());
+            show(new HomeController(), 0, 0);
         }
     }
 }
