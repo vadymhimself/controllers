@@ -4,10 +4,12 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -80,6 +82,7 @@ public class MyCalendar extends LinearLayout {
 
         for (int i = 1; i < 43; i++) {
             if (i == 7 || i == 14 || i == 21 || i == 28 || i == 35 || i == 42) {
+                daysView.addView(weekContainer);
                 weekContainer = new LinearLayout(context);
                 weekContainer.setLayoutParams(lp);
             }
@@ -88,13 +91,17 @@ public class MyCalendar extends LinearLayout {
 
             if(calendar.get(Calendar.MONTH) == startCalendar.get(Calendar.MONTH)) {
                 dayView.setTextColor(context.getResources().getColor(R.color.calendarCurrentDay));
-                dayView.setBackgroundResource(R.drawable.calendar_current_day_bg);
+                dayView.setTextBg(R.drawable.calendar_current_day_bg);
             }
 
             //Apply the default styles
             dayView.bind(startCalendar.getTime());
             dayView.setVisibility(View.VISIBLE);
 
+            LinearLayout.LayoutParams dlp = new LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dlp.weight = 7.0f;
+            dlp.gravity = Gravity.CENTER_HORIZONTAL;
+            dayView.setLayoutParams(dlp);
 
             if (CalendarUtils.isSameMonth(calendar, startCalendar)) {
 //                dayOfMonthContainer.setOnClickListener(onDateClickListener);

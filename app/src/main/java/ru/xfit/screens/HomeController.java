@@ -7,6 +7,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import com.controllers.ControllerPagerAdapter;
 import com.controllers.Promise;
 import com.controllers.Request;
 import com.hwangjr.rxbus.annotation.Subscribe;
@@ -16,11 +18,16 @@ import ru.xfit.domain.App;
 import ru.xfit.misc.OnViewReadyListener;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.auth.AuthController;
+import ru.xfit.screens.schedule.MyScheduleController;
 
 public class HomeController extends XFitController<LayoutHomeBinding> implements OnViewReadyListener,
         NavigationView.OnNavigationItemSelectedListener {
 
+    public ControllerPagerAdapter pagerAdapter;
+
     public HomeController() {
+        pagerAdapter = new ControllerPagerAdapter(this);
+        pagerAdapter.addController(new MyScheduleController());
 
     }
 
@@ -51,6 +58,34 @@ public class HomeController extends XFitController<LayoutHomeBinding> implements
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
+        if (getBinding() == null || getActivity() == null) return false;
+
+        switch (item.getItemId()) {
+            case R.id.my_schedule:
+                show(new MyScheduleController());
+                return true;
+            case R.id.my_xfit:
+                return true;
+            case R.id.services:
+                return true;
+            case R.id.clubs:
+                return true;
+            case R.id.contacts:
+                return true;
+            case R.id.settings:
+                return true;
+            case R.id.quit:
+                return true;
+        }
+        return true;
+    }
+
+    @Override
+    public String getTitle() {
+        if (getBinding() == null) return "";
+//        if (pagerAdapter.getItem(getBinding().pager.getCurrentItem()).getTitle() == null) {
+            return "My schedule";
+//        }
+//        return pagerAdapter.getItem(getBinding().pager.getCurrentItem()).getTitle();
     }
 }

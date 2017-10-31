@@ -38,8 +38,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:layout_marginLeft="30dp">
+        android:layout_marginTop="19dp">
         <TextView
             android:id="@+id/monday"
             android:layout_width="0dp"
@@ -47,6 +46,7 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:fontFamily="sans-serif-medium"
+            android:gravity="center_horizontal"
             android:text="П"/>
         <TextView
             android:id="@+id/tuesday"
@@ -55,6 +55,7 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:fontFamily="sans-serif-medium"
+            android:gravity="center_horizontal"
             android:text="В"/>
         <TextView
             android:id="@+id/wednesday"
@@ -63,6 +64,7 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:fontFamily="sans-serif-medium"
+            android:gravity="center_horizontal"
             android:text="С"/>
         <TextView
             android:id="@+id/thursday"
@@ -71,6 +73,7 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:fontFamily="sans-serif-medium"
+            android:gravity="center_horizontal"
             android:text="Ч"/>
         <TextView
             android:id="@+id/friday"
@@ -79,6 +82,7 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:fontFamily="sans-serif-medium"
+            android:gravity="center_horizontal"
             android:text="П"/>
         <TextView
             android:id="@+id/saturday"
@@ -87,6 +91,7 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:fontFamily="sans-serif-medium"
+            android:gravity="center_horizontal"
             android:text="С"/>
         <TextView
             android:id="@+id/sunday"
@@ -95,6 +100,7 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:fontFamily="sans-serif-medium"
+            android:gravity="center_horizontal"
             android:text="В"/>
     </LinearLayout>
 
