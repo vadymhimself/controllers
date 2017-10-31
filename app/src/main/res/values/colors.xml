@@ -16,4 +16,10 @@
     <color name="reportProblem">#ff1940</color>
     <color name="controlsColor">#9b65cb</color>
     <color name="loaderBackground">#dc32233f</color>
+    <color name="calendarAccent">#A8F217</color>
+    <color name="calendarWeekend">#58595b</color>
+    <color name="calendarDisableDay">#e1e4e7</color>
+    <color name="calendarCommonDay">#cc58595b</color>
+    <color name="calendarCurrentDay">#ffffff</color>
+
 </resources>
