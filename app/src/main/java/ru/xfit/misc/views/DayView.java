@@ -1,6 +1,7 @@
 package ru.xfit.misc.views;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -71,6 +72,10 @@ public class DayView extends RelativeLayout {
 
     public void setTextBg(int resId) {
         textView.setBackgroundResource(resId);
+    }
+
+    public void setBold() {
+        textView.setTypeface(null, Typeface.BOLD);
     }
 
     public void setDay(Day day) {

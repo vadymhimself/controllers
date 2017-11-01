@@ -93,6 +93,7 @@ public class MyCalendar extends LinearLayout {
         daysView = (LinearLayout) currentView.findViewById(R.id.days_view);
 
         firstDayOfWeek = Calendar.MONDAY;
+        this.weekendDays = 65;
 
         refreshCalendar(Calendar.getInstance(getLocale()));
     }
@@ -135,6 +136,7 @@ public class MyCalendar extends LinearLayout {
                     for (int weekend : totalDayOfWeekend) {
                         if (weekend == calendar.get(Calendar.DAY_OF_WEEK)) {
                             dayView.setTextColor(context.getResources().getColor(R.color.calendarWeekend));
+                            dayView.setBold();
                             isCommonDay = false;
                         }
                     }
@@ -145,8 +147,10 @@ public class MyCalendar extends LinearLayout {
                 }
 
                 if (day.isCurrentDay()) {
-                    dayView.setTextColor(context.getResources().getColor(R.color.calendarCurrentDay));
-                    dayView.setTextBg(R.drawable.calendar_current_day_bg);
+                    if (CalendarUtils.isToday(day.toCalendar())) {
+                        dayView.setTextColor(context.getResources().getColor(R.color.calendarCurrentDay));
+                        dayView.setTextBg(R.drawable.calendar_current_day_bg);
+                    }
                 }
 
             } else {
