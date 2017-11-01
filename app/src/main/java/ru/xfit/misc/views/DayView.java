@@ -20,6 +20,7 @@ import ru.xfit.misc.utils.UiUtils;
 
 public class DayView extends RelativeLayout {
     private Date mDate;
+    private Day day;
     private TextView textView;
 
     public DayView(Context context) {
@@ -70,5 +71,15 @@ public class DayView extends RelativeLayout {
 
     public void setTextBg(int resId) {
         textView.setBackgroundResource(resId);
+    }
+
+    public void setDay(Day day) {
+        setText(String.valueOf(day.getDay()));
+        this.day = day;
+        invalidate();
+    }
+
+    public Day getDay() {
+        return day;
     }
 }

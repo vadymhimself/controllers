@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import ru.xfit.R;
@@ -23,8 +24,37 @@ import ru.xfit.misc.utils.CalendarUtils;
  */
 
 public class MyCalendar extends LinearLayout {
+    private static final int SUNDAY = 1;
+    private static final int MONDAY = 2;
+    private static final int TUESDAY = 4;
+    private static final int WEDNESDAY = 8;
+    private static final int THURSDAY = 16;
+    private static final int FRIDAY = 32;
+    private static final int SATURDAY = 64;
+
+    private static final int[] FLAGS = new int[]{
+            SUNDAY,
+            MONDAY,
+            TUESDAY,
+            WEDNESDAY,
+            THURSDAY,
+            FRIDAY,
+            SATURDAY
+    };
+
+    private static final int[] WEEK_DAYS = new int[]{
+            Calendar.SUNDAY,
+            Calendar.MONDAY,
+            Calendar.TUESDAY,
+            Calendar.WEDNESDAY,
+            Calendar.THURSDAY,
+            Calendar.FRIDAY,
+            Calendar.SATURDAY
+    };
+
     private Context context;
     private Calendar calendar;
+    private Calendar prevCalendar;
     private View currentView;
 
     private boolean isCommonDay;
@@ -32,6 +62,10 @@ public class MyCalendar extends LinearLayout {
     private int[] totalDayOfWeekend;
 
     private LinearLayout daysView;
+
+    private int currentMonthIndex;
+    private int firstDayOfWeek;
+    private int weekendDays;
 
     private OnDateClickListener onDateClickListener;
 
@@ -53,49 +87,38 @@ public class MyCalendar extends LinearLayout {
     private void init(Context context) {
         this.context = context;
         this.calendar = Calendar.getInstance(Locale.getDefault());
+        this.prevCalendar = Calendar.getInstance(Locale.getDefault());
 
         currentView = LayoutInflater.from(context).inflate(R.layout.calendar, this, true);
         daysView = (LinearLayout) currentView.findViewById(R.id.days_view);
 
+        firstDayOfWeek = Calendar.MONDAY;
+
         refreshCalendar(Calendar.getInstance(getLocale()));
     }
 
-    private void setDaysInCalendar() {
-        Calendar calendar = Calendar.getInstance(getLocale());
-        calendar.setTime(this.calendar.getTime());
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.setFirstDayOfWeek(Calendar.MONDAY);
-        int firstDayOfMonth = calendar.get(Calendar.DAY_OF_WEEK);
+    private void drawAdapterView() {
+        final List<Day> days = CalendarUtils.obtainDays(calendar, currentMonthIndex);
 
-        int dayOfMonthIndex = CalendarUtils.getWeekIndex(firstDayOfMonth, calendar);
-        int actualMaximum = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-        final Calendar startCalendar = (Calendar) calendar.clone();
-
-        startCalendar.add(Calendar.DATE, -(dayOfMonthIndex - 1));
-        int monthEndIndex = 42 - (actualMaximum + dayOfMonthIndex - 1);
-
+        int size = days.size();
         DayView dayView;
         LinearLayout weekContainer = new LinearLayout(context);
         LinearLayout.LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         weekContainer.setLayoutParams(lp);
 
-        for (int i = 1; i < 43; i++) {
+        for (int i = 0; i < size; i++) {
+            Day day = days.get(i);
+
             if (i == 7 || i == 14 || i == 21 || i == 28 || i == 35 || i == 42) {
                 daysView.addView(weekContainer);
                 weekContainer = new LinearLayout(context);
                 weekContainer.setLayoutParams(lp);
             }
+
             dayView = new DayView(context);
             weekContainer.addView(dayView);
 
-            if(calendar.get(Calendar.MONTH) == startCalendar.get(Calendar.MONTH)) {
-                dayView.setTextColor(context.getResources().getColor(R.color.calendarCurrentDay));
-                dayView.setTextBg(R.drawable.calendar_current_day_bg);
-            }
-
-            //Apply the default styles
-            dayView.bind(startCalendar.getTime());
+            dayView.bind(day.toDate());
             dayView.setVisibility(View.VISIBLE);
 
             LinearLayout.LayoutParams dlp = new LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -103,12 +126,14 @@ public class MyCalendar extends LinearLayout {
             dlp.gravity = Gravity.CENTER_HORIZONTAL;
             dayView.setLayoutParams(dlp);
 
-            if (CalendarUtils.isSameMonth(calendar, startCalendar)) {
-//                dayOfMonthContainer.setOnClickListener(onDateClickListener);
+            if (day.isCurrentMonth()) {
                 isCommonDay = true;
-                if(totalDayOfWeekend.length != 0) {
+
+                if (totalDayOfWeekend.length != 0) {
+                    final Calendar calendar = day.toCalendar(Locale.getDefault());
+
                     for (int weekend : totalDayOfWeekend) {
-                        if (startCalendar.get(Calendar.DAY_OF_WEEK) == weekend) {
+                        if (weekend == calendar.get(Calendar.DAY_OF_WEEK)) {
                             dayView.setTextColor(context.getResources().getColor(R.color.calendarWeekend));
                             isCommonDay = false;
                         }
@@ -118,22 +143,23 @@ public class MyCalendar extends LinearLayout {
                 if(isCommonDay) {
                     dayView.setTextColor(context.getResources().getColor(R.color.calendarCommonDay));
                 }
+
+                if (day.isCurrentDay()) {
+                    dayView.setTextColor(context.getResources().getColor(R.color.calendarCurrentDay));
+                    dayView.setTextBg(R.drawable.calendar_current_day_bg);
+                }
+
             } else {
                 dayView.setTextColor(context.getResources().getColor(R.color.calendarDisableDay));
 
                 if (!isOverflowDateVisible)
-                    dayView.setVisibility(View.GONE);
-                else if (i >= 36 && ((float) monthEndIndex / 7.0f) >= 1) {
-                    dayView.setVisibility(View.GONE);
+                    dayView.setVisibility(View.INVISIBLE);
+                else {
+                    dayView.setVisibility(View.VISIBLE);
                 }
             }
-
-            startCalendar.add(Calendar.DATE, 1);
-            dayOfMonthIndex++;
         }
     }
-
-
 
     public Locale getLocale() {
         return this.context.getResources().getConfiguration().locale;
@@ -143,28 +169,47 @@ public class MyCalendar extends LinearLayout {
         this.calendar = calendar;
         this.calendar.setFirstDayOfWeek(Calendar.MONDAY);
 
-        setTotalDayOfWeekend();
+        final int y = calendar.get(Calendar.YEAR);
+        final int m = calendar.get(Calendar.MONTH);
 
-        setDaysInCalendar();
+        currentMonthIndex = (prevCalendar.get(Calendar.YEAR) - y) * 12 + (prevCalendar.get(Calendar.MONTH) - m);
+
+        Calendar calendarUpdate = Calendar.getInstance(Locale.getDefault());
+        calendarUpdate.add(Calendar.MONTH, currentMonthIndex);
+
+        update(calendarUpdate);
+
+        prevCalendar = calendar;
     }
 
-    private void setTotalDayOfWeekend() {
-        int[] weekendDay = new int[Integer.bitCount(65)];
-        char days[]= Integer.toBinaryString(65).toCharArray();
-        int day = 1;
-        int index = 0;
-        for(int i = days.length - 1; i >= 0; i--) {
-            if(days[i] == '1') {
-                weekendDay[index] = day;
-                index++;
-            }
-            day++;
-        }
+    public void update(@NonNull Calendar calender) {
+        calendar = calender;
+        calendar.setFirstDayOfWeek(firstDayOfWeek);
 
-        totalDayOfWeekend = weekendDay;
+        calculateWeekEnds();
+
+        drawAdapterView();
+    }
+
+    private void calculateWeekEnds() {
+        totalDayOfWeekend = new int[2];
+        int weekendIndex = 0;
+
+        for (int i = 0; i < FLAGS.length; i++) {
+            boolean isContained = containsFlag(this.weekendDays, FLAGS[i]);
+
+            if (isContained) {
+                totalDayOfWeekend[weekendIndex] = WEEK_DAYS[i];
+                weekendIndex++;
+            }
+        }
     }
 
     public void setOnDateClickListener(OnDateClickListener onDateClickListener) {
         this.onDateClickListener = onDateClickListener;
+    }
+
+    private boolean containsFlag(int flagSet, int flag) {
+        return (flagSet | flag) == flagSet;
     }
 }

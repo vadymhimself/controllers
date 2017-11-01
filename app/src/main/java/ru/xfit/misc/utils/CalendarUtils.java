@@ -1,6 +1,13 @@
 package ru.xfit.misc.utils;
 
+import android.util.MonthDisplayHelper;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
+
+import ru.xfit.misc.views.Day;
 
 /**
  * Created by TESLA on 31.10.2017.
@@ -37,5 +44,104 @@ public class CalendarUtils {
         return (cal1.get(Calendar.ERA) == cal2.get(Calendar.ERA) &&
                 (cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)) &&
                 (cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)));
+    }
+
+    public static List<Day> obtainDays(final Calendar calendar, final int index) {
+        int year = getYear(calendar);
+        int month = getMonth(calendar);
+        int firstDayOfWeek = calendar.getFirstDayOfWeek();
+
+        final MonthDisplayHelper helper = new MonthDisplayHelper(year, month, firstDayOfWeek);
+        final List<Day> days = new ArrayList<>();
+
+        for (int i = 0; i < 6; i++) {
+            int n[] = helper.getDigitsForRow(i);
+
+            for (int j = 0; j < 7; j++) {
+                Day d = new Day();
+
+                if (helper.isWithinCurrentMonth(i, j)) {
+                    Calendar c = Calendar.getInstance(Locale.getDefault());
+
+                    c.add(Calendar.MONTH, index);
+                    c.set(Calendar.DAY_OF_MONTH, n[j]);
+
+                    int m = getMonth(c);
+                    int y = getYear(c);
+
+                    if (n[j] == c.get(Calendar.DAY_OF_MONTH) && isWeekend(c) && index == 0) {
+                        d.setDay(n[j])
+                                .setMonth(m)
+                                .setYear(y)
+                                .setCurrentDay(false)
+                                .setCurrentMonth(true)
+                                .setCurrentYear(true)
+                                .setWeekend(true);
+
+                    } else if (n[j] == c.get(Calendar.DAY_OF_MONTH) && index == 0) {
+                        d.setDay(n[j])
+                                .setMonth(m)
+                                .setYear(y)
+                                .setCurrentDay(true)
+                                .setCurrentMonth(true)
+                                .setCurrentYear(true)
+                                .setWeekend(false);
+
+                    } else if (isWeekend(c)) {
+                        d.setDay(n[j])
+                                .setMonth(m)
+                                .setYear(y)
+                                .setCurrentDay(false)
+                                .setCurrentMonth(true)
+                                .setCurrentYear(true)
+                                .setWeekend(true);
+
+                    } else {
+                        d.setDay(n[j])
+                                .setMonth(m)
+                                .setYear(y)
+                                .setCurrentDay(false)
+                                .setCurrentMonth(true)
+                                .setCurrentYear(true)
+                                .setWeekend(false);
+                    }
+
+                } else {
+                    Calendar c = Calendar.getInstance(Locale.getDefault());
+
+                    c.add(Calendar.MONTH, index);
+                    c.set(Calendar.DAY_OF_MONTH, n[j]);
+
+                    d.setDay(n[j])
+                            .setMonth(getMonth(c))
+                            .setYear(getYear(c))
+                            .setCurrentDay(false)
+                            .setCurrentMonth(false)
+                            .setCurrentYear(true)
+                            .setWeekend(false);
+                }
+
+                days.add(d);
+            }
+        }
+
+        return days;
+    }
+
+    public static int getFirstDayOfWeek(Calendar calendar) {
+        return calendar.getFirstDayOfWeek();
+    }
+
+    public static int getMonth(Calendar calendar) {
+        return calendar.get(Calendar.MONTH);
+    }
+
+    public static int getYear(Calendar calendar) {
+        return calendar.get(Calendar.YEAR);
+    }
+
+    public static boolean isWeekend(Calendar calendar) {
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        return dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY;
     }
 }
