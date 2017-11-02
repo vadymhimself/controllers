@@ -12,9 +12,13 @@
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ru.xfit.misc.views.MyCalendar
+        <!--<ru.xfit.misc.views.MyCalendar-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"/>-->
+        <com.molo17.customizablecalendar.library.components.CustomizableCalendar
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            app:layout="@layout/c_calendar"/>
 
     </LinearLayout>
 
