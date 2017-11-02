@@ -1,6 +1,5 @@
 plugins {
     id "me.tatarka.retrolambda" version "3.3.0"
-    id "net.ltgt.apt" version "0.10"
 }
 apply plugin: 'com.android.library'
 
@@ -39,8 +38,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'joda-time:joda-time:2.9.9'
 
-    provided "com.jakewharton:butterknife:+"
-    annotationProcessor "com.jakewharton:butterknife-compiler:+"
-    provided "io.reactivex.rxjava2:rxjava:2.1.1"
-    retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.5.1'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    compile "io.reactivex.rxjava2:rxjava:2.1.1"
 }
