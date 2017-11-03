@@ -32,7 +32,14 @@ import android.webkit.WebViewClient;
 import android.widget.*;
 
 import com.github.reinaldoarrosi.maskededittext.MaskedEditText;
+import com.molo17.customizablecalendar.library.components.CustomizableCalendar;
+import com.molo17.customizablecalendar.library.interactors.AUCalendar;
+import com.molo17.customizablecalendar.library.model.Calendar;
 
+import org.joda.time.DateTime;
+
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 import ru.xfit.R;
 import ru.xfit.misc.OnViewReadyListener;
 import ru.xfit.misc.utils.validation.EmailValidator;
@@ -492,5 +499,34 @@ public abstract class BindingAdapters {
     @BindingAdapter("onViewReadyListener")
     public static void bindOnViewReadyListener(View view, OnViewReadyListener onViewReadyListener) {
         onViewReadyListener.onReady(view);
+    }
+
+    @BindingAdapter("initCalendar")
+    public static void bindCalendar(CustomizableCalendar customizableCalendar, XFitController controller) {
+        DateTime today = new DateTime();
+        DateTime firstMonth = today.withDayOfMonth(1);
+        DateTime lastMonth = today.plusMonths(3).withDayOfMonth(1);
+
+        CompositeDisposable subscriptions = new CompositeDisposable();
+
+        final Calendar calendar = new Calendar(firstMonth, lastMonth);
+        calendar.setFirstSelectedDay(today.plusDays(4));
+
+        calendar.setMultipleSelection(true);
+
+        final CalendarViewInteractor calendarViewInteractor = new CalendarViewInteractor(customizableCalendar.getContext());
+
+        AUCalendar auCalendar = AUCalendar.getInstance(calendar);
+        calendarViewInteractor.updateCalendar(calendar);
+        subscriptions.add(
+                auCalendar.observeChangesOnCalendar().subscribe(new Consumer<AUCalendar.ChangeSet>() {
+                    @Override
+                    public void accept(AUCalendar.ChangeSet changeSet) throws Exception {
+                        calendarViewInteractor.updateCalendar(calendar);
+                    }
+                })
+        );
+
+        customizableCalendar.injectViewInteractor(calendarViewInteractor);
     }
 }

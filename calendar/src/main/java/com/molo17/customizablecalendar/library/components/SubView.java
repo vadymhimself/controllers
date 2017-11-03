@@ -81,7 +81,7 @@ public class SubView extends RelativeLayout implements com.molo17.customizableca
     public void injectViewInteractor(ViewInteractor viewInteractor) {
         this.viewInteractor = viewInteractor;
         DateTime firstMonth = AUCalendar.getInstance().getFirstMonth();
-        String month = firstMonth.toString("MMMMM", Locale.getDefault());
+        String month = firstMonth.toString("MMM yyyy", Locale.getDefault());
         if (!TextUtils.isEmpty(month)) {
             String formattedMonth = month.substring(0, 1).toUpperCase() + month.substring(1);
             onMonthChanged(formattedMonth);

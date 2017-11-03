@@ -9,7 +9,8 @@
     <com.molo17.customizablecalendar.library.components.HeaderView
         android:id="@android:id/primary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
     <com.molo17.customizablecalendar.library.components.SubView
         android:id="@android:id/text2"

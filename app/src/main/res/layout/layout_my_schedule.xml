@@ -18,7 +18,8 @@
         <com.molo17.customizablecalendar.library.components.CustomizableCalendar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout="@layout/c_calendar"/>
+            app:layout="@layout/c_calendar"
+            app:initCalendar="@{controller}"/>
 
     </LinearLayout>
 

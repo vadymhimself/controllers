@@ -130,19 +130,23 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
                     } else if (startSelectedCompared == 0) {
                         if (lastSelectedDay == null || lastSelectedDay.equals(currentItem.getDateTime())) {
                             backgroundResource = R.drawable.circle;
+                            dayView.setTextColor(Color.WHITE);
                         } else {
-                            backgroundResource = R.drawable.left_rounded_rectangle;
+                            backgroundResource = R.drawable.circle;
                             endSelectionView.setVisibility(View.VISIBLE);
+                            dayView.setTextColor(Color.WHITE);
                         }
                     } else if (startSelectedCompared > 0 && lastSelectedDay != null) {
                         int endSelectedCompared = currentItem.compareTo(lastSelectedDay);
                         if (endSelectedCompared == 0) {
-                            backgroundResource = R.drawable.right_rounded_rectangle;
+                            backgroundResource = R.drawable.circle;
                             startSelectionView.setVisibility(View.VISIBLE);
+                            dayView.setTextColor(Color.WHITE);
                         } else if (endSelectedCompared < 0) {
-                            backgroundResource = R.drawable.rectangle;
+                            backgroundResource = R.drawable.empty_circle;
                             startSelectionView.setVisibility(View.VISIBLE);
                             endSelectionView.setVisibility(View.VISIBLE);
+                            dayView.setTextColor(Color.BLACK);
                         }
                     }
                 }
@@ -150,14 +154,14 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
                 int color = Color.BLACK;
                 if (backgroundResource != null) {
                     background.setBackgroundResource(backgroundResource);
-                    if (multipleSelection) {
-                        color = Color.WHITE;
-                    }
+//                    if (multipleSelection) {
+//                        color = Color.WHITE;
+//                    }
                 } else {
                     background.setBackground(null);
                 }
 
-                dayView.setTextColor(color);
+//                dayView.setTextColor(color);
                 dayView.setText(currentItem.getDayString());
             }
         }
