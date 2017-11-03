@@ -59,6 +59,14 @@ public class Calendar {
         return currentMonth;
     }
 
+    public String getCurrentYear() {
+        return firstMonth.toString("yyyy", Locale.getDefault());
+    }
+
+    public int getCurrentWeek() {
+        return firstMonth.getWeekOfWeekyear();
+    }
+
     public void setCurrentMonth(DateTime currentMonth) {
         this.currentMonth = currentMonth;
     }

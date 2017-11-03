@@ -38,6 +38,7 @@ import com.molo17.customizablecalendar.library.model.Calendar;
 
 import org.joda.time.DateTime;
 
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -52,6 +53,7 @@ import ru.xfit.misc.utils.validation.ValidationType;
 import ru.xfit.misc.views.*;
 import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.screens.XFitController;
+import ru.xfit.screens.schedule.MyScheduleController;
 
 public abstract class BindingAdapters {
 
@@ -504,7 +506,7 @@ public abstract class BindingAdapters {
     }
 
     @BindingAdapter("initCalendar")
-    public static void bindCalendar(CustomizableCalendar customizableCalendar, XFitController controller) {
+    public static void bindCalendar(CustomizableCalendar customizableCalendar, MyScheduleController controller) {
         DateTime today = new DateTime();
         DateTime firstMonth = today.withDayOfMonth(1);
         DateTime lastMonth = today.plusMonths(3).withDayOfMonth(1);
@@ -520,14 +522,29 @@ public abstract class BindingAdapters {
 
         AUCalendar auCalendar = AUCalendar.getInstance(calendar);
         calendarViewInteractor.updateCalendar(calendar);
-        subscriptions.add(
-                auCalendar.observeChangesOnCalendar().subscribe(changeSet -> calendarViewInteractor.updateCalendar(calendar))
-        );
+        controller.year.set(calendar.getCurrentYear());
+        controller.week.set(String.valueOf(calendar.getCurrentWeek()));
+//        subscriptions.add(
+//                auCalendar.observeChangesOnCalendar().subscribe(new Consumer<AUCalendar.ChangeSet>() {
+//                    @Override
+//                    public void accept(@NonNull AUCalendar.ChangeSet changeSet) throws Exception {
+//                        calendarViewInteractor.updateCalendar(calendar);
+//                        controller.year.set(calendar.getCurrentMonth().toString());
+//                    }
+//                })
+//        );
 
         customizableCalendar.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View view) {
-
+                auCalendar.observeChangesOnCalendar().subscribe(new Consumer<AUCalendar.ChangeSet>() {
+                    @Override
+                    public void accept(@NonNull AUCalendar.ChangeSet changeSet) throws Exception {
+                        calendarViewInteractor.updateCalendar(calendar);
+                        controller.year.set(calendar.getCurrentYear());
+                        controller.week.set(String.valueOf(calendar.getCurrentWeek()));
+                    }
+                });
             }
 
             @Override

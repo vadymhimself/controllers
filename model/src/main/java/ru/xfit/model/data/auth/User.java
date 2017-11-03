@@ -38,4 +38,6 @@ public class User implements Serializable {
     public City city;
     public Language language;
     public String token;
+
+    public String pass;
 }

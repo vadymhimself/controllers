@@ -48,6 +48,9 @@ public class AuthController extends XFitController<LayoutAuthBinding> {
                     user.user.city = user.city;
                     user.user.token = user.token;
 
+                    user.user.pass = password.get();
+                    user.user.phone = phone.get();
+
                     saveUser(user.user);
 
                     MainActivity.start(getActivity());
