@@ -49,6 +49,8 @@ public class HomeController extends XFitController<LayoutHomeBinding> implements
     public void onReady(View root) {
         if (getBinding() == null) return;
 
+        setTitle(root.getResources().getString(R.string.my_schedule_title));
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 getActivity(), getBinding().drawer, getBinding().toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         getBinding().drawer.addDrawerListener(toggle);
@@ -62,7 +64,9 @@ public class HomeController extends XFitController<LayoutHomeBinding> implements
 
         switch (item.getItemId()) {
             case R.id.my_schedule:
-                show(new MyScheduleController());
+                getBinding().pager.setCurrentItem(0);
+                getBinding().drawer.closeDrawers();
+                setTitle(getActivity().getResources().getString(R.string.my_schedule_title));
                 return true;
             case R.id.my_xfit:
                 return true;
@@ -80,12 +84,10 @@ public class HomeController extends XFitController<LayoutHomeBinding> implements
         return true;
     }
 
-    @Override
-    public String getTitle() {
-        if (getBinding() == null) return "";
-//        if (pagerAdapter.getItem(getBinding().pager.getCurrentItem()).getTitle() == null) {
-            return "My schedule";
-//        }
-//        return pagerAdapter.getItem(getBinding().pager.getCurrentItem()).getTitle();
+    public void setTitle(String title) {
+        if (getBinding() == null)
+            return;
+
+        getBinding().toolbar.setTitle(title);
     }
 }

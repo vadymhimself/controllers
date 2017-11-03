@@ -30,4 +30,6 @@
 
     <string name="navigation_drawer_open">Open drawer</string>
     <string name="navigation_drawer_close">Close drawer</string>
+
+    <string name="my_schedule_title">Мое расписание</string>
 </resources>

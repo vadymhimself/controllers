@@ -9,12 +9,11 @@
 
     </data>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:onViewReadyListener='@{controller}' >
 
-        <!--<ru.xfit.misc.views.MyCalendar-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"/>-->
         <com.molo17.customizablecalendar.library.components.CustomizableCalendar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

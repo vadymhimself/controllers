@@ -29,6 +29,9 @@ public class SubView extends RelativeLayout implements com.molo17.customizableca
     @BindView(android.R.id.message)
     TextView monthTxt;
 
+//    @BindView(android.R.id.left_icon) RelativeLayout prevMonth;
+//    @BindView(android.R.id.right_icon) RelativeLayout nextMonth;
+
     private ViewInteractor viewInteractor;
 
     private @LayoutRes int layoutResId = R.layout.sub_view;

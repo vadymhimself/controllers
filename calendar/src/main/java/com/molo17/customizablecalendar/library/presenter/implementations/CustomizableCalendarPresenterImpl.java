@@ -87,7 +87,7 @@ public class CustomizableCalendarPresenterImpl implements CustomizableCalendarPr
     }
 
     private void onCurrentMonthChanged(DateTime currentMonth) {
-        String month = currentMonth.toString("MMMMM", Locale.getDefault());
+        String month = currentMonth.toString("MMM yyyy", Locale.getDefault());
         if (view != null && !TextUtils.isEmpty(month)) {
             String formattedMonth = month.substring(0, 1).toUpperCase() + month.substring(1);
             view.onCurrentMonthChanged(formattedMonth);

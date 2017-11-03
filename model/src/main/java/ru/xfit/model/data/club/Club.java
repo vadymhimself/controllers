@@ -2,7 +2,7 @@ package ru.xfit.model.data.club;
 
 import java.io.Serializable;
 
-import ru.xfit.model.data.auth.ResidenceCity;
+import ru.xfit.model.data.common.City;
 
 /**
  * Created by TESLA on 25.10.2017.
@@ -30,5 +30,7 @@ public class Club implements Serializable {
     public String email;
     public String address;
     public String myClub;
-    public ResidenceCity city;
+    public String title;
+    public String timezone;
+    public City city;
 }
