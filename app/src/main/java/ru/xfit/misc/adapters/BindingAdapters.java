@@ -40,6 +40,7 @@ import org.joda.time.DateTime;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import ru.xfit.R;
 import ru.xfit.misc.OnViewReadyListener;
 import ru.xfit.misc.utils.validation.EmailValidator;
@@ -49,6 +50,7 @@ import ru.xfit.misc.utils.validation.PasswordValidator;
 import ru.xfit.misc.utils.validation.StringValidator;
 import ru.xfit.misc.utils.validation.ValidationType;
 import ru.xfit.misc.views.*;
+import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.screens.XFitController;
 
 public abstract class BindingAdapters {
@@ -519,13 +521,22 @@ public abstract class BindingAdapters {
         AUCalendar auCalendar = AUCalendar.getInstance(calendar);
         calendarViewInteractor.updateCalendar(calendar);
         subscriptions.add(
-                auCalendar.observeChangesOnCalendar().subscribe(new Consumer<AUCalendar.ChangeSet>() {
-                    @Override
-                    public void accept(AUCalendar.ChangeSet changeSet) throws Exception {
-                        calendarViewInteractor.updateCalendar(calendar);
-                    }
-                })
+                auCalendar.observeChangesOnCalendar().subscribe(changeSet -> calendarViewInteractor.updateCalendar(calendar))
         );
+
+        customizableCalendar.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(View view) {
+
+            }
+
+            @Override
+            public void onViewDetachedFromWindow(View view) {
+                auCalendar.observeChangesOnCalendar().unsubscribeOn(Schedulers.newThread());
+            }
+        });
+
+
 
         customizableCalendar.injectViewInteractor(calendarViewInteractor);
     }
