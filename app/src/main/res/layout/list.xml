@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="adapter"
+            type="android.support.v7.widget.RecyclerView.Adapter" />
+
+        <variable
+            name="itemClickListener"
+            type="ru.xfit.misc.RecyclerItemClickListener.OnItemClickListener" />
+
+        <variable
+            name="placeholderText"
+            type="java.lang.Integer" />
+
+        <variable
+            name="placeholderImage"
+            type="java.lang.Integer" />
+
+        <variable
+            name="layoutChangeListener"
+            type="android.view.View.OnLayoutChangeListener" />
+
+        <variable
+            name="scrollToBottom"
+            type="java.lang.Boolean" />
+
+        <variable
+            name="onRefresh"
+            type="ru.xfit.misc.RefreshListener" />
+
+        <variable
+            name="itemSwipeListener"
+            type="ru.xfit.misc.ItemSwipeListener" />
+
+        <variable
+            name="loadMoreListener"
+            type="ru.xfit.misc.LoadMoreListener" />
+
+        <import type="ru.xfit.misc.LayoutManagers" />
+
+        <import type="ru.xfit.R" />
+    </data>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ru.xfit.misc.views.HackyRecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{adapter.itemCount > 0}"
+                app:adapter="@{adapter}"
+                app:layoutChangeListener='@{layoutChangeListener}'
+                app:layoutManager="@{LayoutManagers.LINEAR_VERTICAL}"
+                app:scrollToBottom='@{scrollToBottom}' />
+
+
+            <!--app:itemClickListener="@{itemClickListener}"-->
+            <!--app:itemSwipeListener="@{itemSwipeListener}"-->
+
+        </RelativeLayout>
+
+        <include
+            layout="@layout/progress"
+            app:background="@{R.color.transparent}"
+            android:indeterminateTint="@{R.color.controlsColor}"
+            app:visibility="@{adapter == null}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="@{adapter != null &amp;&amp; adapter.itemCount == 0}">
+
+            <!--<android.support.v7.widget.AppCompatImageView-->
+            <!--android:layout_width="@dimen/empty_placeholder_img_size"-->
+            <!--android:layout_height="@dimen/empty_placeholder_img_size"-->
+            <!--android:tint="@color/colorPrimary"-->
+            <!--android:src="@{placeholderImage}"/>-->
+
+            <!--<TextView-->
+            <!--style="@style/Placeholder"-->
+            <!--android:layout_marginTop="@dimen/size_16dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:review='@{placeholderText ?? R.string.empty_string}'/>-->
+
+        </LinearLayout>
+    </FrameLayout>
+</layout>

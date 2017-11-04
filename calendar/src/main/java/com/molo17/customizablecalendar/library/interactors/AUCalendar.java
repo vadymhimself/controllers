@@ -48,6 +48,14 @@ public class AUCalendar {
         this.calendar = calendar;
     }
 
+    public void setToday(DateTime today) {
+        calendar.setToday(today);
+    }
+
+    public DateTime getToday() {
+        return calendar.getToday();
+    }
+
     public Flowable<ChangeSet> observeChangesOnCalendar() {
         return Flowable.create((FlowableEmitter<ChangeSet> emitter) -> {
             CalendarObjectChangeListener objectChangeListener = emitter::onNext;

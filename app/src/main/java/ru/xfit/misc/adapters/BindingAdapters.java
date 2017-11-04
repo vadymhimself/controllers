@@ -16,20 +16,20 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.*;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.*;
+import android.widget.SearchView;
 
 import com.github.reinaldoarrosi.maskededittext.MaskedEditText;
 import com.molo17.customizablecalendar.library.components.CustomizableCalendar;
@@ -505,7 +505,7 @@ public abstract class BindingAdapters {
         onViewReadyListener.onReady(view);
     }
 
-    @BindingAdapter("initCalendar")
+    @BindingAdapter("initCalendarSchedule")
     public static void bindCalendar(CustomizableCalendar customizableCalendar, MyScheduleController controller) {
         DateTime today = new DateTime();
         DateTime firstMonth = today.withDayOfMonth(1);
@@ -514,13 +514,15 @@ public abstract class BindingAdapters {
         CompositeDisposable subscriptions = new CompositeDisposable();
 
         final Calendar calendar = new Calendar(firstMonth, lastMonth);
-        calendar.setFirstSelectedDay(today.plusDays(4));
+//        calendar.setFirstSelectedDay(today.plusDays(4));
 
-        calendar.setMultipleSelection(true);
+        calendar.setMultipleSelection(false);
 
         final CalendarViewInteractor calendarViewInteractor = new CalendarViewInteractor(customizableCalendar.getContext());
 
         AUCalendar auCalendar = AUCalendar.getInstance(calendar);
+        auCalendar.setMultipleSelection(false);
+        auCalendar.setToday(today);
         calendarViewInteractor.updateCalendar(calendar);
         controller.year.set(calendar.getCurrentYear());
         controller.week.set(String.valueOf(calendar.getCurrentWeek()));

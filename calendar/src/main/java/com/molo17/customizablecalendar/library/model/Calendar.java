@@ -16,6 +16,7 @@ public class Calendar {
     private DateTime firstSelectedDay;
     private DateTime lastSelectedDay;
     private DateTime currentMonth;
+    private DateTime today;
     private List<DateTime> months;
     private boolean multipleSelection;
     private int firstDayOfWeek;
@@ -97,5 +98,13 @@ public class Calendar {
 
     public DateTime getFirstMonth() {
         return firstMonth;
+    }
+
+    public void setToday(DateTime today) {
+        this.today = today;
+    }
+
+    public DateTime getToday() {
+        return today;
     }
 }

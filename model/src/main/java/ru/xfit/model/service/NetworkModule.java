@@ -78,7 +78,12 @@ class NetworkModule {
             Request.Builder builder = request.newBuilder();
             builder.header("Accept", "application/json");
 
-            request = builder.build(); //overwrite old request
+            HttpUrl urlReq = request.url().newBuilder()
+                    .setQueryParameter("token", storage.getCurrentUser().token)
+                    .build();
+            request = request.newBuilder().url(urlReq).build();
+
+//            request = builder.build(); //overwrite old request
             Response response = chain.proceed(request);
 
             if (response.code() == 401) { //if unauthorized

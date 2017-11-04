@@ -15,10 +15,45 @@
         app:onViewReadyListener='@{controller}' >
 
         <com.molo17.customizablecalendar.library.components.CustomizableCalendar
+            android:id="@+id/calendar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout="@layout/c_calendar"
-            app:initCalendar="@{controller}"/>
+            app:initCalendarSchedule="@{controller}"/>
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="2dp"
+                android:clipChildren="false">
+
+                <include
+                    android:id="@+id/list"
+                    layout="@layout/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:adapter='@{controller.adapter}' />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/my_schedule_no_schedule"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:visibility='@{controller.adapter.itemCount == 0}' />
+
+            </RelativeLayout>
+
+        </android.support.v4.widget.NestedScrollView>
 
     </LinearLayout>
 

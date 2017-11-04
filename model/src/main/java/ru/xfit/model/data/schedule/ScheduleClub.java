@@ -11,5 +11,5 @@ import ru.xfit.model.data.club.Club;
 
 public class ScheduleClub implements Serializable {
     public Club club;
-    public List<Schedule> schedule = null;
+    public List<Schedule> schedule;
 }

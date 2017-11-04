@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="ru.xfit.screens.schedule.MyScheduleVM"/>
+
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="96dp">
+        <RelativeLayout
+            android:id="@+id/caption"
+            android:layout_width="64dp"
+            android:layout_height="match_parent">
+
+        </RelativeLayout>
+        
+        <ImageView
+            android:id="@+id/delimeter"
+            android:layout_width="4dp"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/caption"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/blue"/>
+
+        <RelativeLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/delimeter">
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-medium"
+                android:textStyle="normal"
+                android:textColor="@color/calendarWeekend"
+                android:layout_marginTop="18dp"
+                android:layout_marginLeft="10dp"
+                android:text="@{viewModel.schedule.group.title}"
+                />
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="@color/calendarWeekend"
+                android:layout_below="@+id/title"
+                android:text="@{viewModel.schedule.room.title}"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

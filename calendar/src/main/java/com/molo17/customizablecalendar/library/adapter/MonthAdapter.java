@@ -3,6 +3,7 @@ package com.molo17.customizablecalendar.library.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.LayoutRes;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -159,6 +160,11 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
 //                    }
                 } else {
                     background.setBackground(null);
+                }
+
+                if (currentItem.getDateTime().toString("d M YYYY").equals(calendar.getToday().toString("d M YYYY"))) {
+                    background.setBackgroundResource(R.drawable.circle);
+                    dayView.setTextColor(Color.WHITE);
                 }
 
 //                dayView.setTextColor(color);

@@ -1,14 +1,23 @@
 package ru.xfit.screens.schedule;
 
+import android.databinding.Bindable;
 import android.databinding.ObservableField;
 import android.util.Log;
 import android.view.View;
 
+import com.android.databinding.library.baseAdapters.BR;
 import com.controllers.Request;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutMyScheduleBinding;
 import ru.xfit.misc.OnViewReadyListener;
+import ru.xfit.misc.adapters.BaseAdapter;
+import ru.xfit.misc.adapters.BaseVM;
+import ru.xfit.model.data.schedule.Schedule;
+import ru.xfit.model.data.schedule.ScheduleClub;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.XFitController;
 
@@ -21,6 +30,9 @@ public class MyScheduleController extends XFitController<LayoutMyScheduleBinding
     public ObservableField<String> year = new ObservableField<>();
     public ObservableField<String> week = new ObservableField<>();
 
+    @Bindable
+    public BaseAdapter<BaseVM> adapter;
+
     public MyScheduleController() {
         Request.with(this, Api.class)
                 .create(api -> api.getMySchedule(year.get(), week.get()))
@@ -29,7 +41,8 @@ public class MyScheduleController extends XFitController<LayoutMyScheduleBinding
 //                    Snackbar.make(view, "Ошибка: " + error.getMessage(), BaseTransientBottomBar.LENGTH_LONG).show();
                 })
                 .execute(scheduleListResponse -> {
-                    Log.d(">>>>", "" + scheduleListResponse.dateSince);
+                    addSchedule(scheduleListResponse.schedules);
+//                    Log.d(">>>>", "" + scheduleListResponse.dateSince);
                 });
 
     }
@@ -43,5 +56,24 @@ public class MyScheduleController extends XFitController<LayoutMyScheduleBinding
     public void onReady(View root) {
         if (getBinding() == null)
             return;
+    }
+
+    public void addSchedule(List<ScheduleClub> scheduleClubs) {
+        if (scheduleClubs == null || scheduleClubs.size() == 0) {
+            if (adapter == null) {
+                adapter = new BaseAdapter<>(new ArrayList<>());
+                notifyPropertyChanged(BR.adapter);
+            }
+            return;
+        }
+        if (adapter == null) {
+            adapter = new BaseAdapter<>(new ArrayList<>());
+            notifyPropertyChanged(BR.adapter);
+        }
+        for (ScheduleClub scheduleClub : scheduleClubs) {
+            for (Schedule schedule : scheduleClub.schedule) {
+                adapter.add(new MyScheduleVM(schedule, this));
+            }
+        }
     }
 }

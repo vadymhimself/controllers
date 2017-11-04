@@ -5,6 +5,7 @@
     <color name="colorAccent">#ffa0e52d</color>
 
     <color name="white">#ffffff</color>
+    <color name="transparent">#00ffffff</color>
 
     <color name="buttonColor">#ffa0e52d</color>
     <color name="validationFalse">#fffc2046</color>
