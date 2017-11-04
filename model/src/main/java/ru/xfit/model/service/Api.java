@@ -10,6 +10,7 @@ import ru.xfit.model.data.club.Club;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationRequest;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
 import ru.xfit.model.data.register.RegisterRequest;
+import ru.xfit.model.data.schedule.ScheduleClub;
 import ru.xfit.model.data.schedule.ScheduleList;
 
 import java.util.List;
@@ -47,7 +48,7 @@ public interface Api {
 
     Task<List<Club>> getClubs();
 
-    Task<List<Class>> getClasses(String id);
+    Task<ScheduleClub> getClasses(String id);
 
     Task<ScheduleList> getMySchedule(String year, String week);
 

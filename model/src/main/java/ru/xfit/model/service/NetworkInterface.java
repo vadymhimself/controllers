@@ -16,6 +16,7 @@ import ru.xfit.model.data.club.Club;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationRequest;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
 import ru.xfit.model.data.register.RegisterRequest;
+import ru.xfit.model.data.schedule.ScheduleClub;
 import ru.xfit.model.data.schedule.ScheduleList;
 
 /**
@@ -40,7 +41,7 @@ public interface NetworkInterface {
     ///clubs/{id}
     ///clubs/{id}/classes
     @GET("clubs/{id}/classes")
-    Call<List<Class>> getClasses(@Path("id") String id);
+    Call<ScheduleClub> getClasses(@Path("id") String id);
 
     ///me/classes/{id}
     @GET("me/classes")

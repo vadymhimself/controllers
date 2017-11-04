@@ -33,4 +33,6 @@
 
     <string name="my_schedule_title">Мое расписание</string>
     <string name="my_schedule_no_schedule">На эту дату у вас ничего не запланировано</string>
+    <string name="my_schedule_classes">Занятия</string>
+    <string name="my_schedule_services">Услуги</string>
 </resources>

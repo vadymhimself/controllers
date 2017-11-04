@@ -25,13 +25,13 @@ import ru.xfit.screens.XFitController;
  * Created by TESLA on 25.10.2017.
  */
 
-public class MyScheduleController extends XFitController<LayoutMyScheduleBinding>  implements OnViewReadyListener {
+public class MyScheduleController extends BaseScheduleController<LayoutMyScheduleBinding>  implements OnViewReadyListener {
 
     public ObservableField<String> year = new ObservableField<>();
     public ObservableField<String> week = new ObservableField<>();
 
     @Bindable
-    public BaseAdapter<BaseVM> adapter;
+    public BaseAdapter adapter;
 
     public MyScheduleController() {
         Request.with(this, Api.class)
@@ -42,7 +42,6 @@ public class MyScheduleController extends XFitController<LayoutMyScheduleBinding
                 })
                 .execute(scheduleListResponse -> {
                     addSchedule(scheduleListResponse.schedules);
-//                    Log.d(">>>>", "" + scheduleListResponse.dateSince);
                 });
 
     }
@@ -66,14 +65,23 @@ public class MyScheduleController extends XFitController<LayoutMyScheduleBinding
             }
             return;
         }
-        if (adapter == null) {
-            adapter = new BaseAdapter<>(new ArrayList<>());
-            notifyPropertyChanged(BR.adapter);
-        }
         for (ScheduleClub scheduleClub : scheduleClubs) {
             for (Schedule schedule : scheduleClub.schedule) {
-                adapter.add(new MyScheduleVM(schedule, this));
+                vms.add(new MyScheduleVM(schedule, this));
             }
         }
+
+        adapter = new BaseAdapter<>(vms);
+        notifyPropertyChanged(BR.adapter);
+
+    }
+
+    public void classes(View view) {
+        show(new ClubClassesController("181"));
+
+    }
+
+    public void services(View view) {
+
     }
 }

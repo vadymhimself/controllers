@@ -17,6 +17,7 @@ import ru.xfit.model.data.club.Club;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationRequest;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
 import ru.xfit.model.data.register.RegisterRequest;
+import ru.xfit.model.data.schedule.ScheduleClub;
 import ru.xfit.model.data.schedule.ScheduleList;
 import ru.xfit.model.data.storage.Storage;
 import ru.xfit.model.data.storage.preferences.PreferencesStorage;
@@ -151,8 +152,8 @@ final class ApiImpl implements Api {
     }
 
     @Override
-    public Task<List<Class>> getClasses(String id) {
-        return null;
+    public Task<ScheduleClub> getClasses(String id) {
+        return TaskBuilder.from(networkInterface.getClasses(id));
     }
 
     @Override

@@ -2,6 +2,7 @@ package ru.xfit.screens.schedule;
 
 import android.view.View;
 
+import ru.xfit.R;
 import ru.xfit.misc.adapters.BaseVM;
 import ru.xfit.model.data.schedule.Schedule;
 
@@ -10,10 +11,10 @@ import ru.xfit.model.data.schedule.Schedule;
  */
 
 public class MyScheduleVM implements BaseVM {
-    public MyScheduleController myScheduleController;
+    public BaseScheduleController myScheduleController;
     public Schedule schedule;
 
-    public MyScheduleVM(Schedule schedule, MyScheduleController myScheduleController){
+    public MyScheduleVM(Schedule schedule, BaseScheduleController myScheduleController){
         this.schedule = schedule;
         this.myScheduleController = myScheduleController;
     }
@@ -23,6 +24,6 @@ public class MyScheduleVM implements BaseVM {
     }
     @Override
     public int getLayoutId() {
-        return 0;
+        return R.layout.item_schedule;
     }
 }

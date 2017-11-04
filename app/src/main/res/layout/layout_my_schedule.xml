@@ -8,8 +8,7 @@
             type="ru.xfit.screens.schedule.MyScheduleController" />
 
     </data>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:onViewReadyListener='@{controller}' >
@@ -24,7 +23,8 @@
         <android.support.v4.widget.NestedScrollView
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/calendar">
 
             <RelativeLayout
                 android:id="@+id/container"
@@ -55,6 +55,37 @@
 
         </android.support.v4.widget.NestedScrollView>
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/classes_btn"
+            android:layout_width="328dp"
+            android:layout_height="48dp"
+            android:layout_above="@+id/services_btn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/button_bg"
+            android:fontFamily="sans-serif"
+            android:text="@string/my_schedule_classes"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:visibility='@{controller.adapter.itemCount == 0}'
+            android:onClick='@{controller.classes}'/>
+
+        <Button
+            android:id="@+id/services_btn"
+            android:layout_width="328dp"
+            android:layout_height="48dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/button_bg"
+            android:fontFamily="sans-serif"
+            android:text="@string/my_schedule_services"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:visibility='@{controller.adapter.itemCount == 0}'
+            android:onClick='@{controller.services}'
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"/>
+
+    </RelativeLayout>
 
 </layout>
