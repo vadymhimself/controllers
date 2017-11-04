@@ -559,4 +559,9 @@ public abstract class BindingAdapters {
 
         customizableCalendar.injectViewInteractor(calendarViewInteractor);
     }
+
+    @BindingAdapter("setColor")
+    public static void bindViewColor(View view, Integer color) {
+        view.setBackgroundColor(color);
+    }
 }

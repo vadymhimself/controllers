@@ -1,5 +1,7 @@
 package ru.xfit.model.data.schedule;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -17,6 +19,7 @@ public class Schedule implements Serializable {
     public Boolean bookingOpened;
     public Boolean preEntry;
     public Boolean firstFree;
+    @SerializedName("new")
     public Boolean _new;
     public Activity activity;
     public List<Trainer> trainers;
