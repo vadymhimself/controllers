@@ -5,6 +5,9 @@ plugins {
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply from: "$project.rootDir/tools/script-git-version.gradle"
+apply plugin: 'com.mindera.gradle.slack'
+
+def isCi = "true".equals(System.getenv("CI"))
 
 android {
     compileSdkVersion 25
@@ -52,6 +55,13 @@ android {
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
+}
+
+slack {
+    url 'https://hooks.slack.com/services/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'
+    dependsOnTasks 'publishApkRelease'
+    title gitVersionName
+    enabled isCi
 }
 
 dependencies {
