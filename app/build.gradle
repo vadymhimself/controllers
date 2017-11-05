@@ -56,8 +56,8 @@ android {
 }
 
 slack {
-    url 'https://hooks.slack.com/services/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'
-    dependsOnTasks 'release'
+    url 'https://hooks.slack.com/services/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'
+    dependsOnTasks 'release', 'publishApkRelease','sizeReleaseApk'
     title gitVersionName
 }
 
