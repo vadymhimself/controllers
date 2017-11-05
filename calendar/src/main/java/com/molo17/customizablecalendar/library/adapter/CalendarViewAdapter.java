@@ -14,6 +14,8 @@ import com.molo17.customizablecalendar.library.interactors.AUCalendar;
 import com.molo17.customizablecalendar.library.interactors.ViewInteractor;
 import com.molo17.customizablecalendar.library.presenter.interfeaces.CustomizableCalendarPresenter;
 import com.molo17.customizablecalendar.library.view.BaseView;
+import com.molo17.customizablecalendar.library.viewholders.CalendarViewHolder;
+import com.molo17.customizablecalendar.library.viewholders.MonthViewHolder;
 
 import org.joda.time.DateTime;
 
@@ -21,7 +23,7 @@ import org.joda.time.DateTime;
  * Created by francescofurlan on 23/06/17.
  */
 
-public class CalendarViewAdapter extends RecyclerView.Adapter<CalendarViewAdapter.CalendarViewHolder> implements BaseView {
+public class CalendarViewAdapter extends RecyclerView.Adapter<CalendarViewHolder> implements BaseView {
     private Context context;
     private AUCalendar calendar;
     private int layoutResId = -1;
@@ -54,13 +56,14 @@ public class CalendarViewAdapter extends RecyclerView.Adapter<CalendarViewAdapte
         if (viewInteractor != null) {
             viewInteractor.onMonthBindView(rootView);
         }
-        return new CalendarViewHolder(rootView, layoutResId, dayLayoutResId, viewInteractor);
+        return new MonthViewHolder(rootView, layoutResId, dayLayoutResId, viewInteractor);
     }
 
     @Override
     public void onBindViewHolder(final CalendarViewHolder viewHolder, final int position) {
         DateTime currentMonth = calendar.getMonths().get(position);
-        viewHolder.monthView.setCurrentMonth(currentMonth);
+        if (viewHolder.getClass() == MonthViewHolder.class)
+            ((MonthViewHolder)viewHolder).monthView.setCurrentMonth(currentMonth);
     }
 
     @Override
@@ -86,15 +89,4 @@ public class CalendarViewAdapter extends RecyclerView.Adapter<CalendarViewAdapte
     public void injectPresenter(CustomizableCalendarPresenter presenter) {
     }
 
-    static class CalendarViewHolder extends RecyclerView.ViewHolder {
-        MonthGridView monthView;
-
-        CalendarViewHolder(View view, int layoutResId, int dayLayoutResId, ViewInteractor viewInteractor) {
-            super(view);
-            monthView = (MonthGridView) view;
-            monthView.setLayoutResId(layoutResId);
-            monthView.setDayLayoutResId(dayLayoutResId);
-            monthView.injectViewInteractor(viewInteractor);
-        }
-    }
 }
