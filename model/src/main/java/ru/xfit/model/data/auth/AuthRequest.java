@@ -14,4 +14,12 @@ public class AuthRequest implements Serializable {
 
     public String pass;
     public String id;
+
+    public AuthRequest() {
+    }
+
+    public AuthRequest(String pass, String id) {
+        this.pass = pass;
+        this.id = id;
+    }
 }

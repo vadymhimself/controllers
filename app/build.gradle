@@ -58,7 +58,7 @@ android {
 slack {
     url 'https://hooks.slack.com/services/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'
     dependsOnTasks 'crashlyticsUploadDistributionRelease'
-    title gitVersionName
+    title 'X-fit android successful build: ' + gitVersionName
 }
 
 dependencies {

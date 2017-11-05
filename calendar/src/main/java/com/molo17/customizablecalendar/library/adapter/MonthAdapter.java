@@ -23,6 +23,7 @@ import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -162,6 +163,14 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
                     background.setBackground(null);
                 }
 
+                if (calendar.highLightDateTimes.size() > 0) {
+                    for (DateTime highlightDate : calendar.highLightDateTimes) {
+                        if (currentItem.getDateTime().toString("d M YYYY").equals(highlightDate.toString("d M YYYY"))) {
+                            dayView.setTextColor(context.getResources().getColor(R.color.calendarAccent));
+                        }
+                    }
+                }
+
                 if (currentItem.getDateTime().toString("d M YYYY").equals(calendar.getToday().toString("d M YYYY"))) {
                     background.setBackgroundResource(R.drawable.circle);
                     dayView.setTextColor(Color.WHITE);
@@ -297,9 +306,11 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
                             .subscribe(changeSet -> {
                                 if (changeSet.isFieldChanged(CalendarFields.FIRST_DAY_OF_WEEK)
                                         || changeSet.isFieldChanged(CalendarFields.FIRST_SELECTED_DAY)
-                                        || changeSet.isFieldChanged(CalendarFields.LAST_SELECTED_DAY)) {
+                                        || changeSet.isFieldChanged(CalendarFields.LAST_SELECTED_DAY)
+                                        || changeSet.isFieldChanged(CalendarFields.HIGHLIGHTED_DAYS)) {
                                     initFromCalendar();
                                     refreshDays();
+                                    updateHighlightedDays();
                                 }
                             })
             );
@@ -313,5 +324,10 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
             subscriptions.clear();
             subscribed = false;
         }
+    }
+
+    @Override
+    public void updateHighlightedDays() {
+        this.notifyDataSetChanged();
     }
 }

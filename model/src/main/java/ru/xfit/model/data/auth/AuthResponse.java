@@ -42,4 +42,10 @@ public class AuthResponse implements Serializable {
     public User user;
     public City city;
     public Language language;
+
+    public AuthResponse() {
+        user = new User();
+        city = new City();
+        language = new Language();
+    }
 }

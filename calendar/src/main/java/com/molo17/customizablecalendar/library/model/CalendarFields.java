@@ -8,6 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import static com.molo17.customizablecalendar.library.model.CalendarFields.CURRENT_MONTH;
 import static com.molo17.customizablecalendar.library.model.CalendarFields.FIRST_DAY_OF_WEEK;
 import static com.molo17.customizablecalendar.library.model.CalendarFields.FIRST_SELECTED_DAY;
+import static com.molo17.customizablecalendar.library.model.CalendarFields.HIGHLIGHTED_DAYS;
 import static com.molo17.customizablecalendar.library.model.CalendarFields.LAST_SELECTED_DAY;
 import static com.molo17.customizablecalendar.library.model.CalendarFields.MONTHS;
 import static com.molo17.customizablecalendar.library.model.CalendarFields.MULTIPLE_SELECTION;
@@ -22,7 +23,8 @@ import static com.molo17.customizablecalendar.library.model.CalendarFields.MULTI
         CURRENT_MONTH,
         MONTHS,
         MULTIPLE_SELECTION,
-        FIRST_DAY_OF_WEEK
+        FIRST_DAY_OF_WEEK,
+        HIGHLIGHTED_DAYS
 })
 
 @Retention(RetentionPolicy.SOURCE)
@@ -33,4 +35,5 @@ public @interface CalendarFields {
     String MONTHS = "months";
     String MULTIPLE_SELECTION = "multipleSelection";
     String FIRST_DAY_OF_WEEK = "firstDayOfWeek";
+    String HIGHLIGHTED_DAYS = "highLightedDays";
 }
