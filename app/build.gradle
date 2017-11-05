@@ -57,7 +57,7 @@ android {
 
 slack {
     url 'https://hooks.slack.com/services/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'
-    dependsOnTasks 'release', 'publishApkRelease','sizeReleaseApk'
+    dependsOnTasks 'crashlyticsUploadDistributionRelease'
     title gitVersionName
 }
 
