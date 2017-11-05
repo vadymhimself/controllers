@@ -19,6 +19,7 @@ import io.reactivex.FlowableEmitter;
 public class AUCalendar {
     private static AUCalendar AUCalendarInstance;
     private Calendar calendar;
+    public List<DateTime> highLightDateTimes = new ArrayList<>();
     private List<CalendarObjectChangeListener> onChangeListenerList = new ArrayList<>();
 
     public static AUCalendar getInstance() {
@@ -42,6 +43,11 @@ public class AUCalendar {
 
     public Calendar getCalendar() {
         return calendar;
+    }
+
+    public void highLightDates(List<DateTime> dateTimes) {
+        highLightDateTimes = dateTimes;
+        emitOnChange(CalendarFields.HIGHLIGHTED_DAYS);
     }
 
     public void setCalendar(Calendar calendar) {

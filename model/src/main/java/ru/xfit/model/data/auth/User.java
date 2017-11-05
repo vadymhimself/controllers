@@ -40,4 +40,9 @@ public class User implements Serializable {
     public String token;
 
     public String pass;
+
+    public User() {
+        language = new Language();
+        city = new City();
+    }
 }

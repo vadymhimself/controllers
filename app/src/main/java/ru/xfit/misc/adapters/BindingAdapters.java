@@ -526,15 +526,8 @@ public abstract class BindingAdapters {
         calendarViewInteractor.updateCalendar(calendar);
         controller.year.set(calendar.getCurrentYear());
         controller.week.set(String.valueOf(calendar.getCurrentWeek()));
-//        subscriptions.add(
-//                auCalendar.observeChangesOnCalendar().subscribe(new Consumer<AUCalendar.ChangeSet>() {
-//                    @Override
-//                    public void accept(@NonNull AUCalendar.ChangeSet changeSet) throws Exception {
-//                        calendarViewInteractor.updateCalendar(calendar);
-//                        controller.year.set(calendar.getCurrentMonth().toString());
-//                    }
-//                })
-//        );
+
+        controller.auCalendarInstance = auCalendar;
 
         customizableCalendar.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
@@ -545,6 +538,7 @@ public abstract class BindingAdapters {
                         calendarViewInteractor.updateCalendar(calendar);
                         controller.year.set(calendar.getCurrentYear());
                         controller.week.set(String.valueOf(calendar.getCurrentWeek()));
+//                        controller.updateSchedules();
                     }
                 });
             }

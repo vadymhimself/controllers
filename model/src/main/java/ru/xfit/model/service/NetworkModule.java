@@ -1,19 +1,27 @@
 package ru.xfit.model.service;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.xfit.model.data.UserData;
+import ru.xfit.model.data.auth.AuthRequest;
 import ru.xfit.model.data.auth.AuthResponse;
+import ru.xfit.model.data.auth.Language;
+import ru.xfit.model.data.auth.User;
+import ru.xfit.model.data.common.City;
 import ru.xfit.model.data.storage.preferences.PreferencesStorage;
 import ru.xfit.model.service.GitHubNetworkModule;
 
@@ -59,19 +67,6 @@ class NetworkModule {
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         interceptors.add(loggingInterceptor);
 
-//        Interceptor commonFieldsInterceptor = chain -> {
-//            // common params interceptor
-//            Request req = chain.request();
-//            if (userData.isLoggedIn()) {
-//                HttpUrl url = req.url().newBuilder()
-//                        .addQueryParameter("access_token", userData.getAccessToken().accessToken)
-//                        .build();
-//                req = req.newBuilder().url(url).build();
-//            }
-//            return chain.proceed(req);
-//        };
-//        interceptors.add(commonFieldsInterceptor);
-
         Interceptor refreshAuthTokenInterceptor = chain -> {
             Request request = chain.request();
 
@@ -83,23 +78,17 @@ class NetworkModule {
                     .build();
             request = request.newBuilder().url(urlReq).build();
 
-//            request = builder.build(); //overwrite old request
             Response response = chain.proceed(request);
 
             if (response.code() == 401) { //if unauthorized
 
-                Request.Builder authBuilder = new Request.Builder();
-                builder.url(provideBaseUrl() + "auth/phone");
-
-                Request authRequest = authBuilder.build();
-
-                HttpUrl authUrl = authRequest.url().newBuilder()
-                        .addQueryParameter("id", storage.getCurrentUser().phone)
-                        .addQueryParameter("pass", storage.getCurrentUser().pass)
+                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                AuthRequest body = new AuthRequest(storage.getCurrentUser().pass, storage.getCurrentUser().phone);
+                RequestBody requestBody = RequestBody.create(JSON, new Gson().toJson(body));
+                Request authRequest = new Request.Builder()
+                        .url(provideBaseUrl() + "auth/phone")
+                        .post(requestBody)
                         .build();
-
-                authRequest = authRequest.newBuilder().url(authUrl).build();
-
                 Response authResponse = chain.proceed(authRequest);
 
                 int code = authResponse.code() / 100; //refresh token
@@ -109,7 +98,7 @@ class NetworkModule {
                     return response; //if token refresh failed - show error to user
                 }
 
-                String json = response.body().string();
+                String json = authResponse.body().string();
                 AuthResponse authJson = new Gson().fromJson(json, AuthResponse.class);
                 authJson.user.language = authJson.language;
                 authJson.user.city = authJson.city;

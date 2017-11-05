@@ -1,5 +1,7 @@
 package ru.xfit;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -19,6 +21,10 @@ import ru.xfit.screens.auth.AuthController;
 
 public class StartActivity extends XFitActivity {
     public static final String PREFS_IS_USER_ALREADY_LOGIN = "is_user_already_login";
+    public static void start(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
