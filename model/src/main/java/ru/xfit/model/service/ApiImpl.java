@@ -12,8 +12,10 @@ import ru.xfit.model.data.User;
 import ru.xfit.model.data.UserData;
 import ru.xfit.model.data.auth.AuthRequest;
 import ru.xfit.model.data.auth.AuthResponse;
+import ru.xfit.model.data.club.AddClassResponse;
 import ru.xfit.model.data.club.Class;
 import ru.xfit.model.data.club.Club;
+import ru.xfit.model.data.common.EmptyBody;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationRequest;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
 import ru.xfit.model.data.register.RegisterRequest;
@@ -162,13 +164,13 @@ final class ApiImpl implements Api {
     }
 
     @Override
-    public Task<Void> addClass(String id) {
-        return null;
+    public Task<AddClassResponse> addClass(String id) {
+        return TaskBuilder.from(networkInterface.addClass(id, new EmptyBody()));
     }
 
     @Override
     public Task<Void> deleteClass(String id) {
-        return null;
+        return TaskBuilder.from(networkInterface.deleteClass(id));
     }
 
 

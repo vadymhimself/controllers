@@ -29,7 +29,7 @@ public class MyScheduleVM implements BaseVM {
     }
 
     public void onItemClick(View view){
-
+        myScheduleController.show(new ClassController(schedule));
     }
     @Override
     public int getLayoutId() {
@@ -42,7 +42,7 @@ public class MyScheduleVM implements BaseVM {
         trainersString.append("\n");
         for (int i = 0; i < schedule.trainers.size(); i++) {
             trainersString.append(schedule.trainers.get(i).title);
-            if (i < schedule.trainers.size())
+            if (i < schedule.trainers.size()-1)
                 trainersString.append(", ");
         }
 

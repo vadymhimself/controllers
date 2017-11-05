@@ -5,6 +5,7 @@ import ru.xfit.model.data.AccessToken;
 import ru.xfit.model.data.User;
 import ru.xfit.model.data.auth.AuthRequest;
 import ru.xfit.model.data.auth.AuthResponse;
+import ru.xfit.model.data.club.AddClassResponse;
 import ru.xfit.model.data.club.Class;
 import ru.xfit.model.data.club.Club;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationRequest;
@@ -52,7 +53,7 @@ public interface Api {
 
     Task<ScheduleList> getMySchedule(String year, String week);
 
-    Task<Void> addClass(String id);
+    Task<AddClassResponse> addClass(String id);
 
     Task<Void> deleteClass(String id);
 

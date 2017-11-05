@@ -20,9 +20,13 @@ public class Schedule implements Serializable {
     public Boolean preEntry;
     public Boolean firstFree;
     @SerializedName("new")
-    public Boolean _new;
+    public Boolean isNew;
     public Activity activity;
     public List<Trainer> trainers;
     public Item room;
     public Item group;
+
+    public String getLength() {
+        return "Продолжительность: " + String.valueOf(length) + " мин";
+    }
 }

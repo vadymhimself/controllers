@@ -29,14 +29,13 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
     public BaseAdapter adapter;
 
     public ClubClassesController(String clubId) {
+        Request.setDefaultErrorAction(Throwable::printStackTrace);
         Request.with(this, Api.class)
                 .create(api -> api.getClasses(clubId))
-                .onError(error -> {
-                    Log.d(">>>>", "Ошибка: " + error.getMessage());
-                })
                 .execute(scheduleListResponse -> {
                     addSchedule(scheduleListResponse.schedule);
                 });
+
     }
 
     @Override

@@ -7,12 +7,15 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import ru.xfit.model.data.auth.AuthRequest;
 import ru.xfit.model.data.auth.AuthResponse;
+import ru.xfit.model.data.club.AddClassResponse;
 import ru.xfit.model.data.club.Class;
 import ru.xfit.model.data.club.Club;
+import ru.xfit.model.data.common.EmptyBody;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationRequest;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
 import ru.xfit.model.data.register.RegisterRequest;
@@ -49,7 +52,7 @@ public interface NetworkInterface {
                                    @Query("week") String week);
 
     @POST("me/classes/{id}")
-    Call<Void> addClass(@Path("id") String id);
+    Call<AddClassResponse> addClass(@Path("id") String id, @Body EmptyBody request);
 
     ///me/classes/{id}
     @DELETE("me/classes/{id}")

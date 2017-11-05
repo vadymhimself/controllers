@@ -564,4 +564,6 @@ public abstract class BindingAdapters {
     public static void bindViewColor(View view, Integer color) {
         view.setBackgroundColor(color);
     }
+
+
 }

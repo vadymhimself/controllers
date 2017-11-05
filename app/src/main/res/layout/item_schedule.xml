@@ -11,7 +11,8 @@
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="96dp">
+        android:layout_height="96dp"
+        android:onClick="@{viewModel.onItemClick}">
         <RelativeLayout
             android:id="@+id/caption"
             android:layout_width="64dp"
@@ -42,8 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/ic_group"
-                android:visibility='@{viewModel.schedule.bookingOpened}'
+                android:background="@drawable/ic_group_black"
                 android:layout_below="@+id/whats_time_is_it"/>
 
             <LinearLayout
@@ -119,7 +119,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="34dp"
-                android:visibility='@{viewModel.schedule._new}'
+                android:visibility='@{viewModel.schedule.isNew}'
                 android:background="@drawable/schedule_label_new"/>
         </RelativeLayout>
     </RelativeLayout>

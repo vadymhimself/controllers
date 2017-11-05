@@ -35,4 +35,7 @@
     <string name="my_schedule_no_schedule">На эту дату у вас ничего не запланировано</string>
     <string name="my_schedule_classes">Занятия</string>
     <string name="my_schedule_services">Услуги</string>
+
+    <string name="classes_subscribe">Добавить в расписание</string>
+    <string name="classes_unsubscribe">Удалить из расписания</string>
 </resources>
