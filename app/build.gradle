@@ -59,7 +59,6 @@ slack {
     url 'https://hooks.slack.com/services/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'
     dependsOnTasks 'release'
     title gitVersionName
-//    enabled isCi
 }
 
 dependencies {
