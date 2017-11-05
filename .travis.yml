@@ -37,3 +37,5 @@ before_deploy:
   # Verification
   - jarsigner -verify app-release-unsigned.apk
   - "${ANDROID_HOME}/build-tools/25.0.3/zipalign -v 4 app-release-unsigned.apk xfit.apk"
+notifications:
+    slack: appshopdev:nE2FGiO74bLEFLuiowF8PVdl

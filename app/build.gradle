@@ -5,6 +5,7 @@ plugins {
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply from: "$project.rootDir/tools/script-git-version.gradle"
+apply plugin: 'com.mindera.gradle.slack'
 
 android {
     compileSdkVersion 25
@@ -49,6 +50,15 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+}
+
+slack {
+    url 'https://hooks.slack.com/services/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'
+    dependsOnTasks 'release', 'publishApkRelease','sizeReleaseApk'
+    title gitVersionName
 }
 
 dependencies {
@@ -57,6 +67,7 @@ dependencies {
 
     compile project(':controllers')
     compile project(':model')
+    compile project(':calendar')
 //
 //    compile 'com.github.bolein:controllers:1.1.0'
 //    compile 'com.github.bolein:controllers-request:1.1.0'
@@ -80,7 +91,7 @@ dependencies {
     compile 'com.github.reinaldoarrosi:maskededittext:1.1.0'
 
     compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
-        transitive = true;
+        transitive = true
     }
 
     testCompile 'junit:junit:4.12'

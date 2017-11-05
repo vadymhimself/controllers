@@ -1,4 +1,4 @@
-include ':app', ':controllers', ':controllers-req', ':model'
+include ':app', ':controllers', ':controllers-req', ':model', ':calendar'
 project(":controllers").projectDir = file("controllers/library")
 project(":controllers-req").projectDir = new File(settingsDir, 'controllers-request/library')
 

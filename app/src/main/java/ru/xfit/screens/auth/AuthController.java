@@ -12,7 +12,6 @@ import ru.xfit.misc.utils.PrefUtils;
 import ru.xfit.model.data.auth.User;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.XFitController;
-import ru.xfit.screens.schedule.MyScheduleController;
 
 import static ru.xfit.domain.App.PREFS_IS_USER_ALREADY_LOGIN;
 
@@ -46,8 +45,11 @@ public class AuthController extends XFitController<LayoutAuthBinding> {
                     PrefUtils.getPreferences().edit().putBoolean(PREFS_IS_USER_ALREADY_LOGIN, true).commit();
 
                     user.user.language = user.language;
-                    user.user.city = user.residenceCity;
+                    user.user.city = user.city;
                     user.user.token = user.token;
+
+                    user.user.pass = password.get();
+                    user.user.phone = phone.get();
 
                     saveUser(user.user);
 

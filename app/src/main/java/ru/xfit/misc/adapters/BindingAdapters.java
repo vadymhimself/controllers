@@ -16,23 +16,32 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.*;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.*;
+import android.widget.SearchView;
 
 import com.github.reinaldoarrosi.maskededittext.MaskedEditText;
+import com.molo17.customizablecalendar.library.components.CustomizableCalendar;
+import com.molo17.customizablecalendar.library.interactors.AUCalendar;
+import com.molo17.customizablecalendar.library.model.Calendar;
 
+import org.joda.time.DateTime;
+
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import ru.xfit.R;
 import ru.xfit.misc.OnViewReadyListener;
 import ru.xfit.misc.utils.validation.EmailValidator;
@@ -42,7 +51,9 @@ import ru.xfit.misc.utils.validation.PasswordValidator;
 import ru.xfit.misc.utils.validation.StringValidator;
 import ru.xfit.misc.utils.validation.ValidationType;
 import ru.xfit.misc.views.*;
+import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.screens.XFitController;
+import ru.xfit.screens.schedule.MyScheduleController;
 
 public abstract class BindingAdapters {
 
@@ -493,4 +504,66 @@ public abstract class BindingAdapters {
     public static void bindOnViewReadyListener(View view, OnViewReadyListener onViewReadyListener) {
         onViewReadyListener.onReady(view);
     }
+
+    @BindingAdapter("initCalendarSchedule")
+    public static void bindCalendar(CustomizableCalendar customizableCalendar, MyScheduleController controller) {
+        DateTime today = new DateTime();
+        DateTime firstMonth = today.withDayOfMonth(1);
+        DateTime lastMonth = today.plusMonths(3).withDayOfMonth(1);
+
+        CompositeDisposable subscriptions = new CompositeDisposable();
+
+        final Calendar calendar = new Calendar(firstMonth, lastMonth);
+//        calendar.setFirstSelectedDay(today.plusDays(4));
+
+        calendar.setMultipleSelection(false);
+
+        final CalendarViewInteractor calendarViewInteractor = new CalendarViewInteractor(customizableCalendar.getContext());
+
+        AUCalendar auCalendar = AUCalendar.getInstance(calendar);
+        auCalendar.setMultipleSelection(false);
+        auCalendar.setToday(today);
+        calendarViewInteractor.updateCalendar(calendar);
+        controller.year.set(calendar.getCurrentYear());
+        controller.week.set(String.valueOf(calendar.getCurrentWeek()));
+//        subscriptions.add(
+//                auCalendar.observeChangesOnCalendar().subscribe(new Consumer<AUCalendar.ChangeSet>() {
+//                    @Override
+//                    public void accept(@NonNull AUCalendar.ChangeSet changeSet) throws Exception {
+//                        calendarViewInteractor.updateCalendar(calendar);
+//                        controller.year.set(calendar.getCurrentMonth().toString());
+//                    }
+//                })
+//        );
+
+        customizableCalendar.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(View view) {
+                auCalendar.observeChangesOnCalendar().subscribe(new Consumer<AUCalendar.ChangeSet>() {
+                    @Override
+                    public void accept(@NonNull AUCalendar.ChangeSet changeSet) throws Exception {
+                        calendarViewInteractor.updateCalendar(calendar);
+                        controller.year.set(calendar.getCurrentYear());
+                        controller.week.set(String.valueOf(calendar.getCurrentWeek()));
+                    }
+                });
+            }
+
+            @Override
+            public void onViewDetachedFromWindow(View view) {
+                auCalendar.observeChangesOnCalendar().unsubscribeOn(Schedulers.newThread());
+            }
+        });
+
+
+
+        customizableCalendar.injectViewInteractor(calendarViewInteractor);
+    }
+
+    @BindingAdapter("setColor")
+    public static void bindViewColor(View view, Integer color) {
+        view.setBackgroundColor(color);
+    }
+
+
 }

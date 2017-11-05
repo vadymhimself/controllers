@@ -11,6 +11,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/calendar" />
             <option value="$PROJECT_DIR$/controllers-request/library" />
             <option value="$PROJECT_DIR$/controllers/library" />
             <option value="$PROJECT_DIR$/model" />

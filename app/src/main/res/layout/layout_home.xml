@@ -21,7 +21,7 @@
         app:onViewReadyListener='@{controller}'
         tools:openDrawer="start">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="24dp"
@@ -35,17 +35,16 @@
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 >
 
-
             </android.support.v7.widget.Toolbar>
 
-            <Button
-                android:id="@+id/tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:onClick="@{(v) -> controller.onButtonClick()}"
-                android:text="Hello World!" />
-        </RelativeLayout>
+            <ru.xfit.misc.views.NonSwipeableViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:adapter="@{controller.pagerAdapter}" />
+
+        </LinearLayout>
 
         <android.support.design.widget.NavigationView
             android:id="@+id/nav_view"

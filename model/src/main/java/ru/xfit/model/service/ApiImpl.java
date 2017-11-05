@@ -12,11 +12,15 @@ import ru.xfit.model.data.User;
 import ru.xfit.model.data.UserData;
 import ru.xfit.model.data.auth.AuthRequest;
 import ru.xfit.model.data.auth.AuthResponse;
+import ru.xfit.model.data.club.AddClassResponse;
 import ru.xfit.model.data.club.Class;
 import ru.xfit.model.data.club.Club;
+import ru.xfit.model.data.common.EmptyBody;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationRequest;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
 import ru.xfit.model.data.register.RegisterRequest;
+import ru.xfit.model.data.schedule.ScheduleClub;
+import ru.xfit.model.data.schedule.ScheduleList;
 import ru.xfit.model.data.storage.Storage;
 import ru.xfit.model.data.storage.preferences.PreferencesStorage;
 import ru.xfit.model.retrorequest.TaskBuilder;
@@ -150,18 +154,23 @@ final class ApiImpl implements Api {
     }
 
     @Override
-    public Task<List<Class>> getClasses(String id) {
-        return null;
+    public Task<ScheduleClub> getClasses(String id) {
+        return TaskBuilder.from(networkInterface.getClasses(id));
     }
 
     @Override
-    public Task<Void> addClass(String id) {
-        return null;
+    public Task<ScheduleList> getMySchedule(String year, String week) {
+        return TaskBuilder.from(networkInterface.getSchedule(year, week));
+    }
+
+    @Override
+    public Task<AddClassResponse> addClass(String id) {
+        return TaskBuilder.from(networkInterface.addClass(id, new EmptyBody()));
     }
 
     @Override
     public Task<Void> deleteClass(String id) {
-        return null;
+        return TaskBuilder.from(networkInterface.deleteClass(id));
     }
 
 

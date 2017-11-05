@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+
+        <variable
+            name="controller"
+            type="ru.xfit.screens.schedule.ClassController" />
+
+    </data>
+    <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/stock_photo_yoga"/>
+
+            <RelativeLayout
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/image">
+
+                <RelativeLayout
+                    android:id="@+id/room_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_location"
+                        android:layout_marginLeft="12dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{controller.schedule.room.title}"
+                        android:layout_marginLeft="45dp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/type_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/room_rl"
+                    android:layout_marginTop="20dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_group"
+                        android:layout_marginLeft="10dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{controller.schedule.group.title}"
+                        android:layout_marginLeft="45dp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/lengh_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/type_rl"
+                    android:layout_marginTop="20dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_clock"
+                        android:layout_marginLeft="10dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{controller.schedule.getLength()}"
+                        android:layout_marginLeft="45dp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/schedule_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lengh_rl"
+                    android:layout_marginTop="20dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_schedule"
+                        android:layout_marginLeft="10dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="45dp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/description_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/schedule_rl"
+                    android:layout_marginTop="20dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_information"
+                        android:layout_marginLeft="10dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{controller.schedule.activity.description}"
+                        android:layout_marginLeft="45dp"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/subscribe_btn"
+                android:layout_width="328dp"
+                android:layout_height="48dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/button_bg"
+                android:fontFamily="sans-serif"
+                android:text="@string/classes_subscribe"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:layout_below="@+id/content"
+                android:onClick='@{controller.subscribeClass}'
+                android:layout_marginBottom="20dp" />
+
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+</layout>

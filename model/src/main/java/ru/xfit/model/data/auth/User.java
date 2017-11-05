@@ -2,6 +2,8 @@ package ru.xfit.model.data.auth;
 
 import java.io.Serializable;
 
+import ru.xfit.model.data.common.City;
+
 /**
  * Created by TESLA on 25.10.2017.
  */
@@ -33,7 +35,9 @@ public class User implements Serializable {
     public String login;
     public ResidenceCountry residenceCountry;
 
-    public ResidenceCity city;
+    public City city;
     public Language language;
     public String token;
+
+    public String pass;
 }

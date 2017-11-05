@@ -65,7 +65,7 @@ public class SmsConfirmController extends XFitController<LayoutSmsConfirmBinding
                     PrefUtils.getPreferences().edit().putBoolean(PREFS_IS_USER_ALREADY_LOGIN, true).commit();
 
                     registrationResponse.user.language = registrationResponse.language;
-                    registrationResponse.user.city = registrationResponse.residenceCity;
+                    registrationResponse.user.city = registrationResponse.city;
                     registrationResponse.user.token = registrationResponse.token;
 
                     saveUser(registrationResponse.user);
