@@ -1,6 +1,8 @@
 package ru.xfit.screens.schedule;
 
 import android.databinding.Bindable;
+import android.databinding.Observable;
+import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.LongFunction;
 
 import okhttp3.Interceptor;
 import ru.xfit.R;
@@ -37,13 +40,13 @@ import static ru.xfit.domain.App.getContext;
  * Created by TESLA on 25.10.2017.
  */
 
-public class MyScheduleController extends BaseScheduleController<LayoutMyScheduleBinding>  implements OnViewReadyListener {
+public class MyScheduleController extends BaseScheduleController<LayoutMyScheduleBinding> implements OnViewReadyListener {
 
     public ObservableField<String> year = new ObservableField<>();
     public ObservableField<String> week = new ObservableField<>();
+    public ObservableField<DateTime> day = new ObservableField<>();
 
-    public AUCalendar auCalendarInstance;
-    private List<DateTime> highlighteDays;
+    private ArrayList<Schedule> allSchedule = new ArrayList<>();
 
     @Bindable
     public BaseAdapter adapter;
@@ -78,7 +81,8 @@ public class MyScheduleController extends BaseScheduleController<LayoutMySchedul
     }
 
     public void addSchedule(List<ScheduleClub> scheduleClubs) {
-        highlighteDays = new ArrayList<>();
+        List<DateTime> highlighteDays = new ArrayList<>();
+        allSchedule.clear();
         if (scheduleClubs == null || scheduleClubs.size() == 0) {
             if (adapter == null) {
                 adapter = new BaseAdapter<>(new ArrayList<>());
@@ -87,8 +91,8 @@ public class MyScheduleController extends BaseScheduleController<LayoutMySchedul
             return;
         }
         for (ScheduleClub scheduleClub : scheduleClubs) {
+            allSchedule.addAll(scheduleClub.schedule);
             for (Schedule schedule : scheduleClub.schedule) {
-                vms.add(new MyScheduleVM(schedule, this));
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
                 try {
                     Date date = dateFormat.parse(schedule.datetime);
@@ -108,25 +112,52 @@ public class MyScheduleController extends BaseScheduleController<LayoutMySchedul
             }
         }
 
-        auCalendarInstance.highLightDates(highlighteDays);
+        AUCalendar.getInstance().highLightDates(highlighteDays);
 
         adapter = new BaseAdapter<>(vms);
         notifyPropertyChanged(BR.adapter);
 
+        day.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable observable, int i) {
+                boolean scheduleAdded = false;
+                ArrayList<Schedule> schedules = new ArrayList<Schedule>();
+                for (int j = 0; j < allSchedule.size(); j++) {
+                    Schedule schedule = allSchedule.get(j);
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+                    try {
+                        Date date = dateFormat.parse(schedule.datetime);
+                        SimpleDateFormat month = new SimpleDateFormat("MM");
+                        SimpleDateFormat dayMonth = new SimpleDateFormat("dd");
+
+                        if (day.get().getDayOfMonth() == Integer.valueOf(dayMonth.format(date)) &&
+                                day.get().getMonthOfYear() == Integer.valueOf(month.format(date))) {
+                            scheduleAdded = true;
+                            schedules.add(schedule);
+                        }
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (!scheduleAdded)
+                    updateSchedule(null);
+                else
+                    updateSchedule(schedules);
+
+            }
+        });
+
     }
 
-    public void updateSchedules() {
-
+    public void updateSchedule(List<Schedule> schedules) {
+        if (schedules != null) {
+            vms.clear();
+            for (Schedule schedule : schedules)
+                vms.add(new MyScheduleVM(schedule, this));
+        } else
+            vms.clear();
         notifyPropertyChanged(BR.adapter);
-        Request.with(this, Api.class)
-                .create(api -> api.getMySchedule(year.get(), week.get()))
-                .onError(error -> {
-//                    errorResponse.set(error.getMessage());
-//                    Snackbar.make(view, "Ошибка: " + error.getMessage(), BaseTransientBottomBar.LENGTH_LONG).show();
-                })
-                .execute(scheduleListResponse -> {
-                    addSchedule(scheduleListResponse.schedules);
-                });
     }
 
     public void classes(View view) {

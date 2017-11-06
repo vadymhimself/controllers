@@ -527,8 +527,6 @@ public abstract class BindingAdapters {
         controller.year.set(calendar.getCurrentYear());
         controller.week.set(String.valueOf(calendar.getCurrentWeek()));
 
-        controller.auCalendarInstance = auCalendar;
-
         customizableCalendar.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View view) {
@@ -538,7 +536,8 @@ public abstract class BindingAdapters {
                         calendarViewInteractor.updateCalendar(calendar);
                         controller.year.set(calendar.getCurrentYear());
                         controller.week.set(String.valueOf(calendar.getCurrentWeek()));
-//                        controller.updateSchedules();
+                        if (calendar.getFirstSelectedDay() != null)
+                            controller.day.set(calendar.getFirstSelectedDay());
                     }
                 });
             }
@@ -548,8 +547,6 @@ public abstract class BindingAdapters {
                 auCalendar.observeChangesOnCalendar().unsubscribeOn(Schedulers.newThread());
             }
         });
-
-
 
         customizableCalendar.injectViewInteractor(calendarViewInteractor);
     }

@@ -29,7 +29,10 @@ public class MyScheduleVM implements BaseVM {
     }
 
     public void onItemClick(View view){
-        myScheduleController.show(new ClassController(schedule));
+        if (myScheduleController.getClass() == MyScheduleController.class)
+            myScheduleController.show(new ClassController(schedule, true));
+        else
+            myScheduleController.show(new ClassController(schedule, false));
     }
     @Override
     public int getLayoutId() {
