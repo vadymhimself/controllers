@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="controller"
+            type="ru.xfit.screens.clubs.ClubsController" />
+
+    </data>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/list"
+            layout="@layout/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:adapter='@{controller.adapter}' />
+
+    </RelativeLayout>
+</layout>

@@ -15,6 +15,7 @@ import ru.xfit.screens.BusTestController;
 import ru.xfit.screens.HomeController;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
+import ru.xfit.screens.clubs.ClubsController;
 import ru.xfit.screens.schedule.MyScheduleController;
 
 public class MainActivity extends XFitActivity implements
@@ -25,6 +26,7 @@ public class MainActivity extends XFitActivity implements
     }
 
     public MyScheduleController myScheduleController;
+    public ClubsController clubsController;
 
     private Toolbar toolbar;
     private NavigationView navView;
@@ -43,6 +45,7 @@ public class MainActivity extends XFitActivity implements
         navView.setItemIconTintList(null);
 
         myScheduleController = new MyScheduleController();
+        clubsController = new ClubsController();
         if (savedInstanceState == null) {
             show(myScheduleController, 0, 0);
         }
@@ -69,6 +72,9 @@ public class MainActivity extends XFitActivity implements
             case R.id.services:
                 return true;
             case R.id.clubs:
+                replace(clubsController);
+                setTitle(getResources().getString(R.string.clubs_title));
+                drawer.closeDrawers();
                 return true;
             case R.id.contacts:
                 return true;

@@ -38,4 +38,6 @@
 
     <string name="classes_subscribe">Добавить в расписание</string>
     <string name="classes_unsubscribe">Удалить из расписания</string>
+
+    <string name="clubs_title">Клубы</string>
 </resources>

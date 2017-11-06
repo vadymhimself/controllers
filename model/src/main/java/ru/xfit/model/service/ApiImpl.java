@@ -164,6 +164,11 @@ final class ApiImpl implements Api {
     }
 
     @Override
+    public Task<ScheduleList> getMySchedule() {
+        return TaskBuilder.from(networkInterface.getSchedule());
+    }
+
+    @Override
     public Task<AddClassResponse> addClass(String id) {
         return TaskBuilder.from(networkInterface.addClass(id, new EmptyBody()));
     }

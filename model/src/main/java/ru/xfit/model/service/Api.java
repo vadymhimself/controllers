@@ -53,6 +53,8 @@ public interface Api {
 
     Task<ScheduleList> getMySchedule(String year, String week);
 
+    Task<ScheduleList> getMySchedule();
+
     Task<AddClassResponse> addClass(String id);
 
     Task<Void> deleteClass(String id);

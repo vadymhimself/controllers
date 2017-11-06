@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="ru.xfit.screens.clubs.ClubVM"/>
+
+        <import type="android.graphics.Color"/>
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="86dp">
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="12dp"/>
+
+        <ImageView
+            android:id="@+id/my_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif"
+            android:textStyle="normal"
+            android:textColor="@color/calendarCommonDay"
+            android:layout_toRightOf="@+id/logo"
+            android:layout_marginTop="15dp"
+            android:text="@{viewModel.scheduleClub.club.title}"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-light"
+            android:textStyle="normal"
+            android:textColor="@color/calendarCommonDay"
+            android:layout_toRightOf="@+id/logo"
+            android:layout_below="@+id/title"
+            android:layout_marginTop="4dp"
+            android:text="@{viewModel.scheduleClub.club.address}"
+            />
+
+    </RelativeLayout>
+
+</layout>

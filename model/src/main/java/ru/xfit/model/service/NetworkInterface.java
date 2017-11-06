@@ -51,6 +51,9 @@ public interface NetworkInterface {
     Call<ScheduleList> getSchedule(@Query("year") String year,
                                    @Query("week") String week);
 
+    @GET("me/classes")
+    Call<ScheduleList> getSchedule();
+
     @POST("me/classes/{id}")
     Call<AddClassResponse> addClass(@Path("id") String id, @Body EmptyBody request);
 
