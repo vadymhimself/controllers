@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.function.LongFunction;
 
 import okhttp3.Interceptor;
+import ru.xfit.MainActivity;
 import ru.xfit.R;
 import ru.xfit.StartActivity;
 import ru.xfit.databinding.LayoutMyScheduleBinding;
@@ -72,6 +73,9 @@ public class MyScheduleController extends BaseScheduleController<LayoutMySchedul
     public void onReady(View root) {
         if (getBinding() == null)
             return;
+
+        ((MainActivity)getActivity()).setTitle(root.getResources().getString(R.string.my_schedule_title));
+        ((MainActivity)getActivity()).showHamburgerIcon(false);
     }
 
     public void logOut() {

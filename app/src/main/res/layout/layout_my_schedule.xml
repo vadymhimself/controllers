@@ -75,20 +75,20 @@
                         android:visibility='@{controller.adapter.itemCount == 0}'
                         android:onClick='@{controller.classes}'/>
 
-                    <Button
-                        android:id="@+id/services_btn"
-                        android:layout_width="328dp"
-                        android:layout_height="48dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/button_bg"
-                        android:fontFamily="sans-serif"
-                        android:text="@string/my_schedule_services"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp"
-                        android:visibility='@{controller.adapter.itemCount == 0}'
-                        android:onClick='@{controller.services}'
-                        android:layout_below="@+id/classes_btn"/>
+                    <!--<Button-->
+                        <!--android:id="@+id/services_btn"-->
+                        <!--android:layout_width="328dp"-->
+                        <!--android:layout_height="48dp"-->
+                        <!--android:layout_centerHorizontal="true"-->
+                        <!--android:layout_marginTop="16dp"-->
+                        <!--android:background="@drawable/button_bg"-->
+                        <!--android:fontFamily="sans-serif"-->
+                        <!--android:text="@string/my_schedule_services"-->
+                        <!--android:textColor="@android:color/white"-->
+                        <!--android:textSize="18sp"-->
+                        <!--android:visibility='@{controller.adapter.itemCount == 0}'-->
+                        <!--android:onClick='@{controller.services}'-->
+                        <!--android:layout_below="@+id/classes_btn"/>-->
 
                 </RelativeLayout>
 

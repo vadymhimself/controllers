@@ -1,9 +1,6 @@
 package ru.xfit.screens.schedule;
 
 import android.databinding.Bindable;
-import android.support.design.widget.BaseTransientBottomBar;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.controllers.Request;
@@ -11,13 +8,12 @@ import com.controllers.Request;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.xfit.MainActivity;
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutClubClassesBinding;
 import ru.xfit.misc.adapters.BaseAdapter;
 import ru.xfit.model.data.schedule.Schedule;
-import ru.xfit.model.data.schedule.ScheduleClub;
 import ru.xfit.model.service.Api;
-import ru.xfit.screens.XFitController;
 
 /**
  * Created by TESLA on 04.11.2017.
@@ -34,8 +30,10 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
                 .create(api -> api.getClasses(clubId))
                 .execute(scheduleListResponse -> {
                     addSchedule(scheduleListResponse.schedule);
-                });
 
+                    ((MainActivity)getActivity()).setTitle(scheduleListResponse.club.title);
+                    ((MainActivity)getActivity()).showHamburgerIcon(true);
+                });
     }
 
     @Override

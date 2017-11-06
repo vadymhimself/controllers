@@ -43,6 +43,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import ru.xfit.R;
+import ru.xfit.misc.NavigationClickListener;
 import ru.xfit.misc.OnViewReadyListener;
 import ru.xfit.misc.utils.validation.EmailValidator;
 import ru.xfit.misc.utils.validation.EmptyValidator;
@@ -556,5 +557,13 @@ public abstract class BindingAdapters {
         view.setBackgroundColor(color);
     }
 
+    @BindingAdapter("navigationClickListener")
+    public static void bindNavClickListener(Toolbar toolbar, NavigationClickListener l) {
+        if (l == null) {
+            toolbar.setNavigationOnClickListener(null);
+        } else {
+            toolbar.setNavigationOnClickListener(v -> l.onNavigationClick());
+        }
+    }
 
 }

@@ -12,11 +12,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!--<android.support.v7.widget.Toolbar-->
+            <!--android:id="@+id/toolbar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@color/colorPrimary"-->
+            <!--android:elevation="10dp"-->
+            <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
+            <!--android:title='@{controller.title}'-->
+            <!--app:navigationClickListener="@{controller}"-->
+            <!--app:showBackButton="@{controller.previous != null}"/>-->
+
         <android.support.v4.widget.NestedScrollView
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/calendar">
+            android:layout_below="@+id/toolbar">
 
             <RelativeLayout
                 android:id="@+id/container"

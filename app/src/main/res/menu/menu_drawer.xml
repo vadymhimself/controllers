@@ -3,7 +3,7 @@
     <group android:id="@+id/second">
         <item
             android:id="@+id/my_schedule"
-            android:icon="@drawable/ic_schedule"
+            android:icon="@drawable/ic_schedule_green"
             android:title="@string/nav_menu_schedule" />
         <item
             android:id="@+id/my_xfit"

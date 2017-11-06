@@ -31,6 +31,9 @@ public class MainActivity extends XFitActivity implements
     private Toolbar toolbar;
     private NavigationView navView;
     private DrawerLayout drawer;
+    private ActionBarDrawerToggle toggle;
+
+    private boolean toolBarNavigationListenerIsRegistered = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,19 +47,21 @@ public class MainActivity extends XFitActivity implements
         navView = (NavigationView) findViewById(R.id.nav_view);
         navView.setItemIconTintList(null);
 
+        setSupportActionBar(toolbar);
+
         myScheduleController = new MyScheduleController();
         clubsController = new ClubsController();
         if (savedInstanceState == null) {
             show(myScheduleController, 0, 0);
         }
 
-        setTitle(getResources().getString(R.string.my_schedule_title));
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navView.setNavigationItemSelectedListener(this);
+
+        setTitle(getResources().getString(R.string.my_schedule_title));
     }
 
     @Override
@@ -87,6 +92,30 @@ public class MainActivity extends XFitActivity implements
     }
 
     public void setTitle(String title) {
-        toolbar.setTitle(title);
+        getSupportActionBar().setTitle(title);
+    }
+
+    public void showHamburgerIcon(boolean hide) {
+        if(hide) {
+            toggle.setDrawerIndicatorEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+            if(!toolBarNavigationListenerIsRegistered) {
+                toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onBackPressed();
+                    }
+                });
+
+                toolBarNavigationListenerIsRegistered = true;
+            }
+
+        } else {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            toggle.setDrawerIndicatorEnabled(true);
+            toggle.setToolbarNavigationClickListener(null);
+            toolBarNavigationListenerIsRegistered = false;
+        }
     }
 }
