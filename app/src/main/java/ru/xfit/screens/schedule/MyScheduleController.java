@@ -53,6 +53,9 @@ public class MyScheduleController extends BaseScheduleController<LayoutMySchedul
     public BaseAdapter adapter;
 
     public MyScheduleController() {
+
+        setTitle("Мое расписание");
+
         Request.with(this, Api.class)
                 .create(api -> api.getMySchedule(year.get(), week.get()))
                 .onError(error -> {
@@ -73,8 +76,6 @@ public class MyScheduleController extends BaseScheduleController<LayoutMySchedul
     public void onReady(View root) {
         if (getBinding() == null)
             return;
-
-        ((MainActivity)getActivity()).setTitle(root.getResources().getString(R.string.my_schedule_title));
         ((MainActivity)getActivity()).showHamburgerIcon(false);
     }
 

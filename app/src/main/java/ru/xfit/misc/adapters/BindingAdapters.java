@@ -54,6 +54,7 @@ import ru.xfit.misc.utils.validation.ValidationType;
 import ru.xfit.misc.views.*;
 import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.screens.XFitController;
+import ru.xfit.screens.filter.FilterController;
 import ru.xfit.screens.schedule.MyScheduleController;
 
 public abstract class BindingAdapters {
@@ -564,6 +565,18 @@ public abstract class BindingAdapters {
         } else {
             toolbar.setNavigationOnClickListener(v -> l.onNavigationClick());
         }
+    }
+
+    @BindingAdapter("onRadioChecked")
+    public static void bindOnRadioChecked(RadioButton radioButton, FilterController filterController ) {
+        radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    filterController.checkedIncome(compoundButton.getId());
+                }
+            }
+        });
     }
 
 }

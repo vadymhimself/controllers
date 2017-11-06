@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="controller"
+            type="ru.xfit.screens.filter.FilterController" />
+
+    </data>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RadioGroup
+            android:id="@+id/global"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="22dp"
+            android:layout_centerHorizontal="true">
+            <RadioButton
+                android:id="@+id/by_classes"
+                android:layout_width="163dp"
+                android:layout_height="37dp"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                android:background="@drawable/gender_bg"
+                android:textColor="@drawable/gender_text_color"
+                android:button="@android:color/transparent"
+                android:checked="true"
+                android:text="@string/filter_by_classes"
+                app:onRadioChecked="@{controller}"/>
+
+            <RadioButton
+                android:id="@+id/by_trainers"
+                android:layout_width="163dp"
+                android:layout_height="37dp"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                android:background="@drawable/gender_bg"
+                android:textColor="@drawable/gender_text_color"
+                android:button="@android:color/transparent"
+                android:layout_marginLeft="13dp"
+                android:text="@string/filter_by_trainers"
+                app:onRadioChecked="@{controller}" />
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/local"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/global"
+            android:layout_centerHorizontal="true">
+            <RadioButton
+                android:id="@+id/by_all"
+                android:layout_width="78dp"
+                android:layout_height="37dp"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                android:background="@drawable/gender_bg"
+                android:textColor="@drawable/gender_text_color"
+                android:button="@android:color/transparent"
+                android:checked="true"
+                android:text="@string/filter_by_all"
+                app:onRadioChecked="@{controller}" />
+
+            <RadioButton
+                android:id="@+id/by_morning"
+                android:layout_width="78dp"
+                android:layout_height="37dp"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                android:background="@drawable/gender_bg"
+                android:textColor="@drawable/gender_text_color"
+                android:button="@android:color/transparent"
+                android:layout_marginLeft="9dp"
+                android:text="@string/filter_by_morning"
+                app:onRadioChecked="@{controller}" />
+
+            <RadioButton
+                android:id="@+id/by_day"
+                android:layout_width="78dp"
+                android:layout_height="37dp"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                android:background="@drawable/gender_bg"
+                android:textColor="@drawable/gender_text_color"
+                android:button="@android:color/transparent"
+                android:layout_marginLeft="9dp"
+                android:text="@string/filter_by_day"
+                app:onRadioChecked="@{controller}" />
+
+            <RadioButton
+                android:id="@+id/by_evening"
+                android:layout_width="78dp"
+                android:layout_height="37dp"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                android:background="@drawable/gender_bg"
+                android:textColor="@drawable/gender_text_color"
+                android:button="@android:color/transparent"
+                android:layout_marginLeft="9dp"
+                android:text="@string/filter_by_evening"
+                app:onRadioChecked="@{controller}" />
+        </RadioGroup>
+
+        <RelativeLayout
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="23dp"
+            android:layout_below="@+id/local">
+            <include
+                android:id="@+id/list"
+                layout="@layout/list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:adapter='@{controller.adapter}' />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>

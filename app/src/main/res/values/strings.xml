@@ -40,4 +40,10 @@
     <string name="classes_unsubscribe">Удалить из расписания</string>
 
     <string name="clubs_title">Клубы</string>
+    <string name="filter_by_classes">По занятиям</string>
+    <string name="filter_by_trainers">По тренерам</string>
+    <string name="filter_by_all">Все</string>
+    <string name="filter_by_morning">Утро</string>
+    <string name="filter_by_day">День</string>
+    <string name="filter_by_evening">Вечер</string>
 </resources>

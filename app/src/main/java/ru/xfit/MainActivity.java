@@ -8,8 +8,11 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.controllers.Controller;
 import com.controllers.ControllerActivity;
 import ru.xfit.screens.BusTestController;
 import ru.xfit.screens.HomeController;
@@ -60,8 +63,12 @@ public class MainActivity extends XFitActivity implements
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navView.setNavigationItemSelectedListener(this);
+    }
 
-        setTitle(getResources().getString(R.string.my_schedule_title));
+    @Override
+    protected void onControllerChanged(Controller controller) {
+        setTitle(controller.getTitle());
+        super.onControllerChanged(controller);
     }
 
     @Override

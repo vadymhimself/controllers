@@ -31,6 +31,7 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
                 .execute(scheduleListResponse -> {
                     addSchedule(scheduleListResponse.schedule);
 
+                    setTitle(scheduleListResponse.club.title);
                     ((MainActivity)getActivity()).setTitle(scheduleListResponse.club.title);
                     ((MainActivity)getActivity()).showHamburgerIcon(true);
                 });
