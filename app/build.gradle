@@ -55,12 +55,11 @@ android {
     }
 }
 
-//TODO remove
-//slack {
-//    url 'https://hooks.slack.com/services/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'
-//    dependsOnTasks 'crashlyticsUploadDistributionRelease'
-//    title 'X-fit android successful build: ' + gitVersionName
-//}
+slack {
+    url 'https://hooks.slack.com/services/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'
+    dependsOnTasks 'crashlyticsUploadDistributionRelease'
+    title 'X-fit android successful build: ' + gitVersionName
+}
 
 dependencies {
 
