@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class BaseAdapter<VM extends BaseVM> extends RecyclerView.Adapter<BindingHolder<ViewDataBinding, VM>> implements Serializable, Iterable<VM> {
-    private final List<VM> vms;
+    protected List<VM> vms;
 
     public BaseAdapter(@NonNull List<VM> vms) {
         this.vms = vms;

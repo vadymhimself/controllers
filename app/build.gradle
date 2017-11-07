@@ -55,11 +55,12 @@ android {
     }
 }
 
-slack {
-    url 'https://hooks.slack.com/services/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'
-    dependsOnTasks 'crashlyticsUploadDistributionRelease'
-    title 'X-fit android successful build: ' + gitVersionName
-}
+//TODO remove
+//slack {
+//    url 'https://hooks.slack.com/services/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'
+//    dependsOnTasks 'crashlyticsUploadDistributionRelease'
+//    title 'X-fit android successful build: ' + gitVersionName
+//}
 
 dependencies {
 
@@ -93,6 +94,8 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
         transitive = true
     }
+
+    compile 'com.github.bumptech.glide:glide:3.7.0'
 
     testCompile 'junit:junit:4.12'
 }

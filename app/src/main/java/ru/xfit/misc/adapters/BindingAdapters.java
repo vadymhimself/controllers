@@ -4,8 +4,10 @@ import android.databinding.BindingAdapter;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
+import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
+import android.net.Uri;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.MenuRes;
@@ -31,6 +33,10 @@ import android.webkit.WebViewClient;
 import android.widget.*;
 import android.widget.SearchView;
 
+import com.bumptech.glide.DrawableTypeRequest;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.reinaldoarrosi.maskededittext.MaskedEditText;
 import com.molo17.customizablecalendar.library.components.CustomizableCalendar;
 import com.molo17.customizablecalendar.library.interactors.AUCalendar;
@@ -43,6 +49,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import ru.xfit.R;
+import ru.xfit.misc.CircleTransform;
 import ru.xfit.misc.NavigationClickListener;
 import ru.xfit.misc.OnViewReadyListener;
 import ru.xfit.misc.utils.validation.EmailValidator;
@@ -577,6 +584,42 @@ public abstract class BindingAdapters {
                 }
             }
         });
+    }
+
+    @BindingAdapter(value = {"android:src", "circleTransform"}, requireAll = false)
+    public static void bindSrc(ImageView iv, Object o, boolean circleTransform) {
+        RequestManager requestManager = Glide.with(iv.getContext());
+        DrawableTypeRequest rc;
+
+        if (o == null) {
+            iv.setImageDrawable(null);
+            return;
+        } else if (o instanceof String) {
+            rc = requestManager.load((String) o);
+            rc.diskCacheStrategy(DiskCacheStrategy.SOURCE);
+        } else if (o instanceof Integer) {
+            if (!circleTransform) {
+                iv.setImageResource((Integer) o);
+                return;
+            }
+            rc = requestManager.load((Integer) o);
+            Log.w(TAG, "bindSrc: vectorDrawables would not work with circle transformation");
+        } else if (o instanceof Uri) {
+            rc = requestManager.load((Uri) o);
+        } else if (o instanceof Bitmap) {
+            iv.setImageBitmap((Bitmap) o);
+            if (circleTransform) {
+                // TODO: ?
+            }
+            return;
+        } else {
+            throw new IllegalArgumentException("Can't set source" + o);
+        }
+
+        if (circleTransform) {
+            rc.transform(new CircleTransform(iv.getContext()));
+        }
+        rc.into(iv);
     }
 
 }

@@ -28,6 +28,8 @@ import ru.xfit.databinding.LayoutMyScheduleBinding;
 import ru.xfit.misc.OnViewReadyListener;
 import ru.xfit.misc.adapters.BaseAdapter;
 import ru.xfit.misc.adapters.BaseVM;
+import ru.xfit.misc.adapters.FilterableAdapter;
+import ru.xfit.misc.adapters.filters.Percolator;
 import ru.xfit.misc.utils.PrefUtils;
 import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.model.data.schedule.ScheduleClub;
@@ -50,7 +52,7 @@ public class MyScheduleController extends BaseScheduleController<LayoutMySchedul
     private ArrayList<Schedule> allSchedule = new ArrayList<>();
 
     @Bindable
-    public BaseAdapter adapter;
+    public FilterableAdapter adapter;
 
     public MyScheduleController() {
 
@@ -90,7 +92,7 @@ public class MyScheduleController extends BaseScheduleController<LayoutMySchedul
         allSchedule.clear();
         if (scheduleClubs == null || scheduleClubs.size() == 0) {
             if (adapter == null) {
-                adapter = new BaseAdapter<>(new ArrayList<>());
+                adapter = new FilterableAdapter<>(new ArrayList<>());
                 notifyPropertyChanged(BR.adapter);
             }
             return;
@@ -119,7 +121,7 @@ public class MyScheduleController extends BaseScheduleController<LayoutMySchedul
 
         AUCalendar.getInstance().highLightDates(highlighteDays);
 
-        adapter = new BaseAdapter<>(vms);
+        adapter = new FilterableAdapter<>(vms);
         notifyPropertyChanged(BR.adapter);
 
         day.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
@@ -163,6 +165,10 @@ public class MyScheduleController extends BaseScheduleController<LayoutMySchedul
         } else
             vms.clear();
         notifyPropertyChanged(BR.adapter);
+    }
+
+    public void filterItems(List<Percolator> filters) {
+        adapter.filter(filters);
     }
 
     public void classes(View view) {
