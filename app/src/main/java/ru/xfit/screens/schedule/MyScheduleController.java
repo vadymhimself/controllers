@@ -29,7 +29,7 @@ import ru.xfit.misc.OnViewReadyListener;
 import ru.xfit.misc.adapters.BaseAdapter;
 import ru.xfit.misc.adapters.BaseVM;
 import ru.xfit.misc.adapters.FilterableAdapter;
-import ru.xfit.misc.adapters.filters.Percolator;
+import ru.xfit.misc.adapters.filters.Filter;
 import ru.xfit.misc.utils.PrefUtils;
 import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.model.data.schedule.ScheduleClub;
@@ -167,7 +167,7 @@ public class MyScheduleController extends BaseScheduleController<LayoutMySchedul
         notifyPropertyChanged(BR.adapter);
     }
 
-    public void filterItems(List<Percolator> filters) {
+    public void filterItems(List<Filter> filters) {
         adapter.filter(filters);
     }
 

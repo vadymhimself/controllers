@@ -12,6 +12,8 @@ import ru.xfit.MainActivity;
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutClubClassesBinding;
 import ru.xfit.misc.adapters.BaseAdapter;
+import ru.xfit.misc.adapters.FilterableAdapter;
+import ru.xfit.misc.adapters.filters.Filter;
 import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.model.service.Api;
 
@@ -22,7 +24,7 @@ import ru.xfit.model.service.Api;
 public class ClubClassesController extends BaseScheduleController<LayoutClubClassesBinding> {
 
     @Bindable
-    public BaseAdapter adapter;
+    public FilterableAdapter adapter;
 
     public ClubClassesController(String clubId) {
         Request.setDefaultErrorAction(Throwable::printStackTrace);
@@ -45,7 +47,7 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
     public void addSchedule(List<Schedule> schedules) {
         if (schedules == null || schedules.size() == 0) {
             if (adapter == null) {
-                adapter = new BaseAdapter<>(new ArrayList<>());
+                adapter = new FilterableAdapter<>(new ArrayList<>());
                 notifyPropertyChanged(BR.adapter);
             }
             return;
@@ -56,9 +58,13 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
         }
 
 
-        adapter = new BaseAdapter<>(vms);
+        adapter = new FilterableAdapter<>(vms);
         notifyPropertyChanged(BR.adapter);
 
+    }
+
+    public void updateByFilter(List<Filter> filters) {
+        adapter.filter(filters);
     }
 
 }

@@ -46,4 +46,5 @@
     <string name="filter_by_morning">Утро</string>
     <string name="filter_by_day">День</string>
     <string name="filter_by_evening">Вечер</string>
+    <string name="filter_accept">Применить</string>
 </resources>

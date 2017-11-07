@@ -41,6 +41,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="13dp"
             android:layout_centerVertical="true"
-            app:buttonTint="@color/controlsColor"/>
+            app:buttonTint="@color/controlsColor"
+            app:onCheckBoxChecked="@{viewModel}"/>
     </RelativeLayout>
 </layout>

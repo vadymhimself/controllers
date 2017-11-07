@@ -22,7 +22,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:textColor="@color/calendarCommonDay"
-            android:text="@{viewModel.training}"
+            android:text="@{viewModel.training.title}"
             />
 
         <CheckBox
@@ -31,6 +31,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="13dp"
             android:layout_centerVertical="true"
-            app:buttonTint="@color/controlsColor"/>
+            app:buttonTint="@color/controlsColor"
+            app:onCheckBoxChecked="@{viewModel}"/>
     </RelativeLayout>
 </layout>

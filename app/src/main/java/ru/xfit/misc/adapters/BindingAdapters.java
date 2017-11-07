@@ -62,6 +62,7 @@ import ru.xfit.misc.views.*;
 import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.screens.XFitController;
 import ru.xfit.screens.filter.FilterController;
+import ru.xfit.screens.filter.FilterVM;
 import ru.xfit.screens.schedule.MyScheduleController;
 
 public abstract class BindingAdapters {
@@ -620,6 +621,15 @@ public abstract class BindingAdapters {
             rc.transform(new CircleTransform(iv.getContext()));
         }
         rc.into(iv);
+    }
+
+    @BindingAdapter("onCheckBoxChecked")
+    public static void bindOnCheckBoxChecked(CheckBox checkBox, FilterVM filterVM ) {
+        checkBox.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b) {
+                filterVM.isChecked = b;
+            }
+        });
     }
 
 }

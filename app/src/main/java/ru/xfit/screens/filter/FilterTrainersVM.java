@@ -8,7 +8,7 @@ import ru.xfit.model.data.schedule.Trainer;
  * Created by TESLA on 06.11.2017.
  */
 
-public class FilterTrainersVM implements BaseVM {
+public class FilterTrainersVM extends FilterVM implements BaseVM {
     public FilterController filterController;
     public Trainer trainer;
 

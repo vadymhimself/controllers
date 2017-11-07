@@ -42,16 +42,23 @@ public class ClassController extends XFitController<LayoutClassBinding> implemen
                     .create(api -> api.addClass(schedule.id))
                     .execute(addClassResponse -> {
                         isAdded = true;
+                        updateButtonText("Удалить из расписания");
                     });
-            getBinding().subscribeBtn.setText("Удалить из расписания");
         } else {
             Request.with(this, Api.class)
                     .create(api -> api.deleteClass(schedule.subscriptionId))
                     .execute(deleteClassResponse -> {
                         isAdded = false;
+                        updateButtonText("Добавить в расписание");
                     });
-            getBinding().subscribeBtn.setText("Добавить в расписание");
         }
+    }
+
+    private void updateButtonText(String text) {
+        if (getBinding() == null)
+            return;
+
+        getBinding().subscribeBtn.setText(text);
     }
 
     @Override
@@ -60,8 +67,8 @@ public class ClassController extends XFitController<LayoutClassBinding> implemen
             return;
 
         if (isCanDelete)
-            getBinding().subscribeBtn.setText("Удалить из расписания");
+            updateButtonText("Удалить из расписания");
         else
-            getBinding().subscribeBtn.setText("Добавить в расписание");
+            updateButtonText("Добавить в расписание");
     }
 }

@@ -121,5 +121,19 @@
                 app:adapter='@{controller.adapter}' />
         </RelativeLayout>
 
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="328dp"
+            android:layout_height="48dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/button_bg"
+            android:fontFamily="sans-serif"
+            android:text="@string/filter_accept"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentBottom="true"
+            android:onClick='@{controller.accept}'/>
     </RelativeLayout>
 </layout>

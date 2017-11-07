@@ -3,26 +3,25 @@ package ru.xfit.misc.adapters.filters;
 import java.util.List;
 
 import ru.xfit.misc.adapters.BaseVM;
-import ru.xfit.model.data.schedule.Trainer;
+import ru.xfit.model.data.schedule.Activity;
 import ru.xfit.screens.schedule.MyScheduleVM;
 
 /**
  * Created by TESLA on 08.11.2017.
  */
 
-public class ByTrainers extends Percolator {
-    private List<Trainer> trainers;
+public class FilterByClassType implements Filter {
+    private List<Activity> classes;
 
-    public ByTrainers(String title, List<Trainer> trainers) {
-        super(title);
-        this.trainers = trainers;
+    public FilterByClassType(List<Activity> classes) {
+        this.classes = classes;
     }
 
     @Override
     public boolean compare(BaseVM vm) {
         if (vm instanceof MyScheduleVM) {
-            for (Trainer trainer : trainers) {
-                if (((MyScheduleVM)vm).schedule.trainers.contains(trainer))
+            for (Activity activity : classes) {
+                if (((MyScheduleVM)vm).schedule.activity.id.equals(activity.id))
                     return true;
             }
 

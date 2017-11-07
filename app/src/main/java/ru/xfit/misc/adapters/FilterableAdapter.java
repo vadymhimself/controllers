@@ -7,9 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.xfit.misc.adapters.filters.Percolator;
-import ru.xfit.misc.adapters.filters.ScheduleDiffUtilCallback;
-import ru.xfit.screens.schedule.MyScheduleVM;
+import ru.xfit.misc.adapters.filters.Filter;
 
 /**
  * Created by TESLA on 07.11.2017.
@@ -29,11 +27,11 @@ public class FilterableAdapter<VM extends BaseVM> extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void filter(List<Percolator> filters) {
+    public void filter(List<Filter> filters) {
         ArrayList<VM> filteredVms = new ArrayList<VM>();
         if (vms != null && allVMS != null) {
             for (VM vm : allVMS) {
-                for (Percolator filter : filters) {
+                for (Filter filter : filters) {
                     if (filter.compare(vm)) {
                         if (!filteredVms.contains(vm))
                             filteredVms.add(vm);

@@ -9,6 +9,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -19,6 +21,7 @@ import ru.xfit.screens.HomeController;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 import ru.xfit.screens.clubs.ClubsController;
+import ru.xfit.screens.filter.FilterController;
 import ru.xfit.screens.schedule.MyScheduleController;
 
 public class MainActivity extends XFitActivity implements
@@ -35,6 +38,8 @@ public class MainActivity extends XFitActivity implements
     private NavigationView navView;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
+
+    private boolean showFilterAndSearch = false;
 
     private boolean toolBarNavigationListenerIsRegistered = false;
 
@@ -68,7 +73,25 @@ public class MainActivity extends XFitActivity implements
     @Override
     protected void onControllerChanged(Controller controller) {
         setTitle(controller.getTitle());
+        if (controller instanceof MyScheduleController) {
+            showFilterAndSearch = true;
+            invalidateOptionsMenu();
+        } else {
+            showFilterAndSearch = false;
+            invalidateOptionsMenu();
+        }
+
         super.onControllerChanged(controller);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_schedules, menu);
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.search).setVisible(showFilterAndSearch);
+        menu.findItem(R.id.filter).setVisible(showFilterAndSearch);
+        return true;
     }
 
     @Override
@@ -93,6 +116,9 @@ public class MainActivity extends XFitActivity implements
             case R.id.settings:
                 return true;
             case R.id.quit:
+                return true;
+            case R.id.filter:
+//                replace(new FilterController());
                 return true;
         }
         return true;
