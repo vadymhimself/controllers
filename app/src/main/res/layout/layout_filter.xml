@@ -110,9 +110,10 @@
         <RelativeLayout
             android:id="@+id/recycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="23dp"
-            android:layout_below="@+id/local">
+            android:layout_below="@+id/local"
+            android:layout_above="@+id/accept_btn">
             <include
                 android:id="@+id/list"
                 layout="@layout/list"
@@ -122,11 +123,11 @@
         </RelativeLayout>
 
         <Button
-            android:id="@+id/login_btn"
+            android:id="@+id/accept_btn"
             android:layout_width="328dp"
             android:layout_height="48dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/button_bg"
             android:fontFamily="sans-serif"
             android:text="@string/filter_accept"

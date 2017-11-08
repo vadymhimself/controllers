@@ -22,6 +22,7 @@ import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 import ru.xfit.screens.clubs.ClubsController;
 import ru.xfit.screens.filter.FilterController;
+import ru.xfit.screens.schedule.ClubClassesController;
 import ru.xfit.screens.schedule.MyScheduleController;
 
 public class MainActivity extends XFitActivity implements
@@ -73,9 +74,12 @@ public class MainActivity extends XFitActivity implements
     @Override
     protected void onControllerChanged(Controller controller) {
         setTitle(controller.getTitle());
-        if (controller instanceof MyScheduleController) {
+        if (controller instanceof ClubClassesController) {
             showFilterAndSearch = true;
             invalidateOptionsMenu();
+
+            setTitle(myScheduleController.clubClassesController.getTitle());
+            showHamburgerIcon(true);
         } else {
             showFilterAndSearch = false;
             invalidateOptionsMenu();
@@ -92,6 +96,20 @@ public class MainActivity extends XFitActivity implements
         menu.findItem(R.id.search).setVisible(showFilterAndSearch);
         menu.findItem(R.id.filter).setVisible(showFilterAndSearch);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.filter:
+                show(new FilterController(myScheduleController.clubClassesController.getTrainers(),
+                        myScheduleController.clubClassesController.getActivities()));
+                return true;
+            case R.id.search:
+                return true;
+            default:
+                return false;
+        }
     }
 
     @Override
@@ -116,9 +134,6 @@ public class MainActivity extends XFitActivity implements
             case R.id.settings:
                 return true;
             case R.id.quit:
-                return true;
-            case R.id.filter:
-//                replace(new FilterController());
                 return true;
         }
         return true;

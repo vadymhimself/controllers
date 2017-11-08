@@ -2,7 +2,6 @@ package ru.xfit.screens.schedule;
 
 import android.databinding.Bindable;
 import android.databinding.Observable;
-import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +17,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.function.LongFunction;
 
 import okhttp3.Interceptor;
 import ru.xfit.MainActivity;
@@ -31,13 +29,14 @@ import ru.xfit.misc.adapters.BaseVM;
 import ru.xfit.misc.adapters.FilterableAdapter;
 import ru.xfit.misc.adapters.filters.Filter;
 import ru.xfit.misc.utils.PrefUtils;
+import ru.xfit.model.data.schedule.Activity;
 import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.model.data.schedule.ScheduleClub;
+import ru.xfit.model.data.schedule.Trainer;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.XFitController;
 
 import static ru.xfit.domain.App.PREFS_IS_USER_ALREADY_LOGIN;
-import static ru.xfit.domain.App.getContext;
 
 /**
  * Created by TESLA on 25.10.2017.
@@ -50,6 +49,8 @@ public class MyScheduleController extends BaseScheduleController<LayoutMySchedul
     public ObservableField<DateTime> day = new ObservableField<>();
 
     private ArrayList<Schedule> allSchedule = new ArrayList<>();
+
+    public ClubClassesController clubClassesController = new ClubClassesController("181");
 
     @Bindable
     public FilterableAdapter adapter;
@@ -90,13 +91,7 @@ public class MyScheduleController extends BaseScheduleController<LayoutMySchedul
     public void addSchedule(List<ScheduleClub> scheduleClubs) {
         List<DateTime> highlighteDays = new ArrayList<>();
         allSchedule.clear();
-        if (scheduleClubs == null || scheduleClubs.size() == 0) {
-            if (adapter == null) {
-                adapter = new FilterableAdapter<>(new ArrayList<>());
-                notifyPropertyChanged(BR.adapter);
-            }
-            return;
-        }
+
         for (ScheduleClub scheduleClub : scheduleClubs) {
             allSchedule.addAll(scheduleClub.schedule);
             for (Schedule schedule : scheduleClub.schedule) {
@@ -172,7 +167,7 @@ public class MyScheduleController extends BaseScheduleController<LayoutMySchedul
     }
 
     public void classes(View view) {
-        show(new ClubClassesController("181"));
+        show(clubClassesController);
 
     }
 

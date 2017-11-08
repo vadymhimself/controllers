@@ -16,4 +16,20 @@ public class Trainer implements Serializable {
     public Photo facePhoto;
     public Photo photo;
     public List<String> clubs;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Trainer trainer = (Trainer) o;
+
+        return id.equals(trainer.id);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

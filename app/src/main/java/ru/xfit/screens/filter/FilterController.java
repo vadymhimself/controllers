@@ -28,7 +28,7 @@ import com.android.databinding.library.baseAdapters.BR;
 public class FilterController extends XFitController<LayoutFilterBinding> {
     public List<Trainer> trainers;
     public List<Activity> classes;
-    private List<Filter> filters;
+    private List<Filter> filters = new ArrayList<>();
 
     private List<BaseVM> vms = new ArrayList<>();
 
@@ -38,6 +38,8 @@ public class FilterController extends XFitController<LayoutFilterBinding> {
     public FilterController(List<Trainer> trainers, List<Activity> classes) {
         this.trainers = trainers;
         this.classes = classes;
+
+        showClasses();
     }
 
     @Override
@@ -71,14 +73,6 @@ public class FilterController extends XFitController<LayoutFilterBinding> {
         if (vms != null)
             vms.clear();
 
-        if (trainers == null || trainers.size() == 0) {
-            if (adapter == null) {
-                adapter = new BaseAdapter<>(new ArrayList<>());
-                notifyPropertyChanged(BR.adapter);
-            }
-            return;
-        }
-
         vms.add(new HeaderFilterVM(this, true, "Все тренера"));
 
         for (Trainer trainer : trainers) {
@@ -92,11 +86,6 @@ public class FilterController extends XFitController<LayoutFilterBinding> {
     public void showClasses() {
         if (vms != null)
             vms.clear();
-
-        if (adapter == null) {
-            adapter = new BaseAdapter<>(new ArrayList<>());
-            notifyPropertyChanged(BR.adapter);
-        }
 
         vms.add(new HeaderFilterVM(this, false, "Все занятия"));
 
@@ -115,7 +104,7 @@ public class FilterController extends XFitController<LayoutFilterBinding> {
 
     @Override
     protected boolean onBackPressed() {
-        if(getPrevious()==null)
+        if(getPrevious() == null)
             return true;
         List<Trainer> selectedTrainers = new ArrayList<>();
         List<Activity> selectedActivities = new ArrayList<>();
