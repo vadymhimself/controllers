@@ -18,7 +18,9 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.*;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
@@ -31,8 +33,6 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.*;
-import android.widget.SearchView;
-
 import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -41,29 +41,22 @@ import com.github.reinaldoarrosi.maskededittext.MaskedEditText;
 import com.molo17.customizablecalendar.library.components.CustomizableCalendar;
 import com.molo17.customizablecalendar.library.interactors.AUCalendar;
 import com.molo17.customizablecalendar.library.model.Calendar;
-
-import org.joda.time.DateTime;
-
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import org.joda.time.DateTime;
 import ru.xfit.R;
 import ru.xfit.misc.CircleTransform;
 import ru.xfit.misc.NavigationClickListener;
 import ru.xfit.misc.OnViewReadyListener;
-import ru.xfit.misc.utils.validation.EmailValidator;
-import ru.xfit.misc.utils.validation.EmptyValidator;
-import ru.xfit.misc.utils.validation.PasswordEqualValidator;
-import ru.xfit.misc.utils.validation.PasswordValidator;
-import ru.xfit.misc.utils.validation.StringValidator;
-import ru.xfit.misc.utils.validation.ValidationType;
+import ru.xfit.misc.utils.validation.*;
 import ru.xfit.misc.views.*;
-import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.screens.XFitController;
 import ru.xfit.screens.filter.FilterController;
 import ru.xfit.screens.filter.FilterVM;
 import ru.xfit.screens.schedule.MyScheduleController;
+
+import java.text.ParseException;
+import java.util.List;
 
 public abstract class BindingAdapters {
 
@@ -145,7 +138,7 @@ public abstract class BindingAdapters {
                 GridLayoutManager glm = new GridLayoutManager(recycler.getContext(), SpannedVM.MAX_SPAN_SIZE);
                 glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                     @Override public int getSpanSize(int position) {
-                        BaseVM vm = ((BaseAdapter) adapter).get(position);
+                        BaseVM vm = ((BaseAdapter) adapter).getItem(position);
                         if (!(vm instanceof SpannedVM)) {
                             throw new IllegalStateException("VMs inside variable span grid should implement SpannedVM");
                         }
@@ -540,15 +533,12 @@ public abstract class BindingAdapters {
         customizableCalendar.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View view) {
-                auCalendar.observeChangesOnCalendar().subscribe(new Consumer<AUCalendar.ChangeSet>() {
-                    @Override
-                    public void accept(@NonNull AUCalendar.ChangeSet changeSet) throws Exception {
-                        calendarViewInteractor.updateCalendar(calendar);
-                        controller.year.set(calendar.getCurrentYear());
-                        controller.week.set(String.valueOf(calendar.getCurrentWeek()));
-                        if (calendar.getFirstSelectedDay() != null)
-                            controller.onDateChange(calendar.getFirstSelectedDay());
-                    }
+                auCalendar.observeChangesOnCalendar().subscribe(changeSet -> {
+                    calendarViewInteractor.updateCalendar(calendar);
+                    controller.year.set(calendar.getCurrentYear());
+                    controller.week.set(String.valueOf(calendar.getCurrentWeek()));
+                    if (calendar.getFirstSelectedDay() != null)
+                        controller.onDateChange(calendar.getFirstSelectedDay());
                 });
             }
 
@@ -577,12 +567,9 @@ public abstract class BindingAdapters {
 
     @BindingAdapter("onRadioChecked")
     public static void bindOnRadioChecked(RadioButton radioButton, FilterController filterController ) {
-        radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    filterController.checkedIncome(compoundButton.getId());
-                }
+        radioButton.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b) {
+                filterController.checkedIncome(compoundButton.getId());
             }
         });
     }
@@ -625,11 +612,15 @@ public abstract class BindingAdapters {
 
     @BindingAdapter("onCheckBoxChecked")
     public static void bindOnCheckBoxChecked(CheckBox checkBox, FilterVM filterVM ) {
-        checkBox.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (b) {
-                filterVM.isChecked = b;
-            }
+        checkBox.setOnCheckedChangeListener((compoundButton, checked) -> {
+            filterVM.isChecked = checked;
         });
+    }
+
+    @BindingAdapter("highlightedDates")
+    public static void bindHighlightedDates(CustomizableCalendar v,
+                                            List<DateTime> dates) throws ParseException {
+        AUCalendar.getInstance().highLightDates(dates);
     }
 
 }

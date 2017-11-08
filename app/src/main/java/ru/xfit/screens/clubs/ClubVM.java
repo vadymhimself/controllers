@@ -1,10 +1,9 @@
 package ru.xfit.screens.clubs;
 
 import android.view.View;
-
 import ru.xfit.R;
 import ru.xfit.misc.adapters.BaseVM;
-import ru.xfit.model.data.schedule.ScheduleClub;
+import ru.xfit.model.data.schedule.Schedule;
 
 /**
  * Created by TESLA on 06.11.2017.
@@ -12,10 +11,10 @@ import ru.xfit.model.data.schedule.ScheduleClub;
 
 public class ClubVM implements BaseVM {
 
-    public ScheduleClub scheduleClub;
+    public Schedule scheduleClub;
     public ClubsController clubsController;
 
-    public ClubVM(ScheduleClub scheduleClub, ClubsController clubsController) {
+    public ClubVM(Schedule scheduleClub, ClubsController clubsController) {
         this.scheduleClub = scheduleClub;
         this.clubsController = clubsController;
     }

@@ -2,26 +2,21 @@ package ru.xfit.model.service;
 
 import com.controllers.Task;
 import com.google.gson.Gson;
-
 import retrofit2.Call;
 import retrofit2.Response;
-import ru.xfit.model.data.AccessToken;
 import ru.xfit.model.data.ErrorException;
 import ru.xfit.model.data.ErrorResponse;
-import ru.xfit.model.data.User;
 import ru.xfit.model.data.UserData;
 import ru.xfit.model.data.auth.AuthRequest;
 import ru.xfit.model.data.auth.AuthResponse;
 import ru.xfit.model.data.club.AddClassResponse;
-import ru.xfit.model.data.club.Class;
 import ru.xfit.model.data.club.Club;
 import ru.xfit.model.data.common.EmptyBody;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationRequest;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
 import ru.xfit.model.data.register.RegisterRequest;
-import ru.xfit.model.data.schedule.ScheduleClub;
+import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.model.data.schedule.ScheduleList;
-import ru.xfit.model.data.storage.Storage;
 import ru.xfit.model.data.storage.preferences.PreferencesStorage;
 import ru.xfit.model.retrorequest.TaskBuilder;
 
@@ -154,7 +149,7 @@ final class ApiImpl implements Api {
     }
 
     @Override
-    public Task<ScheduleClub> getClasses(String id) {
+    public Task<Schedule> getClassesForClub(String id) {
         return TaskBuilder.from(networkInterface.getClasses(id));
     }
 

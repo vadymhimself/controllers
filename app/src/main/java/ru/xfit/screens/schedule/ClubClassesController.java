@@ -1,58 +1,58 @@
 package ru.xfit.screens.schedule;
 
 import android.databinding.Bindable;
-
-import com.android.databinding.library.baseAdapters.BR;
-import com.controllers.Request;
 import com.hwangjr.rxbus.annotation.Subscribe;
+import org.joda.time.DateTime;
+import ru.xfit.R;
+import ru.xfit.databinding.LayoutClubClassesBinding;
+import ru.xfit.misc.OptionsItemSelectedEvent;
+import ru.xfit.misc.adapters.FilterableAdapter;
+import ru.xfit.model.data.schedule.Activity;
+import ru.xfit.model.data.schedule.Clazz;
+import ru.xfit.model.data.schedule.Schedule;
+import ru.xfit.model.data.schedule.Trainer;
+import ru.xfit.screens.filter.FilterController;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import ru.xfit.MainActivity;
-import ru.xfit.R;
-import ru.xfit.databinding.LayoutClubClassesBinding;
-import ru.xfit.misc.OptionsItemSelectedEvent;
-import ru.xfit.misc.adapters.BaseAdapter;
-import ru.xfit.misc.adapters.FilterableAdapter;
-import ru.xfit.misc.adapters.filters.Filter;
-import ru.xfit.misc.adapters.filters.FilterByClassType;
-import ru.xfit.misc.adapters.filters.FilterByTrainers;
-import ru.xfit.misc.adapters.filters.OnFilterListener;
-import ru.xfit.model.data.schedule.Activity;
-import ru.xfit.model.data.schedule.Schedule;
-import ru.xfit.model.data.schedule.Trainer;
-import ru.xfit.model.service.Api;
-import ru.xfit.screens.filter.FilterController;
+import static ru.xfit.misc.utils.ListUtils.filter;
 
 /**
  * Created by TESLA on 04.11.2017.
+ * TODO: download more classes in itself
+ * TODO: тут вообще-то календарь тоже будет, и фильтр по дням...
  */
 
 public class ClubClassesController extends BaseScheduleController<LayoutClubClassesBinding>
-        implements OnFilterListener {
+        implements FilterListener {
 
-    Set<Trainer> trainers = new HashSet<>();
-    Set<Activity> activities = new HashSet<>();
+    private final Set<Trainer> trainers = new HashSet<>();
+    private final Set<Activity> activities = new HashSet<>();
 
-    List<Filter> filters = new ArrayList<>();
+    private Set<Activity> selectedActivities = new HashSet<>();
+    private Set<Trainer> selectedTrainers = new HashSet<>();
+
+    private final DayFilter dayFilter = new DayFilter(DateTime.now());
 
     @Bindable
-    public FilterableAdapter adapter;
+    public final FilterableAdapter<ClassVM> adapter = new FilterableAdapter<>(new ArrayList<>());
 
-    public ClubClassesController(String clubId) {
-        Request.setDefaultErrorAction(Throwable::printStackTrace);
-        Request.with(this, Api.class)
-                .create(api -> api.getClasses(clubId))
-                .execute(scheduleListResponse -> {
-                    addSchedule(scheduleListResponse.schedule);
-
-                    setTitle(scheduleListResponse.club.title);
-//                    ((MainActivity)getActivity()).setTitle(scheduleListResponse.club.title);
-//                    ((MainActivity)getActivity()).showHamburgerIcon(true);
-                });
+    ClubClassesController(Schedule schedule) {
+        adapter.addFilter(dayFilter);
+        // class type and trainer filters
+        adapter.addFilter(list -> filter(list, it -> selectedActivities.contains(it.clazz.activity)));
+        adapter.addFilter(list -> filter(list, it -> {
+            for (Trainer t : it.clazz.trainers) {
+                if (selectedTrainers.contains(t)) {
+                    return true;
+                }
+            }
+            return false;
+        }));
+        addClasses(schedule.schedule);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
     public void onOptionsItemSelectedEvent(OptionsItemSelectedEvent e) {
         switch (e.menuItem.getItemId()) {
             case R.id.filter:
-                show(new FilterController(getTrainers(), getActivities()));
+                show(new FilterController(this, trainers, activities));
                 break;
             default:
                 break;
@@ -72,40 +72,20 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
 
     }
 
-    public void addSchedule(List<Schedule> schedules) {
-        for (Schedule schedule : schedules) {
+    private void addClasses(List<Clazz> classes) {
+        List<ClassVM> toAdd = new ArrayList<>();
+        for (Clazz schedule : classes) {
             activities.add(schedule.activity);
-            for (Trainer trainer : schedule.trainers)
-                trainers.add(trainer);
-
-            vms.add(new MyScheduleVM(schedule, this));
+            trainers.addAll(schedule.trainers);
+            toAdd.add(new ClassVM(schedule, this));
         }
-
-
-        adapter = new FilterableAdapter<>(vms);
-        notifyPropertyChanged(BR.adapter);
-
-    }
-
-    public List<Trainer> getTrainers() {
-        return new ArrayList<>(trainers);
-    }
-
-    public List<Activity> getActivities() {
-        return new ArrayList<>(activities);
+        adapter.addAll(toAdd);
     }
 
     @Override
-    public void onActivitiesFilter(List<Activity> activities) {
-        filters.clear();
-        filters.add(new FilterByClassType(activities));
-        adapter.filter(filters);
-    }
-
-    @Override
-    public void onTrainersFilter(List<Trainer> trainers) {
-        filters.clear();
-        filters.add(new FilterByTrainers(trainers));
-        adapter.filter(filters);
+    public void onUpdate(Set<Activity> activities, Set<Trainer> trainers) {
+        this.selectedTrainers = trainers;
+        this.selectedActivities = activities;
+        adapter.refresh();
     }
 }

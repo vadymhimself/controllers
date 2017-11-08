@@ -1,4 +1,4 @@
-package ru.xfit.misc.adapters.filters;
+package ru.xfit.screens.schedule;
 
 import org.joda.time.DateTime;
 

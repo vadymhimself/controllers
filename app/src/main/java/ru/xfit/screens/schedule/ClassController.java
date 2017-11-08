@@ -1,13 +1,11 @@
 package ru.xfit.screens.schedule;
 
 import android.view.View;
-
 import com.controllers.Request;
-
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutClassBinding;
 import ru.xfit.misc.OnViewReadyListener;
-import ru.xfit.model.data.schedule.Schedule;
+import ru.xfit.model.data.schedule.Clazz;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.XFitController;
 
@@ -17,11 +15,11 @@ import ru.xfit.screens.XFitController;
 
 public class ClassController extends XFitController<LayoutClassBinding> implements OnViewReadyListener {
 
-    public Schedule schedule;
+    public Clazz schedule;
     public boolean isAdded = false;
     private boolean isCanDelete = false;
 
-    public ClassController(Schedule schedule, boolean isCanDelete) {
+    public ClassController(Clazz schedule, boolean isCanDelete) {
         this.schedule = schedule;
         this.isCanDelete = isCanDelete;
 

@@ -30,7 +30,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout="@layout/c_calendar"
-                    app:initCalendarSchedule="@{controller}"/>
+                    app:initCalendarSchedule="@{controller}"
+                    app:highlightedDays="@{controller.classDates}"/>
 
                 <RelativeLayout
                     android:id="@+id/recycler"
