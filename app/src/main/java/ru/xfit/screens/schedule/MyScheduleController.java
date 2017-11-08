@@ -137,5 +137,7 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
         filters.clear();
         filters.add(new FilterByDay(dateTime));
         adapter.filter(filters);
+
+        notifyPropertyChanged(BR.adapter);
     }
 }

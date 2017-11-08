@@ -28,7 +28,12 @@ public class CircleTransform extends BitmapTransformation  {
             source.recycle();
         }
 
-        Bitmap bitmap = Bitmap.createBitmap(size, size, source.getConfig());
+        Bitmap bitmap = pool.get(size, size, Bitmap.Config.ARGB_8888);
+        // If no matching Bitmap is in the pool, get will return null, so we should allocate.
+        if (bitmap == null) {
+            // Use ARGB_8888 since we're going to add alpha to the image.
+            bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+        }
 
         Canvas canvas = new Canvas(bitmap);
         Paint paint = new Paint();
