@@ -3,43 +3,34 @@ package ru.xfit.screens.filter;
 import android.databinding.Bindable;
 import android.util.Log;
 import android.view.View;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutFilterBinding;
 import ru.xfit.misc.adapters.BaseAdapter;
 import ru.xfit.misc.adapters.BaseVM;
-import ru.xfit.misc.adapters.filters.FilterByClassType;
-import ru.xfit.misc.adapters.filters.FilterByTrainers;
-import ru.xfit.misc.adapters.filters.Filter;
-import ru.xfit.misc.adapters.filters.OnFilterListener;
 import ru.xfit.model.data.schedule.Activity;
 import ru.xfit.model.data.schedule.Trainer;
 import ru.xfit.screens.XFitController;
-import ru.xfit.screens.schedule.ClubClassesController;
+import ru.xfit.screens.schedule.FilterListener;
 
-import com.android.databinding.library.baseAdapters.BR;
+import java.util.*;
 
 /**
  * Created by TESLA on 06.11.2017.
  */
 
 public class FilterController extends XFitController<LayoutFilterBinding> {
-    public List<Trainer> trainers;
-    public List<Activity> classes;
-    private List<Filter> filters = new ArrayList<>();
+    private Collection<Trainer> trainers;
+    private Collection<Activity> classes;
 
-    private List<BaseVM> vms = new ArrayList<>();
+    private final FilterListener listener;
 
     @Bindable
-    public BaseAdapter adapter;
+    public final BaseAdapter<BaseVM> adapter = new BaseAdapter<>(new ArrayList<>());
 
-    public FilterController(List<Trainer> trainers, List<Activity> classes) {
+    public FilterController(FilterListener listener, Collection<Trainer> trainers, Collection<Activity> classes) {
+        this.listener = listener;
         this.trainers = trainers;
         this.classes = classes;
-
         showClasses();
     }
 
@@ -70,23 +61,20 @@ public class FilterController extends XFitController<LayoutFilterBinding> {
         }
     }
 
-    public void showTrainers() {
-        if (vms != null)
-            vms.clear();
-
+    private void showTrainers() {
+        List<BaseVM> vms = new ArrayList<>();
         vms.add(new HeaderFilterVM(this, true, "Все тренера"));
 
         for (Trainer trainer : trainers) {
             vms.add(new FilterTrainersVM(this, trainer));
         }
 
-        adapter = new BaseAdapter<>(vms);
-        notifyPropertyChanged(BR.adapter);
+        adapter.clear();
+        adapter.addAll(vms);
     }
 
-    public void showClasses() {
-        if (vms != null)
-            vms.clear();
+    private void showClasses() {
+        List<BaseVM> vms = new ArrayList<>();
 
         vms.add(new HeaderFilterVM(this, false, "Все занятия"));
 
@@ -94,9 +82,8 @@ public class FilterController extends XFitController<LayoutFilterBinding> {
             vms.add(new FilterClassesVM(this, training));
         }
 
-        adapter = new BaseAdapter<>(vms);
-        notifyPropertyChanged(BR.adapter);
-
+        adapter.clear();
+        adapter.addAll(vms);
     }
 
     public void accept(View view){
@@ -107,9 +94,9 @@ public class FilterController extends XFitController<LayoutFilterBinding> {
     protected boolean onBackPressed() {
         if(getPrevious() == null)
             return true;
-        List<Trainer> selectedTrainers = new ArrayList<>();
-        List<Activity> selectedActivities = new ArrayList<>();
-        for (BaseVM vm : vms) {
+        Set<Trainer> selectedTrainers = new HashSet<>();
+        Set<Activity> selectedActivities = new HashSet<>();
+        for (BaseVM vm : adapter.getItems()) {
             if (vm instanceof FilterTrainersVM) {
                 if (((FilterTrainersVM)vm).isChecked)
                     selectedTrainers.add(((FilterTrainersVM)vm).trainer);
@@ -119,14 +106,7 @@ public class FilterController extends XFitController<LayoutFilterBinding> {
             }
         }
 
-        if (selectedTrainers.size() > 0) {
-            ((OnFilterListener)getPrevious()).onTrainersFilter(selectedTrainers);
-        }
-        if (selectedActivities.size() > 0) {
-            ((OnFilterListener)getPrevious()).onActivitiesFilter(selectedActivities);
-        }
-
-
+        listener.onUpdate(selectedActivities, selectedTrainers);
 
         return super.onBackPressed();
     }

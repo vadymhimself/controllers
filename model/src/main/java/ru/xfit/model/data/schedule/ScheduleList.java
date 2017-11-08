@@ -10,5 +10,5 @@ import java.util.List;
 public class ScheduleList implements Serializable {
     public String dateSince;
     public String dateTo;
-    public List<ScheduleClub> schedules;
+    public List<Schedule> schedules;
 }
