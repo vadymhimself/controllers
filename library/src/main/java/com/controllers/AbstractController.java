@@ -19,7 +19,6 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         BaseObservable implements IController {
 
     public static final String TAG = AbstractController.class.getSimpleName();
-    private String title;
 
     /**
      * ViewStrategy of the Controller representation in terms of Android
@@ -240,13 +239,10 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
     }
 
     // TODO: I don't really like it
-    public String getTitle() {
-        return title;
+    protected String getTitle() {
+        return "Untitled controller";
     }
 
-    protected void  setTitle(String title) {
-        this.title = title;
-    }
 
     boolean beforeChanged(AbstractController next) {
         return false;
