@@ -41,8 +41,8 @@ public interface NetworkInterface {
 
     ///me/classes/{id}
     @GET("me/classes")
-    Call<ScheduleList> getSchedule(@Query("year") String year,
-                                   @Query("week") String week);
+    Call<ScheduleList> getSchedule(@Query("year") int year,
+                                   @Query("week") int week);
 
     @GET("me/classes")
     Call<ScheduleList> getSchedule();

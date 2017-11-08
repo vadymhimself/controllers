@@ -11,7 +11,7 @@ public class HeaderFilterVM implements BaseVM {
     public FilterController controller;
     public boolean headerSpace = true;
     public String title;
-    public boolean isChecked = false;
+    public boolean isChecked = true;
 
     public HeaderFilterVM(FilterController controller, boolean headerSpace, String title) {
         this.controller = controller;

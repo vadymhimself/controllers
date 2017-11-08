@@ -29,7 +29,7 @@ public class DayFilter extends PredicateFilter<ClassVM> implements Serializable 
         try {
             // TODO: переписать по людски и вынести парсинг
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-            Date date = dateFormat.parse(it.clazz.datetime));
+            Date date = dateFormat.parse(it.clazz.datetime);
             SimpleDateFormat month = new SimpleDateFormat("MM");
             SimpleDateFormat dayMonth = new SimpleDateFormat("dd");
 

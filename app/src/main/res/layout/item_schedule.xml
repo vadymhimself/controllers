@@ -57,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/ic_bucks"
-                    android:visibility='@{viewModel.schedule.commercial}'
+                    android:visibility='@{viewModel.clazz.commercial}'
                     android:layout_gravity="center" />
 
                 <ImageView
@@ -66,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/ic_like"
                     android:layout_marginLeft="20dp"
-                    android:visibility='@{viewModel.schedule.popular}'
+                    android:visibility='@{viewModel.clazz.popular}'
                     android:layout_gravity="center" />
 
             </LinearLayout>
@@ -97,7 +97,7 @@
                 android:textStyle="normal"
                 android:textColor="@color/calendarWeekend"
                 android:layout_marginTop="18dp"
-                android:text="@{viewModel.schedule.activity.title}"
+                android:text="@{viewModel.clazz.activity.title}"
                 />
             <TextView
                 android:id="@+id/description"
@@ -118,7 +118,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="34dp"
-                android:visibility='@{viewModel.schedule.isNew}'
+                android:visibility='@{viewModel.clazz.isNew}'
                 android:background="@drawable/schedule_label_new"/>
         </RelativeLayout>
     </RelativeLayout>

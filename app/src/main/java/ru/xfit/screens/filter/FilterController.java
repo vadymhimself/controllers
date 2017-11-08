@@ -22,6 +22,9 @@ public class FilterController extends XFitController<LayoutFilterBinding> {
     private Collection<Trainer> trainers;
     private Collection<Activity> classes;
 
+    private Set<Trainer> selectedTrainers = new HashSet<>();
+    private Set<Activity> selectedActivities = new HashSet<>();
+
     private final FilterListener listener;
 
     @Bindable
@@ -31,7 +34,10 @@ public class FilterController extends XFitController<LayoutFilterBinding> {
         this.listener = listener;
         this.trainers = trainers;
         this.classes = classes;
+
         showClasses();
+        selectedTrainers.addAll(this.trainers);
+        selectedActivities.addAll(this.classes);
     }
 
     @Override
@@ -69,6 +75,9 @@ public class FilterController extends XFitController<LayoutFilterBinding> {
             vms.add(new FilterTrainersVM(this, trainer));
         }
 
+        selectedActivities.clear();
+        saveIntermediateSelectionState();
+
         adapter.clear();
         adapter.addAll(vms);
     }
@@ -82,6 +91,9 @@ public class FilterController extends XFitController<LayoutFilterBinding> {
             vms.add(new FilterClassesVM(this, training));
         }
 
+        selectedTrainers.clear();
+        saveIntermediateSelectionState();
+
         adapter.clear();
         adapter.addAll(vms);
     }
@@ -90,12 +102,23 @@ public class FilterController extends XFitController<LayoutFilterBinding> {
         onBackPressed();
     }
 
+    private void saveIntermediateSelectionState() {
+        for (BaseVM vm : adapter.getItems()) {
+            if (vm instanceof FilterTrainersVM) {
+                if (((FilterTrainersVM)vm).isChecked)
+                    selectedTrainers.add(((FilterTrainersVM)vm).trainer);
+            } else if (vm instanceof FilterClassesVM) {
+                if (((FilterClassesVM)vm).isChecked)
+                    selectedActivities.add(((FilterClassesVM)vm).training);
+            }
+        }
+    }
+
     @Override
     protected boolean onBackPressed() {
         if(getPrevious() == null)
             return true;
-        Set<Trainer> selectedTrainers = new HashSet<>();
-        Set<Activity> selectedActivities = new HashSet<>();
+
         for (BaseVM vm : adapter.getItems()) {
             if (vm instanceof FilterTrainersVM) {
                 if (((FilterTrainersVM)vm).isChecked)

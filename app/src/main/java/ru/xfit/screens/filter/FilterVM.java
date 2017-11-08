@@ -5,5 +5,5 @@ package ru.xfit.screens.filter;
  */
 
 public abstract class FilterVM {
-    public boolean isChecked = false;
+    public boolean isChecked = true;
 }

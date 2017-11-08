@@ -46,7 +46,7 @@ public interface Api {
 
     Task<Schedule> getClassesForClub(String id);
 
-    Task<ScheduleList> getMySchedule(String year, String week);
+    Task<ScheduleList> getMySchedule(int year, int week);
 
     Task<ScheduleList> getMySchedule();
 

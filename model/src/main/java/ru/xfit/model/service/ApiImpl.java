@@ -154,7 +154,7 @@ final class ApiImpl implements Api {
     }
 
     @Override
-    public Task<ScheduleList> getMySchedule(String year, String week) {
+    public Task<ScheduleList> getMySchedule(int year, int week) {
         return TaskBuilder.from(networkInterface.getSchedule(year, week));
     }
 

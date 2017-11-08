@@ -527,16 +527,12 @@ public abstract class BindingAdapters {
         auCalendar.setMultipleSelection(false);
         auCalendar.setToday(today);
         calendarViewInteractor.updateCalendar(calendar);
-        controller.year.set(calendar.getCurrentYear());
-        controller.week.set(String.valueOf(calendar.getCurrentWeek()));
 
         customizableCalendar.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View view) {
                 auCalendar.observeChangesOnCalendar().subscribe(changeSet -> {
                     calendarViewInteractor.updateCalendar(calendar);
-                    controller.year.set(calendar.getCurrentYear());
-                    controller.week.set(String.valueOf(calendar.getCurrentWeek()));
                     if (calendar.getFirstSelectedDay() != null)
                         controller.onDateChange(calendar.getFirstSelectedDay());
                 });
@@ -617,9 +613,9 @@ public abstract class BindingAdapters {
         });
     }
 
-    @BindingAdapter("highlightedDates")
+    @BindingAdapter("highlightedDays")
     public static void bindHighlightedDates(CustomizableCalendar v,
-                                            List<DateTime> dates) throws ParseException {
+                                            List<DateTime> dates) {
         AUCalendar.getInstance().highLightDates(dates);
     }
 

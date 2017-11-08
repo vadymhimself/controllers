@@ -39,7 +39,7 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
     public MyScheduleController() {
         adapter.addFilter(dayFilter);
         Request.with(this, Api.class)
-                .create(api -> api.getMySchedule(year.get(), week.get()))
+                .create(api -> api.getMySchedule(DateTime.now().getYear(), DateTime.now().getWeekOfWeekyear()))
                 .execute(scheduleListResponse -> {
                     addSchedule(scheduleListResponse.schedules);
                 });
@@ -66,11 +66,10 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
         }
 
         adapter.addAll(vms);
-        notifyPropertyChanged(BR.highlightedDays);
+//        notifyPropertyChanged(BR.highlightedDays);
     }
 
-    public void classes(View view) {
-        // просто ахуенное название метода
+    public void showClubClassesController(View view) {
         // TODO: show progress
         Request.with(this, Api.class)
                 .create(api -> api.getClassesForClub("181"))
@@ -81,23 +80,27 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
 
     }
 
-    public List<DateTime> getClassDates() throws ParseException {
+    public List<DateTime> getClassDates() {
         List<DateTime> dates = new ArrayList<>();
         // все желтое починить
         for (Clazz clazz : ListUtils.map(adapter.getAllItems(), it -> it.clazz)) {
             // return
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-            Date date = dateFormat.parse(clazz.datetime);
-            SimpleDateFormat year = new SimpleDateFormat("yyyy");
-            year.format(date);
-            SimpleDateFormat month = new SimpleDateFormat("MM");
-            month.format(date);
-            SimpleDateFormat day = new SimpleDateFormat("dd");
-            day.format(date);
+            try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+                Date date = dateFormat.parse(clazz.datetime);
+                SimpleDateFormat year = new SimpleDateFormat("yyyy");
+                year.format(date);
+                SimpleDateFormat month = new SimpleDateFormat("MM");
+                month.format(date);
+                SimpleDateFormat day = new SimpleDateFormat("dd");
+                day.format(date);
 
-            dates.add(new DateTime().withDate(Integer.valueOf(year.format(date)),
-                    Integer.valueOf(month.format(date)),
-                    Integer.valueOf(day.format(date))));
+                dates.add(new DateTime().withDate(Integer.valueOf(year.format(date)),
+                        Integer.valueOf(month.format(date)),
+                        Integer.valueOf(day.format(date))));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
 
         return dates;
@@ -112,5 +115,7 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
     public void onDateChange(DateTime dateTime) {
         dayFilter.setDay(dateTime);
         adapter.refresh();
+
+        notifyPropertyChanged(BR.adapter);
     }
 }

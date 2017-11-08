@@ -1,6 +1,8 @@
 package ru.xfit.screens.schedule;
 
 import android.databinding.Bindable;
+
+import com.android.databinding.library.baseAdapters.BR;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import org.joda.time.DateTime;
 import ru.xfit.R;
@@ -37,10 +39,14 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
 
     private final DayFilter dayFilter = new DayFilter(DateTime.now());
 
+//    private FilterController filterController = new FilterController(this, trainers, activities);
+
     @Bindable
     public final FilterableAdapter<ClassVM> adapter = new FilterableAdapter<>(new ArrayList<>());
 
     ClubClassesController(Schedule schedule) {
+        setTitle(schedule.club.title);
+
         adapter.addFilter(dayFilter);
         // class type and trainer filters
         adapter.addFilter(list -> filter(list, it -> selectedActivities.contains(it.clazz.activity)));
@@ -79,6 +85,8 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
             trainers.addAll(schedule.trainers);
             toAdd.add(new ClassVM(schedule, this));
         }
+        this.selectedTrainers = trainers;
+        this.selectedActivities = activities;
         adapter.addAll(toAdd);
     }
 

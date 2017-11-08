@@ -17,7 +17,7 @@ import java.util.Date;
 
 public class ClassVM implements BaseVM {
     private XFitController parent;
-    Clazz clazz;
+    public Clazz clazz;
 
     ClassVM(Clazz clazz, XFitController parent){
         this.clazz = clazz;

@@ -10,8 +10,7 @@
     </data>
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:onViewReadyListener='@{controller}' >
+        android:layout_height="match_parent" >
 
         <android.support.v4.widget.NestedScrollView
             android:layout_marginTop="10dp"
@@ -74,7 +73,7 @@
                         android:textColor="@android:color/white"
                         android:textSize="18sp"
                         android:visibility='@{controller.adapter.itemCount == 0}'
-                        android:onClick='@{controller.classes}'/>
+                        android:onClick='@{controller.showClubClassesController}'/>
 
                     <!--<Button-->
                         <!--android:id="@+id/services_btn"-->
