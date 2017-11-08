@@ -31,7 +31,8 @@ import ru.xfit.screens.filter.FilterController;
  * Created by TESLA on 04.11.2017.
  */
 
-public class ClubClassesController extends BaseScheduleController<LayoutClubClassesBinding> implements OnFilterListener {
+public class ClubClassesController extends BaseScheduleController<LayoutClubClassesBinding>
+        implements OnFilterListener {
 
     Set<Trainer> trainers = new HashSet<>();
     Set<Activity> activities = new HashSet<>();
@@ -93,10 +94,6 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
     public List<Activity> getActivities() {
         return new ArrayList<>(activities);
     }
-
-//    public void updateByFilter(List<Filter> filters) {
-//        adapter.filter(filters);
-//    }
 
     @Override
     public void onActivitiesFilter(List<Activity> activities) {

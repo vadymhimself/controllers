@@ -24,6 +24,9 @@ import ru.xfit.databinding.LayoutMyScheduleBinding;
 import ru.xfit.misc.OnViewReadyListener;
 import ru.xfit.misc.adapters.FilterableAdapter;
 import ru.xfit.misc.adapters.filters.Filter;
+import ru.xfit.misc.adapters.filters.FilterByClassType;
+import ru.xfit.misc.adapters.filters.FilterByDay;
+import ru.xfit.misc.adapters.filters.OnCalendarListener;
 import ru.xfit.misc.utils.PrefUtils;
 import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.model.data.schedule.ScheduleClub;
@@ -36,11 +39,13 @@ import static ru.xfit.domain.App.PREFS_IS_USER_ALREADY_LOGIN;
  * Created by TESLA on 25.10.2017.
  */
 
-public class MyScheduleController extends DrawerController<LayoutMyScheduleBinding> implements OnViewReadyListener {
+public class MyScheduleController extends DrawerController<LayoutMyScheduleBinding>
+        implements OnViewReadyListener, OnCalendarListener {
 
     public ObservableField<String> year = new ObservableField<>();
     public ObservableField<String> week = new ObservableField<>();
-    public ObservableField<DateTime> day = new ObservableField<>();
+
+    List<Filter> filters = new ArrayList<>();
 
     private ArrayList<Schedule> allSchedule = new ArrayList<>();
 
@@ -102,6 +107,8 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
                     highlighteDays.add(new DateTime().withDate(Integer.valueOf(year.format(date)),
                             Integer.valueOf(month.format(date)),
                             Integer.valueOf(day.format(date))));
+
+                    vms.add(new MyScheduleVM(schedule, this));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -113,52 +120,8 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
         adapter = new FilterableAdapter<>(vms);
         notifyPropertyChanged(BR.adapter);
 
-        //TODO fuck this shit
-        day.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable observable, int i) {
-                boolean scheduleAdded = false;
-                ArrayList<Schedule> schedules = new ArrayList<Schedule>();
-                for (int j = 0; j < allSchedule.size(); j++) {
-                    Schedule schedule = allSchedule.get(j);
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-                    try {
-                        Date date = dateFormat.parse(schedule.datetime);
-                        SimpleDateFormat month = new SimpleDateFormat("MM");
-                        SimpleDateFormat dayMonth = new SimpleDateFormat("dd");
+//        onDateChange(AUCalendar.getInstance().getToday());
 
-                        if (day.get().getDayOfMonth() == Integer.valueOf(dayMonth.format(date)) &&
-                                day.get().getMonthOfYear() == Integer.valueOf(month.format(date))) {
-                            scheduleAdded = true;
-                            schedules.add(schedule);
-                        }
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (!scheduleAdded)
-                    updateSchedule(null);
-                else
-                    updateSchedule(schedules);
-
-            }
-        });
-
-    }
-
-    public void updateSchedule(List<Schedule> schedules) {
-        if (schedules != null) {
-            vms.clear();
-            for (Schedule schedule : schedules)
-                vms.add(new MyScheduleVM(schedule, this));
-        } else
-            vms.clear();
-        notifyPropertyChanged(BR.adapter);
-    }
-
-    public void filterItems(List<Filter> filters) {
-        adapter.filter(filters);
     }
 
     public void classes(View view) {
@@ -167,5 +130,12 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
 
     public void services(View view) {
 
+    }
+
+    @Override
+    public void onDateChange(DateTime dateTime) {
+        filters.clear();
+        filters.add(new FilterByDay(dateTime));
+        adapter.filter(filters);
     }
 }

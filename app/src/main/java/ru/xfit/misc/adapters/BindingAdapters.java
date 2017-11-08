@@ -547,7 +547,7 @@ public abstract class BindingAdapters {
                         controller.year.set(calendar.getCurrentYear());
                         controller.week.set(String.valueOf(calendar.getCurrentWeek()));
                         if (calendar.getFirstSelectedDay() != null)
-                            controller.day.set(calendar.getFirstSelectedDay());
+                            controller.onDateChange(calendar.getFirstSelectedDay());
                     }
                 });
             }
