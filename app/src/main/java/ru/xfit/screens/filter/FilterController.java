@@ -14,6 +14,7 @@ import ru.xfit.misc.adapters.BaseVM;
 import ru.xfit.misc.adapters.filters.FilterByClassType;
 import ru.xfit.misc.adapters.filters.FilterByTrainers;
 import ru.xfit.misc.adapters.filters.Filter;
+import ru.xfit.misc.adapters.filters.OnFilterListener;
 import ru.xfit.model.data.schedule.Activity;
 import ru.xfit.model.data.schedule.Trainer;
 import ru.xfit.screens.XFitController;
@@ -118,12 +119,14 @@ public class FilterController extends XFitController<LayoutFilterBinding> {
             }
         }
 
-        if (selectedTrainers.size() > 0)
-            filters.add(new FilterByTrainers(selectedTrainers));
-        if (selectedActivities.size() > 0)
-            filters.add(new FilterByClassType(selectedActivities));
+        if (selectedTrainers.size() > 0) {
+            ((OnFilterListener)getPrevious()).onTrainersFilter(selectedTrainers);
+        }
+        if (selectedActivities.size() > 0) {
+            ((OnFilterListener)getPrevious()).onActivitiesFilter(selectedActivities);
+        }
 
-        ((ClubClassesController)getPrevious()).updateByFilter(filters);
+
 
         return super.onBackPressed();
     }

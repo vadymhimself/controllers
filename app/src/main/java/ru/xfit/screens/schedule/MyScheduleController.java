@@ -3,7 +3,6 @@ package ru.xfit.screens.schedule;
 import android.databinding.Bindable;
 import android.databinding.Observable;
 import android.databinding.ObservableField;
-import android.util.Log;
 import android.view.View;
 
 import com.android.databinding.library.baseAdapters.BR;
@@ -18,23 +17,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import okhttp3.Interceptor;
 import ru.xfit.MainActivity;
 import ru.xfit.R;
 import ru.xfit.StartActivity;
 import ru.xfit.databinding.LayoutMyScheduleBinding;
 import ru.xfit.misc.OnViewReadyListener;
-import ru.xfit.misc.adapters.BaseAdapter;
-import ru.xfit.misc.adapters.BaseVM;
 import ru.xfit.misc.adapters.FilterableAdapter;
 import ru.xfit.misc.adapters.filters.Filter;
 import ru.xfit.misc.utils.PrefUtils;
-import ru.xfit.model.data.schedule.Activity;
 import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.model.data.schedule.ScheduleClub;
-import ru.xfit.model.data.schedule.Trainer;
 import ru.xfit.model.service.Api;
-import ru.xfit.screens.XFitController;
+import ru.xfit.screens.DrawerController;
 
 import static ru.xfit.domain.App.PREFS_IS_USER_ALREADY_LOGIN;
 
@@ -42,7 +36,7 @@ import static ru.xfit.domain.App.PREFS_IS_USER_ALREADY_LOGIN;
  * Created by TESLA on 25.10.2017.
  */
 
-public class MyScheduleController extends BaseScheduleController<LayoutMyScheduleBinding> implements OnViewReadyListener {
+public class MyScheduleController extends DrawerController<LayoutMyScheduleBinding> implements OnViewReadyListener {
 
     public ObservableField<String> year = new ObservableField<>();
     public ObservableField<String> week = new ObservableField<>();
@@ -50,7 +44,7 @@ public class MyScheduleController extends BaseScheduleController<LayoutMySchedul
 
     private ArrayList<Schedule> allSchedule = new ArrayList<>();
 
-    public ClubClassesController clubClassesController = new ClubClassesController("181");
+    private ClubClassesController clubClassesController = new ClubClassesController("181");
 
     @Bindable
     public FilterableAdapter adapter;
@@ -119,6 +113,7 @@ public class MyScheduleController extends BaseScheduleController<LayoutMySchedul
         adapter = new FilterableAdapter<>(vms);
         notifyPropertyChanged(BR.adapter);
 
+        //TODO fuck this shit
         day.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
@@ -168,7 +163,6 @@ public class MyScheduleController extends BaseScheduleController<LayoutMySchedul
 
     public void classes(View view) {
         show(clubClassesController);
-
     }
 
     public void services(View view) {

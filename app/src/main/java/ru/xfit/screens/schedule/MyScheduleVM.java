@@ -14,16 +14,18 @@ import ru.xfit.R;
 import ru.xfit.misc.adapters.BaseVM;
 import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.model.data.schedule.Trainer;
+import ru.xfit.screens.DrawerController;
+import ru.xfit.screens.XFitController;
 
 /**
  * Created by TESLA on 04.11.2017.
  */
 
 public class MyScheduleVM implements BaseVM {
-    public BaseScheduleController myScheduleController;
+    public XFitController myScheduleController;
     public Schedule schedule;
 
-    public MyScheduleVM(Schedule schedule, BaseScheduleController myScheduleController){
+    public MyScheduleVM(Schedule schedule, XFitController myScheduleController){
         this.schedule = schedule;
         this.myScheduleController = myScheduleController;
     }

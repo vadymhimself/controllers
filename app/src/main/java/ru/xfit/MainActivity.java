@@ -16,9 +16,15 @@ import android.view.View;
 
 import com.controllers.Controller;
 import com.controllers.ControllerActivity;
+
+import ru.xfit.domain.App;
+import ru.xfit.misc.OptionsItemSelectedEvent;
 import ru.xfit.screens.BusTestController;
+import ru.xfit.screens.DrawerController;
 import ru.xfit.screens.HomeController;
+
 import com.crashlytics.android.Crashlytics;
+
 import io.fabric.sdk.android.Fabric;
 import ru.xfit.screens.clubs.ClubsController;
 import ru.xfit.screens.filter.FilterController;
@@ -58,32 +64,39 @@ public class MainActivity extends XFitActivity implements
 
         setSupportActionBar(toolbar);
 
-        myScheduleController = new MyScheduleController();
-        clubsController = new ClubsController();
-        if (savedInstanceState == null) {
-            show(myScheduleController, 0, 0);
-        }
-
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navView.setNavigationItemSelectedListener(this);
+
+        myScheduleController = new MyScheduleController();
+        clubsController = new ClubsController();
+        if (savedInstanceState == null) {
+            show(myScheduleController, 0, 0);
+        }
     }
 
     @Override
     protected void onControllerChanged(Controller controller) {
-        setTitle(controller.getTitle());
+
+        if (controller instanceof DrawerController) {
+            showHamburgerIcon(false);
+            setTitle(((DrawerController)controller).getTitle());
+        } else {
+            showHamburgerIcon(true);
+        }
+
         if (controller instanceof ClubClassesController) {
             showFilterAndSearch = true;
             invalidateOptionsMenu();
+            setTitle(((ClubClassesController)controller).getTitle());
 
-            setTitle(myScheduleController.clubClassesController.getTitle());
-            showHamburgerIcon(true);
         } else {
             showFilterAndSearch = false;
             invalidateOptionsMenu();
         }
+
 
         super.onControllerChanged(controller);
     }
@@ -100,16 +113,8 @@ public class MainActivity extends XFitActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.filter:
-                show(new FilterController(myScheduleController.clubClassesController.getTrainers(),
-                        myScheduleController.clubClassesController.getActivities()));
-                return true;
-            case R.id.search:
-                return true;
-            default:
-                return false;
-        }
+        App.getBus().post(new OptionsItemSelectedEvent(item));
+        return false;
     }
 
     @Override
@@ -144,11 +149,11 @@ public class MainActivity extends XFitActivity implements
     }
 
     public void showHamburgerIcon(boolean hide) {
-        if(hide) {
+        if (hide) {
             toggle.setDrawerIndicatorEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-            if(!toolBarNavigationListenerIsRegistered) {
+            if (!toolBarNavigationListenerIsRegistered) {
                 toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

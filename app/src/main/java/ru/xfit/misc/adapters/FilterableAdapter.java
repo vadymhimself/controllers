@@ -1,36 +1,39 @@
 package ru.xfit.misc.adapters;
 
 import android.support.annotation.NonNull;
-import android.support.v7.util.DiffUtil;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import ru.xfit.misc.adapters.filters.Filter;
+import ru.xfit.misc.adapters.filters.FilterByClassType;
+import ru.xfit.misc.adapters.filters.FilterByTrainers;
+import ru.xfit.misc.adapters.filters.OnFilterListener;
+import ru.xfit.model.data.schedule.Activity;
+import ru.xfit.model.data.schedule.Trainer;
 
 /**
  * Created by TESLA on 07.11.2017.
  */
 
 public class FilterableAdapter<VM extends BaseVM> extends BaseAdapter {
-    private List<VM> allVMS;
+    private List<VM> allVms;
 
     public FilterableAdapter(@NonNull List<VM> vms) {
         super(vms);
-        allVMS = new ArrayList<VM>();
-        allVMS.addAll(vms);
+        allVms = new ArrayList<VM>();
+        allVms.addAll(vms);
     }
 
     public void clearFilter() {
-        vms = allVMS;
+        vms = allVms;
         notifyDataSetChanged();
     }
 
     public void filter(List<Filter> filters) {
         ArrayList<VM> filteredVms = new ArrayList<VM>();
-        if (vms != null && allVMS != null) {
-            for (VM vm : allVMS) {
+        if (vms != null && allVms != null) {
+            for (VM vm : allVms) {
                 for (Filter filter : filters) {
                     if (filter.compare(vm)) {
                         if (!filteredVms.contains(vm))
@@ -43,7 +46,7 @@ public class FilterableAdapter<VM extends BaseVM> extends BaseAdapter {
             notifyDataSetChanged();
 
 //            ScheduleDiffUtilCallback productDiffUtilCallback =
-//                    new ScheduleDiffUtilCallback(allVMS, filteredVms);
+//                    new ScheduleDiffUtilCallback(allVms, filteredVms);
 //            DiffUtil.DiffResult productDiffResult = DiffUtil.calculateDiff(productDiffUtilCallback);
 //
 //            vms = filteredVms;
