@@ -63,8 +63,6 @@ slack {
 
 dependencies {
 
-    compile 'com.hwangjr.rxbus:rxbus:1.0.6'
-
     compile project(':controllers')
     compile project(':model')
     compile project(':calendar')

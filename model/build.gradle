@@ -48,6 +48,10 @@ dependencies {
     // TODO
 
 
+    // Other
+    compile 'com.hwangjr.rxbus:rxbus:1.0.6'
+
+
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

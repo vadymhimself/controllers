@@ -1,4 +1,4 @@
-package ru.xfit.misc;
+package ru.xfit.misc.events;
 
 import android.view.MenuItem;
 

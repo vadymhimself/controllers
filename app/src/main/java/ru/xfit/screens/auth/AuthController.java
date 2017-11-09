@@ -2,18 +2,16 @@ package ru.xfit.screens.auth;
 
 import android.databinding.ObservableField;
 import android.view.View;
-
 import com.controllers.Request;
-
-import ru.xfit.MainActivity;
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutAuthBinding;
-import ru.xfit.misc.utils.PrefUtils;
+import ru.xfit.domain.App;
+import ru.xfit.domain.MainActivity;
 import ru.xfit.model.data.auth.User;
+import ru.xfit.model.data.storage.preferences.PreferencesManager;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.XFitController;
 
-import static ru.xfit.domain.App.PREFS_IS_USER_ALREADY_LOGIN;
 
 /**
  * Created by TESLA on 25.10.2017.
@@ -42,7 +40,8 @@ public class AuthController extends XFitController<LayoutAuthBinding> {
                 })
                 .execute(user -> {
 
-                    PrefUtils.getPreferences().edit().putBoolean(PREFS_IS_USER_ALREADY_LOGIN, true).commit();
+                    PreferencesManager preferencesManager = new PreferencesManager(App.getContext());
+                    preferencesManager.putValue(PreferencesManager.KEY_IS_USER_ALREADY_LOGIN, true);
 
                     user.user.language = user.language;
                     user.user.city = user.city;

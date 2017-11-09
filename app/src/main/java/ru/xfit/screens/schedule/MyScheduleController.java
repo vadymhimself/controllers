@@ -4,30 +4,21 @@ import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.view.View;
-
-import com.controllers.Promise;
 import com.controllers.Request;
 import org.joda.time.DateTime;
 import ru.xfit.BR;
 import ru.xfit.R;
-import ru.xfit.StartActivity;
 import ru.xfit.databinding.LayoutMyScheduleBinding;
 import ru.xfit.misc.adapters.FilterableAdapter;
 import ru.xfit.misc.utils.CalendarUtils;
 import ru.xfit.misc.utils.ListUtils;
-import ru.xfit.misc.utils.PrefUtils;
 import ru.xfit.model.data.schedule.Clazz;
 import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.DrawerController;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import static ru.xfit.domain.App.PREFS_IS_USER_ALREADY_LOGIN;
 
 /**
  * Created by TESLA on 25.10.2017.
@@ -58,12 +49,6 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
     @Override
     public int getLayoutId() {
         return R.layout.layout_my_schedule;
-    }
-
-    public void logOut() {
-        PrefUtils.getPreferences().edit().putBoolean(PREFS_IS_USER_ALREADY_LOGIN, false).apply();
-        StartActivity.start(getActivity());
-        getActivity().finish();
     }
 
     private void addSchedule(List<Schedule> scheduleClubs) {

@@ -1,9 +1,6 @@
 package ru.xfit.misc.adapters;
 
 import android.support.annotation.NonNull;
-import android.support.v7.util.DiffUtil;
-import android.util.Log;
-
 import ru.xfit.misc.utils.ListUtils;
 
 import java.util.ArrayList;
@@ -32,25 +29,8 @@ public class FilterableAdapter<VM extends BaseVM> extends BaseAdapter<VM> {
     }
 
     public void refresh() {
-        vms.clear();
-        vms.addAll(ListUtils.reduce(filters, allVms, (reduced, current, i, c) -> current.filter(reduced)));
+        vms = ListUtils.reduce(filters, allVms, (reduced, current, i, c) -> current.filter(reduced));
         notifyDataSetChanged(); // TODO: diff util
-
-//        DiffObservableList<VM> list = new DiffObservableList<VM>(new DiffObservableList.Callback<VM>() {
-//            @Override
-//            public boolean areItemsTheSame(VM oldItem, VM newItem) {
-//                return oldItem.equals(newItem);
-//            }
-//
-//            @Override
-//            public boolean areContentsTheSame(VM oldItem, VM newItem) {
-//                return oldItem.equals(newItem);
-//            }
-//        });
-//
-//        DiffUtil.DiffResult diffResult = list.calculateDiff(vms);
-//        list.update(allVms);
-//        list.update(vms, diffResult);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package ru.xfit.domain;
+package ru.xfit.model.service;
 
 import com.hwangjr.rxbus.Bus;
 import com.hwangjr.rxbus.thread.ThreadEnforcer;
@@ -10,9 +10,8 @@ import javax.inject.Singleton;
 
 @Module
 class EventBusModule {
-
     @Provides
-    @AppScope
+    @Singleton
     Bus provideMainBus() {
         return new Bus(ThreadEnforcer.MAIN);
     }

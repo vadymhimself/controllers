@@ -1,4 +1,4 @@
-package ru.xfit;
+package ru.xfit.domain;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,26 +12,26 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-
 import com.controllers.Controller;
-
-import ru.xfit.domain.App;
-import ru.xfit.misc.OptionsItemSelectedEvent;
-import ru.xfit.screens.DrawerController;
-
 import com.crashlytics.android.Crashlytics;
-
+import com.hwangjr.rxbus.Bus;
+import com.hwangjr.rxbus.annotation.Subscribe;
 import io.fabric.sdk.android.Fabric;
+import ru.xfit.R;
+import ru.xfit.misc.events.OptionsItemSelectedEvent;
+import ru.xfit.model.retrorequest.LogoutEvent;
+import ru.xfit.screens.DrawerController;
 import ru.xfit.screens.clubs.ClubsController;
 import ru.xfit.screens.schedule.ClubClassesController;
 import ru.xfit.screens.schedule.MyScheduleController;
 
+import javax.inject.Inject;
+
+
 public class MainActivity extends XFitActivity implements
         NavigationView.OnNavigationItemSelectedListener {
-    public static void start(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        context.startActivity(intent);
-    }
+
+    @Inject Bus bus;
 
     public MyScheduleController myScheduleController;
     public ClubsController clubsController;
@@ -41,12 +41,13 @@ public class MainActivity extends XFitActivity implements
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
 
-    private boolean showFilterAndSearch = false;
+    private boolean showFilterAndSearch;
 
-    private boolean toolBarNavigationListenerIsRegistered = false;
+    private boolean toolBarNavigationListenerIsRegistered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        App.getInjector().inject(this);
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
@@ -73,6 +74,18 @@ public class MainActivity extends XFitActivity implements
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        bus.register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        bus.unregister(this);
+    }
+
+    @Override
     protected void onControllerChanged(Controller controller) {
 
         if (controller instanceof DrawerController) {
@@ -83,6 +96,7 @@ public class MainActivity extends XFitActivity implements
         }
 
         if (controller instanceof ClubClassesController) {
+            // TODO: push to the top controller
             showFilterAndSearch = true;
             invalidateOptionsMenu();
             setTitle(((ClubClassesController)controller).getTitle());
@@ -134,9 +148,20 @@ public class MainActivity extends XFitActivity implements
             case R.id.settings:
                 return true;
             case R.id.quit:
+                logOut();
                 return true;
         }
         return true;
+    }
+
+    @Subscribe
+    public void onTriggerLogout(LogoutEvent logoutEvent) {
+        logOut();
+    }
+
+    public void logOut() {
+        StartActivity.start(this);
+        finishAffinity();
     }
 
     public void setTitle(String title) {
@@ -165,5 +190,10 @@ public class MainActivity extends XFitActivity implements
             toggle.setToolbarNavigationClickListener(null);
             toolBarNavigationListenerIsRegistered = false;
         }
+    }
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
     }
 }

@@ -1,18 +1,12 @@
-package ru.xfit;
+package ru.xfit.domain;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
-
-import com.controllers.Request;
-
-import ru.xfit.MainActivity;
 import ru.xfit.R;
-import ru.xfit.XFitActivity;
-import ru.xfit.misc.utils.PrefUtils;
-import ru.xfit.model.service.Api;
+import ru.xfit.model.data.storage.preferences.PreferencesManager;
 import ru.xfit.screens.auth.AuthController;
 
 /**
@@ -20,7 +14,6 @@ import ru.xfit.screens.auth.AuthController;
  */
 
 public class StartActivity extends XFitActivity {
-    public static final String PREFS_IS_USER_ALREADY_LOGIN = "is_user_already_login";
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
@@ -36,8 +29,9 @@ public class StartActivity extends XFitActivity {
         setContentView(R.layout.activity_start);
         setControllerContainer(R.id.container);
 
+        PreferencesManager preferencesManager = new PreferencesManager(this);
 
-        if (PrefUtils.getPreferences().getBoolean(PREFS_IS_USER_ALREADY_LOGIN, false)) {
+        if (preferencesManager.getBoolean(PreferencesManager.KEY_IS_USER_ALREADY_LOGIN)) {
             MainActivity.start(this);
             finish();
         } else {
