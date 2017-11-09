@@ -55,7 +55,6 @@ import ru.xfit.screens.filter.FilterController;
 import ru.xfit.screens.filter.FilterVM;
 import ru.xfit.screens.schedule.MyScheduleController;
 
-import java.text.ParseException;
 import java.util.List;
 
 public abstract class BindingAdapters {
@@ -608,6 +607,8 @@ public abstract class BindingAdapters {
 
     @BindingAdapter("onCheckBoxChecked")
     public static void bindOnCheckBoxChecked(CheckBox checkBox, FilterVM filterVM ) {
+        checkBox.setOnCheckedChangeListener(null);
+        checkBox.setChecked(filterVM.isChecked);
         checkBox.setOnCheckedChangeListener((compoundButton, checked) -> {
             filterVM.isChecked = checked;
         });
