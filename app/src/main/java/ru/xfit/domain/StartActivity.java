@@ -35,7 +35,7 @@ public class StartActivity extends XFitActivity {
             MainActivity.start(this);
             finish();
         } else {
-            show(new AuthController());
+            show(new AuthController(), 0, 0);
         }
     }
 }
