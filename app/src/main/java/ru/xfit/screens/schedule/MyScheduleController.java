@@ -1,7 +1,11 @@
 package ru.xfit.screens.schedule;
 
 import android.databinding.Bindable;
+import android.databinding.ObservableArrayList;
+import android.databinding.ObservableBoolean;
 import android.view.View;
+
+import com.controllers.Promise;
 import com.controllers.Request;
 import org.joda.time.DateTime;
 import ru.xfit.BR;
@@ -9,6 +13,7 @@ import ru.xfit.R;
 import ru.xfit.StartActivity;
 import ru.xfit.databinding.LayoutMyScheduleBinding;
 import ru.xfit.misc.adapters.FilterableAdapter;
+import ru.xfit.misc.utils.CalendarUtils;
 import ru.xfit.misc.utils.ListUtils;
 import ru.xfit.misc.utils.PrefUtils;
 import ru.xfit.model.data.schedule.Clazz;
@@ -30,6 +35,11 @@ import static ru.xfit.domain.App.PREFS_IS_USER_ALREADY_LOGIN;
 
 public class MyScheduleController extends DrawerController<LayoutMyScheduleBinding>
         implements OnCalendarListener {
+
+    public ObservableBoolean progress = new ObservableBoolean();
+
+    @Bindable
+    public ObservableArrayList<DateTime> highlightedDays = new ObservableArrayList<>();
 
     private final DayFilter dayFilter = new DayFilter(DateTime.now());
 
@@ -66,14 +76,21 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
         }
 
         adapter.addAll(vms);
-//        notifyPropertyChanged(BR.highlightedDays);
+        getClassDates();
+        notifyPropertyChanged(BR.highlightedDays);
     }
 
     public void showClubClassesController(View view) {
-        // TODO: show progress
+        progress.set(true);
         Request.with(this, Api.class)
                 .create(api -> api.getClassesForClub("181"))
-                .execute(schedule -> show(new ClubClassesController(schedule)));
+                .onError(error -> {
+                    progress.set(false);
+                })
+                .execute((Promise.SuccessAction<Schedule>) schedule -> {
+                    progress.set(false);
+                    MyScheduleController.this.show(new ClubClassesController(schedule));
+                });
     }
 
     public void services(View view) {
@@ -81,29 +98,13 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
     }
 
     public List<DateTime> getClassDates() {
-        List<DateTime> dates = new ArrayList<>();
-        // все желтое починить
+        highlightedDays.clear();
         for (Clazz clazz : ListUtils.map(adapter.getAllItems(), it -> it.clazz)) {
             // return
-            try {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-                Date date = dateFormat.parse(clazz.datetime);
-                SimpleDateFormat year = new SimpleDateFormat("yyyy");
-                year.format(date);
-                SimpleDateFormat month = new SimpleDateFormat("MM");
-                month.format(date);
-                SimpleDateFormat day = new SimpleDateFormat("dd");
-                day.format(date);
-
-                dates.add(new DateTime().withDate(Integer.valueOf(year.format(date)),
-                        Integer.valueOf(month.format(date)),
-                        Integer.valueOf(day.format(date))));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            highlightedDays.add(CalendarUtils.dateStringToDateTime(clazz.datetime));
         }
 
-        return dates;
+        return highlightedDays;
     }
 
     @Override
@@ -114,8 +115,7 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
     @Override
     public void onDateChange(DateTime dateTime) {
         dayFilter.setDay(dateTime);
+        //TODO update adapter
         adapter.refresh();
-
-        notifyPropertyChanged(BR.adapter);
     }
 }
