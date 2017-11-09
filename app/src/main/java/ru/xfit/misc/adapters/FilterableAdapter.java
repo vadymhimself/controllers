@@ -2,6 +2,7 @@ package ru.xfit.misc.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
+import android.util.Log;
 
 import ru.xfit.misc.utils.ListUtils;
 
@@ -31,7 +32,8 @@ public class FilterableAdapter<VM extends BaseVM> extends BaseAdapter<VM> {
     }
 
     public void refresh() {
-        vms = ListUtils.reduce(filters, allVms, (reduced, current, i, c) -> current.filter(reduced));
+        vms.clear();
+        vms.addAll(ListUtils.reduce(filters, allVms, (reduced, current, i, c) -> current.filter(reduced)));
         notifyDataSetChanged(); // TODO: diff util
 
 //        DiffObservableList<VM> list = new DiffObservableList<VM>(new DiffObservableList.Callback<VM>() {

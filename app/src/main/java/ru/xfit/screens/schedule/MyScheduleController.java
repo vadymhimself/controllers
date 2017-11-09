@@ -114,5 +114,6 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
         dayFilter.setDay(dateTime);
         //TODO update adapter
         adapter.refresh();
+        notifyPropertyChanged(BR.adapter);
     }
 }

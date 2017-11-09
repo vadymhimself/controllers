@@ -1,5 +1,6 @@
 package ru.xfit.screens.schedule;
 
+import android.databinding.ObservableBoolean;
 import android.view.View;
 import com.controllers.Request;
 import ru.xfit.R;
@@ -18,6 +19,7 @@ public class ClassController extends XFitController<LayoutClassBinding> implemen
     public Clazz schedule;
     public boolean isAdded = false;
     private boolean isCanDelete = false;
+    public ObservableBoolean progress = new ObservableBoolean();
 
     public ClassController(Clazz schedule, boolean isCanDelete) {
         this.schedule = schedule;
@@ -34,10 +36,11 @@ public class ClassController extends XFitController<LayoutClassBinding> implemen
     }
 
     public void subscribeClass(View view) {
-        Request.setDefaultErrorAction(Throwable::printStackTrace);
+        progress.set(true);
         if (!isAdded) {
             Request.with(this, Api.class)
                     .create(api -> api.addClass(schedule.id))
+                    .onFinally(() -> progress.set(false))
                     .execute(addClassResponse -> {
                         isAdded = true;
                         updateButtonText("Удалить из расписания");
@@ -45,6 +48,7 @@ public class ClassController extends XFitController<LayoutClassBinding> implemen
         } else {
             Request.with(this, Api.class)
                     .create(api -> api.deleteClass(schedule.subscriptionId))
+                    .onFinally(() -> progress.set(false))
                     .execute(deleteClassResponse -> {
                         isAdded = false;
                         updateButtonText("Добавить в расписание");
