@@ -84,11 +84,8 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
         progress.set(true);
         Request.with(this, Api.class)
                 .create(api -> api.getClassesForClub("181"))
-                .onError(error -> {
-                    progress.set(false);
-                })
-                .execute((Promise.SuccessAction<Schedule>) schedule -> {
-                    progress.set(false);
+                .onFinally(() -> progress.set(false))
+                .execute(schedule -> {
                     MyScheduleController.this.show(new ClubClassesController(schedule));
                 });
     }

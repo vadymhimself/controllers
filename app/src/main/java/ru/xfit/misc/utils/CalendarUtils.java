@@ -1,5 +1,7 @@
 package ru.xfit.misc.utils;
 
+import android.util.Log;
+
 import org.joda.time.DateTime;
 
 import java.text.ParseException;
@@ -17,29 +19,22 @@ public class CalendarUtils {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
             Date date = dateFormat.parse(dateTime);
 
-            currentDate.toDate();
+            DateTime dateYoda = new DateTime(date);
+
+            return currentDate.getDayOfMonth() == dateYoda.getDayOfMonth() && currentDate.getMonthOfYear() == dateYoda.getMonthOfYear();
         } catch (ParseException e) {
             e.printStackTrace();
             return false;
         }
-
-        return false;
     }
 
     public static DateTime dateStringToDateTime(String dateString) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
             Date date = dateFormat.parse(dateString);
-            SimpleDateFormat year = new SimpleDateFormat("yyyy");
-            year.format(date);
-            SimpleDateFormat month = new SimpleDateFormat("MM");
-            month.format(date);
-            SimpleDateFormat day = new SimpleDateFormat("dd");
-            day.format(date);
+            DateTime dateYoda = new DateTime(date);
 
-            return new DateTime().withDate(Integer.valueOf(year.format(date)),
-                    Integer.valueOf(month.format(date)),
-                    Integer.valueOf(day.format(date)));
+            return dateYoda;
 
         } catch (ParseException e) {
             e.printStackTrace();

@@ -72,12 +72,11 @@ public class RegisterController extends XFitController<LayoutRegisterBinding>{
             Request.with(this, Api.class)
                     .create(api -> api.pleaseConfirm(regData.phone))
                     .onError(error -> {
-                        progress.set(false);
                         errorResponse.set(error.getMessage());
                         Snackbar.make(view, "Error: " + error.getMessage(), BaseTransientBottomBar.LENGTH_LONG).show();
                     })
+                    .onFinally(() -> progress.set(false))
                     .execute(confirmationResponse -> {
-                        progress.set(false);
                         if (confirmationResponse.sent) {
                             show(new SmsConfirmController(regData));
                         } else {

@@ -2,6 +2,7 @@ package ru.xfit.screens.schedule;
 
 import org.joda.time.DateTime;
 import ru.xfit.misc.adapters.PredicateFilter;
+import ru.xfit.misc.utils.CalendarUtils;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -26,18 +27,6 @@ public class DayFilter extends PredicateFilter<ClassVM> implements Serializable 
 
     @Override
     protected boolean call(ClassVM it) {
-        try {
-            // TODO: переписать по людски и вынести парсинг
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-            Date date = dateFormat.parse(it.clazz.datetime);
-            SimpleDateFormat month = new SimpleDateFormat("MM");
-            SimpleDateFormat dayMonth = new SimpleDateFormat("dd");
-
-            return day.getDayOfMonth() == Integer.valueOf(dayMonth.format(date)) &&
-                    day.getMonthOfYear() == Integer.valueOf(month.format(date));
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return true;
-        }
+        return CalendarUtils.sameDay(day, it.clazz.datetime);
     }
 }
