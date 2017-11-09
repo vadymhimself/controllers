@@ -2,6 +2,7 @@ package com.molo17.customizablecalendar.library.model;
 
 import org.joda.time.DateTime;
 import org.joda.time.Months;
+import org.joda.time.Weeks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ public class Calendar {
     private DateTime currentMonth;
     private DateTime today;
     private List<DateTime> months;
+    private List<DateTime> weeks;
     private boolean multipleSelection;
     private int firstDayOfWeek;
 
@@ -27,8 +29,10 @@ public class Calendar {
 
         int startMonth = firstMonth.getMonthOfYear() + 1;
         int monthsBetweenCount = Months.monthsBetween(firstMonth, lastMonth).getMonths();
+        int weeksBetweenCount = Weeks.weeksBetween(firstMonth, lastMonth).getWeeks();
 
         months = new ArrayList<>();
+        weeks = new ArrayList<>();
 
         months.add(firstMonth);
         currentMonth = firstMonth;
@@ -37,6 +41,12 @@ public class Calendar {
         for (int i = 0; i <= monthsBetweenCount; i++) {
             months.add(monthToAdd);
             monthToAdd = monthToAdd.plusMonths(1);
+        }
+
+        DateTime weekToAdd = new DateTime(firstMonth.getYear(), startMonth, 1, 0, 0);
+        for (int i = 0; i <= weeksBetweenCount; i++) {
+            weeks.add(weekToAdd);
+            weekToAdd = weekToAdd.plusWeeks(1);
         }
     }
 
@@ -78,6 +88,14 @@ public class Calendar {
 
     public void setMonths(List<DateTime> months) {
         this.months = months;
+    }
+
+    public List<DateTime> getWeeks() {
+        return weeks;
+    }
+
+    public void setWeeks(List<DateTime> weeks) {
+        this.weeks = weeks;
     }
 
     public boolean isMultipleSelectionEnabled() {
