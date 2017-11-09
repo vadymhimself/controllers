@@ -7,11 +7,10 @@ import ru.xfit.misc.adapters.BaseVM;
  * Created by TESLA on 06.11.2017.
  */
 
-public class HeaderFilterVM implements BaseVM {
+public class HeaderFilterVM extends FilterVM implements BaseVM {
     public FilterController controller;
     public boolean headerSpace = true;
     public String title;
-    public boolean isChecked = true;
 
     public HeaderFilterVM(FilterController controller, boolean headerSpace, String title) {
         this.controller = controller;

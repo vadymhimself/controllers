@@ -8,26 +8,21 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.controllers.Controller;
-import com.controllers.ControllerActivity;
 
 import ru.xfit.domain.App;
 import ru.xfit.misc.OptionsItemSelectedEvent;
-import ru.xfit.screens.BusTestController;
 import ru.xfit.screens.DrawerController;
-import ru.xfit.screens.HomeController;
 
 import com.crashlytics.android.Crashlytics;
 
 import io.fabric.sdk.android.Fabric;
 import ru.xfit.screens.clubs.ClubsController;
-import ru.xfit.screens.filter.FilterController;
 import ru.xfit.screens.schedule.ClubClassesController;
 import ru.xfit.screens.schedule.MyScheduleController;
 
@@ -81,10 +76,10 @@ public class MainActivity extends XFitActivity implements
     protected void onControllerChanged(Controller controller) {
 
         if (controller instanceof DrawerController) {
-            showHamburgerIcon(false);
+            setVisibleHamburgerIcon(false);
             setTitle(((DrawerController)controller).getTitle());
         } else {
-            showHamburgerIcon(true);
+            setVisibleHamburgerIcon(true);
         }
 
         if (controller instanceof ClubClassesController) {
@@ -148,8 +143,8 @@ public class MainActivity extends XFitActivity implements
         getSupportActionBar().setTitle(title);
     }
 
-    public void showHamburgerIcon(boolean hide) {
-        if (hide) {
+    public void setVisibleHamburgerIcon(boolean visible) {
+        if (visible) {
             toggle.setDrawerIndicatorEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

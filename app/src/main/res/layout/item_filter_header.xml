@@ -40,8 +40,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="13dp"
-            android:checked="true"
+            android:checked="@{viewModel.isChecked}"
             android:layout_centerVertical="true"
+            app:headerFilterVM="@{viewModel.controller}"
             app:buttonTint="@color/controlsColor"/>
     </RelativeLayout>
 </layout>

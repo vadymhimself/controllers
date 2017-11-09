@@ -45,6 +45,12 @@ public class FilterController extends XFitController<LayoutFilterBinding> {
         return R.layout.layout_filter;
     }
 
+    public void setStateAllCheckboxes(boolean state) {
+        for (BaseVM vm : adapter.getItems()) {
+            ((FilterVM)vm).isChecked.set(state);
+        }
+    }
+
     public void checkedIncome(Integer radioId) {
         switch (radioId) {
             case R.id.by_classes:
@@ -105,10 +111,10 @@ public class FilterController extends XFitController<LayoutFilterBinding> {
     private void saveIntermediateSelectionState() {
         for (BaseVM vm : adapter.getItems()) {
             if (vm instanceof FilterTrainersVM) {
-                if (((FilterTrainersVM)vm).isChecked)
+                if (((FilterTrainersVM)vm).isChecked.get())
                     selectedTrainers.add(((FilterTrainersVM)vm).trainer);
             } else if (vm instanceof FilterClassesVM) {
-                if (((FilterClassesVM)vm).isChecked)
+                if (((FilterClassesVM)vm).isChecked.get())
                     selectedActivities.add(((FilterClassesVM)vm).training);
             }
         }
@@ -121,10 +127,10 @@ public class FilterController extends XFitController<LayoutFilterBinding> {
 
         for (BaseVM vm : adapter.getItems()) {
             if (vm instanceof FilterTrainersVM) {
-                if (((FilterTrainersVM)vm).isChecked)
+                if (((FilterTrainersVM)vm).isChecked.get())
                     selectedTrainers.add(((FilterTrainersVM)vm).trainer);
             } else if (vm instanceof FilterClassesVM) {
-                if (((FilterClassesVM)vm).isChecked)
+                if (((FilterClassesVM)vm).isChecked.get())
                     selectedActivities.add(((FilterClassesVM)vm).training);
             }
         }

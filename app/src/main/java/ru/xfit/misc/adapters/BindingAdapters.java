@@ -53,6 +53,7 @@ import ru.xfit.misc.views.*;
 import ru.xfit.screens.XFitController;
 import ru.xfit.screens.filter.FilterController;
 import ru.xfit.screens.filter.FilterVM;
+import ru.xfit.screens.filter.HeaderFilterVM;
 import ru.xfit.screens.schedule.MyScheduleController;
 
 import java.util.List;
@@ -608,9 +609,9 @@ public abstract class BindingAdapters {
     @BindingAdapter("onCheckBoxChecked")
     public static void bindOnCheckBoxChecked(CheckBox checkBox, FilterVM filterVM ) {
         checkBox.setOnCheckedChangeListener(null);
-        checkBox.setChecked(filterVM.isChecked);
+        checkBox.setChecked(filterVM.isChecked.get());
         checkBox.setOnCheckedChangeListener((compoundButton, checked) -> {
-            filterVM.isChecked = checked;
+            filterVM.isChecked.set(checked);
         });
     }
 
@@ -618,6 +619,14 @@ public abstract class BindingAdapters {
     public static void bindHighlightedDates(CustomizableCalendar v,
                                             List<DateTime> dates) {
         AUCalendar.getInstance().highLightDates(dates);
+    }
+
+    @BindingAdapter("headerFilterVM")
+    public static void bindOnHeaderChekcBoxState(CheckBox checkBox, FilterController filterController) {
+        checkBox.setOnCheckedChangeListener(null);
+        checkBox.setOnCheckedChangeListener((compoundButton, checked) -> {
+            filterController.setStateAllCheckboxes(checked);
+        });
     }
 
 }

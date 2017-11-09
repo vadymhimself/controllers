@@ -32,7 +32,7 @@
             android:layout_marginRight="13dp"
             android:layout_centerVertical="true"
             app:buttonTint="@color/controlsColor"
-            android:checked="true"
+            android:checked="@{viewModel.isChecked}"
             app:onCheckBoxChecked="@{viewModel}"/>
     </RelativeLayout>
 </layout>
