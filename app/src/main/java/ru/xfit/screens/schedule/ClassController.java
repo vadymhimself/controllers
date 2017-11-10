@@ -16,13 +16,13 @@ import ru.xfit.screens.XFitController;
 
 public class ClassController extends XFitController<LayoutClassBinding> implements OnViewReadyListener {
 
-    public Clazz schedule;
-    public boolean isAdded = false;
-    private boolean isCanDelete = false;
+    public Clazz clazz;
+    public boolean isAdded;
+    private boolean isCanDelete; // TODO: it is not how you should know that
     public ObservableBoolean progress = new ObservableBoolean();
 
-    public ClassController(Clazz schedule, boolean isCanDelete) {
-        this.schedule = schedule;
+    public ClassController(Clazz clazz, boolean isCanDelete) {
+        this.clazz = clazz;
         this.isCanDelete = isCanDelete;
 
         if (isCanDelete) {
@@ -39,7 +39,7 @@ public class ClassController extends XFitController<LayoutClassBinding> implemen
         progress.set(true);
         if (!isAdded) {
             Request.with(this, Api.class)
-                    .create(api -> api.addClass(schedule.id))
+                    .create(api -> api.addClass(clazz.id))
                     .onFinally(() -> progress.set(false))
                     .execute(addClassResponse -> {
                         isAdded = true;
@@ -47,7 +47,7 @@ public class ClassController extends XFitController<LayoutClassBinding> implemen
                     });
         } else {
             Request.with(this, Api.class)
-                    .create(api -> api.deleteClass(schedule.subscriptionId))
+                    .create(api -> api.deleteClass(clazz.subscriptionId))
                     .onFinally(() -> progress.set(false))
                     .execute(deleteClassResponse -> {
                         isAdded = false;
@@ -72,5 +72,10 @@ public class ClassController extends XFitController<LayoutClassBinding> implemen
             updateButtonText("Удалить из расписания");
         else
             updateButtonText("Добавить в расписание");
+    }
+
+    @Override
+    public String getTitle() {
+        return clazz.activity.title;
     }
 }

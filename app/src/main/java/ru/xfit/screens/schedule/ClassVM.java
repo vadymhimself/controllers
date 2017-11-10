@@ -33,7 +33,7 @@ public class ClassVM implements BaseVM {
 
     @Override
     public int getLayoutId() {
-        return R.layout.item_schedule;
+        return R.layout.item_class;
     }
 
     public String getDescription() {

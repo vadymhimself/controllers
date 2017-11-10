@@ -41,7 +41,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{controller.schedule.room.title}"
+                        android:text="@{controller.clazz.room.title}"
                         android:layout_marginLeft="45dp"/>
 
                 </RelativeLayout>
@@ -61,7 +61,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{controller.schedule.group.title}"
+                        android:text="@{controller.clazz.group.title}"
                         android:layout_marginLeft="45dp"/>
 
                 </RelativeLayout>
@@ -81,7 +81,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{controller.schedule.getLength()}"
+                        android:text="@{controller.clazz.getLength()}"
                         android:layout_marginLeft="45dp"/>
 
                 </RelativeLayout>
@@ -120,7 +120,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{controller.schedule.activity.description}"
+                        android:text="@{controller.clazz.activity.description}"
                         android:layout_marginLeft="45dp"/>
 
                 </RelativeLayout>

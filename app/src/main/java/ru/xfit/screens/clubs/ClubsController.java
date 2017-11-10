@@ -25,8 +25,8 @@ public class ClubsController extends XFitController<LayoutClubsBinding> {
 //    }
 //
 //    public void addClubs(List<Schedule> scheduleClubs) {
-//        for (Schedule schedule : scheduleClubs) {
-//            vms.add(new ClubVM(schedule, this));
+//        for (Schedule clazz : scheduleClubs) {
+//            vms.add(new ClubVM(clazz, this));
 //        }
 //
 //        adapter = new BaseAdapter<>(vms);
