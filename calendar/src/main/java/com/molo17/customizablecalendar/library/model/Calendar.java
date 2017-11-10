@@ -43,7 +43,10 @@ public class Calendar {
             monthToAdd = monthToAdd.plusMonths(1);
         }
 
-        DateTime weekToAdd = new DateTime(firstMonth.getYear(), startMonth, 1, 0, 0);
+        DateTime today = new DateTime();
+        int startWeekDay = today.getDayOfMonth() - (today.getDayOfWeek() - 1);
+        startMonth = firstMonth.getMonthOfYear();
+        DateTime weekToAdd = new DateTime(firstMonth.getYear(), startMonth, startWeekDay, 0, 0);
         for (int i = 0; i <= weeksBetweenCount; i++) {
             weeks.add(weekToAdd);
             weekToAdd = weekToAdd.plusWeeks(1);

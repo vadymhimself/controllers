@@ -55,7 +55,7 @@ public class CalendarViewAdapter extends RecyclerView.Adapter<CalendarViewHolder
             rootView = viewInteractor.getMonthGridView(rootView);
         } else {
             MonthGridView monthGridView = new MonthGridView(context);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             monthGridView.setLayoutParams(params);
             rootView = monthGridView;
         }

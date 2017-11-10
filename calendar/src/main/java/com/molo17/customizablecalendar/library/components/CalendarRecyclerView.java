@@ -8,12 +8,15 @@ import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.molo17.customizablecalendar.library.R;
 import com.molo17.customizablecalendar.library.adapter.CalendarViewAdapter;
 import com.molo17.customizablecalendar.library.interactors.AUCalendar;
 import com.molo17.customizablecalendar.library.interactors.ViewInteractor;
 import com.molo17.customizablecalendar.library.presenter.interfeaces.CustomizableCalendarPresenter;
+import com.molo17.customizablecalendar.library.utils.UiUtils;
 import com.molo17.customizablecalendar.library.view.CalendarView;
 
 import org.joda.time.DateTime;
@@ -134,8 +137,13 @@ public class CalendarRecyclerView extends RecyclerView implements CalendarView {
                         View view = snapHelper.findSnapView(getLayoutManager());
                         if (view != null) {
                             int currentPosition = getChildAdapterPosition(view);
-                            DateTime currentMonth = calendar.getMonths().get(currentPosition);
-                            calendar.setCurrentMonth(currentMonth);
+                            if (isMonthMode) {
+                                DateTime currentMonth = calendar.getMonths().get(currentPosition);
+                                calendar.setCurrentMonth(currentMonth);
+                            } else {
+                                DateTime currentMonth = calendar.getWeeks().get(currentPosition);
+                                calendar.setCurrentMonth(currentMonth);
+                            }
                         }
                     }
                 }
@@ -158,8 +166,14 @@ public class CalendarRecyclerView extends RecyclerView implements CalendarView {
         isMonthMode = !isMonthMode;
         if (isMonthMode) {
             setAdapter(calendarViewAdapter);
+            this.invalidate();
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UiUtils.dpToPx(context, 250f));
+            this.setLayoutParams(lp);
         } else {
             setAdapter(weekViewAdapter);
+            this.invalidate();
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            this.setLayoutParams(lp);
         }
     }
 }

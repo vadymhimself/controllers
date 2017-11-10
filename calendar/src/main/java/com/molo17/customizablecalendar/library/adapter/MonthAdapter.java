@@ -39,6 +39,7 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
     private List<CalendarItem> days;
     private ViewInteractor viewInteractor;
 
+    private int currentWeek;
     private DateTime currentMonth;
     private DateTime firstSelectedDay;
     private DateTime lastSelectedDay;
@@ -301,14 +302,11 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
             } else {
                 calendar.getFirstDayOfWeek();
                 List<DateTime> dt = calendar.getWeeks();
-                int totDays = lastDayOfMonth + empties;
-                for (int day = 1, position = 1; position <= totDays; position++) {
-                    if (position > empties) {
-                        updatedDays.add(new CalendarItem(day++, month, year));
-                    } else {
-                        updatedDays.add(null);
-                    }
+
+                for (int position = 0; position < 7; position++) {
+                    updatedDays.add(new CalendarItem(dt.get(currentWeek).plusDays(position).getDayOfMonth(), month, year));
                 }
+                currentWeek++;
             }
 
         }

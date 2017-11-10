@@ -27,7 +27,7 @@
     <com.molo17.customizablecalendar.library.components.CalendarRecyclerView
         android:id="@android:id/content"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/customizable_calendar_height"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp" />
 
 </LinearLayout>
