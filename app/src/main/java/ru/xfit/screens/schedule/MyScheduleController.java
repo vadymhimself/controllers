@@ -1,7 +1,6 @@
 package ru.xfit.screens.schedule;
 
 import android.databinding.Bindable;
-import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.view.View;
 import com.controllers.Request;
@@ -27,10 +26,7 @@ import java.util.List;
 public class MyScheduleController extends DrawerController<LayoutMyScheduleBinding>
         implements OnCalendarListener {
 
-    public ObservableBoolean progress = new ObservableBoolean();
-
-    @Bindable
-    public ObservableArrayList<DateTime> highlightedDays = new ObservableArrayList<>();
+    public final ObservableBoolean progress = new ObservableBoolean();
 
     private final DayFilter dayFilter = new DayFilter(DateTime.now());
 
@@ -61,8 +57,7 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
         }
 
         adapter.addAll(vms);
-        getClassDates();
-        notifyPropertyChanged(BR.highlightedDays);
+        notifyPropertyChanged(BR.classDates);
     }
 
     public void showClubClassesController(View view) {
@@ -79,14 +74,9 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
 
     }
 
+    @Bindable
     public List<DateTime> getClassDates() {
-        highlightedDays.clear();
-        for (Clazz clazz : ListUtils.map(adapter.getAllItems(), it -> it.clazz)) {
-            // return
-            highlightedDays.add(CalendarUtils.dateStringToDateTime(clazz.datetime));
-        }
-
-        return highlightedDays;
+        return ListUtils.map(adapter.getAllItems(), it -> CalendarUtils.dateStringToDateTime(it.clazz.datetime));
     }
 
     @Override

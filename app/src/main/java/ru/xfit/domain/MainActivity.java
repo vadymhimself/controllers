@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import com.controllers.Controller;
 import com.crashlytics.android.Crashlytics;
 import com.hwangjr.rxbus.Bus;
@@ -174,12 +173,7 @@ public class MainActivity extends XFitActivity implements
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
             if (!toolBarNavigationListenerIsRegistered) {
-                toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onBackPressed();
-                    }
-                });
+                toggle.setToolbarNavigationClickListener(v -> onBackPressed());
 
                 toolBarNavigationListenerIsRegistered = true;
             }
