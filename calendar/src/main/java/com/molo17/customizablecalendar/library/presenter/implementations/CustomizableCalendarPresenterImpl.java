@@ -141,6 +141,11 @@ public class CustomizableCalendarPresenterImpl implements CustomizableCalendarPr
         return weekDays;
     }
 
+    @Override
+    public void onMonthClicked() {
+        calendarView.onMonthClicked();
+    }
+
     private String getFormattedDayOfDay(String nameOfDay) {
         if (!TextUtils.isEmpty(nameOfDay)) {
             if (viewInteractor.hasImplementedWeekDayNameFormat()) {

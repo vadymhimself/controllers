@@ -12,9 +12,10 @@ import com.molo17.customizablecalendar.library.interactors.ViewInteractor;
 public class MonthViewHolder extends CalendarViewHolder {
     public MonthGridView monthView;
 
-    public MonthViewHolder(View view, int layoutResId, int dayLayoutResId, ViewInteractor viewInteractor) {
+    public MonthViewHolder(View view, int layoutResId, int dayLayoutResId, ViewInteractor viewInteractor, int adapterType) {
         super(view);
         monthView = (MonthGridView) view;
+        monthView.setAdapterType(adapterType);
         monthView.setLayoutResId(layoutResId);
         monthView.setDayLayoutResId(dayLayoutResId);
         monthView.injectViewInteractor(viewInteractor);

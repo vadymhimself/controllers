@@ -23,11 +23,15 @@ import org.joda.time.DateTime;
  */
 
 public class CalendarRecyclerView extends RecyclerView implements CalendarView {
+    private CalendarViewAdapter weekViewAdapter;
     private CalendarViewAdapter calendarViewAdapter;
     private ViewInteractor viewInteractor;
     private Context context;
     private CustomizableCalendarPresenter presenter;
     private AUCalendar calendar;
+
+    private boolean isMonthMode;
+
     private
     @LayoutRes
     int monthResId = R.layout.calendar_view;
@@ -91,11 +95,17 @@ public class CalendarRecyclerView extends RecyclerView implements CalendarView {
     }
 
     private void setupCalendarAdapter() {
-        calendarViewAdapter = new CalendarViewAdapter(context);
+        weekViewAdapter = new CalendarViewAdapter(context, 0);
+        weekViewAdapter.injectViewInteractor(viewInteractor);
+        weekViewAdapter.setLayoutResId(monthResId);
+        weekViewAdapter.setDayLayoutResId(monthCellResId);
+
+        calendarViewAdapter = new CalendarViewAdapter(context, 1);
         calendarViewAdapter.injectViewInteractor(viewInteractor);
         calendarViewAdapter.setLayoutResId(monthResId);
         calendarViewAdapter.setDayLayoutResId(monthCellResId);
-        setAdapter(calendarViewAdapter);
+
+        setAdapter(weekViewAdapter);
     }
 
     private void setupCalendarScroll() {
@@ -141,5 +151,15 @@ public class CalendarRecyclerView extends RecyclerView implements CalendarView {
     @Override
     public void setDayLayoutResId(@LayoutRes int layoutResId) {
         calendarViewAdapter.setDayLayoutResId(layoutResId);
+    }
+
+    @Override
+    public void onMonthClicked() {
+        isMonthMode = !isMonthMode;
+        if (isMonthMode) {
+            setAdapter(calendarViewAdapter);
+        } else {
+            setAdapter(weekViewAdapter);
+        }
     }
 }

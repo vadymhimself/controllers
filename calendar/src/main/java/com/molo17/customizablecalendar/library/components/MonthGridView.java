@@ -28,6 +28,7 @@ public class MonthGridView extends LinearLayout implements BaseView {
     private MonthAdapter calendarAdapter;
     private GridView calendarGrid;
     private DateTime currentMonth;
+    private int adapterType;
     private
     @LayoutRes
     int layoutResId = -1;
@@ -96,7 +97,7 @@ public class MonthGridView extends LinearLayout implements BaseView {
         if (currentMonth == null) {
             currentMonth = AUCalendar.getInstance().getCurrentMonth();
         }
-        calendarAdapter = new MonthAdapter(getContext(), currentMonth);
+        calendarAdapter = new MonthAdapter(getContext(), currentMonth, adapterType);
 
         calendarAdapter.setLayoutResId(dayLayoutResId);
 
@@ -115,6 +116,10 @@ public class MonthGridView extends LinearLayout implements BaseView {
                 }
             }
         });
+    }
+
+    public void setAdapterType(int adapterType) {
+        this.adapterType = adapterType;
     }
 
     @Override

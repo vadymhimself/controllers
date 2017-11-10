@@ -11,4 +11,5 @@ import java.util.List;
 
 public interface CustomizableCalendarPresenter extends BasePresenter<CustomizableCalendarView>, ViewInjector {
     List<String> setupWeekDays();
+    void onMonthClicked();
 }
