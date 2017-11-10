@@ -8,6 +8,7 @@
             type="ru.xfit.screens.schedule.MyScheduleController" />
 
         <import type="ru.xfit.R" />
+        <import type="ru.xfit.misc.LayoutManagers" />
 
     </data>
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -39,12 +40,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/calendar">
-                    <include
-                        android:id="@+id/list"
-                        layout="@layout/list"
+
+                    <ru.xfit.misc.views.HackyRecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:adapter='@{controller.adapter}' />
+                        android:layout_height="wrap_content"
+                        android:visibility="@{!controller.scheduleEmpty}"
+                        app:adapter="@{controller.adapter}"
+                        app:layoutManager="@{LayoutManagers.LINEAR_VERTICAL}"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -55,7 +57,7 @@
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
-                        android:visibility='@{controller.adapter.itemCount == 0}' />
+                        android:visibility='@{controller.scheduleEmpty}' />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -74,7 +76,7 @@
                         android:text="@string/my_schedule_classes"
                         android:textColor="@android:color/white"
                         android:textSize="18sp"
-                        android:visibility='@{controller.adapter.itemCount == 0}'
+                        android:visibility='@{controller.scheduleEmpty}'
                         android:onClick='@{controller.showClubClassesController}'/>
 
                     <!--<Button-->

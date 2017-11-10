@@ -87,24 +87,18 @@ public class MainActivity extends XFitActivity implements
     @Override
     protected void onControllerChanged(Controller controller) {
 
-        if (controller instanceof DrawerController) {
-            setVisibleHamburgerIcon(false);
-            setTitle(((DrawerController)controller).getTitle());
-        } else {
-            setVisibleHamburgerIcon(true);
-        }
+        setVisibleHamburgerIcon(!(controller instanceof DrawerController));
 
         if (controller instanceof ClubClassesController) {
-            // TODO: push to the top controller
+            // TODO: push to the top controller or make a menu presenter
             showFilterAndSearch = true;
             invalidateOptionsMenu();
-            setTitle(((ClubClassesController)controller).getTitle());
-
         } else {
             showFilterAndSearch = false;
             invalidateOptionsMenu();
         }
 
+        setTitle(controller.getTitle());
 
         super.onControllerChanged(controller);
     }

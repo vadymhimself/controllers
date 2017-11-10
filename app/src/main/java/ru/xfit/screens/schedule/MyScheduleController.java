@@ -79,6 +79,11 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
         return ListUtils.map(adapter.getAllItems(), it -> CalendarUtils.dateStringToDateTime(it.clazz.datetime));
     }
 
+    @Bindable
+    public boolean isScheduleEmpty() {
+        return adapter.getItemCount() == 0;
+    }
+
     @Override
     public String getTitle() {
         return "Мое расписание";
@@ -89,6 +94,6 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
         dayFilter.setDay(dateTime);
         //TODO update adapter
         adapter.refresh();
-        notifyPropertyChanged(BR.adapter);
+        notifyPropertyChanged(BR.scheduleEmpty);
     }
 }
