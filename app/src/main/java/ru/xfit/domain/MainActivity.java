@@ -18,6 +18,7 @@ import com.hwangjr.rxbus.annotation.Subscribe;
 import io.fabric.sdk.android.Fabric;
 import ru.xfit.R;
 import ru.xfit.misc.events.OptionsItemSelectedEvent;
+import ru.xfit.model.data.storage.preferences.PreferencesManager;
 import ru.xfit.model.retrorequest.LogoutEvent;
 import ru.xfit.screens.DrawerController;
 import ru.xfit.screens.clubs.ClubsController;
@@ -153,6 +154,9 @@ public class MainActivity extends XFitActivity implements
     }
 
     public void logOut() {
+        PreferencesManager preferencesManager = new PreferencesManager(App.getContext());
+        preferencesManager.putValue(PreferencesManager.KEY_IS_USER_ALREADY_LOGIN, false);
+
         StartActivity.start(this);
         finishAffinity();
     }
