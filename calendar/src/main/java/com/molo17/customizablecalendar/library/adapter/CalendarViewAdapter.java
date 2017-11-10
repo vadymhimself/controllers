@@ -30,10 +30,10 @@ public class CalendarViewAdapter extends RecyclerView.Adapter<CalendarViewHolder
     private AUCalendar calendar;
     private int layoutResId = -1;
     private int dayLayoutResId = -1;
-    private int adapterType;
+    private AdapterType adapterType;
     private ViewInteractor viewInteractor;
 
-    public CalendarViewAdapter(Context context, int adapterType) {
+    public CalendarViewAdapter(Context context, AdapterType adapterType) {
         this.context = context;
         this.calendar = AUCalendar.getInstance();
         this.adapterType = adapterType;
@@ -41,7 +41,7 @@ public class CalendarViewAdapter extends RecyclerView.Adapter<CalendarViewHolder
 
     @Override
     public int getItemCount() {
-        if (adapterType == 1)
+        if (adapterType == AdapterType.TYPE_MONTH)
             return calendar.getMonths().size();
         else
             return calendar.getWeeks().size();
@@ -68,7 +68,7 @@ public class CalendarViewAdapter extends RecyclerView.Adapter<CalendarViewHolder
 
     @Override
     public void onBindViewHolder(final CalendarViewHolder viewHolder, final int position) {
-        if (adapterType == 1) {
+        if (adapterType == AdapterType.TYPE_MONTH) {
             DateTime currentMonth = calendar.getMonths().get(position);
             if (viewHolder.getClass() == MonthViewHolder.class)
                 ((MonthViewHolder) viewHolder).monthView.setCurrentMonth(currentMonth);
@@ -77,6 +77,10 @@ public class CalendarViewAdapter extends RecyclerView.Adapter<CalendarViewHolder
             if (viewHolder.getClass() == MonthViewHolder.class)
                 ((MonthViewHolder) viewHolder).monthView.setCurrentMonth(currentMonth);
         }
+    }
+
+    public DateTime getCurrentMonth() {
+        return calendar.getMonths().get(0);
     }
 
     @Override

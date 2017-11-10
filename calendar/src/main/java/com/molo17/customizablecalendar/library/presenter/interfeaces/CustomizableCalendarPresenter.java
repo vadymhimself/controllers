@@ -3,6 +3,8 @@ package com.molo17.customizablecalendar.library.presenter.interfeaces;
 import com.molo17.customizablecalendar.library.interactors.ViewInjector;
 import com.molo17.customizablecalendar.library.view.CustomizableCalendarView;
 
+import org.joda.time.DateTime;
+
 import java.util.List;
 
 /**
@@ -12,4 +14,5 @@ import java.util.List;
 public interface CustomizableCalendarPresenter extends BasePresenter<CustomizableCalendarView>, ViewInjector {
     List<String> setupWeekDays();
     void onMonthClicked();
+    void onMonthChanged(DateTime currentMonth);
 }

@@ -3,7 +3,6 @@ package com.molo17.customizablecalendar.library.viewholders;
 import android.view.View;
 
 import com.molo17.customizablecalendar.library.components.MonthGridView;
-import com.molo17.customizablecalendar.library.components.WeekGridView;
 import com.molo17.customizablecalendar.library.interactors.ViewInteractor;
 
 /**

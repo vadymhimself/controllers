@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.molo17.customizablecalendar.library.R;
+import com.molo17.customizablecalendar.library.adapter.AdapterType;
 import com.molo17.customizablecalendar.library.adapter.CalendarViewAdapter;
 import com.molo17.customizablecalendar.library.interactors.AUCalendar;
 import com.molo17.customizablecalendar.library.interactors.ViewInteractor;
@@ -98,17 +99,20 @@ public class CalendarRecyclerView extends RecyclerView implements CalendarView {
     }
 
     private void setupCalendarAdapter() {
-        weekViewAdapter = new CalendarViewAdapter(context, 0);
+        weekViewAdapter = new CalendarViewAdapter(context, AdapterType.TYPE_WEEK);
         weekViewAdapter.injectViewInteractor(viewInteractor);
         weekViewAdapter.setLayoutResId(monthResId);
         weekViewAdapter.setDayLayoutResId(monthCellResId);
 
-        calendarViewAdapter = new CalendarViewAdapter(context, 1);
+        calendarViewAdapter = new CalendarViewAdapter(context, AdapterType.TYPE_MONTH);
         calendarViewAdapter.injectViewInteractor(viewInteractor);
         calendarViewAdapter.setLayoutResId(monthResId);
         calendarViewAdapter.setDayLayoutResId(monthCellResId);
 
-        setAdapter(weekViewAdapter);
+        if (isMonthMode)
+            setAdapter(calendarViewAdapter);
+        else
+            setAdapter(weekViewAdapter);
     }
 
     private void setupCalendarScroll() {
@@ -165,15 +169,15 @@ public class CalendarRecyclerView extends RecyclerView implements CalendarView {
     public void onMonthClicked() {
         isMonthMode = !isMonthMode;
         if (isMonthMode) {
-            setAdapter(calendarViewAdapter);
-            this.invalidate();
+            setupCalendarAdapter();
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UiUtils.dpToPx(context, 250f));
             this.setLayoutParams(lp);
+            presenter.onMonthChanged(calendarViewAdapter.getCurrentMonth());
         } else {
-            setAdapter(weekViewAdapter);
-            this.invalidate();
+            setupCalendarAdapter();
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             this.setLayoutParams(lp);
+            presenter.onMonthChanged(weekViewAdapter.getCurrentMonth());
         }
     }
 }
