@@ -239,7 +239,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
     }
 
     // TODO: I don't really like it
-    protected String getTitle() {
+    public String getTitle() {
         return "Untitled controller";
     }
 
