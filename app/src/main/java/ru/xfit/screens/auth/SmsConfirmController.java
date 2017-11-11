@@ -1,5 +1,6 @@
 package ru.xfit.screens.auth;
 
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
@@ -8,6 +9,7 @@ import com.controllers.Request;
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutSmsConfirmBinding;
 import ru.xfit.domain.App;
+import ru.xfit.domain.MainActivity;
 import ru.xfit.model.data.auth.User;
 import ru.xfit.model.data.register.RegisterRequest;
 import ru.xfit.model.data.storage.preferences.PreferencesManager;
@@ -28,6 +30,8 @@ public class SmsConfirmController extends XFitController<LayoutSmsConfirmBinding
     public ObservableField<String> code5 = new ObservableField<>("");
     public ObservableField<String> code6 = new ObservableField<>("");
     public ObservableField<String> errorResponse = new ObservableField<>();
+
+    public final ObservableBoolean progress = new ObservableBoolean();
 
     private RegisterRequest regData;
 
@@ -52,11 +56,13 @@ public class SmsConfirmController extends XFitController<LayoutSmsConfirmBinding
         regData.phoneConfirmation = code.toString();
 
         Request.with(this, Api.class)
-                .create(api -> api.register(regData))
+                .create(api -> {
+                    progress.set(true);
+                    return api.register(regData);})
                 .onError(error -> {
                     errorResponse.set(error.getMessage());
-                    Snackbar.make(view, "Ошибка: " + error.getMessage(), BaseTransientBottomBar.LENGTH_LONG).show();
-                })
+                    Snackbar.make(view, "Ошибка: " + error.getMessage(), BaseTransientBottomBar.LENGTH_LONG).show(); })
+                .onFinally(() -> progress.set(false))
                 .execute(registrationResponse -> {
                     //save user
                     PreferencesManager manager = new PreferencesManager(App.getContext());
@@ -68,7 +74,8 @@ public class SmsConfirmController extends XFitController<LayoutSmsConfirmBinding
 
                     saveUser(registrationResponse.user);
 
-                    replace(new HomeController());
+                    MainActivity.start(getActivity());
+                    getActivity().finish();
                 });
     }
 

@@ -66,7 +66,7 @@
                         app:mask="+7(999) 999-99-99"
                         app:placeholder="_"
                         app:onMaskedTextChanged='@{controller.phone}'
-                        app:digitMaskedKeyboard="@{controller}"/>
+                        app:digitMaskedKeyboard="@{true}"/>
                 </android.support.design.widget.TextInputLayout>
 
             </RelativeLayout>
@@ -232,6 +232,7 @@
                         android:imeOptions="actionDone"
                         android:textColor="@android:color/white"
                         app:onMaskedTextChanged='@{controller.date}'
+                        app:digitMaskedKeyboard="@{true}"
                         app:mask="99.99.9999"
                         app:placeholder="_"
                         android:textSize="17sp" />

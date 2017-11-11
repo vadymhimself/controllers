@@ -637,7 +637,7 @@ public abstract class BindingAdapters {
     }
 
     @BindingAdapter("digitMaskedKeyboard")
-    public static void bindMaskedKeyboard(MaskedEditText maskedEditText, XFitController controller) {
+    public static void bindMaskedKeyboard(MaskedEditText maskedEditText, boolean bind) {
         maskedEditText.setInputType(InputType.TYPE_CLASS_PHONE);
     }
 
