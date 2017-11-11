@@ -47,4 +47,7 @@
     <string name="filter_by_day">День</string>
     <string name="filter_by_evening">Вечер</string>
     <string name="filter_accept">Применить</string>
+
+    <string name="validation_incorrect_number">Не верный номер телефона</string>
+    <string name="validation_incorrect_date">Не верная дата</string>
 </resources>

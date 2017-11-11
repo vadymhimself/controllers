@@ -7,5 +7,7 @@ package ru.xfit.misc.utils.validation;
 public enum ValidationType {
     TEXT,
     EMAIL,
-    PASSWORD
+    PASSWORD,
+    PHONE,
+    DATE
 }

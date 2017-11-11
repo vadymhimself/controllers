@@ -25,7 +25,7 @@ before_install:
   - openssl aes-256-cbc -K $encrypted_9f0b5b623ead_key -iv $encrypted_9f0b5b623ead_iv -in release.keystore.enc -out keystore/release.keystore -d
 branches:
   only:
-  - master
+  - beta
 env:
   global:
   - secure: "pGB4SrbPpvC0Oaj6F3Jz9s8ZUDkc9ivYNQ1YKUO3NDrxYN/D3l/M9TNh07gVgrRUDXlDi75jLeKgNDGQ/IKdPb15SXy5yj1u+CbIXnpv2P+wJC2vklv4RWQtiFbsQ286dqjJqB65jjYVANH97VlIQGw4eFzpHM6qCgDOOLKv2tAyew7PquadY9D0ABAGqhVT77UJpnF2AaSdtH7uO6R1xjhF0SLJVjMsiJydulilsnSMT9NnhNmW/3drONbu8sS4cTPOPlyWcVTzhaWdg0lJnygF2FElkPubgFCSf9ETECDWDfHvPUeoAzBvZ3aTOWzKuUiJecyZ2IcIR+FgNxsn/hIoMXw4lA8ShBTL28aOFwzYFtsPLo+R0n8pBHXPaMtVt8+E8P6dknQH2wIr6VKlW0mCeacOlcxc1lPf35KiCjj8pyzVlpLxZTXiE/UkR3gjM75X5gcPf7ArO6+79bWomGaESSuBZuu18L88D0NtnjBmt317vxoJMOD89+Wnfq8oB0sz6iadT7IaK94nF9l+Bekny6uWuLJJqDVFCKqk3gU5+mMad4reknWbyNON38IYy/SKNupv/GKHnlpEKCjiMvQXorDhsjE+GGcbao0NurAxmcw6/mPT0RqSQzm860g1FI/kgG1XLg9LgsCa5OU43ApcNbX7KIy5tKvKg3A+UEI="
