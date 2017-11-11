@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import ru.xfit.R;
 import ru.xfit.domain.App;
@@ -22,15 +23,12 @@ public class AgeValidator extends StringValidator {
             return result;
         try {
             Date date = dateFormat.parse(args[0]);
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) - 14);
-            Long minAge = calendar.getTimeInMillis();
+            Calendar minAge = Calendar.getInstance();
+            minAge.set(Calendar.YEAR, minAge.get(Calendar.YEAR) - 14);
 
-            calendar = Calendar.getInstance();
-            calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) - 90);
-            Long maxAge = calendar.getTimeInMillis();
+            Calendar maxAge = new GregorianCalendar(1900, Calendar.JANUARY, 1);
 
-            if (minAge < date.getTime() || date.getTime() > maxAge)
+            if (minAge.getTime().before(date) || maxAge.getTime().after(date))
                 return App.getContext().getString(R.string.validation_incorrect_date);
         } catch (ParseException e) {
             e.printStackTrace();
