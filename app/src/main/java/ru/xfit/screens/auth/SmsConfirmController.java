@@ -68,7 +68,7 @@ public class SmsConfirmController extends XFitController<LayoutSmsConfirmBinding
 
                     saveUser(registrationResponse.user);
 
-                    show(new HomeController());
+                    replace(new HomeController());
                 });
     }
 

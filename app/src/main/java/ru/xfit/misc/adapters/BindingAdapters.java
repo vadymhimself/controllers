@@ -441,6 +441,12 @@ public abstract class BindingAdapters {
                 case PASSWORD:
                     validator = new PasswordValidator();
                     break;
+                case PHONE:
+                    validator = new PhoneValidator();
+                    break;
+                case DATE:
+                    validator = new AgeValidator();
+                    break;
                 default:
                     validator = new EmptyValidator();
             }

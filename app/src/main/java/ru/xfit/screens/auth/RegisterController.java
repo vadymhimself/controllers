@@ -35,6 +35,7 @@ public class RegisterController extends XFitController<LayoutRegisterBinding>{
     public ObservableBoolean isEmailValid = new ObservableBoolean();
     public ObservableBoolean isTelValid = new ObservableBoolean();
     public ObservableBoolean isNameValid = new ObservableBoolean();
+    public ObservableBoolean isDateValid = new ObservableBoolean();
 
     public ObservableBoolean progress = new ObservableBoolean();
 
@@ -50,7 +51,7 @@ public class RegisterController extends XFitController<LayoutRegisterBinding>{
     public void register(View view) {
 
         if (isNameValid.get() && isTelValid.get() && isEmailValid.get()
-                && isRePasswordValid.get() && isPasswordValid.get()) {
+                && isRePasswordValid.get() && isPasswordValid.get() && isDateValid.get()) {
             isValidate = true;
         }
 
