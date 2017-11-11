@@ -1,6 +1,8 @@
 package ru.xfit.screens.auth;
 
+import android.content.Intent;
 import android.databinding.ObservableField;
+import android.net.Uri;
 import android.view.View;
 import com.controllers.Request;
 import ru.xfit.R;
@@ -64,6 +66,7 @@ public class AuthController extends XFitController<LayoutAuthBinding> {
     }
 
     public void onForgotPasswordClicked(View view) {
-
+        Intent intent= new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.xfit.ru/payonline/wnd.php?a=forgot"));
+        getActivity().startActivity(intent);
     }
 }
