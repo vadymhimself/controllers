@@ -25,6 +25,7 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
 import android.text.Html;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
@@ -627,6 +628,11 @@ public abstract class BindingAdapters {
         checkBox.setOnCheckedChangeListener((compoundButton, checked) -> {
             filterController.setStateAllCheckboxes(checked);
         });
+    }
+
+    @BindingAdapter("digitMaskedKeyboard")
+    public static void bindMaskedKeyboard(MaskedEditText maskedEditText, XFitController controller) {
+        maskedEditText.setInputType(InputType.TYPE_CLASS_PHONE);
     }
 
 }
