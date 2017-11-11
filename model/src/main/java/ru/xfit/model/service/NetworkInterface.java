@@ -1,26 +1,19 @@
 package ru.xfit.model.service;
 
-import java.util.List;
-
 import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.DELETE;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
+import retrofit2.http.*;
 import ru.xfit.model.data.auth.AuthRequest;
 import ru.xfit.model.data.auth.AuthResponse;
 import ru.xfit.model.data.club.AddClassResponse;
-import ru.xfit.model.data.club.Class;
 import ru.xfit.model.data.club.Club;
 import ru.xfit.model.data.common.EmptyBody;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationRequest;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
 import ru.xfit.model.data.register.RegisterRequest;
-import ru.xfit.model.data.schedule.ScheduleClub;
+import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.model.data.schedule.ScheduleList;
+
+import java.util.List;
 
 /**
  * Created by TESLA on 25.10.2017.
@@ -44,12 +37,15 @@ public interface NetworkInterface {
     ///clubs/{id}
     ///clubs/{id}/classes
     @GET("clubs/{id}/classes")
-    Call<ScheduleClub> getClasses(@Path("id") String id);
+    Call<Schedule> getClasses(@Path("id") String id);
 
     ///me/classes/{id}
     @GET("me/classes")
-    Call<ScheduleList> getSchedule(@Query("year") String year,
-                                   @Query("week") String week);
+    Call<ScheduleList> getSchedule(@Query("year") int year,
+                                   @Query("week") int week);
+
+    @GET("me/classes")
+    Call<ScheduleList> getSchedule();
 
     @POST("me/classes/{id}")
     Call<AddClassResponse> addClass(@Path("id") String id, @Body EmptyBody request);

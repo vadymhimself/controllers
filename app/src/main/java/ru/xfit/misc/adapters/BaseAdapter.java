@@ -8,12 +8,11 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class BaseAdapter<VM extends BaseVM> extends RecyclerView.Adapter<BindingHolder<ViewDataBinding, VM>> implements Serializable, Iterable<VM> {
-    private final List<VM> vms;
+    List<VM> vms;
 
     public BaseAdapter(@NonNull List<VM> vms) {
         this.vms = vms;
@@ -82,27 +81,7 @@ public class BaseAdapter<VM extends BaseVM> extends RecyclerView.Adapter<Binding
         return vms;
     }
 
-    public <T extends BaseVM> int getCountItemType(Class<T> clazz){
-        int count = 0;
-        for(VM vm : vms){
-            if(clazz == vm.getClass()){
-                count++;
-            }
-        }
-        return count;
-    }
-
-    public <T extends VM> List<T> getItems(Class<T> clazz){
-        List<T> items = new ArrayList<>();
-        for(VM vm : vms){
-            if(clazz == vm.getClass()){
-                items.add((T) vm);
-            }
-        }
-        return items;
-    }
-
-    public VM get(int index) {
+    public VM getItem(int index) {
         return vms.get(index);
     }
 
@@ -117,10 +96,5 @@ public class BaseAdapter<VM extends BaseVM> extends RecyclerView.Adapter<Binding
 
     @Override public Iterator<VM> iterator() {
         return vms.iterator();
-    }
-
-    public void set(int position, VM vm) {
-        vms.set(position, vm);
-        notifyItemChanged(position);
     }
 }

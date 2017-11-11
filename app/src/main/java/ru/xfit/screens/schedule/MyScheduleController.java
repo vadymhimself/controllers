@@ -1,63 +1,45 @@
 package ru.xfit.screens.schedule;
 
 import android.databinding.Bindable;
-import android.databinding.ObservableField;
-import android.util.Log;
+import android.databinding.ObservableBoolean;
 import android.view.View;
-
-import com.android.databinding.library.baseAdapters.BR;
 import com.controllers.Request;
-import com.molo17.customizablecalendar.library.interactors.AUCalendar;
-
 import org.joda.time.DateTime;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import okhttp3.Interceptor;
+import ru.xfit.BR;
 import ru.xfit.R;
-import ru.xfit.StartActivity;
 import ru.xfit.databinding.LayoutMyScheduleBinding;
-import ru.xfit.misc.OnViewReadyListener;
-import ru.xfit.misc.adapters.BaseAdapter;
-import ru.xfit.misc.adapters.BaseVM;
-import ru.xfit.misc.utils.PrefUtils;
+import ru.xfit.misc.adapters.FilterableAdapter;
+import ru.xfit.misc.utils.CalendarUtils;
+import ru.xfit.misc.utils.ListUtils;
+import ru.xfit.model.data.schedule.Clazz;
 import ru.xfit.model.data.schedule.Schedule;
-import ru.xfit.model.data.schedule.ScheduleClub;
 import ru.xfit.model.service.Api;
-import ru.xfit.screens.XFitController;
+import ru.xfit.screens.DrawerController;
 
-import static ru.xfit.domain.App.PREFS_IS_USER_ALREADY_LOGIN;
-import static ru.xfit.domain.App.getContext;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by TESLA on 25.10.2017.
  */
 
-public class MyScheduleController extends BaseScheduleController<LayoutMyScheduleBinding>  implements OnViewReadyListener {
+public class MyScheduleController extends DrawerController<LayoutMyScheduleBinding>
+        implements OnCalendarListener {
 
-    public ObservableField<String> year = new ObservableField<>();
-    public ObservableField<String> week = new ObservableField<>();
+    public final ObservableBoolean progress = new ObservableBoolean();
 
-    public AUCalendar auCalendarInstance;
-    private List<DateTime> highlighteDays;
+    private final DayFilter dayFilter = new DayFilter(DateTime.now());
 
     @Bindable
-    public BaseAdapter adapter;
+    public final FilterableAdapter<ClassVM> adapter = new FilterableAdapter<>(new ArrayList<>());
 
     public MyScheduleController() {
+        adapter.addFilter(dayFilter);
         Request.with(this, Api.class)
-                .create(api -> api.getMySchedule(year.get(), week.get()))
-                .onError(error -> {
-//                    Snackbar.make(view, "Ошибка: " + error.getMessage(), BaseTransientBottomBar.LENGTH_LONG).show();
-                })
+                .create(api -> api.getMySchedule(DateTime.now().getYear(), DateTime.now().getWeekOfWeekyear()))
                 .execute(scheduleListResponse -> {
                     addSchedule(scheduleListResponse.schedules);
                 });
-
     }
 
     @Override
@@ -65,76 +47,53 @@ public class MyScheduleController extends BaseScheduleController<LayoutMySchedul
         return R.layout.layout_my_schedule;
     }
 
-    @Override
-    public void onReady(View root) {
-        if (getBinding() == null)
-            return;
-    }
+    private void addSchedule(List<Schedule> scheduleClubs) {
+        List<ClassVM> vms = new ArrayList<>();
 
-    public void logOut() {
-        PrefUtils.getPreferences().edit().putBoolean(PREFS_IS_USER_ALREADY_LOGIN, false).commit();
-        StartActivity.start(getActivity());
-        getActivity().finish();
-    }
-
-    public void addSchedule(List<ScheduleClub> scheduleClubs) {
-        highlighteDays = new ArrayList<>();
-        if (scheduleClubs == null || scheduleClubs.size() == 0) {
-            if (adapter == null) {
-                adapter = new BaseAdapter<>(new ArrayList<>());
-                notifyPropertyChanged(BR.adapter);
-            }
-            return;
-        }
-        for (ScheduleClub scheduleClub : scheduleClubs) {
-            for (Schedule schedule : scheduleClub.schedule) {
-                vms.add(new MyScheduleVM(schedule, this));
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-                try {
-                    Date date = dateFormat.parse(schedule.datetime);
-                    SimpleDateFormat year = new SimpleDateFormat("yyyy");
-                    year.format(date);
-                    SimpleDateFormat month = new SimpleDateFormat("MM");
-                    month.format(date);
-                    SimpleDateFormat day = new SimpleDateFormat("dd");
-                    day.format(date);
-
-                    highlighteDays.add(new DateTime().withDate(Integer.valueOf(year.format(date)),
-                            Integer.valueOf(month.format(date)),
-                            Integer.valueOf(day.format(date))));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+        for (Schedule schedule : scheduleClubs) {
+            for (Clazz clazz : schedule.schedule) {
+                vms.add(new ClassVM(clazz, this));
             }
         }
 
-        auCalendarInstance.highLightDates(highlighteDays);
-
-        adapter = new BaseAdapter<>(vms);
-        notifyPropertyChanged(BR.adapter);
-
+        adapter.addAll(vms);
+        notifyPropertyChanged(BR.classDates);
     }
 
-    public void updateSchedules() {
-
-        notifyPropertyChanged(BR.adapter);
+    public void showClubClassesController(View view) {
+        progress.set(true);
         Request.with(this, Api.class)
-                .create(api -> api.getMySchedule(year.get(), week.get()))
-                .onError(error -> {
-//                    errorResponse.set(error.getMessage());
-//                    Snackbar.make(view, "Ошибка: " + error.getMessage(), BaseTransientBottomBar.LENGTH_LONG).show();
-                })
-                .execute(scheduleListResponse -> {
-                    addSchedule(scheduleListResponse.schedules);
+                .create(api -> api.getClassesForClub("181"))
+                .onFinally(() -> progress.set(false))
+                .execute(schedule -> {
+                    MyScheduleController.this.show(new ClubClassesController(schedule));
                 });
-    }
-
-    public void classes(View view) {
-        show(new ClubClassesController("181"));
-
     }
 
     public void services(View view) {
 
+    }
+
+    @Bindable
+    public List<DateTime> getClassDates() {
+        return ListUtils.map(adapter.getAllItems(), it -> CalendarUtils.dateStringToDateTime(it.clazz.datetime));
+    }
+
+    @Bindable
+    public boolean isScheduleEmpty() {
+        return adapter.getItemCount() == 0;
+    }
+
+    @Override
+    public String getTitle() {
+        return "Мое расписание";
+    }
+
+    @Override
+    public void onDateChange(DateTime dateTime) {
+        dayFilter.setDay(dateTime);
+        //TODO update adapter
+        adapter.refresh();
+        notifyPropertyChanged(BR.scheduleEmpty);
     }
 }

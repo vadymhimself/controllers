@@ -1,17 +1,12 @@
 package ru.xfit.model.service;
 
 import com.controllers.Task;
-import ru.xfit.model.data.AccessToken;
-import ru.xfit.model.data.User;
-import ru.xfit.model.data.auth.AuthRequest;
 import ru.xfit.model.data.auth.AuthResponse;
 import ru.xfit.model.data.club.AddClassResponse;
-import ru.xfit.model.data.club.Class;
 import ru.xfit.model.data.club.Club;
-import ru.xfit.model.data.phoneConfiramtion.ConfirmationRequest;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
 import ru.xfit.model.data.register.RegisterRequest;
-import ru.xfit.model.data.schedule.ScheduleClub;
+import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.model.data.schedule.ScheduleList;
 
 import java.util.List;
@@ -49,9 +44,11 @@ public interface Api {
 
     Task<List<Club>> getClubs();
 
-    Task<ScheduleClub> getClasses(String id);
+    Task<Schedule> getClassesForClub(String id);
 
-    Task<ScheduleList> getMySchedule(String year, String week);
+    Task<ScheduleList> getMySchedule(int year, int week);
+
+    Task<ScheduleList> getMySchedule();
 
     Task<AddClassResponse> addClass(String id);
 

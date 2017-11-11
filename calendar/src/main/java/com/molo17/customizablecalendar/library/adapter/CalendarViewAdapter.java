@@ -3,6 +3,7 @@ package com.molo17.customizablecalendar.library.adapter;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.molo17.customizablecalendar.library.presenter.interfeaces.Customizabl
 import com.molo17.customizablecalendar.library.view.BaseView;
 import com.molo17.customizablecalendar.library.viewholders.CalendarViewHolder;
 import com.molo17.customizablecalendar.library.viewholders.MonthViewHolder;
+import com.molo17.customizablecalendar.library.viewholders.WeekViewHolder;
 
 import org.joda.time.DateTime;
 
@@ -28,16 +30,21 @@ public class CalendarViewAdapter extends RecyclerView.Adapter<CalendarViewHolder
     private AUCalendar calendar;
     private int layoutResId = -1;
     private int dayLayoutResId = -1;
+    private AdapterType adapterType;
     private ViewInteractor viewInteractor;
 
-    public CalendarViewAdapter(Context context) {
+    public CalendarViewAdapter(Context context, AdapterType adapterType) {
         this.context = context;
         this.calendar = AUCalendar.getInstance();
+        this.adapterType = adapterType;
     }
 
     @Override
     public int getItemCount() {
-        return calendar.getMonths().size();
+        if (adapterType == AdapterType.TYPE_MONTH)
+            return calendar.getMonths().size();
+        else
+            return calendar.getWeeks().size();
     }
 
     @Override
@@ -48,7 +55,7 @@ public class CalendarViewAdapter extends RecyclerView.Adapter<CalendarViewHolder
             rootView = viewInteractor.getMonthGridView(rootView);
         } else {
             MonthGridView monthGridView = new MonthGridView(context);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             monthGridView.setLayoutParams(params);
             rootView = monthGridView;
         }
@@ -56,14 +63,24 @@ public class CalendarViewAdapter extends RecyclerView.Adapter<CalendarViewHolder
         if (viewInteractor != null) {
             viewInteractor.onMonthBindView(rootView);
         }
-        return new MonthViewHolder(rootView, layoutResId, dayLayoutResId, viewInteractor);
+        return new MonthViewHolder(rootView, layoutResId, dayLayoutResId, viewInteractor, adapterType);
     }
 
     @Override
     public void onBindViewHolder(final CalendarViewHolder viewHolder, final int position) {
-        DateTime currentMonth = calendar.getMonths().get(position);
-        if (viewHolder.getClass() == MonthViewHolder.class)
-            ((MonthViewHolder)viewHolder).monthView.setCurrentMonth(currentMonth);
+        if (adapterType == AdapterType.TYPE_MONTH) {
+            DateTime currentMonth = calendar.getMonths().get(position);
+            if (viewHolder.getClass() == MonthViewHolder.class)
+                ((MonthViewHolder) viewHolder).monthView.setCurrentMonth(currentMonth);
+        } else {
+            DateTime currentMonth = calendar.getWeeks().get(position);
+            if (viewHolder.getClass() == MonthViewHolder.class)
+                ((MonthViewHolder) viewHolder).monthView.setCurrentMonth(currentMonth);
+        }
+    }
+
+    public DateTime getCurrentMonth() {
+        return calendar.getMonths().get(0);
     }
 
     @Override

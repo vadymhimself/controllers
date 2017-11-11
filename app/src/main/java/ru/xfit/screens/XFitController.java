@@ -6,6 +6,8 @@ import ru.xfit.domain.App;
 
 public abstract class XFitController<B extends ViewDataBinding> extends Controller<B> {
 
+    private String title;
+
     @Override
     protected void onAttachedToStack() {
         App.getBus().register(this);
@@ -14,6 +16,14 @@ public abstract class XFitController<B extends ViewDataBinding> extends Controll
     @Override
     protected void onDetachedFromStack() {
         App.getBus().unregister(this);
+    }
+
+    protected void  setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
 //    @Override

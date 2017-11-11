@@ -1,41 +1,62 @@
 package ru.xfit.screens.schedule;
 
 import android.databinding.Bindable;
-import android.support.design.widget.BaseTransientBottomBar;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-
-import com.android.databinding.library.baseAdapters.BR;
-import com.controllers.Request;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.hwangjr.rxbus.annotation.Subscribe;
+import org.joda.time.DateTime;
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutClubClassesBinding;
-import ru.xfit.misc.adapters.BaseAdapter;
+import ru.xfit.misc.adapters.FilterableAdapter;
+import ru.xfit.misc.events.OptionsItemSelectedEvent;
+import ru.xfit.model.data.schedule.Activity;
+import ru.xfit.model.data.schedule.Clazz;
 import ru.xfit.model.data.schedule.Schedule;
-import ru.xfit.model.data.schedule.ScheduleClub;
-import ru.xfit.model.service.Api;
-import ru.xfit.screens.XFitController;
+import ru.xfit.model.data.schedule.Trainer;
+import ru.xfit.screens.filter.FilterController;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import static ru.xfit.misc.utils.ListUtils.filter;
 
 /**
  * Created by TESLA on 04.11.2017.
+ * TODO: download more classes in itself
+ * TODO: тут вообще-то календарь тоже будет, и фильтр по дням...
  */
 
-public class ClubClassesController extends BaseScheduleController<LayoutClubClassesBinding> {
+public class ClubClassesController extends BaseScheduleController<LayoutClubClassesBinding>
+        implements FilterListener {
+
+    private final Set<Trainer> trainers = new HashSet<>();
+    private final Set<Activity> activities = new HashSet<>();
+
+    private Set<Activity> selectedActivities = new HashSet<>();
+    private Set<Trainer> selectedTrainers = new HashSet<>();
+
+    private final DayFilter dayFilter = new DayFilter(DateTime.now());
+
+//    private FilterController filterController = new FilterController(this, trainers, activities);
 
     @Bindable
-    public BaseAdapter adapter;
+    public final FilterableAdapter<ClassVM> adapter = new FilterableAdapter<>(new ArrayList<>());
 
-    public ClubClassesController(String clubId) {
-        Request.setDefaultErrorAction(Throwable::printStackTrace);
-        Request.with(this, Api.class)
-                .create(api -> api.getClasses(clubId))
-                .execute(scheduleListResponse -> {
-                    addSchedule(scheduleListResponse.schedule);
-                });
+    ClubClassesController(Schedule schedule) {
+        setTitle(schedule.club.title);
 
+        adapter.addFilter(dayFilter);
+        // class type and trainer filters
+        adapter.addFilter(list -> filter(list, it -> selectedActivities.contains(it.clazz.activity)));
+        adapter.addFilter(list -> filter(list, it -> {
+            for (Trainer t : it.clazz.trainers) {
+                if (selectedTrainers.contains(t)) {
+                    return true;
+                }
+            }
+            return false;
+        }));
+        addClasses(schedule.schedule);
     }
 
     @Override
@@ -43,23 +64,34 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
         return R.layout.layout_club_classes;
     }
 
-    public void addSchedule(List<Schedule> schedules) {
-        if (schedules == null || schedules.size() == 0) {
-            if (adapter == null) {
-                adapter = new BaseAdapter<>(new ArrayList<>());
-                notifyPropertyChanged(BR.adapter);
-            }
-            return;
+    @Subscribe
+    public void onOptionsItemSelectedEvent(OptionsItemSelectedEvent e) {
+        switch (e.menuItem.getItemId()) {
+            case R.id.filter:
+                show(new FilterController(this, trainers, activities));
+                break;
+            default:
+                break;
         }
-
-        for (Schedule schedule : schedules) {
-            vms.add(new MyScheduleVM(schedule, this));
-        }
-
-
-        adapter = new BaseAdapter<>(vms);
-        notifyPropertyChanged(BR.adapter);
 
     }
 
+    private void addClasses(List<Clazz> classes) {
+        List<ClassVM> toAdd = new ArrayList<>();
+        for (Clazz schedule : classes) {
+            activities.add(schedule.activity);
+            trainers.addAll(schedule.trainers);
+            toAdd.add(new ClassVM(schedule, this));
+        }
+        this.selectedTrainers = trainers;
+        this.selectedActivities = activities;
+        adapter.addAll(toAdd);
+    }
+
+    @Override
+    public void onUpdate(Set<Activity> activities, Set<Trainer> trainers) {
+        this.selectedTrainers = trainers;
+        this.selectedActivities = activities;
+        adapter.refresh();
+    }
 }

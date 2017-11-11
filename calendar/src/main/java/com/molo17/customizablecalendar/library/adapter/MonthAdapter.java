@@ -48,12 +48,18 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
     private CompositeDisposable subscriptions;
     private boolean subscribed;
 
-    public MonthAdapter(Context context, DateTime currentMonth) {
+    private AdapterType adapterType;
+
+    public MonthAdapter(Context context, DateTime currentMonth, AdapterType adapterType) {
         this.context = context;
         this.subscriptions = new CompositeDisposable();
         this.calendar = AUCalendar.getInstance();
         this.layoutResId = R.layout.calendar_cell;
-        this.currentMonth = currentMonth.withDayOfMonth(1).withMillisOfDay(0);
+        if (adapterType == AdapterType.TYPE_MONTH)
+            this.currentMonth = currentMonth.withDayOfMonth(1).withMillisOfDay(0);
+        else
+            this.currentMonth = currentMonth;
+        this.adapterType = adapterType;
         initFromCalendar();
         subscribe();
     }
@@ -269,6 +275,10 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
         final int month = currentMonth.getMonthOfYear();
         final int firstDayOfMonth = currentMonth.getDayOfWeek() + 1;
         final int lastDayOfMonth = DateUtils.getDaysInMonth(month - 1, year);
+
+        final int firstDayOfWeek = 0;
+        final int lastDayOfWeek = 0;
+
         List<CalendarItem> updatedDays = new ArrayList<>();
 
         if (viewInteractor != null && viewInteractor.hasImplementedDayCalculation()) {
@@ -282,13 +292,26 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
             } else {
                 empties = firstDayOfMonth - firstDayOfWeek;
             }
+            if (adapterType == AdapterType.TYPE_MONTH) {
+                int totDays = lastDayOfMonth + empties;
+                for (int day = 1, position = 1; position <= totDays; position++) {
+                    if (position > empties) {
+                        updatedDays.add(new CalendarItem(day++, month, year));
+                    } else {
+                        updatedDays.add(null);
+                    }
+                }
+            } else {
+                calendar.getFirstDayOfWeek();
+                List<DateTime> dt = calendar.getWeeks();
+                DateTime currentWeek = currentMonth;
+                for (DateTime thisWeek : dt) {
+                    if (thisWeek.getWeekOfWeekyear() == currentMonth.getWeekOfWeekyear())
+                        currentWeek = thisWeek;
+                }
 
-            int totDays = lastDayOfMonth + empties;
-            for (int day = 1, position = 1; position <= totDays; position++) {
-                if (position > empties) {
-                    updatedDays.add(new CalendarItem(day++, month, year));
-                } else {
-                    updatedDays.add(null);
+                for (int position = 0; position < 7; position++) {
+                    updatedDays.add(new CalendarItem(currentWeek.plusDays(position).getDayOfMonth(), month, year));
                 }
             }
 

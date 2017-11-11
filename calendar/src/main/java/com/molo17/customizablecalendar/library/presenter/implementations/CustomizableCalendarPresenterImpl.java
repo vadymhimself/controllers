@@ -2,6 +2,7 @@ package com.molo17.customizablecalendar.library.presenter.implementations;
 
 import android.support.annotation.LayoutRes;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.molo17.customizablecalendar.library.interactors.AUCalendar;
@@ -139,6 +140,16 @@ public class CustomizableCalendarPresenterImpl implements CustomizableCalendarPr
             }
         }
         return weekDays;
+    }
+
+    @Override
+    public void onMonthClicked() {
+        calendarView.onMonthClicked();
+    }
+
+    @Override
+    public void onMonthChanged(DateTime currentMonth) {
+        onCurrentMonthChanged(currentMonth);
     }
 
     private String getFormattedDayOfDay(String nameOfDay) {

@@ -20,6 +20,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by francescofurlan on 23/06/17.
@@ -69,6 +70,11 @@ public class SubView extends RelativeLayout implements com.molo17.customizableca
         if (viewInteractor != null) {
             viewInteractor.onSubViewBindView(this, month);
         }
+    }
+
+    @OnClick(android.R.id.message)
+    public void onMonthClicked() {
+        presenter.onMonthClicked();
     }
 
     @Override

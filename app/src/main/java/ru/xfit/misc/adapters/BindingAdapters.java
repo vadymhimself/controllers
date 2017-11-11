@@ -4,8 +4,10 @@ import android.databinding.BindingAdapter;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
+import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
+import android.net.Uri;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.MenuRes;
@@ -16,7 +18,9 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.*;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
@@ -29,31 +33,30 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.*;
-import android.widget.SearchView;
-
+import com.bumptech.glide.DrawableTypeRequest;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.reinaldoarrosi.maskededittext.MaskedEditText;
 import com.molo17.customizablecalendar.library.components.CustomizableCalendar;
 import com.molo17.customizablecalendar.library.interactors.AUCalendar;
 import com.molo17.customizablecalendar.library.model.Calendar;
-
-import org.joda.time.DateTime;
-
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import org.joda.time.DateTime;
 import ru.xfit.R;
+import ru.xfit.misc.CircleTransform;
+import ru.xfit.misc.NavigationClickListener;
 import ru.xfit.misc.OnViewReadyListener;
-import ru.xfit.misc.utils.validation.EmailValidator;
-import ru.xfit.misc.utils.validation.EmptyValidator;
-import ru.xfit.misc.utils.validation.PasswordEqualValidator;
-import ru.xfit.misc.utils.validation.PasswordValidator;
-import ru.xfit.misc.utils.validation.StringValidator;
-import ru.xfit.misc.utils.validation.ValidationType;
+import ru.xfit.misc.utils.validation.*;
 import ru.xfit.misc.views.*;
-import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.screens.XFitController;
+import ru.xfit.screens.filter.FilterController;
+import ru.xfit.screens.filter.FilterVM;
+import ru.xfit.screens.filter.HeaderFilterVM;
 import ru.xfit.screens.schedule.MyScheduleController;
+
+import java.util.List;
 
 public abstract class BindingAdapters {
 
@@ -135,7 +138,7 @@ public abstract class BindingAdapters {
                 GridLayoutManager glm = new GridLayoutManager(recycler.getContext(), SpannedVM.MAX_SPAN_SIZE);
                 glm.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                     @Override public int getSpanSize(int position) {
-                        BaseVM vm = ((BaseAdapter) adapter).get(position);
+                        BaseVM vm = ((BaseAdapter) adapter).getItem(position);
                         if (!(vm instanceof SpannedVM)) {
                             throw new IllegalStateException("VMs inside variable span grid should implement SpannedVM");
                         }
@@ -524,22 +527,14 @@ public abstract class BindingAdapters {
         auCalendar.setMultipleSelection(false);
         auCalendar.setToday(today);
         calendarViewInteractor.updateCalendar(calendar);
-        controller.year.set(calendar.getCurrentYear());
-        controller.week.set(String.valueOf(calendar.getCurrentWeek()));
-
-        controller.auCalendarInstance = auCalendar;
 
         customizableCalendar.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View view) {
-                auCalendar.observeChangesOnCalendar().subscribe(new Consumer<AUCalendar.ChangeSet>() {
-                    @Override
-                    public void accept(@NonNull AUCalendar.ChangeSet changeSet) throws Exception {
-                        calendarViewInteractor.updateCalendar(calendar);
-                        controller.year.set(calendar.getCurrentYear());
-                        controller.week.set(String.valueOf(calendar.getCurrentWeek()));
-//                        controller.updateSchedules();
-                    }
+                auCalendar.observeChangesOnCalendar().subscribe(changeSet -> {
+                    calendarViewInteractor.updateCalendar(calendar);
+                    if (calendar.getFirstSelectedDay() != null)
+                        controller.onDateChange(calendar.getFirstSelectedDay());
                 });
             }
 
@@ -549,8 +544,6 @@ public abstract class BindingAdapters {
             }
         });
 
-
-
         customizableCalendar.injectViewInteractor(calendarViewInteractor);
     }
 
@@ -559,5 +552,81 @@ public abstract class BindingAdapters {
         view.setBackgroundColor(color);
     }
 
+    @BindingAdapter("navigationClickListener")
+    public static void bindNavClickListener(Toolbar toolbar, NavigationClickListener l) {
+        if (l == null) {
+            toolbar.setNavigationOnClickListener(null);
+        } else {
+            toolbar.setNavigationOnClickListener(v -> l.onNavigationClick());
+        }
+    }
+
+    @BindingAdapter("onRadioChecked")
+    public static void bindOnRadioChecked(RadioButton radioButton, FilterController filterController ) {
+        radioButton.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b) {
+                filterController.checkedIncome(compoundButton.getId());
+            }
+        });
+    }
+
+    @BindingAdapter(value = {"android:src", "circleTransform"}, requireAll = false)
+    public static void bindSrc(ImageView iv, Object o, boolean circleTransform) {
+        RequestManager requestManager = Glide.with(iv.getContext());
+        DrawableTypeRequest rc;
+
+        if (o == null) {
+            iv.setImageDrawable(null);
+            return;
+        } else if (o instanceof String) {
+            rc = requestManager.load((String) o);
+            rc.diskCacheStrategy(DiskCacheStrategy.SOURCE);
+        } else if (o instanceof Integer) {
+            if (!circleTransform) {
+                iv.setImageResource((Integer) o);
+                return;
+            }
+            rc = requestManager.load((Integer) o);
+            Log.w(TAG, "bindSrc: vectorDrawables would not work with circle transformation");
+        } else if (o instanceof Uri) {
+            rc = requestManager.load((Uri) o);
+        } else if (o instanceof Bitmap) {
+            iv.setImageBitmap((Bitmap) o);
+            if (circleTransform) {
+                // TODO: ?
+            }
+            return;
+        } else {
+            throw new IllegalArgumentException("Can't set source" + o);
+        }
+
+        if (circleTransform) {
+            rc.transform(new CircleTransform(iv.getContext()));
+        }
+        rc.into(iv);
+    }
+
+    @BindingAdapter("onCheckBoxChecked")
+    public static void bindOnCheckBoxChecked(CheckBox checkBox, FilterVM filterVM ) {
+        checkBox.setOnCheckedChangeListener(null);
+        checkBox.setChecked(filterVM.isChecked.get());
+        checkBox.setOnCheckedChangeListener((compoundButton, checked) -> {
+            filterVM.isChecked.set(checked);
+        });
+    }
+
+    @BindingAdapter("highlightedDays")
+    public static void bindHighlightedDates(CustomizableCalendar v,
+                                            List<DateTime> dates) {
+        AUCalendar.getInstance().highLightDates(dates);
+    }
+
+    @BindingAdapter("headerFilterVM")
+    public static void bindOnHeaderChekcBoxState(CheckBox checkBox, FilterController filterController) {
+        checkBox.setOnCheckedChangeListener(null);
+        checkBox.setOnCheckedChangeListener((compoundButton, checked) -> {
+            filterController.setStateAllCheckboxes(checked);
+        });
+    }
 
 }

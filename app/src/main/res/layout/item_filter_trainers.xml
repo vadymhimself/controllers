@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="ru.xfit.screens.filter.FilterTrainersVM"/>
+
+        <import type="android.graphics.Color"/>
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="10dp"
+            app:circleTransform="@{true}"
+            android:src='@{viewModel.trainer.facePhoto.url}'
+            android:layout_centerVertical="true"/>
+
+        <!--android:src='@{viewModel.trainer.facePhoto}'-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif"
+            android:textStyle="normal"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/avatar"
+            android:textColor="@color/calendarCommonDay"
+            android:text="@{viewModel.trainer.title}"
+            />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="13dp"
+            android:layout_centerVertical="true"
+            app:buttonTint="@color/controlsColor"
+            android:checked="@{viewModel.isChecked}"
+            app:onCheckBoxChecked="@{viewModel}"/>
+    </RelativeLayout>
+</layout>

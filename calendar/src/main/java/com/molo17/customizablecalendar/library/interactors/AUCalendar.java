@@ -127,10 +127,21 @@ public class AUCalendar {
         return calendar.getMonths();
     }
 
+    public List<DateTime> getWeeks() {
+        return calendar.getWeeks();
+    }
+
     public void setMonths(List<DateTime> months) {
         if (calendar.getMonths() != months) {
             calendar.setMonths(months);
             emitOnChange(CalendarFields.MONTHS);
+        }
+    }
+
+    public void setWeeks(List<DateTime> weeks) {
+        if (calendar.getWeeks() != weeks) {
+            calendar.setWeeks(weeks);
+            emitOnChange(CalendarFields.WEEKS);
         }
     }
 

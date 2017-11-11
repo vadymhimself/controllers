@@ -10,4 +10,6 @@ public interface CalendarView extends BaseView {
     void setMonthLayoutResId(@LayoutRes int layoutResId);
 
     void setDayLayoutResId(@LayoutRes int layoutResId);
+
+    void onMonthClicked();
 }

@@ -1,6 +1,6 @@
 package ru.xfit.model.data.schedule;
 
-import com.google.gson.annotations.SerializedName;
+import ru.xfit.model.data.club.Club;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,23 +10,6 @@ import java.util.List;
  */
 
 public class Schedule implements Serializable {
-    public String id;
-    public String subscriptionId;
-    public String datetime;
-    public Boolean popular;
-    public Integer length;
-    public Boolean commercial;
-    public Boolean bookingOpened;
-    public Boolean preEntry;
-    public Boolean firstFree;
-    @SerializedName("new")
-    public Boolean isNew;
-    public Activity activity;
-    public List<Trainer> trainers;
-    public Item room;
-    public Item group;
-
-    public String getLength() {
-        return "Продолжительность: " + String.valueOf(length) + " мин";
-    }
+    public Club club;
+    public List<Clazz> schedule;
 }
