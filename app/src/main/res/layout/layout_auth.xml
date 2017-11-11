@@ -45,7 +45,8 @@
                 android:textColor="@android:color/white"
                 app:mask="+7(999) 999-99-99"
                 app:placeholder="_"
-                app:onMaskedTextChanged='@{controller.phone}' />
+                app:onMaskedTextChanged='@{controller.phone}'
+                app:digitMaskedKeyboard="@{controller}"/>
 
             <View
                 android:layout_width="match_parent"
