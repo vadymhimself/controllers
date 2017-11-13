@@ -24,7 +24,7 @@ public class ClubVM implements BaseVM {
     }
 
     public void onItemClick(View view){
-
+        clubsController.show(new AboutClubController(club));
     }
 
     @Override

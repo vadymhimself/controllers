@@ -52,4 +52,5 @@
     <string name="validation_incorrect_date">Не верная дата</string>
 
     <string name="clubs_no_clubs">Ничего не найдено, повторите запрос позже</string>
+    <string name="clubs_controller_title">Клубы</string>
 </resources>

@@ -12,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+
 import com.controllers.Controller;
 import com.crashlytics.android.Crashlytics;
 import com.hwangjr.rxbus.Bus;
@@ -21,6 +23,7 @@ import ru.xfit.R;
 import ru.xfit.misc.events.OptionsItemSelectedEvent;
 import ru.xfit.model.data.storage.preferences.PreferencesManager;
 import ru.xfit.model.retrorequest.LogoutEvent;
+import ru.xfit.screens.BlankToolbarController;
 import ru.xfit.screens.DrawerController;
 import ru.xfit.screens.clubs.ClubsController;
 import ru.xfit.screens.schedule.ClubClassesController;
@@ -93,6 +96,7 @@ public class MainActivity extends XFitActivity implements
     protected void onControllerChanged(Controller controller) {
 
         setVisibleHamburgerIcon(!(controller instanceof DrawerController));
+        setVisibleToolbar(!(controller instanceof BlankToolbarController));
 
         if (controller instanceof ClubClassesController) {
             // TODO: push to the top controller or make a menu presenter
@@ -188,6 +192,10 @@ public class MainActivity extends XFitActivity implements
             toggle.setToolbarNavigationClickListener(null);
             toolBarNavigationListenerIsRegistered = false;
         }
+    }
+
+    public void setVisibleToolbar(boolean visible) {
+        toolbar.setVisibility( visible ? View.VISIBLE : View.GONE);
     }
 
     public static void start(Context context) {

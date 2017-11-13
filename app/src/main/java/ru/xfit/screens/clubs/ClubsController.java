@@ -13,6 +13,7 @@ import java.util.List;
 import ru.xfit.BR;
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutClubsBinding;
+import ru.xfit.domain.App;
 import ru.xfit.misc.adapters.BaseAdapter;
 import ru.xfit.misc.adapters.BaseVM;
 import ru.xfit.misc.adapters.FilterableAdapter;
@@ -35,6 +36,7 @@ public class ClubsController extends DrawerController<LayoutClubsBinding> {
     public final ObservableBoolean progress = new ObservableBoolean();
 
     public ClubsController() {
+        setTitle(App.getContext().getString(R.string.clubs_controller_title));
         progress.set(true);
         Request.with(this, Api.class)
                 .create(Api::getClubs)

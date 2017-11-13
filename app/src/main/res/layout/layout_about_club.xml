@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="controller"
+            type="ru.xfit.screens.clubs.AboutClubController" />
+
+        <import type="ru.xfit.R" />
+        <import type="ru.xfit.misc.LayoutManagers" />
+
+    </data>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.daimajia.slider.library.SliderLayout
+            android:id="@+id/slider"
+            android:layout_width="match_parent"
+            android:layout_height="235dp"
+            app:banners='@{controller}'>
+            <com.daimajia.slider.library.Indicators.PagerIndicator
+                android:id="@+id/custom_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                custom:selected_color="@color/colorAccent"
+                custom:unselected_color="@color/white"
+                custom:shape="oval"
+                custom:selected_padding_left="3dp"
+                custom:selected_padding_right="3dp"
+                custom:unselected_padding_left="3dp"
+                custom:unselected_padding_right="3dp"
+                />
+        </com.daimajia.slider.library.SliderLayout>
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:layout_marginLeft="22dp"
+            android:onClick="@{controller.back}"
+            android:background="@drawable/ic_arrow_back"/>
+
+    </RelativeLayout>
+
+</layout>
