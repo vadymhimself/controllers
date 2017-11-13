@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -63,11 +64,14 @@ public class MainActivity extends XFitActivity implements
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
+        drawer.setScrimColor(getResources().getColor(android.R.color.transparent));
+        drawer.setDrawerShadow(R.drawable.transparent, GravityCompat.START);
+        drawer.setElevation(0f);
         toggle.syncState();
         navView.setNavigationItemSelectedListener(this);
 
         myScheduleController = new MyScheduleController();
-        clubsController = new ClubsController();
+//        clubsController = new ClubsController();
         if (savedInstanceState == null) {
             show(myScheduleController, 0, 0);
         }
@@ -101,6 +105,8 @@ public class MainActivity extends XFitActivity implements
 
         setTitle(controller.getTitle());
 
+
+
         super.onControllerChanged(controller);
     }
 
@@ -133,7 +139,7 @@ public class MainActivity extends XFitActivity implements
             case R.id.services:
                 return true;
             case R.id.clubs:
-                replace(clubsController);
+                replace(new ClubsController());
                 setTitle(getResources().getString(R.string.clubs_title));
                 drawer.closeDrawers();
                 return true;

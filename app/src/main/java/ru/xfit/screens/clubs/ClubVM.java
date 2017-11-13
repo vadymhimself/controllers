@@ -1,8 +1,11 @@
 package ru.xfit.screens.clubs;
 
+import android.databinding.ObservableBoolean;
 import android.view.View;
 import ru.xfit.R;
 import ru.xfit.misc.adapters.BaseVM;
+import ru.xfit.model.data.club.Club;
+import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.data.schedule.Schedule;
 
 /**
@@ -11,11 +14,12 @@ import ru.xfit.model.data.schedule.Schedule;
 
 public class ClubVM implements BaseVM {
 
-    public Schedule scheduleClub;
+    public ClubItem club;
     public ClubsController clubsController;
+    public ObservableBoolean isMyClub = new ObservableBoolean();
 
-    public ClubVM(Schedule scheduleClub, ClubsController clubsController) {
-        this.scheduleClub = scheduleClub;
+    public ClubVM(ClubItem club, ClubsController clubsController) {
+        this.club = club;
         this.clubsController = clubsController;
     }
 

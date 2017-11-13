@@ -23,4 +23,6 @@
     <color name="calendarCommonDay">#cc58595b</color>
     <color name="calendarCurrentDay">#ffffff</color>
 
+    <color name="clubCityBackground">#fffaf7fc</color>
+
 </resources>

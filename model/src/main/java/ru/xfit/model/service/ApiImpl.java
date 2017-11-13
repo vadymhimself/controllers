@@ -11,6 +11,7 @@ import ru.xfit.model.data.auth.AuthRequest;
 import ru.xfit.model.data.auth.AuthResponse;
 import ru.xfit.model.data.club.AddClassResponse;
 import ru.xfit.model.data.club.Club;
+import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.data.common.EmptyBody;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationRequest;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
@@ -144,8 +145,8 @@ final class ApiImpl implements Api {
     }
 
     @Override
-    public Task<List<Club>> getClubs() {
-        return null;
+    public Task<List<ClubItem>> getClubs() {
+        return TaskBuilder.from(networkInterface.getClubs());
     }
 
     @Override

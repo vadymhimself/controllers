@@ -3,6 +3,8 @@ package ru.xfit.model.data.schedule;
 import java.io.Serializable;
 import java.util.List;
 
+import ru.xfit.model.data.common.Image;
+
 /**
  * Created by TESLA on 03.11.2017.
  */
@@ -13,8 +15,8 @@ public class Trainer implements Serializable {
     public String url;
     public String description;
     public String position;
-    public Photo facePhoto;
-    public Photo photo;
+    public Image facePhoto;
+    public Image photo;
     public List<String> clubs;
 
     @Override

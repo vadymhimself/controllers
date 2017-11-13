@@ -6,12 +6,16 @@ import ru.xfit.model.data.auth.AuthRequest;
 import ru.xfit.model.data.auth.AuthResponse;
 import ru.xfit.model.data.club.AddClassResponse;
 import ru.xfit.model.data.club.Club;
+import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.data.common.EmptyBody;
+import ru.xfit.model.data.contract.Contract;
+import ru.xfit.model.data.contract.SuspendRequest;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationRequest;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
 import ru.xfit.model.data.register.RegisterRequest;
 import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.model.data.schedule.ScheduleList;
+import ru.xfit.model.data.schedule.Trainer;
 
 import java.util.List;
 
@@ -32,12 +36,14 @@ public interface NetworkInterface {
 
     ///clubs
     @GET("clubs")
-    Call<List<Club>> getClubs();
+    Call<List<ClubItem>> getClubs();
 
-    ///clubs/{id}
     ///clubs/{id}/classes
     @GET("clubs/{id}/classes")
     Call<Schedule> getClasses(@Path("id") String id);
+
+    @GET("clubs/{id}/trainers")
+    Call<List<Trainer>> getTrainers(@Path("id") String id);
 
     ///me/classes/{id}
     @GET("me/classes")
@@ -53,4 +59,10 @@ public interface NetworkInterface {
     ///me/classes/{id}
     @DELETE("me/classes/{id}")
     Call<Void> deleteClass(@Path("id") String id);
+
+    @GET("/me/contracts")
+    Call<List<Contract>> getContracts();
+
+    @POST("/me/contracts/suspend")
+    Call<Contract> suspendContract(@Body SuspendRequest request);
 }

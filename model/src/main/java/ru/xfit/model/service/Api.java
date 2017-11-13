@@ -4,6 +4,7 @@ import com.controllers.Task;
 import ru.xfit.model.data.auth.AuthResponse;
 import ru.xfit.model.data.club.AddClassResponse;
 import ru.xfit.model.data.club.Club;
+import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
 import ru.xfit.model.data.register.RegisterRequest;
 import ru.xfit.model.data.schedule.Schedule;
@@ -42,7 +43,7 @@ public interface Api {
 
     Task<Void> saveUser(ru.xfit.model.data.auth.User user);
 
-    Task<List<Club>> getClubs();
+    Task<List<ClubItem>> getClubs();
 
     Task<Schedule> getClassesForClub(String id);
 
