@@ -20,12 +20,12 @@
     <string name="empty_field_error">Поле должно быть заполненным</string>
     <string name="incorrect_email">Неверный формат e-mail</string>
 
-    <string name="nav_menu_schedule"><font fgcolor='#ffa0e52d'>Моё расписание</font></string>
-    <string name="nav_menu_x_fit"><font fgcolor='#ffa0e52d'>Мой X-Fit</font></string>
-    <string name="nav_menu_services"><font fgcolor='#ffa0e52d'>Услуги</font></string>
-    <string name="nav_menu_clubs"><font fgcolor='#ffa0e52d'>Клубы</font></string>
-    <string name="nav_menu_contacts"><font fgcolor='#ffa0e52d'>Контакты</font></string>
-    <string name="nav_menu_settings"><font fgcolor='#ffa0e52d'>Настройки</font></string>
+    <string name="nav_menu_schedule">Моё расписание</string>
+    <string name="nav_menu_x_fit">Мой X-Fit</string>
+    <string name="nav_menu_services">Услуги</string>
+    <string name="nav_menu_clubs">Клубы</string>
+    <string name="nav_menu_contacts">Контакты</string>
+    <string name="nav_menu_settings">Настройки</string>
     <string name="nav_menu_quit"><font fgcolor='#9b65cb'>Выйти</font></string>
 
     <string name="navigation_drawer_open">Open drawer</string>
@@ -50,4 +50,13 @@
 
     <string name="validation_incorrect_number">Не верный номер телефона</string>
     <string name="validation_incorrect_date">Не верная дата</string>
+
+    <string name="clubs_no_clubs">Ничего не найдено, повторите запрос позже</string>
+    <string name="clubs_controller_title">Клубы</string>
+    <string name="clubs_guest">Заказать гостевой визит</string>
+    <string name="clubs_buy_card">Купить карту</string>
+    <string name="clubs_rote">Проложить маршрут</string>
+    <string name="clubs_schedule">Расписание занятий</string>
+    <string name="clubs_trainers">Фитнес тренеры</string>
+    <string name="clubs_news">Новости</string>
 </resources>

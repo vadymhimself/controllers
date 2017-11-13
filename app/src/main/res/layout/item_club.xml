@@ -11,19 +11,25 @@
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="86dp">
+        android:layout_height="wrap_content"
+        android:onClick="@{viewModel.onItemClick}">
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_club_logo"
+            android:layout_marginTop="12dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginRight="10dp"/>
 
         <ImageView
             android:id="@+id/my_label"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logo"
+            android:layout_marginTop="10dp"
+            android:visibility="@{viewModel.isMyClub}"
+            android:background="@drawable/my_club_label"/>
 
         <TextView
             android:id="@+id/title"
@@ -33,9 +39,9 @@
             android:fontFamily="sans-serif"
             android:textStyle="normal"
             android:textColor="@color/calendarCommonDay"
-            android:layout_toRightOf="@+id/logo"
+            android:layout_marginLeft="90dp"
             android:layout_marginTop="15dp"
-            android:text="@{viewModel.scheduleClub.club.title}"
+            android:text="@{viewModel.club.title}"
             />
 
         <TextView
@@ -45,11 +51,21 @@
             android:fontFamily="sans-serif-light"
             android:textStyle="normal"
             android:textColor="@color/calendarCommonDay"
-            android:layout_toRightOf="@+id/logo"
             android:layout_below="@+id/title"
             android:layout_marginTop="4dp"
-            android:text="@{viewModel.scheduleClub.club.address}"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="90dp"
+            android:maxWidth="240dp"
+            android:text="@{viewModel.club.address}"
             />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_chevron_right"/>
 
     </RelativeLayout>
 

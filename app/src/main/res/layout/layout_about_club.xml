@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="controller"
+            type="ru.xfit.screens.clubs.AboutClubController" />
+
+        <import type="ru.xfit.R" />
+        <import type="ru.xfit.misc.LayoutManagers" />
+
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.daimajia.slider.library.SliderLayout
+                    android:id="@+id/slider"
+                    android:layout_width="match_parent"
+                    android:layout_height="235dp"
+                    app:banners='@{controller}'>
+
+                    <com.daimajia.slider.library.Indicators.PagerIndicator
+                        android:id="@+id/custom_indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        custom:selected_color="@color/colorAccent"
+                        custom:selected_padding_left="3dp"
+                        custom:selected_padding_right="3dp"
+                        custom:shape="oval"
+                        custom:unselected_color="@color/white"
+                        custom:unselected_padding_left="3dp"
+                        custom:unselected_padding_right="3dp" />
+                </com.daimajia.slider.library.SliderLayout>
+
+                <ImageView
+                    android:id="@+id/back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/ic_arrow_back"
+                    android:backgroundTint="@color/white"
+                    android:onClick="@{controller.back}" />
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@{controller.club.title}"
+                    android:textColor="@color/calendarWeekend"
+                    android:textSize="22sp"
+                    android:layout_below="@+id/slider"
+                    android:textStyle="normal" />
+
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="86dp"
+                    android:layout_height="46dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginTop="14dp"
+
+                    android:layout_below="@+id/slider"
+                    android:background="@drawable/ic_club_logo" />
+
+                <TextView
+                    android:id="@+id/address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/title"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="18dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textStyle="normal"
+                    android:maxWidth="220dp"
+                    android:text="@{controller.getAddress}"
+                    android:textColor="@color/calendarWeekend" />
+
+                <TextView
+                    android:id="@+id/schedule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/address"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxWidth="220dp"
+                    android:text=""
+                    android:textColor="@color/calendarWeekend"
+                    android:textSize="22sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/schedule"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxWidth="220dp"
+                    android:text=""
+                    android:textColor="@color/calendarWeekend"
+                    android:textSize="22sp"
+                    android:textStyle="normal" />
+
+                <LinearLayout
+                    android:id="@+id/menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/description"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/clubMenuSeparator" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:onClick="@{controller.getRoute}"
+                        android:background="@color/white">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:background="@drawable/ic_club_route" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="@string/clubs_rote"
+                            android:textSize="16sp"
+                            android:fontFamily="sans-serif"
+                            android:textStyle="normal"
+                            android:layout_marginLeft="50dp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:background="@drawable/ic_chevron_right"
+                            android:tint="@color/calendarWeekend" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/clubMenuSeparator" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:onClick="@{controller.getCall}"
+                        android:background="@color/white">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:background="@drawable/ic_club_phone" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="@{controller.club.phone}"
+                            android:textSize="16sp"
+                            android:fontFamily="sans-serif"
+                            android:textStyle="normal"
+                            android:layout_marginLeft="50dp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:background="@drawable/ic_chevron_right"
+                            android:tint="@color/calendarWeekend" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/clubMenuSeparator" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:onClick="@{controller.sendEmail}"
+                        android:background="@color/white">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:background="@drawable/ic_club_email" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="@{controller.club.email}"
+                            android:textSize="16sp"
+                            android:fontFamily="sans-serif"
+                            android:textStyle="normal"
+                            android:layout_marginLeft="50dp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:background="@drawable/ic_chevron_right"
+                            android:tint="@color/calendarWeekend" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/clubMenuSeparator" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:onClick="@{controller.getSchedule}"
+                        android:background="@color/white">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:background="@drawable/ic_club_schedule" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="@string/clubs_schedule"
+                            android:textSize="16sp"
+                            android:fontFamily="sans-serif"
+                            android:textStyle="normal"
+                            android:layout_marginLeft="50dp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:background="@drawable/ic_chevron_right"
+                            android:tint="@color/calendarWeekend" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/clubMenuSeparator" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:onClick="@{controller.getTrainers}"
+                        android:background="@color/white">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:background="@drawable/ic_club_trainer" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="@string/clubs_trainers"
+                            android:textSize="16sp"
+                            android:fontFamily="sans-serif"
+                            android:textStyle="normal"
+                            android:layout_marginLeft="50dp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:background="@drawable/ic_chevron_right"
+                            android:tint="@color/calendarWeekend" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/clubMenuSeparator" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:onClick="@{controller.getNews}"
+                        android:background="@color/white">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:background="@drawable/ic_club_news" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="@string/clubs_news"
+                            android:textSize="16sp"
+                            android:fontFamily="sans-serif"
+                            android:textStyle="normal"
+                            android:layout_marginLeft="50dp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:background="@drawable/ic_chevron_right"
+                            android:tint="@color/calendarWeekend" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/guest_btn"
+                    android:layout_width="328dp"
+                    android:layout_height="48dp"
+                    android:layout_below="@+id/menu"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/button_bg"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/clubs_guest"
+                    android:onClick="@{controller.getGuestVisit}"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/buy_card_btn"
+                    android:layout_width="328dp"
+                    android:layout_height="48dp"
+                    android:layout_below="@+id/guest_btn"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="18dp"
+                    android:background="@drawable/button_bg"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/clubs_buy_card"
+                    android:onClick="@{controller.buyCard}"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+        <include
+            layout="@layout/progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@{R.color.loaderBackground}"
+            android:indeterminateTint="@{R.color.controlsColor}"
+            app:visibility="@{controller.progress}" />
+    </RelativeLayout>
+
+</layout>

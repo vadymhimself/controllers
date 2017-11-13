@@ -1,29 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:id="@+id/second">
         <item
             android:id="@+id/my_schedule"
             android:icon="@drawable/ic_schedule_green"
+            android:checkable="true"
+            android:checked="true"
             android:title="@string/nav_menu_schedule" />
         <item
             android:id="@+id/my_xfit"
             android:icon="@drawable/ic_xfit"
+            android:checkable="true"
             android:title="@string/nav_menu_x_fit" />
         <item
             android:id="@+id/services"
             android:icon="@drawable/ic_services"
+            android:checkable="true"
             android:title="@string/nav_menu_services" />
         <item
             android:id="@+id/clubs"
             android:icon="@drawable/ic_clubs"
+            android:checkable="true"
             android:title="@string/nav_menu_clubs" />
         <item
             android:id="@+id/contacts"
             android:icon="@drawable/ic_contacts"
+            android:checkable="true"
             android:title="@string/nav_menu_contacts" />
         <item
             android:id="@+id/settings"
             android:icon="@drawable/ic_settings"
+            android:checkable="true"
             android:title="@string/nav_menu_settings" />
         <item
             android:id="@+id/quit"

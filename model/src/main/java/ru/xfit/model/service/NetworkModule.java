@@ -12,6 +12,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Module(includes = {AuthModule.class})
 class NetworkModule {
@@ -29,7 +30,11 @@ class NetworkModule {
         for (Interceptor interceptor : interceptors) {
             builder.addInterceptor(interceptor);
         }
-        return builder.build();
+        return builder
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build();
     }
 
     @Provides

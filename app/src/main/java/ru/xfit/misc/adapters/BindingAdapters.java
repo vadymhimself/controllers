@@ -38,6 +38,8 @@ import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.daimajia.slider.library.Indicators.PagerIndicator;
+import com.daimajia.slider.library.SliderLayout;
 import com.github.reinaldoarrosi.maskededittext.MaskedEditText;
 import com.molo17.customizablecalendar.library.components.CustomizableCalendar;
 import com.molo17.customizablecalendar.library.interactors.AUCalendar;
@@ -46,12 +48,15 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import org.joda.time.DateTime;
 import ru.xfit.R;
+import ru.xfit.domain.App;
 import ru.xfit.misc.CircleTransform;
 import ru.xfit.misc.NavigationClickListener;
 import ru.xfit.misc.OnViewReadyListener;
 import ru.xfit.misc.utils.validation.*;
 import ru.xfit.misc.views.*;
+import ru.xfit.model.data.common.Image;
 import ru.xfit.screens.XFitController;
+import ru.xfit.screens.clubs.AboutClubController;
 import ru.xfit.screens.filter.FilterController;
 import ru.xfit.screens.filter.FilterVM;
 import ru.xfit.screens.filter.HeaderFilterVM;
@@ -639,6 +644,26 @@ public abstract class BindingAdapters {
     @BindingAdapter("digitMaskedKeyboard")
     public static void bindMaskedKeyboard(MaskedEditText maskedEditText, boolean bind) {
         maskedEditText.setInputType(InputType.TYPE_CLASS_PHONE);
+    }
+
+    @BindingAdapter("banners")
+    public static void bindSlider(SliderLayout sliderLayout, AboutClubController clubController) {
+        if (sliderLayout == null || clubController == null) return;
+
+        sliderLayout.stopAutoCycle();
+        for (Image image : clubController.club.media) {
+            BannerSliderView sliderView = new BannerSliderView(App.getContext(), image);
+            sliderView.image(image.url);
+            sliderLayout.addSlider(sliderView);
+        }
+
+//        PagerIndicator indicator = new PagerIndicator(sliderLayout.getContext());
+//        indicator.setDefaultIndicatorColor(sliderLayout.getContext().getResources().getColor(R.color.colorAccent),
+//                                            sliderLayout.getContext().getResources().getColor(R.color.white));
+//        indicator.setDefaultIndicatorShape(PagerIndicator.Shape.Oval);
+//        sliderLayout.setCustomIndicator(indicator);
+
+//        sliderLayout.setCustomIndicator((PagerIndicator) sliderLayout.findViewById(R.id.custom_indicator));
     }
 
 }

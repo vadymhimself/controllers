@@ -92,7 +92,6 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
     @Override
     public void onDateChange(DateTime dateTime) {
         dayFilter.setDay(dateTime);
-        //TODO update adapter
         adapter.refresh();
         notifyPropertyChanged(BR.scheduleEmpty);
     }
