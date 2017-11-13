@@ -53,4 +53,10 @@
 
     <string name="clubs_no_clubs">Ничего не найдено, повторите запрос позже</string>
     <string name="clubs_controller_title">Клубы</string>
+    <string name="clubs_guest">Заказать гостевой визит</string>
+    <string name="clubs_buy_card">Купить карту</string>
+    <string name="clubs_rote">Проложить маршрут</string>
+    <string name="clubs_schedule">Расписание занятий</string>
+    <string name="clubs_trainers">Фитнес тренеры</string>
+    <string name="clubs_news">Новости</string>
 </resources>

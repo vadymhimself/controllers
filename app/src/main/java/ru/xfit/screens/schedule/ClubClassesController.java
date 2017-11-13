@@ -42,7 +42,7 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
     @Bindable
     public final FilterableAdapter<ClassVM> adapter = new FilterableAdapter<>(new ArrayList<>());
 
-    ClubClassesController(Schedule schedule) {
+    public ClubClassesController(Schedule schedule) {
         setTitle(schedule.club.title);
 
         adapter.addFilter(dayFilter);

@@ -55,7 +55,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginBottom="15dp"
             android:layout_marginLeft="90dp"
-            android:maxWidth="260dp"
+            android:maxWidth="240dp"
             android:text="@{viewModel.club.address}"
             />
 
