@@ -61,4 +61,6 @@
     <string name="clubs_news">Новости</string>
     <string name="clubs_my_club">Мой клуб</string>
     <string name="clubs_suspend_card">Заморозить карту</string>
+
+    <string name="trainers_fitness_trainers">Фитнес-тренеры</string>
 </resources>
