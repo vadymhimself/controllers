@@ -74,7 +74,7 @@ public class MainActivity extends XFitActivity implements
         navView.setNavigationItemSelectedListener(this);
 
         myScheduleController = new MyScheduleController();
-//        clubsController = new ClubsController();
+        clubsController = new ClubsController();
         if (savedInstanceState == null) {
             show(myScheduleController, 0, 0);
         }
@@ -143,7 +143,7 @@ public class MainActivity extends XFitActivity implements
             case R.id.services:
                 return true;
             case R.id.clubs:
-                replace(new ClubsController());
+                replace(clubsController);
                 setTitle(getResources().getString(R.string.clubs_title));
                 drawer.closeDrawers();
                 return true;

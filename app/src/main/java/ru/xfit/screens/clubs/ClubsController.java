@@ -58,7 +58,10 @@ public class ClubsController extends DrawerController<LayoutClubsBinding> {
                 toAdd.add(new CityVM(club.city));
                 city = club.city;
             }
-            toAdd.add(new ClubVM(club, this));
+            if (club.id.equals("181")) {
+                toAdd.add(1, new ClubVM(club, this, true));
+            } else
+                toAdd.add(new ClubVM(club, this, false));
         }
         adapter.addAll(toAdd);
         notifyPropertyChanged(BR.clubsEmpty);
