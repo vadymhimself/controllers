@@ -18,6 +18,7 @@ import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
 import ru.xfit.model.data.register.RegisterRequest;
 import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.model.data.schedule.ScheduleList;
+import ru.xfit.model.data.schedule.Trainer;
 import ru.xfit.model.data.storage.preferences.PreferencesStorage;
 import ru.xfit.model.retrorequest.TaskBuilder;
 
@@ -172,6 +173,11 @@ final class ApiImpl implements Api {
     @Override
     public Task<Void> deleteClass(String id) {
         return TaskBuilder.from(networkInterface.deleteClass(id));
+    }
+
+    @Override
+    public Task<List<Trainer>> getTrainers(String id) {
+        return TaskBuilder.from(networkInterface.getTrainers(id));
     }
 
 

@@ -9,6 +9,7 @@ import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
 import ru.xfit.model.data.register.RegisterRequest;
 import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.model.data.schedule.ScheduleList;
+import ru.xfit.model.data.schedule.Trainer;
 
 import java.util.List;
 
@@ -54,5 +55,7 @@ public interface Api {
     Task<AddClassResponse> addClass(String id);
 
     Task<Void> deleteClass(String id);
+
+    Task<List<Trainer>> getTrainers(String id);
 
 }
