@@ -59,4 +59,6 @@
     <string name="clubs_schedule">Расписание занятий</string>
     <string name="clubs_trainers">Фитнес тренеры</string>
     <string name="clubs_news">Новости</string>
+    <string name="clubs_my_club">Мой клуб</string>
+    <string name="clubs_suspend_card">Заморозить карту</string>
 </resources>

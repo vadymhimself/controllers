@@ -18,13 +18,14 @@ public class ClubVM implements BaseVM {
     public ClubsController clubsController;
     public ObservableBoolean isMyClub = new ObservableBoolean();
 
-    public ClubVM(ClubItem club, ClubsController clubsController) {
+    public ClubVM(ClubItem club, ClubsController clubsController, boolean isMyClub) {
         this.club = club;
         this.clubsController = clubsController;
+        this.isMyClub.set(isMyClub);
     }
 
     public void onItemClick(View view){
-        clubsController.show(new AboutClubController(club));
+        clubsController.show(new AboutClubController(club, isMyClub.get()));
     }
 
     @Override

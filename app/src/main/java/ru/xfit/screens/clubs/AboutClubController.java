@@ -12,6 +12,7 @@ import com.controllers.Request;
 
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutAboutClubBinding;
+import ru.xfit.misc.NavigationClickListener;
 import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.BlankToolbarController;
@@ -22,13 +23,16 @@ import ru.xfit.screens.schedule.ClubClassesController;
  * Created by TESLA on 13.11.2017.
  */
 
-public class AboutClubController extends BlankToolbarController<LayoutAboutClubBinding> {
+public class AboutClubController extends BlankToolbarController<LayoutAboutClubBinding> implements NavigationClickListener {
     public ClubItem club;
 
     public final ObservableBoolean progress = new ObservableBoolean();
+    public ObservableBoolean isMyClub = new ObservableBoolean();
 
-    public AboutClubController(ClubItem club) {
+    public AboutClubController(ClubItem club, boolean isMyClub) {
         this.club = club;
+        this.isMyClub.set(isMyClub);
+        setTitle(club.title);
     }
 
     public void back(View view) {
@@ -90,6 +94,10 @@ public class AboutClubController extends BlankToolbarController<LayoutAboutClubB
 
     }
 
+    public void suspendCard(View view) {
+        Snackbar.make(view, "Coming soon...", BaseTransientBottomBar.LENGTH_SHORT).show();
+    }
+
     public void getTrainers(View view) {
         Snackbar.make(view, "Coming soon...", BaseTransientBottomBar.LENGTH_SHORT).show();
     }
@@ -104,5 +112,10 @@ public class AboutClubController extends BlankToolbarController<LayoutAboutClubB
 
     public void buyCard(View view) {
         Snackbar.make(view, "Coming soon...", BaseTransientBottomBar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNavigationClick() {
+        back();
     }
 }
