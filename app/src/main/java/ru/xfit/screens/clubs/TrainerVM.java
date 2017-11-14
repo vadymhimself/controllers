@@ -1,5 +1,7 @@
 package ru.xfit.screens.clubs;
 
+import android.view.View;
+
 import ru.xfit.R;
 import ru.xfit.misc.adapters.BaseVM;
 import ru.xfit.model.data.schedule.Trainer;
@@ -20,5 +22,9 @@ public class TrainerVM implements BaseVM {
     @Override
     public int getLayoutId() {
         return R.layout.item_trainer;
+    }
+
+    public void onTrainerClick(View view) {
+        controller.show(new AboutTrainerController(trainer));
     }
 }
