@@ -11,7 +11,7 @@ import ru.xfit.model.data.schedule.Trainer;
  */
 
 public class TrainerVM implements BaseVM {
-    public Trainer trainer;
+    public final Trainer trainer;
     public TrainersController controller;
 
     public TrainerVM(Trainer trainer, TrainersController controller) {

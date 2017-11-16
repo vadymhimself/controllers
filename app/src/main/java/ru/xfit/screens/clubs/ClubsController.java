@@ -36,7 +36,6 @@ public class ClubsController extends DrawerController<LayoutClubsBinding> {
     public final ObservableBoolean progress = new ObservableBoolean();
 
     public ClubsController() {
-        setTitle(App.getContext().getString(R.string.clubs_controller_title));
         progress.set(true);
         Request.with(this, Api.class)
                 .create(Api::getClubs)
@@ -44,10 +43,6 @@ public class ClubsController extends DrawerController<LayoutClubsBinding> {
                 .execute(this::addClubs);
     }
 
-    @Bindable
-    public boolean isClubsEmpty() {
-        return adapter.getItemCount() == 0;
-    }
 
     public void addClubs(List<ClubItem> clubs) {
         List<BaseVM> toAdd = new ArrayList<>();
@@ -64,11 +59,15 @@ public class ClubsController extends DrawerController<LayoutClubsBinding> {
                 toAdd.add(new ClubVM(club, this, false));
         }
         adapter.addAll(toAdd);
-        notifyPropertyChanged(BR.clubsEmpty);
     }
 
     @Override
     public int getLayoutId() {
         return R.layout.layout_clubs;
+    }
+
+    @Override
+    public String getTitle() {
+        return App.getContext().getString(R.string.clubs_controller_title);
     }
 }

@@ -1,12 +1,15 @@
 package com.molo17.customizablecalendar.library.utils;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by francescofurlan on 23/06/17.
  */
 
 public class DateUtils {
+    public static Locale myLocale = new Locale("ru","RU");
+
     public static int getDaysInMonth(int month, int year) {
         switch (month) {
             case Calendar.JANUARY:

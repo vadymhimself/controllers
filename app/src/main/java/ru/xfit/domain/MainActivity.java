@@ -9,10 +9,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.transition.TransitionManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.controllers.Controller;
 import com.crashlytics.android.Crashlytics;
@@ -49,6 +51,8 @@ public class MainActivity extends XFitActivity implements
 
     private boolean toolBarNavigationListenerIsRegistered;
 
+    private ViewGroup transitionsContainer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         App.getInjector().inject(this);
@@ -56,6 +60,8 @@ public class MainActivity extends XFitActivity implements
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
         setControllerContainer(R.id.container);
+
+        transitionsContainer = (ViewGroup) findViewById(R.id.transitions_container);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -195,7 +201,24 @@ public class MainActivity extends XFitActivity implements
     }
 
     public void setVisibleToolbar(boolean visible) {
-        toolbar.setVisibility( visible ? View.VISIBLE : View.GONE);
+
+        if (toolbar.getVisibility() == View.VISIBLE && !visible) {
+            //transition hide
+            toolbar.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    TransitionManager.beginDelayedTransition(transitionsContainer);
+                    toolbar.setVisibility(View.GONE);
+                }
+            }, 10);
+
+        } else if (toolbar.getVisibility() == View.GONE && visible) {
+            //transition show
+            TransitionManager.beginDelayedTransition(transitionsContainer);
+            toolbar.setVisibility(View.VISIBLE);
+        } else {
+            //nothing
+        }
     }
 
     public static void start(Context context) {

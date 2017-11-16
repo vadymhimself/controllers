@@ -1,5 +1,8 @@
 package ru.xfit.misc.adapters;
 
+import android.databinding.Bindable;
+import android.databinding.Observable;
+import android.databinding.PropertyChangeRegistry;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -11,8 +14,12 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
-public class BaseAdapter<VM extends BaseVM> extends RecyclerView.Adapter<BindingHolder<ViewDataBinding, VM>> implements Serializable, Iterable<VM> {
+import ru.xfit.BR;
+
+public class BaseAdapter<VM extends BaseVM> extends RecyclerView.Adapter<BindingHolder<ViewDataBinding, VM>> implements Serializable, Iterable<VM>, Observable {
     List<VM> vms;
+
+    private transient PropertyChangeRegistry registry = new PropertyChangeRegistry();
 
     public BaseAdapter(@NonNull List<VM> vms) {
         this.vms = vms;
@@ -34,6 +41,11 @@ public class BaseAdapter<VM extends BaseVM> extends RecyclerView.Adapter<Binding
         holder.binding.executePendingBindings();
     }
 
+    @Bindable
+    public boolean isAdapterEmpty() {
+        return this.getItemCount() == 0;
+    }
+
     @Override
     public int getItemCount() {
         return vms.size();
@@ -47,17 +59,20 @@ public class BaseAdapter<VM extends BaseVM> extends RecyclerView.Adapter<Binding
     public void add(int position, VM item) {
         vms.add(position, item);
         notifyItemInserted(position);
+        registry.notifyChange(this, BR.adapterEmpty);
     }
 
     public void addAll(List<VM> list) {
         int previousLength = list.size();
         vms.addAll(list);
         notifyItemRangeInserted(previousLength, list.size());
+        registry.notifyChange(this, BR.adapterEmpty);
     }
 
     public void addAll(List<VM> list, int position){
         vms.addAll(position, list);
         notifyItemRangeInserted(position, list.size());
+        registry.notifyChange(this, BR.adapterEmpty);
     }
 
     public void remove(VM vm) {
@@ -65,13 +80,17 @@ public class BaseAdapter<VM extends BaseVM> extends RecyclerView.Adapter<Binding
         if (index != -1) {
             vms.remove(index);
             notifyItemRemoved(index);
+            registry.notifyChange(this, BR.adapterEmpty);
         }
     }
 
     public VM remove(int index) {
         if (index != -1) {
             VM vm = vms.remove(index);
-            if (vm != null) notifyItemRemoved(index);
+            if (vm != null) {
+                notifyItemRemoved(index);
+                registry.notifyChange(this, BR.adapterEmpty);
+            }
             return vm;
         }
         return null;
@@ -96,5 +115,15 @@ public class BaseAdapter<VM extends BaseVM> extends RecyclerView.Adapter<Binding
 
     @Override public Iterator<VM> iterator() {
         return vms.iterator();
+    }
+
+    @Override
+    public void addOnPropertyChangedCallback(OnPropertyChangedCallback onPropertyChangedCallback) {
+        registry.add(onPropertyChangedCallback);
+    }
+
+    @Override
+    public void removeOnPropertyChangedCallback(OnPropertyChangedCallback onPropertyChangedCallback) {
+        registry.remove(onPropertyChangedCallback);
     }
 }

@@ -34,17 +34,11 @@ public class TrainersController extends XFitController<LayoutTrainersBinding> {
     public TrainersController(ClubItem club) {
         this.club = club;
 
-        setTitle(App.getContext().getString(R.string.trainers_fitness_trainers));
         progress.set(true);
         Request.with(this, Api.class)
                 .create(api -> api.getTrainers(club.id))
                 .onFinally(() -> progress.set(false))
                 .execute(this::addTrainers);
-    }
-
-    @Bindable
-    public boolean isTrainersEmpty() {
-        return adapter.getItemCount() == 0;
     }
 
     private void addTrainers(List<Trainer> trainers) {
@@ -53,11 +47,15 @@ public class TrainersController extends XFitController<LayoutTrainersBinding> {
             toAdd.add(new TrainerVM(trainer, this));
         }
         adapter.addAll(toAdd);
-        notifyPropertyChanged(BR.trainersEmpty);
     }
 
     @Override
     public int getLayoutId() {
         return R.layout.layout_trainers;
+    }
+
+    @Override
+    public String getTitle() {
+        return App.getContext().getString(R.string.trainers_fitness_trainers);
     }
 }

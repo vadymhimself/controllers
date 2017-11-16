@@ -20,12 +20,16 @@ public class AboutTrainerController extends BlankToolbarController<LayoutAboutTr
 
     public AboutTrainerController(Trainer trainer) {
         this.trainer = trainer;
-        setTitle(trainer.title);
     }
 
     @Override
     public int getLayoutId() {
         return R.layout.layout_about_trainer;
+    }
+
+    @Override
+    public String getTitle() {
+        return trainer.title;
     }
 
     public void getTrainerFacebook(View view) {
