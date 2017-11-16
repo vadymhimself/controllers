@@ -9,6 +9,7 @@ import com.molo17.customizablecalendar.library.interactors.AUCalendar;
 import com.molo17.customizablecalendar.library.interactors.ViewInteractor;
 import com.molo17.customizablecalendar.library.model.CalendarFields;
 import com.molo17.customizablecalendar.library.presenter.interfeaces.CustomizableCalendarPresenter;
+import com.molo17.customizablecalendar.library.utils.DateUtils;
 import com.molo17.customizablecalendar.library.view.CalendarView;
 import com.molo17.customizablecalendar.library.view.CustomizableCalendarView;
 import com.molo17.customizablecalendar.library.view.HeaderView;
@@ -88,7 +89,7 @@ public class CustomizableCalendarPresenterImpl implements CustomizableCalendarPr
     }
 
     private void onCurrentMonthChanged(DateTime currentMonth) {
-        String month = currentMonth.toString("MMM yyyy", Locale.getDefault());
+        String month = currentMonth.toString("MMM yyyy", DateUtils.myLocale);
         if (view != null && !TextUtils.isEmpty(month)) {
             String formattedMonth = month.substring(0, 1).toUpperCase() + month.substring(1);
             view.onCurrentMonthChanged(formattedMonth);
@@ -121,7 +122,7 @@ public class CustomizableCalendarPresenterImpl implements CustomizableCalendarPr
 
     @Override
     public List<String> setupWeekDays() {
-        String[] namesOfDays = DateFormatSymbols.getInstance(Locale.getDefault()).getShortWeekdays();
+        String[] namesOfDays = DateFormatSymbols.getInstance(DateUtils.myLocale).getShortWeekdays();
         int firstDayOfWeek = calendar.getFirstDayOfWeek();
 
         List<String> weekDays = new ArrayList<>();

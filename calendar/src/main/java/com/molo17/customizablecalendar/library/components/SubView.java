@@ -13,6 +13,7 @@ import com.molo17.customizablecalendar.library.R;
 import com.molo17.customizablecalendar.library.interactors.AUCalendar;
 import com.molo17.customizablecalendar.library.interactors.ViewInteractor;
 import com.molo17.customizablecalendar.library.presenter.interfeaces.CustomizableCalendarPresenter;
+import com.molo17.customizablecalendar.library.utils.DateUtils;
 
 import org.joda.time.DateTime;
 
@@ -90,7 +91,7 @@ public class SubView extends RelativeLayout implements com.molo17.customizableca
     public void injectViewInteractor(ViewInteractor viewInteractor) {
         this.viewInteractor = viewInteractor;
         DateTime firstMonth = AUCalendar.getInstance().getFirstMonth();
-        String month = firstMonth.toString("MMM yyyy", Locale.getDefault());
+        String month = firstMonth.toString("MMM yyyy", DateUtils.myLocale);
         if (!TextUtils.isEmpty(month)) {
             String formattedMonth = month.substring(0, 1).toUpperCase() + month.substring(1);
             onMonthChanged(formattedMonth);

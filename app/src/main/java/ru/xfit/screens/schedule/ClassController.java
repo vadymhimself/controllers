@@ -18,7 +18,7 @@ public class ClassController extends XFitController<LayoutClassBinding> implemen
 
     public Clazz clazz;
     public boolean isAdded;
-    private boolean isCanDelete; // TODO: it is not how you should know that
+    private boolean isCanDelete;
     public ObservableBoolean progress = new ObservableBoolean();
 
     public ClassController(Clazz clazz, boolean isCanDelete) {

@@ -1,5 +1,7 @@
 package com.molo17.customizablecalendar.library.model;
 
+import com.molo17.customizablecalendar.library.utils.DateUtils;
+
 import org.joda.time.DateTime;
 import org.joda.time.Months;
 import org.joda.time.Weeks;
@@ -25,7 +27,7 @@ public class Calendar {
 
     public Calendar(DateTime firstMonth, DateTime lastMonth) {
         this.firstMonth = firstMonth;
-        this.firstDayOfWeek = java.util.Calendar.getInstance(Locale.getDefault()).getFirstDayOfWeek();
+        this.firstDayOfWeek = java.util.Calendar.getInstance(DateUtils.myLocale).getFirstDayOfWeek();
 
         int startMonth = firstMonth.getMonthOfYear() + 1;
         int monthsBetweenCount = Months.monthsBetween(firstMonth, lastMonth).getMonths();
@@ -74,7 +76,7 @@ public class Calendar {
     }
 
     public String getCurrentYear() {
-        return firstMonth.toString("yyyy", Locale.getDefault());
+        return firstMonth.toString("yyyy", DateUtils.myLocale);
     }
 
     public int getCurrentWeek() {

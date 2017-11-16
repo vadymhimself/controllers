@@ -139,12 +139,12 @@
                     android:layout_below="@+id/address"
                     android:layout_marginLeft="18dp"
                     android:layout_marginTop="20dp"
-                    android:fontFamily="sans-serif-medium"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-light"
+                    android:textStyle="normal"
+                    android:textColor="#58595b"
                     android:maxWidth="220dp"
-                    android:text=""
-                    android:textColor="@color/calendarWeekend"
-                    android:textSize="22sp"
-                    android:textStyle="normal" />
+                    android:text="@{controller.club.workingHours}" />
 
                 <TextView
                     android:id="@+id/description"
@@ -152,13 +152,13 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/schedule"
                     android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
                     android:layout_marginTop="20dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:maxWidth="220dp"
-                    android:text=""
-                    android:textColor="@color/calendarWeekend"
-                    android:textSize="22sp"
-                    android:textStyle="normal" />
+                    android:text="@{controller.club.description}"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-light"
+                    android:textStyle="normal"
+                    android:textColor="#58595b"/>
 
                 <LinearLayout
                     android:id="@+id/menu"

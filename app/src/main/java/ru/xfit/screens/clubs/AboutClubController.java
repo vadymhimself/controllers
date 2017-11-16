@@ -32,7 +32,6 @@ public class AboutClubController extends BlankToolbarController<LayoutAboutClubB
     public AboutClubController(ClubItem club, boolean isMyClub) {
         this.club = club;
         this.isMyClub.set(isMyClub);
-        setTitle(club.title);
     }
 
     public void back(View view) {
@@ -92,6 +91,11 @@ public class AboutClubController extends BlankToolbarController<LayoutAboutClubB
                     AboutClubController.this.show(new ClubClassesController(schedule));
                 });
 
+    }
+
+    @Override
+    public String getTitle() {
+        return club.title;
     }
 
     public void suspendCard(View view) {

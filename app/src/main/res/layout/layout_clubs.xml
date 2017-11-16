@@ -20,7 +20,7 @@
         <ru.xfit.misc.views.HackyRecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{!controller.clubsEmpty}"
+            android:visibility="@{!controller.adapter.adapterEmpty}"
             app:adapter="@{controller.adapter}"
             app:layoutManager="@{LayoutManagers.LINEAR_VERTICAL}" />
 
@@ -33,7 +33,7 @@
             android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="18sp"
-            android:visibility='@{controller.clubsEmpty}' />
+            android:visibility='@{controller.adapter.adapterEmpty}' />
 
         <include
             layout="@layout/progress"

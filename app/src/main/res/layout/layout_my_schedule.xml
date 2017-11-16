@@ -60,44 +60,44 @@
                         android:visibility='@{controller.scheduleEmpty}' />
                 </RelativeLayout>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/recycler"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp">
-                    <Button
-                        android:id="@+id/classes_btn"
-                        android:layout_width="328dp"
-                        android:layout_height="48dp"
-                        android:layout_centerHorizontal="true"
-                        android:background="@drawable/button_bg"
-                        android:fontFamily="sans-serif"
-                        android:text="@string/my_schedule_classes"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp"
-                        android:visibility='@{controller.scheduleEmpty}'
-                        android:onClick='@{controller.showClubClassesController}'/>
-
-                    <!--<Button-->
-                        <!--android:id="@+id/services_btn"-->
-                        <!--android:layout_width="328dp"-->
-                        <!--android:layout_height="48dp"-->
-                        <!--android:layout_centerHorizontal="true"-->
-                        <!--android:layout_marginTop="16dp"-->
-                        <!--android:background="@drawable/button_bg"-->
-                        <!--android:fontFamily="sans-serif"-->
-                        <!--android:text="@string/my_schedule_services"-->
-                        <!--android:textColor="@android:color/white"-->
-                        <!--android:textSize="18sp"-->
-                        <!--android:visibility='@{controller.adapter.itemCount == 0}'-->
-                        <!--android:onClick='@{controller.services}'-->
-                        <!--android:layout_below="@+id/classes_btn"/>-->
-
-                </RelativeLayout>
-
             </RelativeLayout>
         </android.support.v4.widget.NestedScrollView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp">
+            <Button
+                android:id="@+id/classes_btn"
+                android:layout_width="328dp"
+                android:layout_height="48dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/button_bg"
+                android:fontFamily="sans-serif"
+                android:text="@string/my_schedule_classes"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:visibility='@{controller.scheduleEmpty}'
+                android:onClick='@{controller.showClubClassesController}'/>
+
+            <!--<Button-->
+            <!--android:id="@+id/services_btn"-->
+            <!--android:layout_width="328dp"-->
+            <!--android:layout_height="48dp"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="16dp"-->
+            <!--android:background="@drawable/button_bg"-->
+            <!--android:fontFamily="sans-serif"-->
+            <!--android:text="@string/my_schedule_services"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textSize="18sp"-->
+            <!--android:visibility='@{controller.adapter.itemCount == 0}'-->
+            <!--android:onClick='@{controller.services}'-->
+            <!--android:layout_below="@+id/classes_btn"/>-->
+
+        </RelativeLayout>
         <include
             layout="@layout/progress"
             android:layout_width="match_parent"

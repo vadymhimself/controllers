@@ -13,6 +13,8 @@ public class ClubItem implements Serializable {
     public String id;
     public String title;
     public String timezone;
+    public String description;
+    public String workingHours;
     public String phone;
     public String email;
     public String address;
