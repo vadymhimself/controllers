@@ -33,6 +33,7 @@
                     android:layout_height="wrap_content"
                     app:layout="@layout/c_calendar"
                     app:initCalendarSchedule="@{controller}"
+                    app:multipleSelect="@{false}"
                     app:highlightedDays="@{controller.classDates}"/>
 
                 <RelativeLayout

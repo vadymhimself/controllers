@@ -63,4 +63,6 @@
     <string name="clubs_suspend_card">Заморозить карту</string>
 
     <string name="trainers_fitness_trainers">Фитнес-тренеры</string>
+
+    <string name="suspend_card_title">Заморозка карты</string>
 </resources>

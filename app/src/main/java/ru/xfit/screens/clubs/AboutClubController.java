@@ -99,7 +99,7 @@ public class AboutClubController extends BlankToolbarController<LayoutAboutClubB
     }
 
     public void suspendCard(View view) {
-        Snackbar.make(view, "Coming soon...", BaseTransientBottomBar.LENGTH_SHORT).show();
+        show(new SuspendCard());
     }
 
     public void getTrainers(View view) {
