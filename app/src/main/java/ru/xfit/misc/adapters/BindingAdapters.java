@@ -531,6 +531,7 @@ public abstract class BindingAdapters {
 
         final Calendar calendar = new Calendar(firstMonth, lastMonth);
         calendar.setMaxDaysSelection(90);
+        calendar.setMinDaysSelection(7);
 
         final CalendarViewInteractor calendarViewInteractor = new CalendarViewInteractor(customizableCalendar.getContext());
 
@@ -546,6 +547,10 @@ public abstract class BindingAdapters {
                     calendarViewInteractor.updateCalendar(calendar);
                     if (calendar.getFirstSelectedDay() != null)
                         dateChangeListener.onDateChange(calendar.getFirstSelectedDay());
+
+                    if (calendar.getFirstSelectedDay() != null && calendar.getLastSelectedDay() != null) {
+                        dateChangeListener.onDatePeriodChanged(calendar.getFirstSelectedDay(), calendar.getLastSelectedDay());
+                    }
                 });
             }
 

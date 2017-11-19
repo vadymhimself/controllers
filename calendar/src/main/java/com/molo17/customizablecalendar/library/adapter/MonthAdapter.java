@@ -44,6 +44,7 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
     private DateTime lastSelectedDay;
     private boolean multipleSelection;
     private int maxDaysSelection;
+    private int minDaysSelection;
     private int firstDayOfWeek;
 
     private CompositeDisposable subscriptions;
@@ -77,6 +78,7 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
         multipleSelection = calendar.isMultipleSelectionEnabled();
         firstDayOfWeek = calendar.getFirstDayOfWeek();
         maxDaysSelection = calendar.maxDaysForSelection();
+        minDaysSelection = calendar.minDaysForSelection();
     }
 
     @Override
@@ -255,6 +257,8 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
                     if (firstSelectedDay.getMillis() == lastSelectedDay.getMillis()) {
                         notifyFirstSelectionUpdated(null);
                         notifyLastSelectionUpdated(null);
+                    } else if (firstSelectedDay.plusDays(minDaysSelection).getMillis() > lastSelectedDay.getMillis()) {
+                        notifyLastSelectionUpdated(firstSelectedDay.plusDays(minDaysSelection));
                     } else if (firstSelectedDay.plusDays(maxDaysSelection).getMillis() < lastSelectedDay.getMillis()) {
                         notifyLastSelectionUpdated(firstSelectedDay.plusDays(maxDaysSelection));
                     }

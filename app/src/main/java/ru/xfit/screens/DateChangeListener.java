@@ -8,4 +8,5 @@ import org.joda.time.DateTime;
 
 public interface DateChangeListener {
     void onDateChange(DateTime dateTime);
+    void onDatePeriodChanged(DateTime firstSelection, DateTime lastSelection);
 }

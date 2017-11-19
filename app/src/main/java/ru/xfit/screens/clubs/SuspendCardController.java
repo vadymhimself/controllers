@@ -1,5 +1,7 @@
 package ru.xfit.screens.clubs;
 
+import android.util.Log;
+
 import org.joda.time.DateTime;
 
 import ru.xfit.R;
@@ -25,7 +27,10 @@ public class SuspendCardController extends XFitController<LayoutSuspendCardBindi
     }
 
     @Override
-    public void onDateChange(DateTime dateTime) {
+    public void onDateChange(DateTime dateTime) {}
 
+    @Override
+    public void onDatePeriodChanged(DateTime firstSelection, DateTime lastSelection) {
+        Log.e(" >>>>> ", firstSelection + " " + lastSelection);
     }
 }

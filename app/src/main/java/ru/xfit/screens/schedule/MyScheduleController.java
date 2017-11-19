@@ -96,4 +96,7 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
         adapter.refresh();
         notifyPropertyChanged(BR.scheduleEmpty);
     }
+
+    @Override
+    public void onDatePeriodChanged(DateTime firstSelection, DateTime lastSelection) {}
 }
