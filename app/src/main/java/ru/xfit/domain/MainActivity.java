@@ -146,7 +146,6 @@ public class MainActivity extends XFitActivity implements
                 drawer.closeDrawers();
                 return true;
             case R.id.my_xfit:
-                replace(new SuspendCardController());
                 return true;
             case R.id.services:
                 return true;

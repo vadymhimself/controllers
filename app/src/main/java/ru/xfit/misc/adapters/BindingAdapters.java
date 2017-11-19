@@ -530,14 +530,12 @@ public abstract class BindingAdapters {
         CompositeDisposable subscriptions = new CompositeDisposable();
 
         final Calendar calendar = new Calendar(firstMonth, lastMonth);
-//        calendar.setFirstSelectedDay(today.plusDays(4));
-
-        calendar.setMultipleSelection(multipleSelect);
+        calendar.setMaxDaysSelection(90);
 
         final CalendarViewInteractor calendarViewInteractor = new CalendarViewInteractor(customizableCalendar.getContext());
 
         AUCalendar auCalendar = AUCalendar.getInstance(calendar);
-        auCalendar.setMultipleSelection(false);
+        auCalendar.setMultipleSelection(multipleSelect);
         auCalendar.setToday(today);
         calendarViewInteractor.updateCalendar(calendar);
 

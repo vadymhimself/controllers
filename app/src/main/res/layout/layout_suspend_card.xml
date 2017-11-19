@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -11,18 +11,27 @@
         <import type="ru.xfit.R" />
 
     </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.molo17.customizablecalendar.library.components.CustomizableCalendar
-            android:id="@+id/calendar"
+        <RelativeLayout
+            android:id="@+id/calendar_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:month_view="true"
-            app:layout="@layout/c_calendar"
-            app:initCalendarSchedule="@{controller}"
-            app:multipleSelect="@{true}"/>
+            android:background="@android:color/white"
+            android:elevation="4dp">
+
+            <com.molo17.customizablecalendar.library.components.CustomizableCalendar
+                android:id="@+id/calendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:initCalendarSchedule="@{controller}"
+                app:layout="@layout/c_calendar"
+                app:month_view="true"
+                app:multipleSelect="@{true}" />
+        </RelativeLayout>
 
     </RelativeLayout>
 </layout>
