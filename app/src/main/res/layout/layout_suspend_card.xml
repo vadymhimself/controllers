@@ -6,7 +6,7 @@
 
         <variable
             name="controller"
-            type="ru.xfit.screens.clubs.SuspendCard" />
+            type="ru.xfit.screens.clubs.SuspendCardController" />
 
         <import type="ru.xfit.R" />
 
@@ -19,6 +19,7 @@
             android:id="@+id/calendar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:month_view="true"
             app:layout="@layout/c_calendar"
             app:initCalendarSchedule="@{controller}"
             app:multipleSelect="@{true}"/>

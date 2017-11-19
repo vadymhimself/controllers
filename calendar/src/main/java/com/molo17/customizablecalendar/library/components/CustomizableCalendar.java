@@ -36,6 +36,8 @@ public class CustomizableCalendar extends LinearLayout implements CustomizableCa
 
     CustomizableCalendarPresenter presenter;
 
+    private boolean isMonthMode;
+
     private int layoutResId = -1;
 
     public CustomizableCalendar(Context context) {
@@ -59,11 +61,14 @@ public class CustomizableCalendar extends LinearLayout implements CustomizableCa
             layoutResId = R.layout.customizable_calendar;
             if (typedArray != null) {
                 layoutResId = typedArray.getResourceId(R.styleable.CustomizableCalendar_layout, R.layout.customizable_calendar);
+                isMonthMode = typedArray.getBoolean(R.styleable.CustomizableCalendar_month_view, false);
                 typedArray.recycle();
             }
 
             LayoutInflater.from(context).inflate(layoutResId, this);
             ButterKnife.bind(this);
+
+            calendarRecyclerView.setDefaultMode(isMonthMode);
         }
     }
 

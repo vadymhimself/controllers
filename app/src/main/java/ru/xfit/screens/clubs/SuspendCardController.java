@@ -12,7 +12,7 @@ import ru.xfit.screens.XFitController;
  * Created by TESLA on 17.11.2017.
  */
 
-public class SuspendCard extends XFitController<LayoutSuspendCardBinding> implements DateChangeListener {
+public class SuspendCardController extends XFitController<LayoutSuspendCardBinding> implements DateChangeListener {
 
     @Override
     public int getLayoutId() {

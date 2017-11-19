@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.view.View;
-import android.widget.Toast;
 
 import com.controllers.Request;
 
@@ -16,7 +15,6 @@ import ru.xfit.misc.NavigationClickListener;
 import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.BlankToolbarController;
-import ru.xfit.screens.XFitController;
 import ru.xfit.screens.schedule.ClubClassesController;
 
 /**
@@ -99,7 +97,7 @@ public class AboutClubController extends BlankToolbarController<LayoutAboutClubB
     }
 
     public void suspendCard(View view) {
-        show(new SuspendCard());
+        show(new SuspendCardController());
     }
 
     public void getTrainers(View view) {
