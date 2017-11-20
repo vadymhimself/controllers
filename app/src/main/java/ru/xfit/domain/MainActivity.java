@@ -31,6 +31,7 @@ import ru.xfit.screens.clubs.ClubsController;
 import ru.xfit.screens.clubs.SuspendCardController;
 import ru.xfit.screens.schedule.ClubClassesController;
 import ru.xfit.screens.schedule.MyScheduleController;
+import ru.xfit.screens.xfit.MyXfitController;
 
 import javax.inject.Inject;
 
@@ -146,6 +147,9 @@ public class MainActivity extends XFitActivity implements
                 drawer.closeDrawers();
                 return true;
             case R.id.my_xfit:
+                replace(new MyXfitController());
+                setTitle(R.string.my_xfit_title);
+                drawer.closeDrawers();
                 return true;
             case R.id.services:
                 return true;

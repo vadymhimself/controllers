@@ -17,9 +17,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <View
+            android:id="@+id/spacer"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize" />
+
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/spacer"
             android:layout_marginTop="10dp">
 
             <RelativeLayout
