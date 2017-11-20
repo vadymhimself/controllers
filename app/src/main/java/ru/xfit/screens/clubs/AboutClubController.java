@@ -97,7 +97,7 @@ public class AboutClubController extends BlankToolbarController<LayoutAboutClubB
     }
 
     public void suspendCard(View view) {
-        show(new SuspendCardController());
+        show(new SuspendCardController(this.club.id));
     }
 
     public void getTrainers(View view) {

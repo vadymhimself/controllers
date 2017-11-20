@@ -153,6 +153,10 @@ public class AUCalendar {
         return calendar.getMaxDaysSelection();
     }
 
+    public void setMaxDaysSelection(int days) {
+        calendar.setMaxDaysSelection(days);
+    }
+
     public int minDaysForSelection() {
         return calendar.getMinDaysSelection();
     }

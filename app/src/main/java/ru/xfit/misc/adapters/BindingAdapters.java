@@ -521,8 +521,11 @@ public abstract class BindingAdapters {
         onViewReadyListener.onReady(view);
     }
 
-    @BindingAdapter({"initCalendarSchedule", "multipleSelect"})
-    public static void bindCalendar(CustomizableCalendar customizableCalendar, DateChangeListener dateChangeListener, boolean multipleSelect) {
+    @BindingAdapter(value = {"initCalendarSchedule", "multipleSelect", "canSuspendDays"}, requireAll = false)
+    public static void bindCalendar(CustomizableCalendar customizableCalendar,
+                                    DateChangeListener dateChangeListener,
+                                    boolean multipleSelect,
+                                    int canSuspendDays) {
         DateTime today = new DateTime();
         DateTime firstMonth = today.withDayOfMonth(1);
         DateTime lastMonth = today.plusMonths(3).withDayOfMonth(1);
@@ -530,7 +533,11 @@ public abstract class BindingAdapters {
         CompositeDisposable subscriptions = new CompositeDisposable();
 
         final Calendar calendar = new Calendar(firstMonth, lastMonth);
-        calendar.setMaxDaysSelection(90);
+        if (canSuspendDays > 0)
+            calendar.setMaxDaysSelection(canSuspendDays);
+        else
+            calendar.setMaxDaysSelection(90);
+
         calendar.setMinDaysSelection(7);
 
         final CalendarViewInteractor calendarViewInteractor = new CalendarViewInteractor(customizableCalendar.getContext());

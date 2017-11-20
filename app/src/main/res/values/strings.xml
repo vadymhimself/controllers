@@ -65,4 +65,6 @@
     <string name="trainers_fitness_trainers">Фитнес-тренеры</string>
 
     <string name="suspend_card_title">Заморозка карты</string>
+    <string name="suspend_card_btn">Заморозить карту</string>
+    <string name="suspend_card_hint">Выберите дату начала \nи дату завершения заморозки карты</string>
 </resources>

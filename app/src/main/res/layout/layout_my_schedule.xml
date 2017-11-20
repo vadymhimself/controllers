@@ -43,7 +43,7 @@
                         app:highlightedDays="@{controller.classDates}"
                         app:initCalendarSchedule="@{controller}"
                         app:layout="@layout/c_calendar"
-                        app:multipleSelect="@{false}" />
+                        app:multipleSelect="@{false}"/>
 
                 </RelativeLayout>
 

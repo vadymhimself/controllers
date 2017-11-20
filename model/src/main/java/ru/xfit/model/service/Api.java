@@ -5,6 +5,8 @@ import ru.xfit.model.data.auth.AuthResponse;
 import ru.xfit.model.data.club.AddClassResponse;
 import ru.xfit.model.data.club.Club;
 import ru.xfit.model.data.club.ClubItem;
+import ru.xfit.model.data.contract.Contract;
+import ru.xfit.model.data.contract.SuspendRequest;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
 import ru.xfit.model.data.register.RegisterRequest;
 import ru.xfit.model.data.schedule.Schedule;
@@ -57,5 +59,9 @@ public interface Api {
     Task<Void> deleteClass(String id);
 
     Task<List<Trainer>> getTrainers(String id);
+
+    Task<List<Contract>> getContracts();
+
+    Task<Contract> suspendContract(SuspendRequest request);
 
 }

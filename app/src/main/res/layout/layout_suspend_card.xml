@@ -30,8 +30,38 @@
                 app:initCalendarSchedule="@{controller}"
                 app:layout="@layout/c_calendar"
                 app:month_view="true"
-                app:multipleSelect="@{true}" />
+                app:multipleSelect="@{true}"
+                app:canSuspendDays="@{controller.canSuspendDays}"/>
         </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/calendar_container"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="18dp"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif"
+            android:textStyle="normal"
+            android:textColor="@color/calendarCommonDay"
+            android:gravity="center_horizontal"
+            android:text="@string/suspend_card_hint"
+            android:visibility="@{controller.canSuspendDays > 0}"
+            />
+
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="328dp"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="28dp"
+            android:background="@drawable/button_bg"
+            android:fontFamily="sans-serif"
+            android:text="@string/suspend_card_btn"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:onClick='@{controller.suspend}'/>
 
     </RelativeLayout>
 </layout>

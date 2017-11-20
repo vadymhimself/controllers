@@ -245,25 +245,32 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
                 if (firstSelectedDay != null) {
                     int startSelectedCompared = dateSelected.compareTo(firstSelectedDay);
                     if (startSelectedCompared < 0) {
-                        notifyFirstSelectionUpdated(dateSelected);
+                        if (dateSelected.getMillis() > calendar.getToday().getMillis()) {
+                            notifyFirstSelectionUpdated(dateSelected);
+                        }
                     } else if (lastSelectedDay != null) {
                         int endSelectedCompared = dateSelected.compareTo(lastSelectedDay);
                         if ((startSelectedCompared >= 0 && endSelectedCompared < 0) || endSelectedCompared > 0) {
-                            notifyLastSelectionUpdated(dateSelected);
+                            notifyFirstSelectionUpdated(dateSelected);
+                            notifyLastSelectionUpdated(null);
                         }
                     } else {
                         notifyLastSelectionUpdated(dateSelected);
                     }
-                    if (firstSelectedDay.getMillis() == lastSelectedDay.getMillis()) {
+                    if (firstSelectedDay != null && lastSelectedDay != null &&
+                            firstSelectedDay.getMillis() == lastSelectedDay.getMillis()) {
                         notifyFirstSelectionUpdated(null);
                         notifyLastSelectionUpdated(null);
-                    } else if (firstSelectedDay.plusDays(minDaysSelection).getMillis() > lastSelectedDay.getMillis()) {
+                    } else if (firstSelectedDay != null && lastSelectedDay != null &&
+                            firstSelectedDay.plusDays(minDaysSelection).getMillis() > lastSelectedDay.getMillis()) {
                         notifyLastSelectionUpdated(firstSelectedDay.plusDays(minDaysSelection));
-                    } else if (firstSelectedDay.plusDays(maxDaysSelection).getMillis() < lastSelectedDay.getMillis()) {
+                    } else if (firstSelectedDay != null && lastSelectedDay != null &&
+                            firstSelectedDay.plusDays(maxDaysSelection).getMillis() < lastSelectedDay.getMillis()) {
                         notifyLastSelectionUpdated(firstSelectedDay.plusDays(maxDaysSelection));
                     }
                 } else {
-                    notifyFirstSelectionUpdated(dateSelected);
+                    if (dateSelected != null && dateSelected.getMillis() > calendar.getToday().getMillis())
+                        notifyFirstSelectionUpdated(dateSelected);
                 }
             }
         }
