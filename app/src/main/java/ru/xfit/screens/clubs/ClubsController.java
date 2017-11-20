@@ -2,6 +2,7 @@ package ru.xfit.screens.clubs;
 
 import android.databinding.Bindable;
 import android.databinding.ObservableBoolean;
+import android.support.annotation.NonNull;
 
 import com.controllers.Request;
 
@@ -17,6 +18,7 @@ import ru.xfit.domain.App;
 import ru.xfit.misc.adapters.BaseAdapter;
 import ru.xfit.misc.adapters.BaseVM;
 import ru.xfit.misc.adapters.FilterableAdapter;
+import ru.xfit.misc.views.MessageDialog;
 import ru.xfit.model.data.club.Club;
 import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.service.Api;
@@ -28,15 +30,17 @@ import ru.xfit.screens.XFitController;
  *
  */
 
-public class ClubsController extends DrawerController<LayoutClubsBinding> {
+public class ClubsController extends DrawerController<LayoutClubsBinding> implements MessageDialog.DialogResultListener {
 
     @Bindable
     public final BaseAdapter<BaseVM> adapter = new BaseAdapter<>(new ArrayList<>());
 
     public final ObservableBoolean progress = new ObservableBoolean();
+    private boolean fromMyXfit;
 
-    public ClubsController() {
+    public ClubsController(boolean fromMyXfit) {
         progress.set(true);
+        this.fromMyXfit = fromMyXfit;
         Request.with(this, Api.class)
                 .create(Api::getClubs)
                 .onFinally(() -> progress.set(false))
@@ -54,9 +58,9 @@ public class ClubsController extends DrawerController<LayoutClubsBinding> {
                 city = club.city;
             }
             if (club.id.equals("181")) {
-                toAdd.add(1, new ClubVM(club, this, true));
+                toAdd.add(1, new ClubVM(club, this, true, fromMyXfit));
             } else
-                toAdd.add(new ClubVM(club, this, false));
+                toAdd.add(new ClubVM(club, this, false, fromMyXfit));
         }
         adapter.addAll(toAdd);
     }
@@ -69,5 +73,43 @@ public class ClubsController extends DrawerController<LayoutClubsBinding> {
     @Override
     public String getTitle() {
         return App.getContext().getString(R.string.clubs_controller_title);
+    }
+
+    public void linkToClub(String clubId) {
+        Request.with(this, Api.class)
+                .create(api -> api.linkToClub(clubId))
+                .onError(e -> {
+                    showMessage(e.getMessage());
+                })
+                .onFinally(() -> progress.set(false))
+                .execute();
+    }
+
+    private void showMessage(String message) {
+        MessageDialog messageDialog;
+
+        if (message.contains("404")) {
+            messageDialog = new MessageDialog.Builder()
+                    .setMessage(message)
+                    .setNegativeText(R.string.dialog_cancell)
+                    .setPositiveText(R.string.dialog_buy_card)
+                    .build();
+        } else {
+            messageDialog = new MessageDialog.Builder()
+                    .setMessage(message)
+                    .build();
+        }
+        messageDialog.setController(this);
+        messageDialog.show(getActivity().getSupportFragmentManager(), "MY_TAG");
+    }
+
+    @Override
+    public void onPositive(@NonNull String tag) {
+        //buy card
+    }
+
+    @Override
+    public void onNegative(@NonNull String tag) {
+
     }
 }

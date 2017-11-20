@@ -114,6 +114,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_facebook"
+                android:visibility="@{controller.trainer.socialLinks.facebookLink.length() > 0}"
                 android:onClick="@{controller.getTrainerFacebook}" />
 
             <ImageView
@@ -122,13 +123,15 @@
                 android:layout_marginLeft="32dp"
                 android:layout_marginRight="32dp"
                 android:background="@drawable/ic_insta"
+                android:visibility="@{controller.trainer.socialLinks.instagramLink.length() > 0}"
                 android:onClick="@{controller.getTrainerInsta}" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_youtube"
-                android:onClick="@{controller.getTrainerYoutube}" />
+                android:background="@drawable/ic_vk"
+                android:visibility="@{controller.trainer.socialLinks.vkLink.length() > 0}"
+                android:onClick="@{controller.getTrainerVk}" />
 
         </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>

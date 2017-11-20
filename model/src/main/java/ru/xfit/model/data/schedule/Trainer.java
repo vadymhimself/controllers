@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import ru.xfit.model.data.common.Image;
+import ru.xfit.model.data.common.SocialLinks;
 
 /**
  * Created by TESLA on 03.11.2017.
@@ -18,6 +19,7 @@ public class Trainer implements Serializable {
     public Image facePhoto;
     public Image photo;
     public List<String> clubs;
+    public SocialLinks socialLinks;
 
     @Override
     public boolean equals(Object o) {

@@ -1,5 +1,7 @@
 package ru.xfit.screens.clubs;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -33,15 +35,18 @@ public class AboutTrainerController extends BlankToolbarController<LayoutAboutTr
     }
 
     public void getTrainerFacebook(View view) {
-        Snackbar.make(view, "Coming soon...", BaseTransientBottomBar.LENGTH_SHORT).show();
+        Intent intent= new Intent(Intent.ACTION_VIEW, Uri.parse(trainer.socialLinks.facebookLink));
+        getActivity().startActivity(intent);
     }
 
     public void getTrainerInsta(View view) {
-        Snackbar.make(view, "Coming soon...", BaseTransientBottomBar.LENGTH_SHORT).show();
+        Intent intent= new Intent(Intent.ACTION_VIEW, Uri.parse(trainer.socialLinks.instagramLink));
+        getActivity().startActivity(intent);
     }
 
-    public void getTrainerYoutube(View view) {
-        Snackbar.make(view, "Coming soon...", BaseTransientBottomBar.LENGTH_SHORT).show();
+    public void getTrainerVk(View view) {
+        Intent intent= new Intent(Intent.ACTION_VIEW, Uri.parse(trainer.socialLinks.vkLink));
+        getActivity().startActivity(intent);
     }
 
     @Override

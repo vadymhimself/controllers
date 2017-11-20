@@ -2,6 +2,8 @@ package ru.xfit.screens.clubs;
 
 import android.databinding.ObservableBoolean;
 import android.view.View;
+
+import okhttp3.Request;
 import ru.xfit.R;
 import ru.xfit.misc.adapters.BaseVM;
 import ru.xfit.model.data.club.Club;
@@ -17,15 +19,21 @@ public class ClubVM implements BaseVM {
     public ClubItem club;
     public ClubsController clubsController;
     public ObservableBoolean isMyClub = new ObservableBoolean();
+    private boolean fromMyXfit;
 
-    public ClubVM(ClubItem club, ClubsController clubsController, boolean isMyClub) {
+    public ClubVM(ClubItem club, ClubsController clubsController, boolean isMyClub, boolean fromMyXfit) {
         this.club = club;
         this.clubsController = clubsController;
         this.isMyClub.set(isMyClub);
+        this.fromMyXfit = fromMyXfit;
     }
 
     public void onItemClick(View view){
-        clubsController.show(new AboutClubController(club, isMyClub.get()));
+        if (fromMyXfit) {
+            clubsController.linkToClub(club.id);
+        } else {
+            clubsController.show(new AboutClubController(club, isMyClub.get()));
+        }
     }
 
     @Override

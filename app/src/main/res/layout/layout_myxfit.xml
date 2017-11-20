@@ -209,6 +209,7 @@
             android:layout_marginTop="18dp"
             android:background="@drawable/button_bg"
             android:orientation="horizontal"
+            android:onClick="@{controller.linkToClub}"
             android:visibility="@{controller.contract == null}">
             <TextView
                 style="?android:attr/buttonBarButtonStyle"

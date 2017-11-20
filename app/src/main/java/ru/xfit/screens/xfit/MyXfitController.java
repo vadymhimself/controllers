@@ -2,6 +2,7 @@ package ru.xfit.screens.xfit;
 
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.view.View;
 
 import com.controllers.Request;
 
@@ -13,6 +14,7 @@ import ru.xfit.domain.App;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.DrawerController;
+import ru.xfit.screens.clubs.ClubsController;
 
 /**
  * Created by TESLA on 20.11.2017.
@@ -43,5 +45,9 @@ public class MyXfitController extends DrawerController<LayoutMyxfitBinding> {
     @Override
     public String getTitle() {
         return App.getContext().getResources().getString(R.string.my_xfit_title);
+    }
+
+    public void linkToClub(View view) {
+        show(new ClubsController(true));
     }
 }

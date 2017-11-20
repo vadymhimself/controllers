@@ -75,6 +75,8 @@
     <string name="dialog_suspend_card_not_found">Контракт не найден</string>
     <string name="dialog_cancell">Отмена</string>
     <string name="dialog_ok">Ок</string>
+    <string name="dialog_buy_card">Купить карту</string>
+    <string name="dialog_phone_not_found">Ваш номер телефона не найден в данном клубе</string>
 
     <string name="my_xfit_contract_duration">%1$s \nДействует до %2$s года</string>
     <string name="my_xfit_my_params">Мои параметры</string>

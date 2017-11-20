@@ -7,6 +7,7 @@ import ru.xfit.model.data.auth.AuthResponse;
 import ru.xfit.model.data.club.AddClassResponse;
 import ru.xfit.model.data.club.Club;
 import ru.xfit.model.data.club.ClubItem;
+import ru.xfit.model.data.club.LinkRequest;
 import ru.xfit.model.data.common.EmptyBody;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.data.contract.SuspendRequest;
@@ -65,4 +66,7 @@ public interface NetworkInterface {
 
     @POST("/me/contracts/suspend")
     Call<Contract> suspendContract(@Body SuspendRequest request);
+
+    @PUT("/me/clubs")
+    Call<Contract> linkToCLub(@Body LinkRequest request );
 }
