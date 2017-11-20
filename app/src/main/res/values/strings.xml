@@ -67,4 +67,12 @@
     <string name="suspend_card_title">Заморозка карты</string>
     <string name="suspend_card_btn">Заморозить карту</string>
     <string name="suspend_card_hint">Выберите дату начала \nи дату завершения заморозки карты</string>
+
+    <string name="dialog_suspend_card">Заморозить</string>
+    <string name="dialog_suspend_card_message">Заморозить \nкарту с %1$s по %2$s?</string>
+    <string name="dialog_suspend_card_success">Ваша карта успешно \nзаморожена до %1$s</string>
+    <string name="dialog_suspend_card_not_allow">Ваша карта не поддерживает \nопцию заморозки</string>
+    <string name="dialog_suspend_card_not_found">Контракт не найден</string>
+    <string name="dialog_cancell">Отмена</string>
+    <string name="dialog_ok">Ок</string>
 </resources>
