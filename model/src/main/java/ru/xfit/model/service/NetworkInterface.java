@@ -61,12 +61,12 @@ public interface NetworkInterface {
     @DELETE("me/classes/{id}")
     Call<Void> deleteClass(@Path("id") String id);
 
-    @GET("/me/contracts")
+    @GET("me/contracts")
     Call<List<Contract>> getContracts();
 
-    @POST("/me/contracts/suspend")
+    @POST("me/contracts/suspend")
     Call<Contract> suspendContract(@Body SuspendRequest request);
 
-    @PUT("/me/clubs")
+    @PUT("me/clubs")
     Call<Contract> linkToCLub(@Body LinkRequest request );
 }
