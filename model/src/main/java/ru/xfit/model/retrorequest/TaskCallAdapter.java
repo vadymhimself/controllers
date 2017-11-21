@@ -1,8 +1,11 @@
 package ru.xfit.model.retrorequest;
 
 import com.controllers.Task;
+import com.google.gson.Gson;
+
 import retrofit2.Call;
 import retrofit2.Response;
+import ru.xfit.model.data.ErrorResponse;
 
 class TaskCallAdapter<T> implements Task<T> {
 
@@ -18,7 +21,9 @@ class TaskCallAdapter<T> implements Task<T> {
         if (res.isSuccessful()) {
             return res.body();
         } else {
-            throw new NetworkError(res.code(), res.message());
+            String json = res.errorBody().string();
+            ErrorResponse errorResponse = new Gson().fromJson(json, ErrorResponse.class);
+            throw new NetworkError(res.code(), res.message(), errorResponse);
         }
     }
 

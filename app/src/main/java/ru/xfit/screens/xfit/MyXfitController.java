@@ -29,7 +29,7 @@ public class MyXfitController extends DrawerController<LayoutMyxfitBinding> {
         Request.with(this, Api.class)
                 .create(Api::getContracts)
                 .onFinally(() -> progress.set(false))
-                .execute(this::getMyClub);
+                .execute(this::getContractList);
     }
 
     public void setContract(List<Contract> contractList) {
@@ -39,7 +39,7 @@ public class MyXfitController extends DrawerController<LayoutMyxfitBinding> {
         }
     }
 
-    private void getMyClub(List<Contract> contractList) {
+    private void getContractList(List<Contract> contractList) {
         if (contractList != null && contractList.size() > 0) {
             //TODO replace to my club
             contract.set(contractList.get(0));

@@ -19,6 +19,8 @@ import ru.xfit.misc.adapters.BaseAdapter;
 import ru.xfit.misc.adapters.BaseVM;
 import ru.xfit.misc.adapters.FilterableAdapter;
 import ru.xfit.misc.views.MessageDialog;
+import ru.xfit.model.data.ErrorCodes;
+import ru.xfit.model.data.ErrorResponse;
 import ru.xfit.model.data.club.Club;
 import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.data.contract.Contract;
@@ -83,13 +85,15 @@ public class ClubsController extends DrawerController<LayoutClubsBinding> implem
                 .create(api -> api.linkToClub(clubId))
                 .onError(e -> {
                     if (e instanceof NetworkError) {
-                        showMessage(((NetworkError) e).getCode(), ((NetworkError) e).getMessage());
+                        showMessage(((NetworkError) e).getErrorResponse());
+                    } else {
+                        showMessage(e.getMessage());
                     }
                 })
                 .onFinally(() -> progress.set(false))
                 .execute(result -> {
                     //contracts
-                    if (getPrevious() instanceof  MyXfitController) {
+                    if (getPrevious() instanceof MyXfitController) {
                         ((MyXfitController) getPrevious()).setContract(result);
                         back();
                     }
@@ -97,10 +101,19 @@ public class ClubsController extends DrawerController<LayoutClubsBinding> implem
                 });
     }
 
-    private void showMessage(int code, String message) {
+    private void showMessage(String message) {
+        MessageDialog messageDialog = new MessageDialog.Builder()
+                .setMessage(message)
+                .build();
+
+        messageDialog.setController(this);
+        messageDialog.show(getActivity().getSupportFragmentManager(), "MY_TAG");
+    }
+
+    private void showMessage(ErrorResponse errorResponse) {
         MessageDialog messageDialog;
 
-        if (code == 404) {
+        if (errorResponse.code.equals(ErrorCodes.NO_LINKED_CLUBS)) {
             messageDialog = new MessageDialog.Builder()
                     .setMessage(App.getContext().getString(R.string.dialog_phone_not_found))
                     .setNegativeText(R.string.dialog_cancell)
@@ -108,9 +121,10 @@ public class ClubsController extends DrawerController<LayoutClubsBinding> implem
                     .build();
         } else {
             messageDialog = new MessageDialog.Builder()
-                    .setMessage(message)
+                    .setMessage(errorResponse.message)
                     .build();
         }
+
         messageDialog.setController(this);
         messageDialog.show(getActivity().getSupportFragmentManager(), "MY_TAG");
     }
