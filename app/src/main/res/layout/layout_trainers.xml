@@ -15,10 +15,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <View
+            android:id="@+id/spacer"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize" />
+
         <ru.xfit.misc.views.HackyRecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{!controller.adapter.adapterEmpty}"
+            android:layout_below="@+id/spacer"
+            android:visibility="@{!controller.adapter.empty}"
             app:adapter="@{controller.adapter}"
             app:layoutManager="@{LayoutManagers.LINEAR_VERTICAL}" />
 
@@ -31,7 +37,7 @@
             android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="18sp"
-            android:visibility='@{controller.adapter.adapterEmpty}' />
+            android:visibility='@{controller.adapter.empty}' />
 
         <include
             layout="@layout/progress"

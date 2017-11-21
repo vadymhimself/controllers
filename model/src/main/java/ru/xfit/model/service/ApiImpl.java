@@ -12,7 +12,10 @@ import ru.xfit.model.data.auth.AuthResponse;
 import ru.xfit.model.data.club.AddClassResponse;
 import ru.xfit.model.data.club.Club;
 import ru.xfit.model.data.club.ClubItem;
+import ru.xfit.model.data.club.LinkRequest;
 import ru.xfit.model.data.common.EmptyBody;
+import ru.xfit.model.data.contract.Contract;
+import ru.xfit.model.data.contract.SuspendRequest;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationRequest;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
 import ru.xfit.model.data.register.RegisterRequest;
@@ -178,6 +181,21 @@ final class ApiImpl implements Api {
     @Override
     public Task<List<Trainer>> getTrainers(String id) {
         return TaskBuilder.from(networkInterface.getTrainers(id));
+    }
+
+    @Override
+    public Task<List<Contract>> getContracts() {
+        return TaskBuilder.from(networkInterface.getContracts());
+    }
+
+    @Override
+    public Task<Contract> suspendContract(SuspendRequest request) {
+        return TaskBuilder.from(networkInterface.suspendContract(request));
+    }
+
+    @Override
+    public Task<List<Contract>> linkToClub(String clubId) {
+        return TaskBuilder.from(networkInterface.linkToCLub(new LinkRequest(clubId)));
     }
 
 

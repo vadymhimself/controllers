@@ -8,17 +8,25 @@
             type="ru.xfit.screens.schedule.MyScheduleController" />
 
         <import type="ru.xfit.R" />
+
         <import type="ru.xfit.misc.LayoutManagers" />
 
     </data>
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/spacer"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize" />
 
         <android.support.v4.widget.NestedScrollView
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/spacer"
+            android:layout_marginTop="10dp">
 
             <RelativeLayout
                 android:id="@+id/container"
@@ -27,26 +35,36 @@
                 android:layout_marginTop="2dp"
                 android:clipChildren="false">
 
-                <com.molo17.customizablecalendar.library.components.CustomizableCalendar
-                    android:id="@+id/calendar"
+                <RelativeLayout
+                    android:id="@+id/calendar_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout="@layout/c_calendar"
-                    app:initCalendarSchedule="@{controller}"
-                    app:highlightedDays="@{controller.classDates}"/>
+                    android:elevation="4dp"
+                    android:background="@android:color/white">
+
+                    <com.molo17.customizablecalendar.library.components.CustomizableCalendar
+                        android:id="@+id/calendar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:highlightedDays="@{controller.classDates}"
+                        app:initCalendarSchedule="@{controller}"
+                        app:layout="@layout/c_calendar"
+                        app:multipleSelect="@{false}"/>
+
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/calendar">
+                    android:layout_below="@+id/calendar_container">
 
                     <ru.xfit.misc.views.HackyRecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="@{!controller.scheduleEmpty}"
                         app:adapter="@{controller.adapter}"
-                        app:layoutManager="@{LayoutManagers.LINEAR_VERTICAL}"/>
+                        app:layoutManager="@{LayoutManagers.LINEAR_VERTICAL}" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -67,8 +85,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp">
+
             <Button
                 android:id="@+id/classes_btn"
                 android:layout_width="328dp"
@@ -76,11 +95,11 @@
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/button_bg"
                 android:fontFamily="sans-serif"
+                android:onClick='@{controller.showClubClassesController}'
                 android:text="@string/my_schedule_classes"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
-                android:visibility='@{controller.scheduleEmpty}'
-                android:onClick='@{controller.showClubClassesController}'/>
+                android:visibility='@{controller.scheduleEmpty}' />
 
             <!--<Button-->
             <!--android:id="@+id/services_btn"-->
@@ -98,6 +117,7 @@
             <!--android:layout_below="@+id/classes_btn"/>-->
 
         </RelativeLayout>
+
         <include
             layout="@layout/progress"
             android:layout_width="match_parent"

@@ -149,6 +149,18 @@ public class AUCalendar {
         return calendar.isMultipleSelectionEnabled();
     }
 
+    public int maxDaysForSelection() {
+        return calendar.getMaxDaysSelection();
+    }
+
+    public void setMaxDaysSelection(int days) {
+        calendar.setMaxDaysSelection(days);
+    }
+
+    public int minDaysForSelection() {
+        return calendar.getMinDaysSelection();
+    }
+
     public void setMultipleSelection(boolean multipleSelection) {
         if (calendar.isMultipleSelectionEnabled() != multipleSelection) {
             calendar.setMultipleSelection(multipleSelection);

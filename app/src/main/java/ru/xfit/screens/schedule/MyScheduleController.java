@@ -14,6 +14,7 @@ import ru.xfit.misc.utils.ListUtils;
 import ru.xfit.model.data.schedule.Clazz;
 import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.model.service.Api;
+import ru.xfit.screens.DateChangeListener;
 import ru.xfit.screens.DrawerController;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import java.util.List;
  */
 
 public class MyScheduleController extends DrawerController<LayoutMyScheduleBinding>
-        implements OnCalendarListener {
+        implements OnCalendarListener, DateChangeListener {
 
     public final ObservableBoolean progress = new ObservableBoolean();
 
@@ -95,4 +96,7 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
         adapter.refresh();
         notifyPropertyChanged(BR.scheduleEmpty);
     }
+
+    @Override
+    public void onDatePeriodChanged(DateTime firstSelection, DateTime lastSelection) {}
 }

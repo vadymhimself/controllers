@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:columnWidth="40dp"
         android:listSelector="@android:color/transparent"
-        android:numColumns="7" />
+        android:numColumns="7"
+        android:layout_marginBottom="10dp"/>
 
 </LinearLayout>

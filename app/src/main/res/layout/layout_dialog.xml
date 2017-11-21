@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="165dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp">
+
+    <RelativeLayout
+        android:id="@+id/message_container"
+        android:layout_width="match_parent"
+        android:layout_height="178dp"
+        android:background="@android:color/white">
+
+        <TextView
+            android:id="@+id/dialog_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif"
+            android:textStyle="normal"
+            android:textColor="@color/calendarCommonDay"
+            android:lineSpacingExtra="5sp"
+            android:textAlignment="center"
+            android:layout_centerInParent="true"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/controls_container"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/dialogControlsContainer"
+        android:layout_below="@+id/message_container">
+
+        <TextView
+            android:id="@+id/dialog_positive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-medium"
+            android:textStyle="normal"
+            android:textColor="#ffffff"
+            android:textAllCaps="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="14dp"
+            android:gravity="center_horizontal"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/dialog_negative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-medium"
+            android:textStyle="normal"
+            android:textColor="#ffffff"
+            android:textAllCaps="true"
+            android:layout_toLeftOf="@+id/dialog_positive"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:gravity="center_horizontal"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/dialog_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-medium"
+            android:textStyle="normal"
+            android:textColor="#ffffff"
+            android:textAllCaps="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="16dp"
+            android:gravity="center_horizontal"
+            android:text="OK"
+            android:visibility="gone"
+            />
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

@@ -35,6 +35,8 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
     private Set<Activity> selectedActivities = new HashSet<>();
     private Set<Trainer> selectedTrainers = new HashSet<>();
 
+    public Schedule schedule;
+
     private final DayFilter dayFilter = new DayFilter(DateTime.now());
 
 //    private FilterController filterController = new FilterController(this, trainers, activities);
@@ -43,7 +45,7 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
     public final FilterableAdapter<ClassVM> adapter = new FilterableAdapter<>(new ArrayList<>());
 
     public ClubClassesController(Schedule schedule) {
-        setTitle(schedule.club.title);
+        this.schedule = schedule;
 
         adapter.addFilter(dayFilter);
         // class type and trainer filters
@@ -93,5 +95,10 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
         this.selectedTrainers = trainers;
         this.selectedActivities = activities;
         adapter.refresh();
+    }
+
+    @Override
+    public String getTitle() {
+        return schedule.club.title;
     }
 }

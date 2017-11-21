@@ -8,13 +8,14 @@ import ru.xfit.databinding.LayoutClassBinding;
 import ru.xfit.misc.OnViewReadyListener;
 import ru.xfit.model.data.schedule.Clazz;
 import ru.xfit.model.service.Api;
+import ru.xfit.screens.BlankToolbarController;
 import ru.xfit.screens.XFitController;
 
 /**
  * Created by TESLA on 05.11.2017.
  */
 
-public class ClassController extends XFitController<LayoutClassBinding> implements OnViewReadyListener {
+public class ClassController extends BlankToolbarController<LayoutClassBinding> implements OnViewReadyListener {
 
     public Clazz clazz;
     public boolean isAdded;

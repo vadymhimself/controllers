@@ -42,7 +42,7 @@ public class BaseAdapter<VM extends BaseVM> extends RecyclerView.Adapter<Binding
     }
 
     @Bindable
-    public boolean isAdapterEmpty() {
+    public boolean isEmpty() {
         return this.getItemCount() == 0;
     }
 
@@ -59,20 +59,23 @@ public class BaseAdapter<VM extends BaseVM> extends RecyclerView.Adapter<Binding
     public void add(int position, VM item) {
         vms.add(position, item);
         notifyItemInserted(position);
-        registry.notifyChange(this, BR.adapterEmpty);
+        if (registry != null)
+            registry.notifyChange(this, BR.empty);
     }
 
     public void addAll(List<VM> list) {
         int previousLength = list.size();
         vms.addAll(list);
         notifyItemRangeInserted(previousLength, list.size());
-        registry.notifyChange(this, BR.adapterEmpty);
+        if (registry != null)
+            registry.notifyChange(this, BR.empty);
     }
 
     public void addAll(List<VM> list, int position){
         vms.addAll(position, list);
         notifyItemRangeInserted(position, list.size());
-        registry.notifyChange(this, BR.adapterEmpty);
+        if (registry != null)
+            registry.notifyChange(this, BR.empty);
     }
 
     public void remove(VM vm) {
@@ -80,7 +83,8 @@ public class BaseAdapter<VM extends BaseVM> extends RecyclerView.Adapter<Binding
         if (index != -1) {
             vms.remove(index);
             notifyItemRemoved(index);
-            registry.notifyChange(this, BR.adapterEmpty);
+            if (registry != null)
+                registry.notifyChange(this, BR.empty);
         }
     }
 
@@ -89,7 +93,8 @@ public class BaseAdapter<VM extends BaseVM> extends RecyclerView.Adapter<Binding
             VM vm = vms.remove(index);
             if (vm != null) {
                 notifyItemRemoved(index);
-                registry.notifyChange(this, BR.adapterEmpty);
+                if (registry != null)
+                    registry.notifyChange(this, BR.empty);
             }
             return vm;
         }
@@ -119,11 +124,15 @@ public class BaseAdapter<VM extends BaseVM> extends RecyclerView.Adapter<Binding
 
     @Override
     public void addOnPropertyChangedCallback(OnPropertyChangedCallback onPropertyChangedCallback) {
+        if (registry == null)
+            registry = new PropertyChangeRegistry();
         registry.add(onPropertyChangedCallback);
     }
 
     @Override
     public void removeOnPropertyChangedCallback(OnPropertyChangedCallback onPropertyChangedCallback) {
+        if (registry == null)
+            return;
         registry.remove(onPropertyChangedCallback);
     }
 }

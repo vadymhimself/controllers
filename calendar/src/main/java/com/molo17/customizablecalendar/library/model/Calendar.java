@@ -24,6 +24,8 @@ public class Calendar {
     private List<DateTime> weeks;
     private boolean multipleSelection;
     private int firstDayOfWeek;
+    private int maxDaysSelection;
+    private int minDaysSelection;
 
     public Calendar(DateTime firstMonth, DateTime lastMonth) {
         this.firstMonth = firstMonth;
@@ -129,5 +131,21 @@ public class Calendar {
 
     public DateTime getToday() {
         return today;
+    }
+
+    public int getMaxDaysSelection() {
+        return maxDaysSelection;
+    }
+
+    public void setMaxDaysSelection(int maxDaysSelection) {
+        this.maxDaysSelection = maxDaysSelection;
+    }
+
+    public int getMinDaysSelection() {
+        return minDaysSelection;
+    }
+
+    public void setMinDaysSelection(int minDaysSelection) {
+        this.minDaysSelection = minDaysSelection;
     }
 }

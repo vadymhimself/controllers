@@ -1,6 +1,7 @@
 package ru.xfit.screens.auth;
 
 import android.content.Intent;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.net.Uri;
 import android.view.View;
@@ -25,6 +26,8 @@ public class AuthController extends XFitController<LayoutAuthBinding> {
     public ObservableField<String> password = new ObservableField<>("");
     public ObservableField<String> errorResponse = new ObservableField<>();
 
+    public final ObservableBoolean progress = new ObservableBoolean();
+
     @Override
     public int getLayoutId() {
         return R.layout.layout_auth;
@@ -35,8 +38,10 @@ public class AuthController extends XFitController<LayoutAuthBinding> {
     }
 
     public void auth(View view) {
+        progress.set(true);
         Request.with(this, Api.class)
                 .create(api -> api.authByPhone(phone.get(), password.get()))
+                .onFinally(() -> progress.set(false))
                 .onError(error -> {
                     errorResponse.set(error.getMessage());
                 })

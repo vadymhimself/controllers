@@ -10,6 +10,7 @@ import ru.xfit.misc.adapters.BaseVM;
 import ru.xfit.model.data.schedule.Activity;
 import ru.xfit.model.data.schedule.Trainer;
 import ru.xfit.screens.XFitController;
+import ru.xfit.screens.schedule.ClubClassesController;
 import ru.xfit.screens.schedule.FilterListener;
 
 import java.util.*;
@@ -138,5 +139,10 @@ public class FilterController extends XFitController<LayoutFilterBinding> {
         listener.onUpdate(selectedActivities, selectedTrainers);
 
         return super.onBackPressed();
+    }
+
+    @Override
+    public String getTitle() {
+        return ((ClubClassesController)listener).getTitle();
     }
 }

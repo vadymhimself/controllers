@@ -55,6 +55,7 @@ import ru.xfit.misc.OnViewReadyListener;
 import ru.xfit.misc.utils.validation.*;
 import ru.xfit.misc.views.*;
 import ru.xfit.model.data.common.Image;
+import ru.xfit.screens.DateChangeListener;
 import ru.xfit.screens.XFitController;
 import ru.xfit.screens.clubs.AboutClubController;
 import ru.xfit.screens.filter.FilterController;
@@ -520,8 +521,11 @@ public abstract class BindingAdapters {
         onViewReadyListener.onReady(view);
     }
 
-    @BindingAdapter("initCalendarSchedule")
-    public static void bindCalendar(CustomizableCalendar customizableCalendar, MyScheduleController controller) {
+    @BindingAdapter(value = {"initCalendarSchedule", "multipleSelect", "canSuspendDays"}, requireAll = false)
+    public static void bindCalendar(CustomizableCalendar customizableCalendar,
+                                    DateChangeListener dateChangeListener,
+                                    boolean multipleSelect,
+                                    int canSuspendDays) {
         DateTime today = new DateTime();
         DateTime firstMonth = today.withDayOfMonth(1);
         DateTime lastMonth = today.plusMonths(3).withDayOfMonth(1);
@@ -529,14 +533,17 @@ public abstract class BindingAdapters {
         CompositeDisposable subscriptions = new CompositeDisposable();
 
         final Calendar calendar = new Calendar(firstMonth, lastMonth);
-//        calendar.setFirstSelectedDay(today.plusDays(4));
+        if (canSuspendDays > 0)
+            calendar.setMaxDaysSelection(canSuspendDays);
+        else
+            calendar.setMaxDaysSelection(90);
 
-        calendar.setMultipleSelection(false);
+        calendar.setMinDaysSelection(7);
 
         final CalendarViewInteractor calendarViewInteractor = new CalendarViewInteractor(customizableCalendar.getContext());
 
         AUCalendar auCalendar = AUCalendar.getInstance(calendar);
-        auCalendar.setMultipleSelection(false);
+        auCalendar.setMultipleSelection(multipleSelect);
         auCalendar.setToday(today);
         calendarViewInteractor.updateCalendar(calendar);
 
@@ -546,7 +553,11 @@ public abstract class BindingAdapters {
                 auCalendar.observeChangesOnCalendar().subscribe(changeSet -> {
                     calendarViewInteractor.updateCalendar(calendar);
                     if (calendar.getFirstSelectedDay() != null)
-                        controller.onDateChange(calendar.getFirstSelectedDay());
+                        dateChangeListener.onDateChange(calendar.getFirstSelectedDay());
+
+                    if (calendar.getFirstSelectedDay() != null && calendar.getLastSelectedDay() != null) {
+                        dateChangeListener.onDatePeriodChanged(calendar.getFirstSelectedDay(), calendar.getLastSelectedDay());
+                    }
                 });
             }
 

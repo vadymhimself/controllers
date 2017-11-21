@@ -165,6 +165,10 @@ public class CalendarRecyclerView extends RecyclerView implements CalendarView {
         calendarViewAdapter.setDayLayoutResId(layoutResId);
     }
 
+    public void setDefaultMode(boolean mode) {
+        isMonthMode = mode;
+    }
+
     @Override
     public void onMonthClicked() {
         isMonthMode = !isMonthMode;

@@ -63,4 +63,25 @@
     <string name="clubs_suspend_card">Заморозить карту</string>
 
     <string name="trainers_fitness_trainers">Фитнес-тренеры</string>
+
+    <string name="suspend_card_title">Заморозка карты</string>
+    <string name="suspend_card_btn">Заморозить карту</string>
+    <string name="suspend_card_hint">Выберите дату начала \nи дату завершения заморозки карты</string>
+
+    <string name="dialog_suspend_card">Заморозить</string>
+    <string name="dialog_suspend_card_message">Заморозить \nкарту с %1$s по %2$s?</string>
+    <string name="dialog_suspend_card_success">Ваша карта успешно \nзаморожена до %1$s</string>
+    <string name="dialog_suspend_card_not_allow">Ваша карта не поддерживает \nопцию заморозки</string>
+    <string name="dialog_suspend_card_not_found">Контракт не найден</string>
+    <string name="dialog_cancell">Отмена</string>
+    <string name="dialog_ok">Ок</string>
+    <string name="dialog_buy_card">Купить карту</string>
+    <string name="dialog_phone_not_found">Ваш номер телефона не найден в данном клубе</string>
+
+    <string name="my_xfit_contract_duration">%1$s \nДействует до %2$s года</string>
+    <string name="my_xfit_my_params">Мои параметры</string>
+    <string name="my_xfit_title">Мой X-Fit</string>
+    <string name="my_xfit_add_club">Добавить клуб</string>
+    <string name="my_xfit_suspend_contract">Заморозить карту</string>
+    <string name="my_xfit_not_found">С Вашим номером телефона нет связанных \nклубов, если Вы уже приобрели карту, нажмите\n «Добавить клуб»</string>
 </resources>

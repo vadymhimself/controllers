@@ -26,4 +26,6 @@
     <color name="clubCityBackground">#fffaf7fc</color>
     <color name="clubMenuSeparator">#73ececec</color>
 
+    <color name="dialogControlsContainer">#97e302</color>
+
 </resources>

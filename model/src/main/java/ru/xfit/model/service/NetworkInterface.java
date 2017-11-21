@@ -7,6 +7,7 @@ import ru.xfit.model.data.auth.AuthResponse;
 import ru.xfit.model.data.club.AddClassResponse;
 import ru.xfit.model.data.club.Club;
 import ru.xfit.model.data.club.ClubItem;
+import ru.xfit.model.data.club.LinkRequest;
 import ru.xfit.model.data.common.EmptyBody;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.data.contract.SuspendRequest;
@@ -60,9 +61,12 @@ public interface NetworkInterface {
     @DELETE("me/classes/{id}")
     Call<Void> deleteClass(@Path("id") String id);
 
-    @GET("/me/contracts")
+    @GET("me/contracts")
     Call<List<Contract>> getContracts();
 
-    @POST("/me/contracts/suspend")
+    @POST("me/contracts/suspend")
     Call<Contract> suspendContract(@Body SuspendRequest request);
+
+    @PUT("me/clubs")
+    Call<List<Contract>> linkToCLub(@Body LinkRequest request );
 }
