@@ -68,5 +68,5 @@ public interface NetworkInterface {
     Call<Contract> suspendContract(@Body SuspendRequest request);
 
     @PUT("me/clubs")
-    Call<Contract> linkToCLub(@Body LinkRequest request );
+    Call<List<Contract>> linkToCLub(@Body LinkRequest request );
 }

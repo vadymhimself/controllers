@@ -194,7 +194,7 @@ final class ApiImpl implements Api {
     }
 
     @Override
-    public Task<Contract> linkToClub(String clubId) {
+    public Task<List<Contract>> linkToClub(String clubId) {
         return TaskBuilder.from(networkInterface.linkToCLub(new LinkRequest(clubId)));
     }
 

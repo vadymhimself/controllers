@@ -21,7 +21,7 @@ import ru.xfit.screens.clubs.ClubsController;
  */
 
 public class MyXfitController extends DrawerController<LayoutMyxfitBinding> {
-    public ObservableField<Contract> contract;
+    public ObservableField<Contract> contract = new ObservableField<>();
     public final ObservableBoolean progress = new ObservableBoolean();
 
     public MyXfitController() {
@@ -32,9 +32,18 @@ public class MyXfitController extends DrawerController<LayoutMyxfitBinding> {
                 .execute(this::getMyClub);
     }
 
+    public void setContract(List<Contract> contractList) {
+        if (contractList != null && contractList.size() > 0) {
+            //TODO replace to my club
+            contract.set(contractList.get(0));
+        }
+    }
+
     private void getMyClub(List<Contract> contractList) {
-        if (contractList != null && contractList.size() > 0)
-            contract = new ObservableField<>(contractList.get(0));
+        if (contractList != null && contractList.size() > 0) {
+            //TODO replace to my club
+            contract.set(contractList.get(0));
+        }
     }
 
     @Override

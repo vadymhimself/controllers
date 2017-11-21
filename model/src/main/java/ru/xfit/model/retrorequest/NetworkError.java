@@ -17,6 +17,14 @@ public class NetworkError extends IOException {
         this.message = message;
     }
 
+    public int getCode() {
+        return code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
     @Override public String toString() {
         return "NetworkError{" +
                 "code=" + code +

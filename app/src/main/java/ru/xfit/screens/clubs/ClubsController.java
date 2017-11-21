@@ -21,13 +21,15 @@ import ru.xfit.misc.adapters.FilterableAdapter;
 import ru.xfit.misc.views.MessageDialog;
 import ru.xfit.model.data.club.Club;
 import ru.xfit.model.data.club.ClubItem;
+import ru.xfit.model.data.contract.Contract;
+import ru.xfit.model.retrorequest.NetworkError;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.DrawerController;
 import ru.xfit.screens.XFitController;
+import ru.xfit.screens.xfit.MyXfitController;
 
 /**
  * Created by TESLA on 06.11.2017.
- *
  */
 
 public class ClubsController extends DrawerController<LayoutClubsBinding> implements MessageDialog.DialogResultListener {
@@ -76,21 +78,31 @@ public class ClubsController extends DrawerController<LayoutClubsBinding> implem
     }
 
     public void linkToClub(String clubId) {
+        progress.set(true);
         Request.with(this, Api.class)
                 .create(api -> api.linkToClub(clubId))
                 .onError(e -> {
-                    showMessage(e.getMessage());
+                    if (e instanceof NetworkError) {
+                        showMessage(((NetworkError) e).getCode(), ((NetworkError) e).getMessage());
+                    }
                 })
                 .onFinally(() -> progress.set(false))
-                .execute();
+                .execute(result -> {
+                    //contracts
+                    if (getPrevious() instanceof  MyXfitController) {
+                        ((MyXfitController) getPrevious()).setContract(result);
+                        back();
+                    }
+
+                });
     }
 
-    private void showMessage(String message) {
+    private void showMessage(int code, String message) {
         MessageDialog messageDialog;
 
-        if (message.contains("404")) {
+        if (code == 404) {
             messageDialog = new MessageDialog.Builder()
-                    .setMessage(message)
+                    .setMessage(App.getContext().getString(R.string.dialog_phone_not_found))
                     .setNegativeText(R.string.dialog_cancell)
                     .setPositiveText(R.string.dialog_buy_card)
                     .build();
@@ -106,6 +118,7 @@ public class ClubsController extends DrawerController<LayoutClubsBinding> implem
     @Override
     public void onPositive(@NonNull String tag) {
         //buy card
+
     }
 
     @Override

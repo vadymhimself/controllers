@@ -300,6 +300,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="60dp"
                 android:background="@drawable/button_bg"
+                android:foreground="?attr/selectableItemBackground"
                 android:fontFamily="sans-serif"
                 android:text="@string/reg_registration"
                 android:textColor="@android:color/white"

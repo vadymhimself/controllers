@@ -64,6 +64,6 @@ public interface Api {
 
     Task<Contract> suspendContract(SuspendRequest request);
 
-    Task<Contract> linkToClub(String clubId);
+    Task<List<Contract>> linkToClub(String clubId);
 
 }
