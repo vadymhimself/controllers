@@ -84,14 +84,12 @@ public class CalendarRecyclerView extends RecyclerView implements CalendarView {
 
     @Override
     public void injectViewInteractor(ViewInteractor viewInteractor) {
-        if (this.viewInteractor == null) {
-            this.viewInteractor = viewInteractor;
-            if (viewInteractor != null) {
-                viewInteractor.onCalendarBindView(this);
-            }
-            setupCalendarAdapter();
-            setupCalendarScroll();
+        this.viewInteractor = viewInteractor;
+        if (viewInteractor != null) {
+            viewInteractor.onCalendarBindView(this);
         }
+        setupCalendarAdapter();
+        setupCalendarScroll();
     }
 
     @Override
@@ -119,6 +117,7 @@ public class CalendarRecyclerView extends RecyclerView implements CalendarView {
 
     private void setupCalendarScroll() {
         PagerSnapHelper snapHelper = new PagerSnapHelper();
+        this.setOnFlingListener(null);
         snapHelper.attachToRecyclerView(this);
         addOnChildAttachStateChangeListener(new OnChildAttachStateChangeListener() {
             @Override

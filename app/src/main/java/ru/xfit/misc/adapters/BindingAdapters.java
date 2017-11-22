@@ -551,12 +551,12 @@ public abstract class BindingAdapters {
             @Override
             public void onViewAttachedToWindow(View view) {
                 auCalendar.observeChangesOnCalendar().subscribe(changeSet -> {
-                    calendarViewInteractor.updateCalendar(calendar);
+//                    calendarViewInteractor.updateCalendar(calendar);
                     if (calendar.getFirstSelectedDay() != null)
                         dateChangeListener.onDateChange(calendar.getFirstSelectedDay());
 
-                    if (calendar.getFirstSelectedDay() != null && calendar.getLastSelectedDay() != null) {
-                        dateChangeListener.onDatePeriodChanged(calendar.getFirstSelectedDay(), calendar.getLastSelectedDay());
+                    if (auCalendar.getCalendar().getFirstSelectedDay() != null && auCalendar.getCalendar().getLastSelectedDay() != null) {
+                        dateChangeListener.onDatePeriodChanged(auCalendar.getCalendar().getFirstSelectedDay(), auCalendar.getCalendar().getLastSelectedDay());
                     }
                 });
             }

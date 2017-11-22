@@ -91,6 +91,14 @@ public class MyXfitController extends DrawerController<LayoutMyxfitBinding> {
         }
     }
 
+    public void reloadContract() {
+        progress.set(true);
+        Request.with(this, Api.class)
+                .create(Api::getContracts)
+                .onFinally(() -> progress.set(false))
+                .execute(this::setContractList);
+    }
+
     private void setClubInfo(String clubId) {
         progress.set(true);
         Request.with(this, Api.class)
@@ -120,10 +128,12 @@ public class MyXfitController extends DrawerController<LayoutMyxfitBinding> {
     }
 
     public void onMyClubClick(View view) {
-        show(new AboutClubController(contractClub.get(), true));
+        if (contractClub.get() != null)
+            show(new AboutClubController(contractClub.get(), true));
     }
 
     public void onSuspendCardClick(View view) {
-        show(new SuspendCardController(contractClub.get().id));
+        if (contractClub.get() != null)
+            show(new SuspendCardController(contractClub.get().id));
     }
 }
