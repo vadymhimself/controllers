@@ -213,6 +213,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="180dp"
             android:background="@drawable/button_bg"
+            android:foreground="?attr/selectableItemBackground"
             android:fontFamily="sans-serif"
             android:text="@string/sms_confirm_btn"
             android:textColor="@android:color/white"

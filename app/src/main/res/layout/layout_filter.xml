@@ -135,6 +135,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:background="@drawable/button_bg"
+            android:foreground="?attr/selectableItemBackground"
             android:fontFamily="sans-serif"
             android:text="@string/filter_accept"
             android:textColor="@android:color/white"
