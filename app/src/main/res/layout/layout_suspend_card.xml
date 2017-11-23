@@ -38,7 +38,8 @@
                 app:layout="@layout/c_calendar"
                 app:month_view="true"
                 app:multipleSelect="@{true}"
-                app:canSuspendDays="@{controller.canSuspendDays}"/>
+                app:canSuspendDays="@{controller.canSuspendDays}"
+                app:setContract="@{controller.getContract()}"/>
         </RelativeLayout>
 
         <TextView

@@ -33,6 +33,8 @@ public class CalendarRecyclerView extends RecyclerView implements CalendarView {
     private Context context;
     private CustomizableCalendarPresenter presenter;
     private AUCalendar calendar;
+    private DateTime startDate;
+    private DateTime endDate;
 
     private boolean isMonthMode;
 
@@ -72,6 +74,11 @@ public class CalendarRecyclerView extends RecyclerView implements CalendarView {
         this.calendar = AUCalendar.getInstance();
     }
 
+    public void setPreselectDates(DateTime startDate, DateTime endDate) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     @Override
     public void refreshData() {
         calendarViewAdapter.refreshData();
@@ -99,12 +106,12 @@ public class CalendarRecyclerView extends RecyclerView implements CalendarView {
     }
 
     private void setupCalendarAdapter() {
-        weekViewAdapter = new CalendarViewAdapter(context, AdapterType.TYPE_WEEK);
+        weekViewAdapter = new CalendarViewAdapter(context, AdapterType.TYPE_WEEK, startDate, endDate);
         weekViewAdapter.injectViewInteractor(viewInteractor);
         weekViewAdapter.setLayoutResId(monthResId);
         weekViewAdapter.setDayLayoutResId(monthCellResId);
 
-        calendarViewAdapter = new CalendarViewAdapter(context, AdapterType.TYPE_MONTH);
+        calendarViewAdapter = new CalendarViewAdapter(context, AdapterType.TYPE_MONTH, startDate, endDate);
         calendarViewAdapter.injectViewInteractor(viewInteractor);
         calendarViewAdapter.setLayoutResId(monthResId);
         calendarViewAdapter.setDayLayoutResId(monthCellResId);

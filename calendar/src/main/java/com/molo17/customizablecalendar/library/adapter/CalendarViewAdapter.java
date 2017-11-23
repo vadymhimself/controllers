@@ -32,11 +32,15 @@ public class CalendarViewAdapter extends RecyclerView.Adapter<CalendarViewHolder
     private int dayLayoutResId = -1;
     private AdapterType adapterType;
     private ViewInteractor viewInteractor;
+    private DateTime startDate;
+    private DateTime endDate;
 
-    public CalendarViewAdapter(Context context, AdapterType adapterType) {
+    public CalendarViewAdapter(Context context, AdapterType adapterType, DateTime startDate, DateTime endDate) {
         this.context = context;
         this.calendar = AUCalendar.getInstance();
         this.adapterType = adapterType;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     @Override
@@ -63,7 +67,7 @@ public class CalendarViewAdapter extends RecyclerView.Adapter<CalendarViewHolder
         if (viewInteractor != null) {
             viewInteractor.onMonthBindView(rootView);
         }
-        return new MonthViewHolder(rootView, layoutResId, dayLayoutResId, viewInteractor, adapterType);
+        return new MonthViewHolder(rootView, layoutResId, dayLayoutResId, viewInteractor, adapterType, startDate, endDate);
     }
 
     @Override

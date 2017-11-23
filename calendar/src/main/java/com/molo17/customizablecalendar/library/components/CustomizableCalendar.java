@@ -13,6 +13,8 @@ import com.molo17.customizablecalendar.library.presenter.implementations.Customi
 import com.molo17.customizablecalendar.library.presenter.interfeaces.CustomizableCalendarPresenter;
 import com.molo17.customizablecalendar.library.view.CustomizableCalendarView;
 
+import org.joda.time.DateTime;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -74,6 +76,10 @@ public class CustomizableCalendar extends LinearLayout implements CustomizableCa
 
     public CustomizableCalendarPresenter getPresenter() {
         return presenter;
+    }
+
+    public void setPreselectDates(DateTime startDate, DateTime endDate) {
+        calendarRecyclerView.setPreselectDates(startDate, endDate);
     }
 
     @Override

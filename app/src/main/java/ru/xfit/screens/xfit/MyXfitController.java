@@ -119,7 +119,7 @@ public class MyXfitController extends DrawerController<LayoutMyxfitBinding> {
     }
 
     public void onSuspendCardClick(View view) {
-        if (contractClub.get() != null)
-            show(new SuspendCardController(contractClub.get().id));
+        if (contract.get() != null)
+            show(new SuspendCardController(contract.get()));
     }
 }

@@ -10,6 +10,7 @@ import android.view.View;
 import com.controllers.Request;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class SuspendCardController extends XFitController<LayoutSuspendCardBindi
     public final ObservableBoolean progress = new ObservableBoolean();
     private final String clubId;
     private ObservableField<Contract> clubContract = new ObservableField<>();
-    private ObservableField<DateTime> firstDaySelection = new ObservableField<>();
+    public ObservableField<DateTime> firstDaySelection = new ObservableField<>();
     private ObservableField<DateTime> lastDaySelection = new ObservableField<>();
     public ObservableInt canSuspendDays = new ObservableInt();
 
@@ -50,6 +51,20 @@ public class SuspendCardController extends XFitController<LayoutSuspendCardBindi
     public SuspendCardController(Contract activeContract) {
         this.clubId = activeContract.clubId;
         this.clubContract.set(activeContract);
+
+        if (activeContract.suspension.endDate != null && activeContract.suspension.startDate != null) {
+            DateTime endDate = DateTime.parse(activeContract.suspension.endDate,
+                    DateTimeFormat.forPattern("yyyy-M-d"));
+            DateTime startDate = DateTime.parse(activeContract.suspension.startDate,
+                    DateTimeFormat.forPattern("yyyy-M-d"));
+
+            firstDaySelection.set(startDate);
+            lastDaySelection.set(endDate);
+        }
+    }
+
+    public Contract getContract() {
+        return clubContract.get();
     }
 
     private void searchCurrentContract(List<Contract> contractList) {
