@@ -2,6 +2,8 @@ package ru.xfit.model.data.contract;
 
 import java.io.Serializable;
 
+import ru.xfit.model.data.club.ClubItem;
+
 /**
  * Created by TESLA on 13.11.2017.
  */
@@ -9,6 +11,9 @@ import java.io.Serializable;
 public class Contract implements Serializable {
     public String id;
     public String clubId;
+
+    public ClubItem club;
+
     public String number;
     public String description;
     public String duration;

@@ -23,22 +23,6 @@
             android:layout_height="?android:attr/actionBarSize"
             />
 
-        <RelativeLayout
-            android:id="@+id/contract_status"
-            android:layout_below="@+id/spacer"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            app:setColor="@{controller.contractColor}">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textSize="14sp"
-                android:textColor="#ffffff"
-                android:text="@{controller.contractStatus}"
-                />
-        </RelativeLayout>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -63,15 +47,42 @@
             android:textColor="#4b0887"
             android:layout_below="@+id/spacer"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="40dp"
+            android:text="@{controller.contract.number}"
+            />
+
+        <TextView
+            android:id="@+id/contract_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contract_number"
+            android:textSize="17sp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="sans-serif"
+            android:textStyle="normal"
+            android:textColor="@color/calendarCommonDay"
+            android:layout_centerHorizontal="true"
+            android:textAlignment="center"
+            android:text="@{controller.contract.description}"
             android:visibility="@{controller.contract != null}"
+            />
+
+        <TextView
+            android:id="@+id/contract_status"
+            android:layout_below="@id/contract_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="7dp"
+            android:textSize="14sp"
+            android:text="@{controller.contractStatus}"
             />
 
         <TextView
             android:id="@+id/contract_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/contract_number"
+            android:layout_below="@+id/contract_status"
             android:textSize="17sp"
             android:layout_marginTop="7dp"
             android:fontFamily="sans-serif"
@@ -79,7 +90,7 @@
             android:textColor="@color/calendarCommonDay"
             android:layout_centerHorizontal="true"
             android:textAlignment="center"
-            android:text="@{controller.contractDescription}"
+            android:text="@{controller.contractDuration}"
             android:visibility="@{controller.contract != null}"
             />
 

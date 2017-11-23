@@ -47,6 +47,11 @@ public class SuspendCardController extends XFitController<LayoutSuspendCardBindi
                 .execute(this::searchCurrentContract);
     }
 
+    public SuspendCardController(Contract activeContract) {
+        this.clubId = activeContract.clubId;
+        this.clubContract.set(activeContract);
+    }
+
     private void searchCurrentContract(List<Contract> contractList) {
         for (Contract contract : contractList) {
             if (contract.clubId.equals(this.clubId)) {

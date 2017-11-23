@@ -78,16 +78,16 @@
     <string name="dialog_buy_card">Купить карту</string>
     <string name="dialog_phone_not_found">Ваш номер телефона не найден в данном клубе</string>
 
-    <string name="my_xfit_contract_duration">%1$s \nДействует до %2$s года</string>
+    <string name="my_xfit_contract_duration">Действует до %1$s года</string>
     <string name="my_xfit_my_params">Мои параметры</string>
     <string name="my_xfit_title">Мой X-Fit</string>
     <string name="my_xfit_add_club">Добавить клуб</string>
     <string name="my_xfit_suspend_contract">Заморозить карту</string>
     <string name="my_xfit_not_found">С Вашим номером телефона нет связанных \nклубов, если Вы уже приобрели карту, нажмите\n «Добавить клуб»</string>
 
-    <string name="contract_opened">Ваш договор Открыт</string>
-    <string name="contract_closed">Ваш договор Закрыт</string>
-    <string name="contract_not_opened">Ваш договор Не открыт</string>
-    <string name="contract_blocked">Ваш договор Заблокирован</string>
-    <string name="contract_suspended">Ваш договор Заморожен</string>
+    <string name="contract_opened">Открыта</string>
+    <string name="contract_closed">Закрыта</string>
+    <string name="contract_not_opened">Не открыта</string>
+    <string name="contract_blocked">Заблокирована</string>
+    <string name="contract_suspended">Заморожена</string>
 </resources>

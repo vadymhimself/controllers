@@ -33,7 +33,7 @@ public class MyXfitController extends DrawerController<LayoutMyxfitBinding> {
     public final ObservableBoolean progress = new ObservableBoolean();
 
     public ObservableField<String> contractStatus = new ObservableField<>();
-    public ObservableField<String> contractDescription = new ObservableField<>();
+    public ObservableField<String> contractDuration = new ObservableField<>();
     public ObservableField<ClubItem> contractClub = new ObservableField<>();
     public ObservableInt contractColor = new ObservableInt();
 
@@ -65,11 +65,11 @@ public class MyXfitController extends DrawerController<LayoutMyxfitBinding> {
                     contractStatus.set(App.getContext().getResources().getString(R.string.contract_closed));
                     contractColor.set(App.getContext().getResources().getColor(R.color.contractClosed));
                     break;
-                case 3:
+                case 0:
                     contractStatus.set(App.getContext().getResources().getString(R.string.contract_not_opened));
                     contractColor.set(App.getContext().getResources().getColor(R.color.contractNotOpened));
                     break;
-                case 4:
+                case 3:
                     contractStatus.set(App.getContext().getResources().getString(R.string.contract_blocked));
                     contractColor.set(App.getContext().getResources().getColor(R.color.contractBlocked));
                     break;
@@ -83,11 +83,10 @@ public class MyXfitController extends DrawerController<LayoutMyxfitBinding> {
 
             DateTime endDate = DateTime.parse(contract.get().endDate,
                     DateTimeFormat.forPattern("yyyy-M-d"));
-            contractDescription.set(App.getContext().getResources()
-                    .getString(R.string.my_xfit_contract_duration, contract.get().description, endDate.toString("d MMMM yyyy")));
+            contractDuration.set(App.getContext().getResources()
+                    .getString(R.string.my_xfit_contract_duration, endDate.toString("d MMMM yyyy")));
 
-            //TODO get club by id ?
-            setClubInfo(contract.get().clubId);
+            contractClub.set(contract.get().club);
         }
     }
 
@@ -99,19 +98,6 @@ public class MyXfitController extends DrawerController<LayoutMyxfitBinding> {
                 .execute(this::setContractList);
     }
 
-    private void setClubInfo(String clubId) {
-        progress.set(true);
-        Request.with(this, Api.class)
-                .create(Api::getClubs)
-                .onFinally(() -> progress.set(false))
-                .execute(response -> {
-                    for (int i = 0; i < response.size(); i++) {
-                        if (response.get(i).id.equals(clubId)) {
-                            contractClub.set(response.get(i));
-                        }
-                    }
-                });
-    }
 
     @Override
     public int getLayoutId() {
