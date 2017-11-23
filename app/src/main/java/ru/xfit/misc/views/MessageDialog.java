@@ -122,7 +122,7 @@ public class MessageDialog extends DialogFragment {
 
         if (TextUtils.isEmpty(positiveRes) && TextUtils.isEmpty(negativeRes)) {
             mDialogOk.setVisibility(View.VISIBLE);
-            mDialogOk.setOnClickListener(view1 -> dialog.cancel());
+            mDialogOk.setOnClickListener(view1 -> onResult(false));
         }
 
 

@@ -8,26 +8,20 @@ import com.controllers.Request;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import ru.xfit.BR;
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutClubsBinding;
 import ru.xfit.domain.App;
 import ru.xfit.misc.adapters.BaseAdapter;
 import ru.xfit.misc.adapters.BaseVM;
-import ru.xfit.misc.adapters.FilterableAdapter;
 import ru.xfit.misc.views.MessageDialog;
 import ru.xfit.model.data.ErrorCodes;
 import ru.xfit.model.data.ErrorResponse;
-import ru.xfit.model.data.club.Club;
 import ru.xfit.model.data.club.ClubItem;
-import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.retrorequest.NetworkError;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.DrawerController;
-import ru.xfit.screens.XFitController;
 import ru.xfit.screens.xfit.MyXfitController;
 
 /**
@@ -94,7 +88,7 @@ public class ClubsController extends DrawerController<LayoutClubsBinding> implem
                 .execute(result -> {
                     //contracts
                     if (getPrevious() instanceof MyXfitController) {
-                        ((MyXfitController) getPrevious()).setContract(result);
+                        ((MyXfitController) getPrevious()).setContractList(result);
                         back();
                     }
 

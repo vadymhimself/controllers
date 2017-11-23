@@ -28,4 +28,10 @@
 
     <color name="dialogControlsContainer">#97e302</color>
 
+    <color name="contractOpened">#ff936bb7</color>
+    <color name="contractClosed">#ff87878a</color>
+    <color name="contractNotOpened">#ffcdcbce</color>
+    <color name="contractBlocked">#fffe2146</color>
+    <color name="contractSuspended">#ff0fcddb</color>
+
 </resources>

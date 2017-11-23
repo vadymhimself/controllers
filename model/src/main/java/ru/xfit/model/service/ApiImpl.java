@@ -150,7 +150,17 @@ final class ApiImpl implements Api {
 
     @Override
     public Task<List<ClubItem>> getClubs() {
-        return TaskBuilder.from(networkInterface.getClubs());
+        return new Task<List<ClubItem>>() {
+            @Override
+            public List<ClubItem> exec() throws Throwable {
+                return executeSync(networkInterface.getClubs());
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        };
     }
 
     @Override

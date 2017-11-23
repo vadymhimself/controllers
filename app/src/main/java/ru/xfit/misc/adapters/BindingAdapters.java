@@ -47,6 +47,8 @@ import com.molo17.customizablecalendar.library.model.Calendar;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+
 import ru.xfit.R;
 import ru.xfit.domain.App;
 import ru.xfit.misc.CircleTransform;
@@ -55,9 +57,11 @@ import ru.xfit.misc.OnViewReadyListener;
 import ru.xfit.misc.utils.validation.*;
 import ru.xfit.misc.views.*;
 import ru.xfit.model.data.common.Image;
+import ru.xfit.model.data.contract.Contract;
 import ru.xfit.screens.DateChangeListener;
 import ru.xfit.screens.XFitController;
 import ru.xfit.screens.clubs.AboutClubController;
+import ru.xfit.screens.clubs.SuspendCardController;
 import ru.xfit.screens.filter.FilterController;
 import ru.xfit.screens.filter.FilterVM;
 import ru.xfit.screens.filter.HeaderFilterVM;
@@ -551,12 +555,12 @@ public abstract class BindingAdapters {
             @Override
             public void onViewAttachedToWindow(View view) {
                 auCalendar.observeChangesOnCalendar().subscribe(changeSet -> {
-                    calendarViewInteractor.updateCalendar(calendar);
+//                    calendarViewInteractor.updateCalendar(calendar);
                     if (calendar.getFirstSelectedDay() != null)
                         dateChangeListener.onDateChange(calendar.getFirstSelectedDay());
 
-                    if (calendar.getFirstSelectedDay() != null && calendar.getLastSelectedDay() != null) {
-                        dateChangeListener.onDatePeriodChanged(calendar.getFirstSelectedDay(), calendar.getLastSelectedDay());
+                    if (auCalendar.getCalendar().getFirstSelectedDay() != null && auCalendar.getCalendar().getLastSelectedDay() != null) {
+                        dateChangeListener.onDatePeriodChanged(auCalendar.getCalendar().getFirstSelectedDay(), auCalendar.getCalendar().getLastSelectedDay());
                     }
                 });
             }
@@ -568,6 +572,15 @@ public abstract class BindingAdapters {
         });
 
         customizableCalendar.injectViewInteractor(calendarViewInteractor);
+    }
+
+    @BindingAdapter("setContract")
+    public static void bindContract(CustomizableCalendar customizableCalendar, Contract contract) {
+        DateTime endDate = DateTime.parse(contract.suspension.endDate,
+                DateTimeFormat.forPattern("yyyy-M-d"));
+        DateTime startDate = DateTime.parse(contract.suspension.startDate,
+                DateTimeFormat.forPattern("yyyy-M-d"));
+        customizableCalendar.setPreselectDates(startDate, endDate);
     }
 
     @BindingAdapter("setColor")

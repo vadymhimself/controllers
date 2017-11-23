@@ -16,10 +16,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <View
+            android:id="@+id/spacer"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            />
+
         <RelativeLayout
             android:id="@+id/calendar_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/spacer"
             android:background="@android:color/white"
             android:elevation="4dp">
 
@@ -31,7 +38,8 @@
                 app:layout="@layout/c_calendar"
                 app:month_view="true"
                 app:multipleSelect="@{true}"
-                app:canSuspendDays="@{controller.canSuspendDays}"/>
+                app:canSuspendDays="@{controller.canSuspendDays}"
+                app:setContract="@{controller.getContract()}"/>
         </RelativeLayout>
 
         <TextView
@@ -57,6 +65,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="28dp"
             android:background="@drawable/button_bg"
+            android:foreground="?attr/selectableItemBackground"
             android:fontFamily="sans-serif"
             android:text="@string/suspend_card_btn"
             android:textColor="@android:color/white"

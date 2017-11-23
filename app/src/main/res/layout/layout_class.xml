@@ -134,6 +134,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/button_bg"
+                android:foreground="?attr/selectableItemBackground"
                 android:fontFamily="sans-serif"
                 android:text="@string/classes_subscribe"
                 android:textColor="@android:color/white"

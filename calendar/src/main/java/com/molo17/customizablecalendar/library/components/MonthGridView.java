@@ -37,6 +37,8 @@ public class MonthGridView extends LinearLayout implements BaseView {
     @LayoutRes
     int dayLayoutResId = -1;
     private ViewInteractor viewInteractor;
+    private DateTime startDate;
+    private DateTime endDate;
 
     public MonthGridView(Context context) {
         this(context, null);
@@ -62,6 +64,11 @@ public class MonthGridView extends LinearLayout implements BaseView {
             typedArray.recycle();
         }
 
+    }
+
+    public void setPreselectDates(DateTime startDate, DateTime endDate) {
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     @Override
@@ -98,7 +105,7 @@ public class MonthGridView extends LinearLayout implements BaseView {
         if (currentMonth == null) {
             currentMonth = AUCalendar.getInstance().getCurrentMonth();
         }
-        calendarAdapter = new MonthAdapter(getContext(), currentMonth, adapterType);
+        calendarAdapter = new MonthAdapter(getContext(), currentMonth, adapterType, startDate, endDate);
 
         calendarAdapter.setLayoutResId(dayLayoutResId);
 

@@ -20,6 +20,7 @@ import com.molo17.customizablecalendar.library.utils.DateUtils;
 import com.molo17.customizablecalendar.library.view.MonthView;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,7 +53,7 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
 
     private AdapterType adapterType;
 
-    public MonthAdapter(Context context, DateTime currentMonth, AdapterType adapterType) {
+    public MonthAdapter(Context context, DateTime currentMonth, AdapterType adapterType, DateTime startDate, DateTime endDate) {
         this.context = context;
         this.subscriptions = new CompositeDisposable();
         this.calendar = AUCalendar.getInstance();
@@ -64,6 +65,9 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
         this.adapterType = adapterType;
         initFromCalendar();
         subscribe();
+
+        firstSelectedDay = startDate;
+        lastSelectedDay = endDate;
     }
 
     private void initFromCalendar() {
@@ -277,6 +281,16 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
         notifyDataSetChanged();
     }
 
+    public void updateFirstSelectionDay(DateTime startSelection) {
+        firstSelectedDay = startSelection;
+        notifyFirstSelectionUpdated(startSelection);
+    }
+
+    public void updateLastSelectionDay(DateTime endSelection) {
+        lastSelectedDay = endSelection;
+        notifyLastSelectionUpdated(endSelection);
+    }
+
     private void notifyFirstSelectionUpdated(DateTime startSelected) {
         this.firstSelectedDay = startSelected;
         this.calendar.setFirstSelectedDay(startSelected);
@@ -292,7 +306,7 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
         final int empties;
         final int year = currentMonth.getYear();
         final int month = currentMonth.getMonthOfYear();
-        final int firstDayOfMonth = currentMonth.getDayOfWeek() + 1;
+        final int firstDayOfMonth = currentMonth.getDayOfWeek() - 1;
         final int lastDayOfMonth = DateUtils.getDaysInMonth(month - 1, year);
 
         final int firstDayOfWeek = 0;

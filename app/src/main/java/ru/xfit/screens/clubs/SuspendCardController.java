@@ -10,6 +10,7 @@ import android.view.View;
 import com.controllers.Request;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ import ru.xfit.model.data.contract.SuspendRequest;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.DateChangeListener;
 import ru.xfit.screens.XFitController;
+import ru.xfit.screens.xfit.MyXfitController;
 
 /**
  * Created by TESLA on 17.11.2017.
@@ -33,7 +35,7 @@ public class SuspendCardController extends XFitController<LayoutSuspendCardBindi
     public final ObservableBoolean progress = new ObservableBoolean();
     private final String clubId;
     private ObservableField<Contract> clubContract = new ObservableField<>();
-    private ObservableField<DateTime> firstDaySelection = new ObservableField<>();
+    public ObservableField<DateTime> firstDaySelection = new ObservableField<>();
     private ObservableField<DateTime> lastDaySelection = new ObservableField<>();
     public ObservableInt canSuspendDays = new ObservableInt();
 
@@ -43,8 +45,26 @@ public class SuspendCardController extends XFitController<LayoutSuspendCardBindi
         progress.set(true);
         Request.with(this, Api.class)
                 .create(Api::getContracts)
-                .onFinally(() -> progress.set(false))
                 .execute(this::searchCurrentContract);
+    }
+
+    public SuspendCardController(Contract activeContract) {
+        this.clubId = activeContract.clubId;
+        this.clubContract.set(activeContract);
+
+        if (activeContract.suspension.endDate != null && activeContract.suspension.startDate != null) {
+            DateTime endDate = DateTime.parse(activeContract.suspension.endDate,
+                    DateTimeFormat.forPattern("yyyy-M-d"));
+            DateTime startDate = DateTime.parse(activeContract.suspension.startDate,
+                    DateTimeFormat.forPattern("yyyy-M-d"));
+
+            firstDaySelection.set(startDate);
+            lastDaySelection.set(endDate);
+        }
+    }
+
+    public Contract getContract() {
+        return clubContract.get();
     }
 
     private void searchCurrentContract(List<Contract> contractList) {
@@ -54,6 +74,7 @@ public class SuspendCardController extends XFitController<LayoutSuspendCardBindi
                 canSuspendDays.set(contract.canSuspendDays);
             }
         }
+        progress.set(false);
     }
 
     public void suspend(View view) {
@@ -118,14 +139,18 @@ public class SuspendCardController extends XFitController<LayoutSuspendCardBindi
         request.id = clubContract.get().id;
         request.club = clubContract.get().clubId;
         //2017-17-11
-        request.beginDate = firstDaySelection.get().toString("YYYY-d-M");
-        request.endDate = lastDaySelection.get().toString("YYYY-d-M");
+        request.beginDate = firstDaySelection.get().toString("YYYY-M-dd");
+        request.endDate = lastDaySelection.get().toString("YYYY-M-dd");
 
         Request.with(this, Api.class)
                 .create(api -> api.suspendContract(request))
                 .onFinally(() -> progress.set(false))
                 .onError(error -> {
-
+                    MessageDialog messageDialog = new MessageDialog.Builder()
+                            .setMessage(error.getMessage())
+                            .build();
+                    messageDialog.setController(SuspendCardController.this);
+                    messageDialog.show(getActivity().getSupportFragmentManager(), "MY_TAG");
                 })
                 .execute(result -> {
                     MessageDialog messageDialog = new MessageDialog.Builder()
@@ -138,6 +163,14 @@ public class SuspendCardController extends XFitController<LayoutSuspendCardBindi
 
     @Override
     public void onNegative(@NonNull String tag) {
-
+//        if (getPrevious() == null)
+//            return;
+//
+//        if (getPrevious() instanceof MyXfitController) {
+//            ((MyXfitController)getPrevious()).reloadContract();
+//            back();
+//        } else {
+//            back();
+//        }
     }
 }
