@@ -39,15 +39,6 @@ public class SuspendCardController extends XFitController<LayoutSuspendCardBindi
     private ObservableField<DateTime> lastDaySelection = new ObservableField<>();
     public ObservableInt canSuspendDays = new ObservableInt();
 
-    public SuspendCardController(String clubId) {
-        this.clubId = clubId;
-
-        progress.set(true);
-        Request.with(this, Api.class)
-                .create(Api::getContracts)
-                .execute(this::searchCurrentContract);
-    }
-
     public SuspendCardController(Contract activeContract) {
         this.clubId = activeContract.clubId;
         this.clubContract.set(activeContract);
@@ -65,16 +56,6 @@ public class SuspendCardController extends XFitController<LayoutSuspendCardBindi
 
     public Contract getContract() {
         return clubContract.get();
-    }
-
-    private void searchCurrentContract(List<Contract> contractList) {
-        for (Contract contract : contractList) {
-            if (contract.clubId.equals(this.clubId)) {
-                clubContract.set(contract);
-                canSuspendDays.set(contract.canSuspendDays);
-            }
-        }
-        progress.set(false);
     }
 
     public void suspend(View view) {

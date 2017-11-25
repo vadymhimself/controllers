@@ -179,8 +179,8 @@ public class MainActivity extends XFitActivity implements
         PreferencesManager preferencesManager = new PreferencesManager(App.getContext());
         preferencesManager.putValue(PreferencesManager.KEY_IS_USER_ALREADY_LOGIN, false);
 
+        this.finish();
         StartActivity.start(this);
-        finishAffinity();
     }
 
     public void setTitle(String title) {

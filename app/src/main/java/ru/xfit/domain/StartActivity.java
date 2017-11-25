@@ -18,7 +18,7 @@ import ru.xfit.screens.auth.AuthController;
 
 public class StartActivity extends XFitActivity {
     public static void start(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
+        Intent intent = new Intent(context, StartActivity.class);
         context.startActivity(intent);
     }
 

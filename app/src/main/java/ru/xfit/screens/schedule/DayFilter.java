@@ -25,6 +25,10 @@ public class DayFilter extends PredicateFilter<ClassVM> implements Serializable 
         this.day = currentDay;
     }
 
+    public DateTime getDay() {
+        return day;
+    }
+
     @Override
     protected boolean call(ClassVM it) {
         return CalendarUtils.sameDay(day, it.clazz.datetime);

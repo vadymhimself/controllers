@@ -3,10 +3,13 @@ package ru.xfit.screens.schedule;
 import android.databinding.Bindable;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import org.joda.time.DateTime;
+
+import ru.xfit.BR;
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutClubClassesBinding;
 import ru.xfit.misc.adapters.FilterableAdapter;
 import ru.xfit.misc.events.OptionsItemSelectedEvent;
+import ru.xfit.misc.utils.ListUtils;
 import ru.xfit.model.data.schedule.Activity;
 import ru.xfit.model.data.schedule.Clazz;
 import ru.xfit.model.data.schedule.Schedule;
@@ -46,7 +49,16 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
 
     public ClubClassesController(Schedule schedule) {
         this.schedule = schedule;
+        init();
+    }
 
+    public ClubClassesController(Schedule schedule, DateTime dateTime) {
+        this.schedule = schedule;
+        dayFilter.setDay(dateTime);
+        init();
+    }
+
+    private void init() {
         adapter.addFilter(dayFilter);
         // class type and trainer filters
         adapter.addFilter(list -> filter(list, it -> selectedActivities.contains(it.clazz.activity)));
@@ -88,6 +100,8 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
         this.selectedTrainers = trainers;
         this.selectedActivities = activities;
         adapter.addAll(toAdd);
+
+//        notifyPropertyChanged(BR.adapter);
     }
 
     @Override

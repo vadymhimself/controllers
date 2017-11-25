@@ -2,6 +2,7 @@ package ru.xfit.screens.schedule;
 
 import android.databinding.Bindable;
 import android.databinding.ObservableBoolean;
+import android.util.Log;
 import android.view.View;
 import com.controllers.Request;
 import org.joda.time.DateTime;
@@ -67,7 +68,7 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
                 .create(api -> api.getClassesForClub("181"))
                 .onFinally(() -> progress.set(false))
                 .execute(schedule -> {
-                    MyScheduleController.this.show(new ClubClassesController(schedule));
+                    MyScheduleController.this.show(new ClubClassesController(schedule, dayFilter.getDay()));
                 });
     }
 
@@ -98,5 +99,7 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
     }
 
     @Override
-    public void onDatePeriodChanged(DateTime firstSelection, DateTime lastSelection) {}
+    public void onDatePeriodChanged(DateTime firstSelection, DateTime lastSelection) {
+        Log.e(">>>", "period " + firstSelection.toString());
+    }
 }
