@@ -122,10 +122,14 @@ public abstract class BindingAdapters {
                 if (item.getItemId() == R.id.action_search) {
                     android.support.v7.widget.SearchView searchView = (android.support.v7.widget.SearchView) item.getActionView();
                     searchView.setOnQueryTextListener(textListener);
-                    searchView.setOnCloseListener(() -> {
-                        searchView.setQuery("", true);
-                        onCancelSearchListener.onCancel();
-                        return false;
+
+                    ImageView closeButton = (ImageView)searchView.findViewById(R.id.search_close_btn);
+                    closeButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            searchView.setQuery("", true);
+                            onCancelSearchListener.onCancel();
+                        }
                     });
 //                    item.setVisible(false);
                 }

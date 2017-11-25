@@ -2,6 +2,7 @@ package ru.xfit.misc.adapters;
 
 import android.support.annotation.NonNull;
 import ru.xfit.misc.utils.ListUtils;
+import ru.xfit.screens.clubs.TrainerFilter;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -20,6 +21,15 @@ public class FilterableAdapter<VM extends BaseVM> extends BaseAdapter<VM> {
     public void addFilter(Filter<VM> filter) {
         filters.add(filter);
         refresh();
+    }
+
+    public void replaceFilter(Filter<VM> oldFilter, Filter<VM> newFilter) {
+        if (filters.contains(oldFilter)) {
+            int oldIndex = filters.indexOf(oldFilter);
+            filters.remove(oldIndex);
+            filters.add(oldIndex, newFilter);
+            refresh();
+        }
     }
 
     public void clearFilters() {
