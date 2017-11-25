@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import ru.xfit.R;
@@ -52,5 +53,10 @@ public class AboutTrainerController extends BlankToolbarController<LayoutAboutTr
     @Override
     public void onNavigationClick() {
         back();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        return false;
     }
 }

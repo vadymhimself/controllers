@@ -5,6 +5,7 @@ import android.databinding.ObservableBoolean;
 import android.net.Uri;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.controllers.Request;
@@ -119,5 +120,10 @@ public class AboutClubController extends BlankToolbarController<LayoutAboutClubB
     @Override
     public void onNavigationClick() {
         back();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        return false;
     }
 }

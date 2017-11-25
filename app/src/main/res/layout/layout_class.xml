@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
 
         <variable
@@ -7,42 +8,79 @@
             type="ru.xfit.screens.schedule.ClassController" />
 
     </data>
-    <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:onViewReadyListener='@{controller}'>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/image"
+        <ru.xfit.misc.views.MyAppBarLayout
+            android:id="@+id/my_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/stock_photo_yoga"/>
+                app:collapsedTitleTextAppearance="@style/CollapsingToolbarLayoutCollapsedTextStyle"
+                app:contentScrim="@color/colorPrimary"
+                app:expandedTitleGravity="left|top"
+                app:expandedTitleMarginTop="16dp"
+                app:expandedTitleMarginStart="76dp"
+                app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextStyleTop"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:statusBarScrim="@color/transparent">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/stock_photo_yoga" />
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:title="@{controller.title}"
+                    app:layout_collapseMode="pin"
+                    app:navigationClickListener="@{controller}"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:showBackButton="@{controller.previous != null}"
+                    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </ru.xfit.misc.views.MyAppBarLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/main_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/button_layer"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <RelativeLayout
-                android:id="@+id/content"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/image">
+                android:layout_height="match_parent">
 
                 <RelativeLayout
                     android:id="@+id/room_rl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_location"
-                        android:layout_marginLeft="12dp"/>
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/ic_location" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{controller.clazz.room.title}"
-                        android:layout_marginLeft="45dp"/>
+                        android:layout_marginLeft="45dp"
+                        android:text="@{controller.clazz.room.title}" />
 
                 </RelativeLayout>
 
@@ -52,17 +90,18 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/room_rl"
                     android:layout_marginTop="20dp">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_group"
-                        android:layout_marginLeft="10dp"/>
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/ic_group" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{controller.clazz.group.title}"
-                        android:layout_marginLeft="45dp"/>
+                        android:layout_marginLeft="45dp"
+                        android:text="@{controller.clazz.group.title}" />
 
                 </RelativeLayout>
 
@@ -72,17 +111,18 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/type_rl"
                     android:layout_marginTop="20dp">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_clock"
-                        android:layout_marginLeft="10dp"/>
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/ic_clock" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{controller.clazz.getLength()}"
-                        android:layout_marginLeft="45dp"/>
+                        android:layout_marginLeft="45dp"
+                        android:text="@{controller.clazz.getLength()}" />
 
                 </RelativeLayout>
 
@@ -92,16 +132,17 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/lengh_rl"
                     android:layout_marginTop="20dp">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_schedule"
-                        android:layout_marginLeft="10dp"/>
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/ic_schedule" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="45dp"/>
+                        android:layout_marginLeft="45dp" />
 
                 </RelativeLayout>
 
@@ -111,38 +152,39 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/schedule_rl"
                     android:layout_marginTop="20dp">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_information"
-                        android:layout_marginLeft="10dp"/>
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/ic_information" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{controller.clazz.activity.description}"
-                        android:layout_marginLeft="45dp"/>
+                        android:layout_marginLeft="45dp"
+                        android:text="@{controller.clazz.activity.description}" />
 
                 </RelativeLayout>
 
             </RelativeLayout>
+        </android.support.v4.widget.NestedScrollView>
 
-            <Button
-                android:id="@+id/subscribe_btn"
-                android:layout_width="328dp"
-                android:layout_height="48dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/button_bg"
-                android:foreground="?attr/selectableItemBackground"
-                android:fontFamily="sans-serif"
-                android:text="@string/classes_subscribe"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:layout_below="@+id/content"
-                android:onClick='@{controller.subscribeClass}'
-                android:layout_marginBottom="20dp" />
+        <Button
+            android:id="@+id/subscribe_btn"
+            android:layout_width="328dp"
+            android:layout_height="48dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/button_bg"
+            android:fontFamily="sans-serif"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick='@{controller.subscribeClass}'
+            android:text="@string/classes_subscribe"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
 
-        </RelativeLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </android.support.design.widget.CoordinatorLayout>
 </layout>
