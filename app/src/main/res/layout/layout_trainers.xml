@@ -15,15 +15,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <View
-            android:id="@+id/spacer"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize" />
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:title="@{controller.title}"
+            app:menu="@{R.menu.menu_search}"
+            app:navigationClickListener="@{controller}"
+            app:searchListener="@{controller}"
+            app:onCancelListener="@{controller}"
+            app:showBackButton="@{controller.previous != null}" />
 
         <ru.xfit.misc.views.HackyRecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/spacer"
+            android:layout_below="@+id/toolbar"
             android:visibility="@{!controller.adapter.empty}"
             app:adapter="@{controller.adapter}"
             app:layoutManager="@{LayoutManagers.LINEAR_VERTICAL}" />

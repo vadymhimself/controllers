@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
+
+import ru.xfit.BuildConfig;
 import ru.xfit.R;
 import ru.xfit.model.data.storage.preferences.PreferencesManager;
 import ru.xfit.screens.auth.AuthController;
@@ -31,11 +34,18 @@ public class StartActivity extends XFitActivity {
 
         PreferencesManager preferencesManager = new PreferencesManager(this);
 
+        TextView buildVersion = (TextView) findViewById(R.id.build_ver);
+        buildVersion.setText(getVersionName());
+
         if (preferencesManager.getBoolean(PreferencesManager.KEY_IS_USER_ALREADY_LOGIN)) {
             MainActivity.start(this);
             finish();
         } else {
             show(new AuthController(), 0, 0);
         }
+    }
+
+    public String getVersionName() {
+        return "build: " + BuildConfig.VERSION_NAME;
     }
 }

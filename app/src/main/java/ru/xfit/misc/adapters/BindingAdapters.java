@@ -18,9 +18,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.*;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
@@ -34,6 +32,8 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.*;
+import android.widget.SearchView;
+
 import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -105,6 +105,31 @@ public abstract class BindingAdapters {
     public static void bindMenu(Toolbar toolbar, Toolbar.OnMenuItemClickListener listener) {
         if (toolbar != null && listener != null) {
             toolbar.setOnMenuItemClickListener(listener);
+        }
+    }
+
+    @BindingAdapter(value = {"menu", "itemClickListener", "searchListener", "onCancelListener"}, requireAll = false)
+    public static void bindMenu(Toolbar toolbar, @MenuRes Integer menuRes, View.OnClickListener listener, android.support.v7.widget.SearchView.OnQueryTextListener textListener, OnCancelSearchListener onCancelSearchListener) {
+        if (menuRes != null && menuRes != 0) {
+            toolbar.inflateMenu(menuRes);
+            Menu menu = toolbar.getMenu();
+            for (int i = 0; i < menu.size(); i++) {
+                MenuItem item = menu.getItem(i);
+                View itemChooser = item.getActionView();
+                if (itemChooser != null) {
+                    itemChooser.setOnClickListener(listener);
+                }
+                if (item.getItemId() == R.id.action_search) {
+                    android.support.v7.widget.SearchView searchView = (android.support.v7.widget.SearchView) item.getActionView();
+                    searchView.setOnQueryTextListener(textListener);
+                    searchView.setOnCloseListener(() -> {
+                        searchView.setQuery("", true);
+                        onCancelSearchListener.onCancel();
+                        return false;
+                    });
+//                    item.setVisible(false);
+                }
+            }
         }
     }
 
