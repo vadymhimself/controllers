@@ -15,12 +15,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.controllers.Controller;
 import com.crashlytics.android.Crashlytics;
 import com.hwangjr.rxbus.Bus;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import io.fabric.sdk.android.Fabric;
+import ru.xfit.BuildConfig;
 import ru.xfit.R;
 import ru.xfit.misc.events.OptionsItemSelectedEvent;
 import ru.xfit.model.data.storage.preferences.PreferencesManager;
@@ -49,6 +51,8 @@ public class MainActivity extends XFitActivity implements
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
 
+    private TextView buildVersion;
+
     private boolean showFilterAndSearch;
 
     private boolean toolBarNavigationListenerIsRegistered;
@@ -64,6 +68,9 @@ public class MainActivity extends XFitActivity implements
         setControllerContainer(R.id.container);
 
         transitionsContainer = (ViewGroup) findViewById(R.id.transitions_container);
+
+        buildVersion = (TextView) findViewById(R.id.build_ver);
+        buildVersion.setText(getVersionName());
 
         drawer = (DrawerLayout) findViewById(R.id.drawer);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -125,7 +132,6 @@ public class MainActivity extends XFitActivity implements
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_schedules, menu);
         super.onPrepareOptionsMenu(menu);
-        menu.findItem(R.id.search).setVisible(showFilterAndSearch);
         menu.findItem(R.id.filter).setVisible(showFilterAndSearch);
         return true;
     }
@@ -173,8 +179,8 @@ public class MainActivity extends XFitActivity implements
         PreferencesManager preferencesManager = new PreferencesManager(App.getContext());
         preferencesManager.putValue(PreferencesManager.KEY_IS_USER_ALREADY_LOGIN, false);
 
+        this.finish();
         StartActivity.start(this);
-        finishAffinity();
     }
 
     public void setTitle(String title) {
@@ -224,5 +230,9 @@ public class MainActivity extends XFitActivity implements
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
+    }
+
+    public String getVersionName() {
+        return "build: " + BuildConfig.VERSION_NAME;
     }
 }

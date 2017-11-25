@@ -23,12 +23,12 @@ public class Activity implements Serializable {
 
         Activity activity = (Activity) o;
 
-        return typeId.equals(activity.typeId);
+        return id.equals(activity.id);
 
     }
 
     @Override
     public int hashCode() {
-        return typeId.hashCode();
+        return id.hashCode();
     }
 }

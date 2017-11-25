@@ -2,6 +2,7 @@ package com.molo17.customizablecalendar.library.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.annotation.LayoutRes;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -66,8 +67,10 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
         initFromCalendar();
         subscribe();
 
-        firstSelectedDay = startDate;
-        lastSelectedDay = endDate;
+        if (startDate != null && endDate != null) {
+            firstSelectedDay = startDate;
+            lastSelectedDay = endDate;
+        }
     }
 
     private void initFromCalendar() {
@@ -183,6 +186,10 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
                             dayView.setTextColor(context.getResources().getColor(R.color.calendarAccent));
                         }
                     }
+                }
+
+                if (currentItem.getDateTime().getDayOfWeek() > 5) {
+                    dayView.setTypeface(dayView.getTypeface(), Typeface.BOLD);
                 }
 
                 if (currentItem.getDateTime().toString("d M YYYY").equals(calendar.getToday().toString("d M YYYY"))) {

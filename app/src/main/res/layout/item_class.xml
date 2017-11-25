@@ -111,15 +111,30 @@
                 android:text="@{viewModel.getDescription()}"
                 />
 
-            <ImageView
-                android:id="@+id/label_new"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="34dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="34dp"
-                android:visibility='@{viewModel.clazz.isNew}'
-                android:background="@drawable/schedule_label_new"/>
+                android:visibility='@{viewModel.clazz.isNew}'>
+                <ImageView
+                    android:id="@+id/label_new"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/schedule_label_new"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_centerInParent="true"
+                    android:textStyle="normal"
+                    android:textColor="#fff"
+                    android:text="NEW"/>
+
+            </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
 </layout>

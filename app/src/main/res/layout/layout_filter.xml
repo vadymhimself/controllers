@@ -7,48 +7,59 @@
             name="controller"
             type="ru.xfit.screens.filter.FilterController" />
 
+        <import type="ru.xfit.R"/>
+
     </data>
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <View
-            android:id="@+id/spacer"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize" />
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:title="@{controller.title}"
+            app:menu="@{R.menu.menu_abort}"
+            app:navigationClickListener="@{controller}"
+            app:oldItemClickListener="@{controller}"
+            app:showBackButton="@{controller.previous != null}" />
 
         <RadioGroup
             android:id="@+id/global"
-            android:layout_below="@+id/spacer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_below="@+id/toolbar"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="22dp"
-            android:layout_centerHorizontal="true">
+            android:orientation="horizontal">
+
             <RadioButton
                 android:id="@+id/by_classes"
                 android:layout_width="163dp"
                 android:layout_height="37dp"
-                android:textSize="16sp"
-                android:textAlignment="center"
                 android:background="@drawable/gender_bg"
-                android:textColor="@drawable/gender_text_color"
                 android:button="@android:color/transparent"
                 android:checked="true"
                 android:text="@string/filter_by_classes"
-                app:onRadioChecked="@{controller}"/>
+                android:textAlignment="center"
+                android:textColor="@drawable/gender_text_color"
+                android:textSize="16sp"
+                app:onRadioChecked="@{controller}" />
 
             <RadioButton
                 android:id="@+id/by_trainers"
                 android:layout_width="163dp"
                 android:layout_height="37dp"
-                android:textSize="16sp"
-                android:textAlignment="center"
-                android:background="@drawable/gender_bg"
-                android:textColor="@drawable/gender_text_color"
-                android:button="@android:color/transparent"
                 android:layout_marginLeft="13dp"
+                android:background="@drawable/gender_bg"
+                android:button="@android:color/transparent"
                 android:text="@string/filter_by_trainers"
+                android:textAlignment="center"
+                android:textColor="@drawable/gender_text_color"
+                android:textSize="16sp"
                 app:onRadioChecked="@{controller}" />
         </RadioGroup>
 
@@ -56,60 +67,61 @@
             android:id="@+id/local"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp"
             android:layout_below="@+id/global"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
             <RadioButton
                 android:id="@+id/by_all"
                 android:layout_width="78dp"
                 android:layout_height="37dp"
-                android:textSize="16sp"
-                android:textAlignment="center"
                 android:background="@drawable/gender_bg"
-                android:textColor="@drawable/gender_text_color"
                 android:button="@android:color/transparent"
                 android:checked="true"
                 android:text="@string/filter_by_all"
+                android:textAlignment="center"
+                android:textColor="@drawable/gender_text_color"
+                android:textSize="16sp"
                 app:onRadioChecked="@{controller}" />
 
             <RadioButton
                 android:id="@+id/by_morning"
                 android:layout_width="78dp"
                 android:layout_height="37dp"
-                android:textSize="16sp"
-                android:textAlignment="center"
-                android:background="@drawable/gender_bg"
-                android:textColor="@drawable/gender_text_color"
-                android:button="@android:color/transparent"
                 android:layout_marginLeft="9dp"
+                android:background="@drawable/gender_bg"
+                android:button="@android:color/transparent"
                 android:text="@string/filter_by_morning"
+                android:textAlignment="center"
+                android:textColor="@drawable/gender_text_color"
+                android:textSize="16sp"
                 app:onRadioChecked="@{controller}" />
 
             <RadioButton
                 android:id="@+id/by_day"
                 android:layout_width="78dp"
                 android:layout_height="37dp"
-                android:textSize="16sp"
-                android:textAlignment="center"
-                android:background="@drawable/gender_bg"
-                android:textColor="@drawable/gender_text_color"
-                android:button="@android:color/transparent"
                 android:layout_marginLeft="9dp"
+                android:background="@drawable/gender_bg"
+                android:button="@android:color/transparent"
                 android:text="@string/filter_by_day"
+                android:textAlignment="center"
+                android:textColor="@drawable/gender_text_color"
+                android:textSize="16sp"
                 app:onRadioChecked="@{controller}" />
 
             <RadioButton
                 android:id="@+id/by_evening"
                 android:layout_width="78dp"
                 android:layout_height="37dp"
-                android:textSize="16sp"
-                android:textAlignment="center"
-                android:background="@drawable/gender_bg"
-                android:textColor="@drawable/gender_text_color"
-                android:button="@android:color/transparent"
                 android:layout_marginLeft="9dp"
+                android:background="@drawable/gender_bg"
+                android:button="@android:color/transparent"
                 android:text="@string/filter_by_evening"
+                android:textAlignment="center"
+                android:textColor="@drawable/gender_text_color"
+                android:textSize="16sp"
                 app:onRadioChecked="@{controller}" />
         </RadioGroup>
 
@@ -117,9 +129,10 @@
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="23dp"
+            android:layout_above="@+id/accept_btn"
             android:layout_below="@+id/local"
-            android:layout_above="@+id/accept_btn">
+            android:layout_marginTop="23dp">
+
             <include
                 android:id="@+id/list"
                 layout="@layout/list"
@@ -132,16 +145,16 @@
             android:id="@+id/accept_btn"
             android:layout_width="328dp"
             android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/button_bg"
-            android:foreground="?attr/selectableItemBackground"
             android:fontFamily="sans-serif"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick='@{controller.accept}'
             android:text="@string/filter_accept"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:layout_marginBottom="20dp"
-            android:layout_alignParentBottom="true"
-            android:onClick='@{controller.accept}'/>
+            android:textSize="18sp" />
     </RelativeLayout>
 </layout>

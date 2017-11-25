@@ -3,11 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:id="@+id/second">
         <item
-            android:id="@+id/search"
-            android:icon="@drawable/ic_search"
-            android:title=""
-            app:showAsAction="always"/>
-        <item
             android:id="@+id/filter"
             android:icon="@drawable/ic_filter"
             android:title=""

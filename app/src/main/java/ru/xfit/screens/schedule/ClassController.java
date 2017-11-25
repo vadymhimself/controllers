@@ -1,6 +1,7 @@
 package ru.xfit.screens.schedule;
 
 import android.databinding.ObservableBoolean;
+import android.view.MenuItem;
 import android.view.View;
 import com.controllers.Request;
 import ru.xfit.R;
@@ -78,5 +79,15 @@ public class ClassController extends BlankToolbarController<LayoutClassBinding> 
     @Override
     public String getTitle() {
         return clazz.activity.title;
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        return false;
+    }
+
+    @Override
+    public void onNavigationClick() {
+        back();
     }
 }

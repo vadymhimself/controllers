@@ -24,9 +24,6 @@ import butterknife.ButterKnife;
 
 public class CustomizableCalendar extends LinearLayout implements CustomizableCalendarView {
 
-    @BindView(android.R.id.primary)
-    HeaderView headerView;
-
     @BindView(android.R.id.text1)
     WeekDaysView weekDaysView;
 
@@ -86,7 +83,6 @@ public class CustomizableCalendar extends LinearLayout implements CustomizableCa
     public void injectViewInteractor(ViewInteractor viewInteractor) {
         viewInteractor.onCustomizableCalendarBindView(this);
         presenter.injectViewInteractor(viewInteractor);
-        headerView.injectPresenter(presenter);
         calendarRecyclerView.injectPresenter(presenter);
         subView.injectPresenter(presenter);
         weekDaysView.injectPresenter(presenter);

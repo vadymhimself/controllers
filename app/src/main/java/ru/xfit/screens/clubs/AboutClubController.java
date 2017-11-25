@@ -3,16 +3,23 @@ package ru.xfit.screens.clubs;
 import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.controllers.Request;
 
+import java.util.List;
+
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutAboutClubBinding;
+import ru.xfit.domain.App;
 import ru.xfit.misc.NavigationClickListener;
+import ru.xfit.misc.views.MessageDialog;
 import ru.xfit.model.data.club.ClubItem;
+import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.BlankToolbarController;
 import ru.xfit.screens.schedule.ClubClassesController;
@@ -21,7 +28,8 @@ import ru.xfit.screens.schedule.ClubClassesController;
  * Created by TESLA on 13.11.2017.
  */
 
-public class AboutClubController extends BlankToolbarController<LayoutAboutClubBinding> implements NavigationClickListener {
+public class AboutClubController extends BlankToolbarController<LayoutAboutClubBinding>
+        implements NavigationClickListener, MessageDialog.DialogResultListener {
     public ClubItem club;
 
     public final ObservableBoolean progress = new ObservableBoolean();
@@ -75,7 +83,7 @@ public class AboutClubController extends BlankToolbarController<LayoutAboutClubB
             return;
 
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                "mailto",club.email, null));
+                "mailto", club.email, null));
         if (getActivity() != null)
             getActivity().startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
@@ -97,7 +105,28 @@ public class AboutClubController extends BlankToolbarController<LayoutAboutClubB
     }
 
     public void suspendCard(View view) {
-        show(new SuspendCardController(this.club.id));
+        progress.set(true);
+        Request.with(this, Api.class)
+                .create(Api::getContracts)
+                .execute(this::searchCurrentContract);
+    }
+
+    private void searchCurrentContract(List<Contract> contractList) {
+        Contract currentContract = null;
+        for (Contract contract : contractList) {
+            if (contract.clubId.equals(this.club.id)) {
+                currentContract = contract;
+                show(new SuspendCardController(contract));
+            }
+        }
+        progress.set(false);
+        if (currentContract == null) {
+            MessageDialog messageDialog = new MessageDialog.Builder()
+                    .setMessage(App.getContext().getResources().getString(R.string.dialog_phone_not_found))
+                    .build();
+            messageDialog.setController(this);
+            messageDialog.show(getActivity().getSupportFragmentManager(), "MY_TAG");
+        }
     }
 
     public void getTrainers(View view) {
@@ -119,5 +148,20 @@ public class AboutClubController extends BlankToolbarController<LayoutAboutClubB
     @Override
     public void onNavigationClick() {
         back();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        return false;
+    }
+
+    @Override
+    public void onPositive(@NonNull String tag) {
+
+    }
+
+    @Override
+    public void onNegative(@NonNull String tag) {
+
     }
 }

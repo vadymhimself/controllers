@@ -34,7 +34,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:textColor="#58595b"
+        android:textSize="14.5sp"
+        android:fontFamily="sans-serif"
+        android:textStyle="normal" />
 
 </RelativeLayout>

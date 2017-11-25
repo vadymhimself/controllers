@@ -2,6 +2,7 @@ package ru.xfit.screens.filter;
 
 import android.databinding.Bindable;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutFilterBinding;
@@ -9,6 +10,7 @@ import ru.xfit.misc.adapters.BaseAdapter;
 import ru.xfit.misc.adapters.BaseVM;
 import ru.xfit.model.data.schedule.Activity;
 import ru.xfit.model.data.schedule.Trainer;
+import ru.xfit.screens.BlankToolbarController;
 import ru.xfit.screens.XFitController;
 import ru.xfit.screens.schedule.ClubClassesController;
 import ru.xfit.screens.schedule.FilterListener;
@@ -19,7 +21,7 @@ import java.util.*;
  * Created by TESLA on 06.11.2017.
  */
 
-public class FilterController extends XFitController<LayoutFilterBinding> {
+public class FilterController extends BlankToolbarController<LayoutFilterBinding> {
     private Collection<Trainer> trainers;
     private Collection<Activity> classes;
 
@@ -39,6 +41,15 @@ public class FilterController extends XFitController<LayoutFilterBinding> {
         showClasses();
         selectedTrainers.addAll(this.trainers);
         selectedActivities.addAll(this.classes);
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        if(item.getItemId() == R.id.action_abort){
+            setStateAllCheckboxes(true);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -144,5 +155,10 @@ public class FilterController extends XFitController<LayoutFilterBinding> {
     @Override
     public String getTitle() {
         return ((ClubClassesController)listener).getTitle();
+    }
+
+    @Override
+    public void onNavigationClick() {
+        back();
     }
 }
