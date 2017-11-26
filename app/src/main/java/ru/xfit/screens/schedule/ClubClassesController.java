@@ -1,6 +1,8 @@
 package ru.xfit.screens.schedule;
 
 import android.databinding.Bindable;
+import android.util.Log;
+
 import com.hwangjr.rxbus.annotation.Subscribe;
 import org.joda.time.DateTime;
 
@@ -14,6 +16,7 @@ import ru.xfit.model.data.schedule.Activity;
 import ru.xfit.model.data.schedule.Clazz;
 import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.model.data.schedule.Trainer;
+import ru.xfit.screens.DateChangeListener;
 import ru.xfit.screens.filter.FilterController;
 
 import java.util.ArrayList;
@@ -25,12 +28,10 @@ import static ru.xfit.misc.utils.ListUtils.filter;
 
 /**
  * Created by TESLA on 04.11.2017.
- * TODO: download more classes in itself
- * TODO: тут вообще-то календарь тоже будет, и фильтр по дням...
  */
 
 public class ClubClassesController extends BaseScheduleController<LayoutClubClassesBinding>
-        implements FilterListener {
+        implements FilterListener, DateChangeListener {
 
     private final Set<Trainer> trainers = new HashSet<>();
     private final Set<Activity> activities = new HashSet<>();
@@ -49,12 +50,6 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
 
     public ClubClassesController(Schedule schedule) {
         this.schedule = schedule;
-        init();
-    }
-
-    public ClubClassesController(Schedule schedule, DateTime dateTime) {
-        this.schedule = schedule;
-        dayFilter.setDay(dateTime);
         init();
     }
 
@@ -114,5 +109,16 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
     @Override
     public String getTitle() {
         return schedule.club.title;
+    }
+
+    @Override
+    public void onDateChange(DateTime dateTime) {
+        dayFilter.setDay(dateTime);
+        adapter.refresh();
+    }
+
+    @Override
+    public void onDatePeriodChanged(DateTime firstSelection, DateTime lastSelection) {
+
     }
 }

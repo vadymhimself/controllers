@@ -18,11 +18,30 @@
             android:layout_height="?android:attr/actionBarSize"
             />
 
+        <RelativeLayout
+            android:id="@+id/calendar_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spacer"
+            android:background="@android:color/white"
+            android:elevation="4dp">
+
+            <com.molo17.customizablecalendar.library.components.CustomizableCalendar
+                android:id="@+id/calendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:initCalendarSchedule="@{controller}"
+                app:layout="@layout/c_calendar"
+                app:month_view="false"
+                app:show_subview="false"
+                app:multipleSelect="@{false}"/>
+        </RelativeLayout>
+
         <android.support.v4.widget.NestedScrollView
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/spacer">
+            android:layout_below="@+id/calendar_container">
 
             <RelativeLayout
                 android:id="@+id/container"

@@ -44,7 +44,7 @@ public class MainActivity extends XFitActivity implements
     @Inject Bus bus;
 
     public MyScheduleController myScheduleController;
-    public ClubsController clubsController;
+//    public ClubsController clubsController;
 
     private Toolbar toolbar;
     private NavigationView navView;
@@ -89,7 +89,7 @@ public class MainActivity extends XFitActivity implements
         navView.setNavigationItemSelectedListener(this);
 
         myScheduleController = new MyScheduleController();
-        clubsController = new ClubsController(false);
+//        clubsController = new ClubsController(false);
         if (savedInstanceState == null) {
             show(myScheduleController, 0, 0);
         }
@@ -156,7 +156,7 @@ public class MainActivity extends XFitActivity implements
             case R.id.services:
                 return true;
             case R.id.clubs:
-                replace(clubsController);
+                replace(new ClubsController(false));
                 drawer.closeDrawers();
                 return true;
             case R.id.contacts:
