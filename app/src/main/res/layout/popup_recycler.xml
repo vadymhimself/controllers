@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ru.xfit.misc.views.HackyRecyclerView
-        android:id="@+id/rv_recycler_view2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#ff4545">
-    </ru.xfit.misc.views.HackyRecyclerView>
+    <data>
 
-</RelativeLayout>
+        <variable
+            name="controller"
+            type="ru.xfit.screens.contacts.PopupController" />
+
+        <import type="ru.xfit.R" />
+
+        <import type="ru.xfit.misc.LayoutManagers" />
+
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ru.xfit.misc.views.HackyRecyclerView
+            android:id="@+id/rv_recycler_view2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{!controller.adapter.isEmpty()}"
+            app:adapter="@{controller.adapter}"
+            app:layoutManager="@{LayoutManagers.LINEAR_VERTICAL}"
+            android:background="#ff4545" />
+
+    </RelativeLayout>
+</layout>

@@ -1,6 +1,7 @@
 package ru.xfit.misc.adapters;
 
 import android.databinding.BindingAdapter;
+import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
@@ -26,9 +27,12 @@ import android.text.Html;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.*;
@@ -50,23 +54,31 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
 import ru.xfit.R;
+import ru.xfit.databinding.PopupRecyclerBinding;
 import ru.xfit.domain.App;
 import ru.xfit.misc.CircleTransform;
 import ru.xfit.misc.NavigationClickListener;
 import ru.xfit.misc.OnViewReadyListener;
 import ru.xfit.misc.utils.validation.*;
 import ru.xfit.misc.views.*;
+import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.data.common.Image;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.screens.DateChangeListener;
+import ru.xfit.screens.FeedbackController;
 import ru.xfit.screens.XFitController;
 import ru.xfit.screens.clubs.AboutClubController;
+import ru.xfit.screens.clubs.ClubsFilter;
 import ru.xfit.screens.clubs.SuspendCardController;
+import ru.xfit.screens.contacts.ContactVM;
+import ru.xfit.screens.contacts.OnClubClickListener;
+import ru.xfit.screens.contacts.PopupController;
 import ru.xfit.screens.filter.FilterController;
 import ru.xfit.screens.filter.FilterVM;
 import ru.xfit.screens.filter.HeaderFilterVM;
 import ru.xfit.screens.schedule.MyScheduleController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BindingAdapters {
@@ -714,6 +726,50 @@ public abstract class BindingAdapters {
 //        sliderLayout.setCustomIndicator(indicator);
 
 //        sliderLayout.setCustomIndicator((PagerIndicator) sliderLayout.findViewById(R.id.custom_indicator));
+    }
+
+    @BindingAdapter("hackyPopUp")
+    public static void bindPopup(EditText editText, FeedbackController controller) {
+        PopupRecyclerBinding v = DataBindingUtil.inflate(LayoutInflater.from(editText.getContext()), R.layout.popup_recycler, null, false);
+
+        PopupWindow popupWindow = new PopupWindow(v.getRoot(), WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT);
+
+        PopupController popupController = new PopupController(controller.clubs, new OnClubClickListener() {
+            @Override
+            public void onClick(ClubItem clubItem) {
+                controller.selectedClub.set(clubItem);
+                popupWindow.dismiss();
+            }
+        });
+
+        v.setController(popupController);
+
+        ObservableBoolean isVisible = new ObservableBoolean();
+
+        editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.showAsDropDown(editText);
+            }
+        });
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+//                clubsFilter.setClubSearch(editable.toString());
+            }
+        });
     }
 
 }

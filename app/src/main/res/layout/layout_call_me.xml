@@ -40,7 +40,9 @@
                 android:textStyle="normal"
                 android:textColor="@color/calendarCommonDay"
                 android:drawableRight="@drawable/ic_arrow_drop_down"
-                android:background="@android:color/transparent" />
+                android:background="@android:color/transparent"
+                android:text="@{controller.selectedClub.title}"
+                app:hackyPopUp="@{controller}"/>
 
         </RelativeLayout>
 
