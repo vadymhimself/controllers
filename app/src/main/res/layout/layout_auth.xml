@@ -31,7 +31,7 @@
                     android:layout_width="300dp"
                     android:layout_height="152dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="30dp"
                     android:background="@drawable/logo_x_fit" />
 
                 <RelativeLayout
@@ -48,7 +48,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:drawableStart="@drawable/ic_phone"
-                        android:imeOptions="actionDone"
+                        android:imeOptions="actionNext"
                         android:inputType="number|phone"
                         android:maxLines="1"
                         android:textColor="@android:color/white"
