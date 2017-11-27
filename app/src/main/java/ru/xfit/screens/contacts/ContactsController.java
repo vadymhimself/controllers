@@ -38,7 +38,7 @@ public class ContactsController extends DrawerController<LayoutContactsBinding> 
     }
 
     public void getCall(View view) {
-        Snackbar.make(view, "Coming soon...", BaseTransientBottomBar.LENGTH_SHORT).show();
+        show(new CallMeController());
     }
 
     public void getFeedback(View view) {

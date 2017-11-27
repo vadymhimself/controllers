@@ -104,4 +104,7 @@
     <string name="contacts_yt_link">https://www.youtube.com/user/XFitRussia</string>
     <string name="contacts_ok_link">http://odnoklassniki.ru/xfitclubs</string>
     <string name="contacts_gp_link">https://plus.google.com/113901357048425027175/posts</string>
+
+    <string name="call_me_title">Перезвоните мне</string>
+    <string name="call_me_button">Жду звонка</string>
 </resources>
