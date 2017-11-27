@@ -67,6 +67,10 @@ public class FilterableAdapter<VM extends BaseVM> extends BaseAdapter<VM> {
         refresh();
     }
 
+    public boolean isEmpty() {
+        return vms.isEmpty();
+    }
+
 // TODO: implement
 
     @Override
