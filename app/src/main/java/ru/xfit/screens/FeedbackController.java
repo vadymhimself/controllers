@@ -3,6 +3,7 @@ package ru.xfit.screens;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 import android.databinding.ViewDataBinding;
+import android.widget.PopupWindow;
 
 import ru.xfit.model.data.club.ClubItem;
 
@@ -13,4 +14,5 @@ import ru.xfit.model.data.club.ClubItem;
 public abstract class FeedbackController<B extends ViewDataBinding> extends XFitController<B> {
     public ObservableArrayList<ClubItem> clubs = new ObservableArrayList<>();
     public ObservableField<ClubItem> selectedClub = new ObservableField<>();
+    public ObservableField<PopupWindow> prevPopup = new ObservableField<>();
 }

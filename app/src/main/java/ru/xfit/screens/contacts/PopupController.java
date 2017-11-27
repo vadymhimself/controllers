@@ -1,13 +1,16 @@
 package ru.xfit.screens.contacts;
 
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableField;
 import android.view.View;
+import android.widget.PopupWindow;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ru.xfit.R;
 import ru.xfit.databinding.PopupRecyclerBinding;
+import ru.xfit.misc.NavigationClickListener;
 import ru.xfit.misc.adapters.FilterableAdapter;
 import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.screens.BlankToolbarController;
@@ -31,8 +34,6 @@ public class PopupController extends XFitController<PopupRecyclerBinding> {
             toAdd.add(new ContactVM(clubs.get(i), this, clickListener));
         }
         adapter.addAll(toAdd);
-
-
     }
 
     @Override

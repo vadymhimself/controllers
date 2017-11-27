@@ -30,6 +30,5 @@ public class ContactVM implements BaseVM {
 
     public void onItemClick(View view) {
         this.clickListener.onClick(clubItem);
-//        ((FeedbackController)controller.getPrevious()).selectedClub.set(clubItem);
     }
 }

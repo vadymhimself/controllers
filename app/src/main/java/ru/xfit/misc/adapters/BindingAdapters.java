@@ -31,6 +31,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebView;
@@ -708,6 +709,11 @@ public abstract class BindingAdapters {
         maskedEditText.setInputType(InputType.TYPE_CLASS_PHONE);
     }
 
+    @BindingAdapter("preloadPhone")
+    public static void bindMaskedPreloadText(MaskedEditText maskedEditText, String phone) {
+        maskedEditText.setText(phone);
+    }
+
     @BindingAdapter("banners")
     public static void bindSlider(SliderLayout sliderLayout, AboutClubController clubController) {
         if (sliderLayout == null || clubController == null) return;
@@ -730,27 +736,42 @@ public abstract class BindingAdapters {
 
     @BindingAdapter("hackyPopUp")
     public static void bindPopup(EditText editText, FeedbackController controller) {
-        PopupRecyclerBinding v = DataBindingUtil.inflate(LayoutInflater.from(editText.getContext()), R.layout.popup_recycler, null, false);
+        ObservableBoolean isVisible = new ObservableBoolean();
+        ObservableField<PopupWindow> prevPopup = new ObservableField<>();
 
-        PopupWindow popupWindow = new PopupWindow(v.getRoot(), WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT);
-
-        PopupController popupController = new PopupController(controller.clubs, new OnClubClickListener() {
-            @Override
-            public void onClick(ClubItem clubItem) {
-                controller.selectedClub.set(clubItem);
-                popupWindow.dismiss();
+        PopupController popupController = new PopupController(controller.clubs, clubItem -> {
+            controller.selectedClub.set(clubItem);
+            if (prevPopup.get() != null) {
+                prevPopup.get().dismiss();
+                editText.setCompoundDrawablesWithIntrinsicBounds(null, null, App.getContext().getDrawable(R.drawable.ic_arrow_drop_down), null);
             }
         });
 
-        v.setController(popupController);
+//        editText.setOnFocusChangeListener((view, hasFocus) -> {
+//            if (hasFocus) {
+//                editText.callOnClick();
+//            }
+//        });
 
-        ObservableBoolean isVisible = new ObservableBoolean();
+        editText.setOnClickListener(view -> {
+            PopupRecyclerBinding v = DataBindingUtil.inflate(LayoutInflater.from(editText.getContext()), R.layout.popup_recycler, null, false);
 
-        editText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                popupWindow.showAsDropDown(editText);
+            PopupWindow popupWindow = new PopupWindow(v.getRoot(), WindowManager.LayoutParams.MATCH_PARENT,
+                    600);
+
+            v.setController(popupController);
+
+            if (isVisible.get()) {
+                if (prevPopup.get() != null)
+                    prevPopup.get().dismiss();
+                isVisible.set(false);
+                editText.setCompoundDrawablesWithIntrinsicBounds(null, null, App.getContext().getDrawable(R.drawable.ic_arrow_drop_down), null);
+            } else {
+                popupWindow.showAsDropDown(editText, 0, 50);
+                prevPopup.set(popupWindow);
+                controller.prevPopup.set(popupWindow);
+                isVisible.set(true);
+                editText.setCompoundDrawablesWithIntrinsicBounds(null, null, App.getContext().getDrawable(R.drawable.ic_arrow_drop_up), null);
             }
         });
 
@@ -767,7 +788,8 @@ public abstract class BindingAdapters {
 
             @Override
             public void afterTextChanged(Editable editable) {
-//                clubsFilter.setClubSearch(editable.toString());
+                popupController.clubsFilter.setClubSearch(editable.toString());
+                popupController.adapter.refresh();
             }
         });
     }

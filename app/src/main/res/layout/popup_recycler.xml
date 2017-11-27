@@ -23,8 +23,7 @@
             android:layout_height="match_parent"
             android:visibility="@{!controller.adapter.isEmpty()}"
             app:adapter="@{controller.adapter}"
-            app:layoutManager="@{LayoutManagers.LINEAR_VERTICAL}"
-            android:background="#ff4545" />
+            app:layoutManager="@{LayoutManagers.LINEAR_VERTICAL}" />
 
     </RelativeLayout>
 </layout>

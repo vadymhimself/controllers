@@ -107,4 +107,5 @@
 
     <string name="call_me_title">Перезвоните мне</string>
     <string name="call_me_button">Жду звонка</string>
+    <string name="call_me_select_club">Выберите клуб</string>
 </resources>

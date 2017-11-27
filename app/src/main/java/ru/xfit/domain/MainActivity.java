@@ -15,6 +15,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.controllers.Controller;
@@ -29,9 +31,10 @@ import ru.xfit.model.data.storage.preferences.PreferencesManager;
 import ru.xfit.model.retrorequest.LogoutEvent;
 import ru.xfit.screens.BlankToolbarController;
 import ru.xfit.screens.DrawerController;
+import ru.xfit.screens.FeedbackController;
 import ru.xfit.screens.clubs.ClubsController;
-import ru.xfit.screens.clubs.SuspendCardController;
 import ru.xfit.screens.contacts.ContactsController;
+import ru.xfit.misc.events.OnBackEvent;
 import ru.xfit.screens.schedule.ClubClassesController;
 import ru.xfit.screens.schedule.MyScheduleController;
 import ru.xfit.screens.xfit.MyXfitController;
@@ -237,5 +240,34 @@ public class MainActivity extends XFitActivity implements
 
     public String getVersionName() {
         return "build: " + BuildConfig.VERSION_NAME;
+    }
+
+    @Override
+    protected Controller back() {
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        if(getCurrentFocus() != null)
+            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+
+        return super.back();
+    }
+
+    @Override
+    protected boolean beforeControllersChanged(Controller previous, Controller next) {
+        //TODO remove this shit
+        if (previous instanceof FeedbackController) {
+            if (((FeedbackController) previous).prevPopup.get() != null) {
+                ((PopupWindow)((FeedbackController) previous).prevPopup.get()).dismiss();
+            }
+        }
+        return super.beforeControllersChanged(previous, next);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //TODO why event not received ?
+        App.getBus().post(new OnBackEvent());
+        super.onBackPressed();
     }
 }
