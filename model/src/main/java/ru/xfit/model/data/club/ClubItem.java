@@ -18,8 +18,8 @@ public class ClubItem implements Serializable {
     public String phone;
     public String email;
     public String address;
-    public Float latitude;
-    public Float longitude;
+    public double latitude;
+    public double longitude;
     public String city;
     public Image logo;
     public List<Image> media;

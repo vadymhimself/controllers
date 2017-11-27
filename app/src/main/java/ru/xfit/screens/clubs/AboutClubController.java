@@ -57,8 +57,8 @@ public class AboutClubController extends BlankToolbarController<LayoutAboutClubB
     }
 
     public void getRoute(View view) {
-        if (club.latitude == null || club.longitude == null)
-            return;
+//        if (club.latitude == 0 || club.longitude == 0)
+//            return;
         Uri gmmIntentUri = Uri.parse(String.format("google.navigation:q=%s,%s", club.latitude, club.longitude));
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");

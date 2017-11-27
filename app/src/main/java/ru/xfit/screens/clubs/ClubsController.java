@@ -2,12 +2,14 @@ package ru.xfit.screens.clubs;
 
 import android.databinding.Bindable;
 import android.databinding.ObservableBoolean;
+import android.location.Location;
 import android.support.annotation.NonNull;
 
 import com.controllers.Request;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import ru.xfit.R;
@@ -15,6 +17,7 @@ import ru.xfit.databinding.LayoutClubsBinding;
 import ru.xfit.domain.App;
 import ru.xfit.misc.adapters.BaseAdapter;
 import ru.xfit.misc.adapters.BaseVM;
+import ru.xfit.misc.utils.DataUtils;
 import ru.xfit.misc.views.MessageDialog;
 import ru.xfit.model.data.ErrorCodes;
 import ru.xfit.model.data.ErrorResponse;
@@ -49,14 +52,33 @@ public class ClubsController extends DrawerController<LayoutClubsBinding> implem
     public void addClubs(List<ClubItem> clubs) {
         List<BaseVM> toAdd = new ArrayList<>();
         String city = "";
-        Collections.sort(clubs, (clubItem1, clubItem2) -> clubItem1.city.compareTo(clubItem2.city));
+        Location myLocation = DataUtils.getLocation();
+        if (myLocation != null) {
+            Comparator comp = (Comparator<ClubItem>) (o, o2) -> {
+                float[] result1 = new float[3];
+                Location.distanceBetween(myLocation.getLatitude(), myLocation.getLongitude(),
+                        o.latitude, o.longitude, result1);
+                Float distance1 = result1[0];
+
+                float[] result2 = new float[3];
+                Location.distanceBetween(myLocation.getLatitude(), myLocation.getLongitude(),
+                        o2.latitude, o2.longitude, result2);
+                Float distance2 = result2[0];
+
+                return distance1.compareTo(distance2);
+            };
+
+            Collections.sort(clubs, comp);
+        } else {
+            Collections.sort(clubs, (clubItem1, clubItem2) -> clubItem1.city.compareTo(clubItem2.city));
+        }
         for (ClubItem club : clubs) {
             if (!city.equals(club.city)) {
                 toAdd.add(new CityVM(club.city));
                 city = club.city;
             }
             if (club.id.equals("181")) {
-                toAdd.add(1, new ClubVM(club, this, true, fromMyXfit));
+                toAdd.add(0, new ClubVM(club, this, true, fromMyXfit));
             } else
                 toAdd.add(new ClubVM(club, this, false, fromMyXfit));
         }
