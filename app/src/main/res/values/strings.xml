@@ -108,4 +108,7 @@
     <string name="call_me_title">Перезвоните мне</string>
     <string name="call_me_button">Жду звонка</string>
     <string name="call_me_select_club">Выберите клуб</string>
+
+    <string name="send_feedback_title">Обратная связь</string>
+    <string name="send_feedback_send_feedback">Отправить</string>
 </resources>

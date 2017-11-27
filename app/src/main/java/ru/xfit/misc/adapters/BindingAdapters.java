@@ -747,11 +747,11 @@ public abstract class BindingAdapters {
             }
         });
 
-//        editText.setOnFocusChangeListener((view, hasFocus) -> {
-//            if (hasFocus) {
-//                editText.callOnClick();
-//            }
-//        });
+        editText.setOnFocusChangeListener((view, hasFocus) -> {
+            if (hasFocus) {
+                editText.callOnClick();
+            }
+        });
 
         editText.setOnClickListener(view -> {
             PopupRecyclerBinding v = DataBindingUtil.inflate(LayoutInflater.from(editText.getContext()), R.layout.popup_recycler, null, false);

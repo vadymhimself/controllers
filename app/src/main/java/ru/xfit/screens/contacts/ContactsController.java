@@ -73,7 +73,7 @@ public class ContactsController extends DrawerController<LayoutContactsBinding> 
     }
 
     public void getFeedback(View view) {
-        Snackbar.make(view, "Coming soon...", BaseTransientBottomBar.LENGTH_SHORT).show();
+        show(new SendFeedbackController(clubs));
     }
 
     public void getFaq(View view) {
