@@ -3,8 +3,8 @@ package ru.xfit.model.service;
 import com.controllers.Task;
 import ru.xfit.model.data.auth.AuthResponse;
 import ru.xfit.model.data.club.AddClassResponse;
-import ru.xfit.model.data.club.Club;
 import ru.xfit.model.data.club.ClubItem;
+import ru.xfit.model.data.club.SortingRequest;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.data.contract.SuspendRequest;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
@@ -65,5 +65,7 @@ public interface Api {
     Task<Contract> suspendContract(SuspendRequest request);
 
     Task<List<Contract>> linkToClub(String clubId);
+
+    Task<List<ClubItem>> sortClubs(SortingRequest sortingRequest);
 
 }

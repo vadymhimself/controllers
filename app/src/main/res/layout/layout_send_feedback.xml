@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="controller"
+            type="ru.xfit.screens.contacts.SendFeedbackController" />
+
+        <import type="ru.xfit.R" />
+
+        <import type="ru.xfit.misc.LayoutManagers" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:title="@{controller.title}"
+            app:navigationClickListener="@{controller}"
+            app:showBackButton="@{controller.previous != null}" />
+
+        <RelativeLayout
+            android:id="@+id/dropdown_rl"
+            android:layout_below="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@android:color/white"
+            android:elevation="1dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif"
+                android:textStyle="normal"
+                android:hint="@string/call_me_select_club"
+                android:textColor="@color/calendarCommonDay"
+                android:drawableRight="@drawable/ic_arrow_drop_down"
+                android:background="@android:color/transparent"
+                android:text="@{controller.selectedClub.title}"
+                app:hackyPopUp="@{controller}"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/feedback_rl"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_below="@+id/dropdown_rl"
+            android:background="@android:color/white"
+            android:layout_marginTop="1dp"
+            android:elevation="1dp">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif"
+                android:textStyle="normal"
+                android:textColor="@color/calendarCommonDay"
+                android:background="@android:color/transparent"
+                android:text="@{controller.feedback}"/>
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/send_btn"
+            android:layout_width="328dp"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/button_bg"
+            android:fontFamily="sans-serif"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick='@{controller.sendMe}'
+            android:text="@string/send_feedback_send_feedback"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+</layout>

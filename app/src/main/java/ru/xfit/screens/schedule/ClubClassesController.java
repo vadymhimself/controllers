@@ -129,6 +129,13 @@ public class ClubClassesController extends BlankToolbarController<LayoutClubClas
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.filter:
+                show(new FilterController(this, trainers, activities));
+                break;
+            default:
+                break;
+        }
         return false;
     }
 
