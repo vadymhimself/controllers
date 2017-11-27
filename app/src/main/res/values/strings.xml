@@ -91,4 +91,17 @@
     <string name="contract_not_opened">Не открыта</string>
     <string name="contract_blocked">Заблокирована</string>
     <string name="contract_suspended">Заморожена</string>
+
+    <string name="contacts_title">Контакты</string>
+    <string name="contacts_get_call">Перезвоните мне</string>
+    <string name="contacts_feedback">Обратная связь</string>
+    <string name="contacts_faq">FAQ</string>
+    <string name="contacts_tt_link">https://twitter.com/XfitOfficial</string>
+    <string name="contacts_fb_link">https://www.facebook.com/xfitofficial</string>
+    <string name="contacts_in_link">http://instagram.com/xfitofficial</string>
+    <string name="contacts_fs_link">https://ru.foursquare.com/xfitofficial</string>
+    <string name="contacts_vk_link">http://vkontakte.ru/xfitoficial</string>
+    <string name="contacts_yt_link">https://www.youtube.com/user/XFitRussia</string>
+    <string name="contacts_ok_link">http://odnoklassniki.ru/xfitclubs</string>
+    <string name="contacts_gp_link">https://plus.google.com/113901357048425027175/posts</string>
 </resources>
