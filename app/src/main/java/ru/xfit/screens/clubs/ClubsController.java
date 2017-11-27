@@ -8,8 +8,6 @@ import android.support.annotation.NonNull;
 import com.controllers.Request;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import ru.xfit.R;
@@ -22,6 +20,7 @@ import ru.xfit.misc.views.MessageDialog;
 import ru.xfit.model.data.ErrorCodes;
 import ru.xfit.model.data.ErrorResponse;
 import ru.xfit.model.data.club.ClubItem;
+import ru.xfit.model.data.club.SortingRequest;
 import ru.xfit.model.retrorequest.NetworkError;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.DrawerController;
@@ -51,39 +50,23 @@ public class ClubsController extends DrawerController<LayoutClubsBinding> implem
 
     public void addClubs(List<ClubItem> clubs) {
         List<BaseVM> toAdd = new ArrayList<>();
-        String city = "";
-        Location myLocation = DataUtils.getLocation();
-        if (myLocation != null) {
-            Comparator comp = (Comparator<ClubItem>) (o, o2) -> {
-                float[] result1 = new float[3];
-                Location.distanceBetween(myLocation.getLatitude(), myLocation.getLongitude(),
-                        o.latitude, o.longitude, result1);
-                Float distance1 = result1[0];
-
-                float[] result2 = new float[3];
-                Location.distanceBetween(myLocation.getLatitude(), myLocation.getLongitude(),
-                        o2.latitude, o2.longitude, result2);
-                Float distance2 = result2[0];
-
-                return distance1.compareTo(distance2);
-            };
-
-            Collections.sort(clubs, comp);
-        } else {
-            Collections.sort(clubs, (clubItem1, clubItem2) -> clubItem1.city.compareTo(clubItem2.city));
-        }
-        for (ClubItem club : clubs) {
-            if (!city.equals(club.city)) {
-                toAdd.add(new CityVM(club.city));
-                city = club.city;
-            }
-            //TODO replace by my club
-            if (club.id.equals("181")) {
-                toAdd.add(0, new ClubVM(club, this, true, fromMyXfit));
-            } else
-                toAdd.add(new ClubVM(club, this, false, fromMyXfit));
-        }
-        adapter.addAll(toAdd);
+        Request.with(this, Api.class)
+                .create(api -> api.sortClubs(new SortingRequest(clubs, DataUtils.getLocation())))
+                .execute(result -> {
+                    String city = "";
+                    for (int i = 0; i < result.size(); i++) {
+                        if (!city.equals(result.get(i).city)) {
+                            toAdd.add(new CityVM(result.get(i).city));
+                            city = result.get(i).city;
+                        }
+                        //TODO replace by my club
+                        if (result.get(i).id.equals("181")) {
+                            toAdd.add(0, new ClubVM(result.get(i), this, true, fromMyXfit));
+                        } else
+                            toAdd.add(new ClubVM(result.get(i), this, false, fromMyXfit));
+                    }
+                    adapter.addAll(toAdd);
+                });
     }
 
     @Override

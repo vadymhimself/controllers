@@ -1,5 +1,7 @@
 package ru.xfit.model.service;
 
+import android.location.Location;
+
 import com.controllers.Task;
 import com.google.gson.Gson;
 import retrofit2.Call;
@@ -10,9 +12,9 @@ import ru.xfit.model.data.UserData;
 import ru.xfit.model.data.auth.AuthRequest;
 import ru.xfit.model.data.auth.AuthResponse;
 import ru.xfit.model.data.club.AddClassResponse;
-import ru.xfit.model.data.club.Club;
 import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.data.club.LinkRequest;
+import ru.xfit.model.data.club.SortingRequest;
 import ru.xfit.model.data.common.EmptyBody;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.data.contract.SuspendRequest;
@@ -25,6 +27,8 @@ import ru.xfit.model.data.schedule.Trainer;
 import ru.xfit.model.data.storage.preferences.PreferencesStorage;
 import ru.xfit.model.retrorequest.TaskBuilder;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 final class ApiImpl implements Api {
@@ -206,6 +210,41 @@ final class ApiImpl implements Api {
     @Override
     public Task<List<Contract>> linkToClub(String clubId) {
         return TaskBuilder.from(networkInterface.linkToCLub(new LinkRequest(clubId)));
+    }
+
+    @Override
+    public Task<List<ClubItem>> sortClubs(SortingRequest sortingRequest) {
+        return new Task<List<ClubItem>>() {
+            @Override
+            public List<ClubItem> exec() throws Throwable {
+                if (sortingRequest != null) {
+                    Comparator comp = (Comparator<ClubItem>) (o, o2) -> {
+                        float[] result1 = new float[3];
+                        Location.distanceBetween(sortingRequest.location.getLatitude(), sortingRequest.location.getLongitude(),
+                                o.latitude, o.longitude, result1);
+                        Float distance1 = result1[0];
+
+                        float[] result2 = new float[3];
+                        Location.distanceBetween(sortingRequest.location.getLatitude(), sortingRequest.location.getLongitude(),
+                                o2.latitude, o2.longitude, result2);
+                        Float distance2 = result2[0];
+
+                        return distance1.compareTo(distance2);
+                    };
+
+                    Collections.sort(sortingRequest.toSort, comp);
+                } else {
+                    Collections.sort(sortingRequest.toSort, (clubItem1, clubItem2) -> clubItem1.city.compareTo(clubItem2.city));
+                }
+
+                return sortingRequest.toSort;
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        };
     }
 
 

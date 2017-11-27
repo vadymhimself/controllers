@@ -27,6 +27,7 @@
             app:navigationClickListener="@{controller}"
             app:onCancelListener="@{controller}"
             app:searchListener="@{controller}"
+            app:oldItemClickListener="@{controller}"
             app:showBackButton="@{controller.previous != null}" />
 
         <RelativeLayout
