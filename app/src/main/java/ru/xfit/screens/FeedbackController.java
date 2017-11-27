@@ -14,5 +14,5 @@ import ru.xfit.model.data.club.ClubItem;
 public abstract class FeedbackController<B extends ViewDataBinding> extends XFitController<B> {
     public ObservableArrayList<ClubItem> clubs = new ObservableArrayList<>();
     public ObservableField<ClubItem> selectedClub = new ObservableField<>();
-    public ObservableField<PopupWindow> prevPopup = new ObservableField<>();
+    public transient ObservableField<PopupWindow> prevPopup = new ObservableField<>();
 }
