@@ -77,6 +77,7 @@ public class ClubsController extends DrawerController<LayoutClubsBinding> implem
                 toAdd.add(new CityVM(club.city));
                 city = club.city;
             }
+            //TODO replace by my club
             if (club.id.equals("181")) {
                 toAdd.add(0, new ClubVM(club, this, true, fromMyXfit));
             } else

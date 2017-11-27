@@ -20,11 +20,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/main_bg"
-        android:orientation="vertical">
+        android:fitsSystemWindows="true">
 
-        <RelativeLayout
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp">
@@ -42,7 +47,7 @@
                 android:id="@+id/phone_rl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="72dp">
+                android:layout_marginTop="5dp">
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/phone_inputLayout"
@@ -74,8 +79,7 @@
             <RelativeLayout
                 android:id="@+id/name_rl"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="140dp">
+                android:layout_height="wrap_content">
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/name_inputLayout"
                     android:layout_width="match_parent"
@@ -104,8 +108,7 @@
             <RelativeLayout
                 android:id="@+id/email_rl"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="210dp">
+                android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/email_inputLayout"
@@ -135,8 +138,7 @@
             <RelativeLayout
                 android:id="@+id/pass_rl"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="275dp">
+                android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/password_inputLayout"
@@ -166,8 +168,7 @@
             <RelativeLayout
                 android:id="@+id/pass_repeat_rl"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="330dp">
+                android:layout_height="wrap_content">
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/repassword_inputLayout"
                     android:layout_width="match_parent"
@@ -194,11 +195,14 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <RelativeLayout
                 android:id="@+id/date_rl"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginTop="400dp">
+                android:layout_alignParentLeft="true">
 
                 <TextView
                     android:id="@+id/date_label"
@@ -244,8 +248,7 @@
                 android:id="@+id/gender_rl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="400dp">
+                android:layout_alignParentRight="true">
 
                 <TextView
                     android:id="@+id/gender_label"
@@ -291,6 +294,8 @@
                 </RadioGroup>
             </RelativeLayout>
 
+            </RelativeLayout>
+
             <Button
                 android:id="@+id/login_btn"
                 android:layout_width="328dp"
@@ -307,7 +312,9 @@
                 android:textSize="18sp"
                 android:onClick='@{controller.register}'/>
 
-        </RelativeLayout>
+        </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
 
         <include
             layout="@layout/progress"
