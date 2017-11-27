@@ -38,6 +38,7 @@
 
     <string name="classes_subscribe">Добавить в расписание</string>
     <string name="classes_unsubscribe">Удалить из расписания</string>
+    <string name="classes_not_found">По данному запросу, ничего не найдено</string>
 
     <string name="clubs_title">Клубы</string>
     <string name="filter_by_classes">По занятиям</string>

@@ -124,14 +124,11 @@ public abstract class BindingAdapters {
                     searchView.setOnQueryTextListener(textListener);
 
                     ImageView closeButton = (ImageView)searchView.findViewById(R.id.search_close_btn);
-                    closeButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            searchView.setQuery("", true);
-                            onCancelSearchListener.onCancel();
-                        }
+                    closeButton.setOnClickListener(view -> {
+                        searchView.setQuery("", true);
+                        searchView.setIconified(true);
+                        onCancelSearchListener.onCancel();
                     });
-//                    item.setVisible(false);
                 }
             }
         }

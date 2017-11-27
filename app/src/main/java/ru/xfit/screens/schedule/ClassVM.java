@@ -1,6 +1,7 @@
 package ru.xfit.screens.schedule;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import ru.xfit.R;
 import ru.xfit.misc.adapters.BaseVM;

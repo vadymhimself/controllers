@@ -351,7 +351,9 @@ public class MonthAdapter extends BaseAdapter implements MonthView {
                 }
 
                 for (int position = 0; position < 7; position++) {
-                    updatedDays.add(new CalendarItem(currentWeek.plusDays(position).getDayOfMonth(), month, year));
+                    updatedDays.add(new CalendarItem(currentWeek.plusDays(position).getDayOfMonth(),
+                            currentWeek.plusDays(position).getMonthOfYear(),
+                            currentWeek.plusDays(position).getYear()));
                 }
             }
 

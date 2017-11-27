@@ -11,6 +11,7 @@ import com.controllers.Request;
 
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutRegisterBinding;
+import ru.xfit.misc.NavigationClickListener;
 import ru.xfit.model.data.register.RegisterRequest;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.XFitController;

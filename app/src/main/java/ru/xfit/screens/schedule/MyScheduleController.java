@@ -68,7 +68,7 @@ public class MyScheduleController extends DrawerController<LayoutMyScheduleBindi
                 .create(api -> api.getClassesForClub("181"))
                 .onFinally(() -> progress.set(false))
                 .execute(schedule -> {
-                    MyScheduleController.this.show(new ClubClassesController(schedule, dayFilter.getDay()));
+                    MyScheduleController.this.show(new ClubClassesController(schedule));
                 });
     }
 

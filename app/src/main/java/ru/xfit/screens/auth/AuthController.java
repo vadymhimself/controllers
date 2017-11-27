@@ -26,6 +26,8 @@ public class AuthController extends XFitController<LayoutAuthBinding> {
     public ObservableField<String> password = new ObservableField<>("");
     public ObservableField<String> errorResponse = new ObservableField<>();
 
+    public ObservableBoolean isTelValid = new ObservableBoolean();
+
     public final ObservableBoolean progress = new ObservableBoolean();
 
     @Override
@@ -44,6 +46,9 @@ public class AuthController extends XFitController<LayoutAuthBinding> {
                 .onFinally(() -> progress.set(false))
                 .onError(error -> {
                     errorResponse.set(error.getMessage());
+                    if (getBinding() != null) {
+                        getBinding().passInputLayout.setError(error.getMessage());
+                    }
                 })
                 .execute(user -> {
 

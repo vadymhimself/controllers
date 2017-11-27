@@ -8,6 +8,9 @@
             type="ru.xfit.screens.auth.AuthController" />
 
         <import type="ru.xfit.R" />
+        <import
+            alias="type"
+            type="ru.xfit.misc.utils.validation.ValidationType" />
 
     </data>
 
@@ -15,147 +18,158 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/main_bg"
-        android:orientation="vertical">
+        android:fitsSystemWindows="true">
 
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="300dp"
-            android:layout_height="152dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
-            android:background="@drawable/logo_x_fit"/>
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:id="@+id/phone_rl"
-            android:layout_width="328dp"
-            android:layout_height="48dp"
-            android:layout_below="@+id/logo"
-            android:layout_marginLeft="16dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="70dp">
-
-            <com.github.reinaldoarrosi.maskededittext.MaskedEditText
-                android:id="@+id/phone"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:theme="@style/EditTextTheme"
-                android:drawableStart="@drawable/ic_phone"
-                android:imeOptions="actionDone"
-                android:inputType="number|phone"
-                android:maxLines="1"
-                android:textSize="17sp"
-                android:textColor="@android:color/white"
-                app:mask="+7(999) 999-99-99"
-                app:placeholder="_"
-                app:onMaskedTextChanged='@{controller.phone}'
-                app:digitMaskedKeyboard="@{true}"/>
+                android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/phone"
-                android:layout_marginTop="9dp"
-                android:background="@color/colorAccent" />
-        </RelativeLayout>
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="300dp"
+                    android:layout_height="152dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/logo_x_fit" />
 
-        <RelativeLayout
-            android:id="@+id/pass_rl"
-            android:layout_width="328dp"
-            android:layout_height="48dp"
-            android:layout_below="@+id/phone_rl"
-            android:layout_marginLeft="16dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="14dp">
+                <RelativeLayout
+                    android:id="@+id/phone_rl"
+                    android:layout_width="328dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/logo"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="70dp">
 
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:theme="@style/EditTextTheme"
-                android:drawableStart="@drawable/ic_lock_outline"
-                android:hint="@string/auth_passwd_hint"
-                android:inputType="textPassword"
-                android:textColor="@android:color/white"
-                android:textColorHint="@color/textHintColor"
-                android:textSize="17sp"
-                android:text='@={controller.password}'/>
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/phone_inputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:hintTextAppearance="@style/InputHintTextStyle"
+                        app:valid='@{controller.isTelValid}'
+                        app:validationType='@{type.PHONE}'>
 
-            <View
-                android:id="@+id/password_underline"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/password"
-                android:layout_marginTop="9dp"
-                android:background="@android:color/white" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="328dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="7dp"
-            android:visibility="@{controller.errorResponse.get().length() > 0}"
-            android:layout_below="@+id/pass_rl" >
-            <TextView
-                android:id="@+id/password_error"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{controller.errorResponse}"
-                android:textSize="12sp"
-                android:fontFamily="sans-serif"
-                android:maxWidth="300dp"
-                android:textColor="@color/reportProblem"
-                android:layout_alignParentLeft="true"/>
+                        <com.github.reinaldoarrosi.maskededittext.MaskedEditText
+                            android:id="@+id/phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:drawableStart="@drawable/ic_phone"
+                            android:imeOptions="actionNext"
+                            android:inputType="number|phone"
+                            android:maxLines="1"
+                            android:textColor="@android:color/white"
+                            android:textSize="17sp"
+                            android:theme="@style/EditTextTheme"
+                            app:digitMaskedKeyboard="@{true}"
+                            app:mask="+7(999) 999-99-99"
+                            app:onMaskedTextChanged='@{controller.phone}'
+                            app:placeholder="_" />
+                    </android.support.design.widget.TextInputLayout>
+                </RelativeLayout>
 
-            <ImageView
-                android:layout_width="17dp"
-                android:layout_height="15dp"
-                android:background="@drawable/ic_report_problem"
-                android:layout_alignParentRight="true"/>
-        </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/pass_rl"
+                    android:layout_width="328dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/phone_rl"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="14dp">
 
-        <Button
-            android:id="@+id/login_btn"
-            android:layout_width="328dp"
-            android:layout_height="48dp"
-            android:layout_below="@+id/pass_rl"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="60dp"
-            android:background="@drawable/button_bg"
-            android:foreground="?attr/selectableItemBackground"
-            android:fontFamily="sans-serif"
-            android:text="@string/auth_login"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:onClick='@{controller.auth}'/>
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/pass_inputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:errorTextAppearance="@style/ErrorText"
+                        app:errorEnabled="@{controller.errorResponse.get().length() > 0}"
+                        android:textColorHint="@color/textHintColor"
+                        app:hintTextAppearance="@style/InputHintTextStyle">
 
-        <TextView
-            android:id="@+id/reset_passwd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:textColor="#ffffff"
-            android:textSize="14sp"
-            android:layout_below="@+id/login_btn"
-            android:text="@string/auth_reset_pwd"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="23dp"
-            android:textStyle="normal"
-            android:onClick="@{controller.onForgotPasswordClicked}" />
+                        <EditText
+                            android:id="@+id/password"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:drawableStart="@drawable/ic_lock_outline"
+                            android:hint="@string/auth_passwd_hint"
+                            android:inputType="textPassword"
+                            android:text='@={controller.password}'
+                            android:textColor="@android:color/white"
+                            android:textColorHint="@color/textHintColor"
+                            android:textSize="17sp"
+                            android:theme="@style/EditTextTheme" />
+                    </android.support.design.widget.TextInputLayout>
 
-        <TextView
-            android:id="@+id/registration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:textColor="#ffffff"
-            android:textSize="14sp"
-            android:layout_below="@+id/reset_passwd"
-            android:text="@string/auth_registration"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:textStyle="normal"
-            android:onClick='@{controller.register}'/>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/pass_inputLayout"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="-40dp"
+                        android:visibility="@{controller.errorResponse.get().length() > 0}">
+
+                        <ImageView
+                            android:layout_width="17dp"
+                            android:layout_height="15dp"
+                            android:layout_alignParentRight="true"
+                            android:background="@drawable/ic_report_problem" />
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+
+
+                <Button
+                    android:id="@+id/login_btn"
+                    android:layout_width="328dp"
+                    android:layout_height="48dp"
+                    android:layout_below="@+id/pass_rl"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="60dp"
+                    android:background="@drawable/button_bg"
+                    android:fontFamily="sans-serif"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick='@{controller.auth}'
+                    android:text="@string/auth_login"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/reset_passwd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/login_btn"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="23dp"
+                    android:fontFamily="sans-serif"
+                    android:onClick="@{controller.onForgotPasswordClicked}"
+                    android:text="@string/auth_reset_pwd"
+                    android:textColor="#ffffff"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/registration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/reset_passwd"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif"
+                    android:onClick='@{controller.register}'
+                    android:text="@string/auth_registration"
+                    android:textColor="#ffffff"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+            </RelativeLayout>
+        </android.support.v4.widget.NestedScrollView>
 
         <include
             layout="@layout/progress"

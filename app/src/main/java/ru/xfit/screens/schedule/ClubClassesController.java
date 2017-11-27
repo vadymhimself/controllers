@@ -1,6 +1,10 @@
 package ru.xfit.screens.schedule;
 
 import android.databinding.Bindable;
+import android.support.v7.widget.SearchView;
+import android.util.Log;
+import android.view.MenuItem;
+
 import com.hwangjr.rxbus.annotation.Subscribe;
 import org.joda.time.DateTime;
 
@@ -8,12 +12,16 @@ import ru.xfit.BR;
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutClubClassesBinding;
 import ru.xfit.misc.adapters.FilterableAdapter;
+import ru.xfit.misc.adapters.OnCancelSearchListener;
 import ru.xfit.misc.events.OptionsItemSelectedEvent;
 import ru.xfit.misc.utils.ListUtils;
 import ru.xfit.model.data.schedule.Activity;
 import ru.xfit.model.data.schedule.Clazz;
 import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.model.data.schedule.Trainer;
+import ru.xfit.screens.BlankToolbarController;
+import ru.xfit.screens.DateChangeListener;
+import ru.xfit.screens.clubs.ClassesFilter;
 import ru.xfit.screens.filter.FilterController;
 
 import java.util.ArrayList;
@@ -25,12 +33,10 @@ import static ru.xfit.misc.utils.ListUtils.filter;
 
 /**
  * Created by TESLA on 04.11.2017.
- * TODO: download more classes in itself
- * TODO: тут вообще-то календарь тоже будет, и фильтр по дням...
  */
 
-public class ClubClassesController extends BaseScheduleController<LayoutClubClassesBinding>
-        implements FilterListener {
+public class ClubClassesController extends BlankToolbarController<LayoutClubClassesBinding>
+        implements FilterListener, DateChangeListener, SearchView.OnQueryTextListener, OnCancelSearchListener {
 
     private final Set<Trainer> trainers = new HashSet<>();
     private final Set<Activity> activities = new HashSet<>();
@@ -41,6 +47,7 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
     public Schedule schedule;
 
     private final DayFilter dayFilter = new DayFilter(DateTime.now());
+    private final ClassesFilter classesFilter = new ClassesFilter("");
 
 //    private FilterController filterController = new FilterController(this, trainers, activities);
 
@@ -52,14 +59,9 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
         init();
     }
 
-    public ClubClassesController(Schedule schedule, DateTime dateTime) {
-        this.schedule = schedule;
-        dayFilter.setDay(dateTime);
-        init();
-    }
-
     private void init() {
         adapter.addFilter(dayFilter);
+        adapter.addFilter(classesFilter);
         // class type and trainer filters
         adapter.addFilter(list -> filter(list, it -> selectedActivities.contains(it.clazz.activity)));
         adapter.addFilter(list -> filter(list, it -> {
@@ -100,8 +102,6 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
         this.selectedTrainers = trainers;
         this.selectedActivities = activities;
         adapter.addAll(toAdd);
-
-//        notifyPropertyChanged(BR.adapter);
     }
 
     @Override
@@ -114,5 +114,45 @@ public class ClubClassesController extends BaseScheduleController<LayoutClubClas
     @Override
     public String getTitle() {
         return schedule.club.title;
+    }
+
+    @Override
+    public void onDateChange(DateTime dateTime) {
+        dayFilter.setDay(dateTime);
+        adapter.refresh();
+    }
+
+    @Override
+    public void onDatePeriodChanged(DateTime firstSelection, DateTime lastSelection) {
+
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        return false;
+    }
+
+    @Override
+    public void onNavigationClick() {
+        back();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        classesFilter.setTrainerName(query);
+        adapter.refresh();
+
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+    @Override
+    public void onCancel() {
+        classesFilter.setTrainerName("");
+        adapter.refresh();
     }
 }
