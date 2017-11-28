@@ -11,7 +11,6 @@ import com.controllers.Request;
 
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutRegisterBinding;
-import ru.xfit.misc.NavigationClickListener;
 import ru.xfit.model.data.register.RegisterRequest;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.XFitController;
@@ -29,16 +28,14 @@ public class RegisterController extends XFitController<LayoutRegisterBinding>{
     public ObservableField<String> email = new ObservableField<>("");
     public ObservableInt gender = new ObservableInt();
     public ObservableField<String> errorResponse = new ObservableField<>();
-
-    private boolean isValidate = false;
     public ObservableBoolean isPasswordValid = new ObservableBoolean();
     public ObservableBoolean isRePasswordValid = new ObservableBoolean();
     public ObservableBoolean isEmailValid = new ObservableBoolean();
     public ObservableBoolean isTelValid = new ObservableBoolean();
     public ObservableBoolean isNameValid = new ObservableBoolean();
     public ObservableBoolean isDateValid = new ObservableBoolean();
-
     public ObservableBoolean progress = new ObservableBoolean();
+    private boolean isValidate = false;
 
     @Override
     public int getLayoutId() {
@@ -61,7 +58,7 @@ public class RegisterController extends XFitController<LayoutRegisterBinding>{
             RegisterRequest regData = new RegisterRequest();
             regData.phone = phone.get();
             //01234567
-            String bDay = date.get().substring(4,8) + "-" + date.get().substring(0,2) + "-" + date.get().substring(2,4);
+            String bDay = date.get().substring(4, 8) + "-" + date.get().substring(2, 4) + "-" + date.get().substring(0, 2);
             regData.birthday = bDay;
             regData.password = password.get();
             regData.name = name.get();

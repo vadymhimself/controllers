@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="controller"
+            type="ru.xfit.screens.contacts.faq.FAQController" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/spacer"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize" />
+
+        <RelativeLayout
+            android:id="@+id/general_rl"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_below="@id/spacer"
+            android:background="@color/white"
+            android:elevation="1dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{controller::onGeneralQuestionsClick}">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/faq_general"
+                android:textSize="16sp"
+                android:textStyle="normal" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_chevron_right"
+                android:tint="@color/calendarWeekend" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/cards_rl"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_below="@+id/general_rl"
+            android:layout_marginTop="1dp"
+            android:background="@color/white"
+            android:elevation="1dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{controller::onCardQuestionsClick}">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/faq_cards"
+                android:textSize="16sp"
+                android:textStyle="normal" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_chevron_right"
+                android:tint="@color/calendarWeekend" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/pool_rl"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_below="@id/cards_rl"
+            android:layout_marginTop="1dp"
+            android:background="@color/white"
+            android:elevation="1dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{controller::onPoolQuestionsClick}">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/faq_pools"
+                android:textSize="16sp"
+                android:textStyle="normal" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_chevron_right"
+                android:tint="@color/calendarWeekend" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/telegram_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_horizontal"
+            android:letterSpacing="0.02"
+            android:onClick="@{controller::onTelegramClicked}"
+            android:textColor="#7ed321"
+            android:textSize="14sp"
+            app:underline="@{@string/faq_telegram}" />
+
+        <Button
+            android:id="@+id/ask_btn"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_above="@id/telegram_tv"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:background="@drawable/button_bg"
+            android:fontFamily="sans-serif"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick='@{controller::onAskQuestionCLicked}'
+            android:text="@string/faq_ask"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+</layout>

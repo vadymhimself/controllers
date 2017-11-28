@@ -19,68 +19,81 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.*;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
+import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.*;
-import android.widget.SearchView;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.github.reinaldoarrosi.maskededittext.MaskedEditText;
 import com.molo17.customizablecalendar.library.components.CustomizableCalendar;
 import com.molo17.customizablecalendar.library.interactors.AUCalendar;
 import com.molo17.customizablecalendar.library.model.Calendar;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
+import java.util.List;
+
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 import ru.xfit.R;
 import ru.xfit.databinding.PopupRecyclerBinding;
 import ru.xfit.domain.App;
 import ru.xfit.misc.CircleTransform;
 import ru.xfit.misc.NavigationClickListener;
 import ru.xfit.misc.OnViewReadyListener;
-import ru.xfit.misc.utils.validation.*;
-import ru.xfit.misc.views.*;
-import ru.xfit.model.data.club.ClubItem;
+import ru.xfit.misc.utils.validation.AgeValidator;
+import ru.xfit.misc.utils.validation.EmailValidator;
+import ru.xfit.misc.utils.validation.EmptyValidator;
+import ru.xfit.misc.utils.validation.PasswordEqualValidator;
+import ru.xfit.misc.utils.validation.PasswordValidator;
+import ru.xfit.misc.utils.validation.PhoneValidator;
+import ru.xfit.misc.utils.validation.StringValidator;
+import ru.xfit.misc.utils.validation.ValidationType;
+import ru.xfit.misc.views.BannerSliderView;
+import ru.xfit.misc.views.BottomNavigationViewHelper;
+import ru.xfit.misc.views.HackyRecyclerView;
+import ru.xfit.misc.views.LayoutManagers;
+import ru.xfit.misc.views.RecyclerItemClickListener;
+import ru.xfit.misc.views.RefreshListener;
 import ru.xfit.model.data.common.Image;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.screens.DateChangeListener;
 import ru.xfit.screens.FeedbackController;
 import ru.xfit.screens.XFitController;
 import ru.xfit.screens.clubs.AboutClubController;
-import ru.xfit.screens.clubs.ClubsFilter;
-import ru.xfit.screens.clubs.SuspendCardController;
-import ru.xfit.screens.contacts.ContactVM;
-import ru.xfit.screens.contacts.OnClubClickListener;
 import ru.xfit.screens.contacts.PopupController;
 import ru.xfit.screens.filter.FilterController;
 import ru.xfit.screens.filter.FilterVM;
-import ru.xfit.screens.filter.HeaderFilterVM;
-import ru.xfit.screens.schedule.MyScheduleController;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class BindingAdapters {
 
@@ -338,10 +351,6 @@ public abstract class BindingAdapters {
         pager.addOnPageChangeListener(pageChangeListener);
     }
 
-    public interface UrlListener {
-        void onUrlChanged(WebView webView, String url);
-    }
-
     @BindingAdapter(value = {"url", "urlListener"}, requireAll = false)
     public static void bindUrl(WebView webView, String url, UrlListener urlListener) {
         webView.getSettings().setJavaScriptEnabled(true);
@@ -365,10 +374,6 @@ public abstract class BindingAdapters {
     @BindingAdapter("html")
     public static void bindHtml(TextView textView, String html) {
         textView.setText(Html.fromHtml(html));
-    }
-
-    public interface ItemSwipeListener {
-        void onItemSwiped(int index);
     }
 
     @BindingAdapter("itemSwipeListener")
@@ -792,6 +797,21 @@ public abstract class BindingAdapters {
                 popupController.adapter.refresh();
             }
         });
+    }
+
+    @BindingAdapter("underline")
+    public static void setUnderlinedText(TextView textView, String text) {
+        SpannableString string = new SpannableString(text);
+        string.setSpan(new UnderlineSpan(), 0, string.length(), 0);
+        textView.setText(string);
+    }
+
+    public interface UrlListener {
+        void onUrlChanged(WebView webView, String url);
+    }
+
+    public interface ItemSwipeListener {
+        void onItemSwiped(int index);
     }
 
 }

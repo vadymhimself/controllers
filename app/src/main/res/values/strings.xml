@@ -109,6 +109,12 @@
     <string name="call_me_button">Жду звонка</string>
     <string name="call_me_select_club">Выберите клуб</string>
 
+    <string name="faq_general">Общие вопросы</string>
+    <string name="faq_cards">Вопросы по картам</string>
+    <string name="faq_pools">Вопросы по бассейну</string>
+    <string name="faq_ask">Задать вопрос</string>
+
     <string name="send_feedback_title">Обратная связь</string>
     <string name="send_feedback_send_feedback">Отправить</string>
+    <string name="faq_telegram">telegram.me/XFitBot</string>
 </resources>
