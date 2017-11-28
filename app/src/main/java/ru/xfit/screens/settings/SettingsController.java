@@ -6,6 +6,7 @@ import android.view.View;
 
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutSettingsBinding;
+import ru.xfit.domain.App;
 import ru.xfit.screens.DrawerController;
 
 /**
@@ -22,6 +23,11 @@ public class SettingsController extends DrawerController<LayoutSettingsBinding> 
         //get setting from storage
     }
 
+    @Override
+    public String getTitle() {
+        return App.getContext().getResources().getString(R.string.settings_title);
+    }
+
     public void onSetDay(View view) {
 
     }
@@ -35,7 +41,7 @@ public class SettingsController extends DrawerController<LayoutSettingsBinding> 
     }
 
     public void onAboutClick(View view) {
-
+        show(new AboutController());
     }
 
     @Override
