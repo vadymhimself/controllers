@@ -111,4 +111,9 @@
 
     <string name="send_feedback_title">Обратная связь</string>
     <string name="send_feedback_send_feedback">Отправить</string>
+    <string name="settings_notification">Уведомления</string>
+    <string name="settings_alarm">Напоминание</string>
+    <string name="settings_alarm_time">Время напоминания</string>
+    <string name="settings_rate">Оцените приложение</string>
+    <string name="settings_about">О приложении</string>
 </resources>
