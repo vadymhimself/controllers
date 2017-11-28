@@ -13,6 +13,7 @@ public enum ContactsEnum {
     PHONE(App.getContext().getResources().getString(R.string.about_phone_link));
 
     private String contact;
+
     ContactsEnum(String contact) {
         this.contact = contact;
     }

@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.net.Uri;
-import android.support.design.widget.BaseTransientBottomBar;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.controllers.Request;
@@ -20,6 +18,7 @@ import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.data.club.SortingRequest;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.DrawerController;
+import ru.xfit.screens.contacts.faq.FAQController;
 
 /**
  * Created by TESLA on 27.11.2017.
@@ -77,6 +76,6 @@ public class ContactsController extends DrawerController<LayoutContactsBinding> 
     }
 
     public void getFaq(View view) {
-        Snackbar.make(view, "Coming soon...", BaseTransientBottomBar.LENGTH_SHORT).show();
+        show(new FAQController());
     }
 }

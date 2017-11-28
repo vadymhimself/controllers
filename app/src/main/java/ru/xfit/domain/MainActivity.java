@@ -23,9 +23,13 @@ import com.controllers.Controller;
 import com.crashlytics.android.Crashlytics;
 import com.hwangjr.rxbus.Bus;
 import com.hwangjr.rxbus.annotation.Subscribe;
+
+import javax.inject.Inject;
+
 import io.fabric.sdk.android.Fabric;
 import ru.xfit.BuildConfig;
 import ru.xfit.R;
+import ru.xfit.misc.events.OnBackEvent;
 import ru.xfit.misc.events.OptionsItemSelectedEvent;
 import ru.xfit.model.data.storage.preferences.PreferencesManager;
 import ru.xfit.model.retrorequest.LogoutEvent;
@@ -34,23 +38,19 @@ import ru.xfit.screens.DrawerController;
 import ru.xfit.screens.FeedbackController;
 import ru.xfit.screens.clubs.ClubsController;
 import ru.xfit.screens.contacts.ContactsController;
-import ru.xfit.misc.events.OnBackEvent;
 import ru.xfit.screens.schedule.ClubClassesController;
 import ru.xfit.screens.schedule.MyScheduleController;
 import ru.xfit.screens.settings.SettingsController;
 import ru.xfit.screens.xfit.MyXfitController;
 
-import javax.inject.Inject;
-
 
 public class MainActivity extends XFitActivity implements
         NavigationView.OnNavigationItemSelectedListener {
 
-    @Inject Bus bus;
-
     public MyScheduleController myScheduleController;
+    @Inject
+    Bus bus;
 //    public ClubsController clubsController;
-
     private Toolbar toolbar;
     private NavigationView navView;
     private DrawerLayout drawer;
@@ -63,6 +63,11 @@ public class MainActivity extends XFitActivity implements
     private boolean toolBarNavigationListenerIsRegistered;
 
     private ViewGroup transitionsContainer;
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -234,11 +239,6 @@ public class MainActivity extends XFitActivity implements
         } else {
             //nothing
         }
-    }
-
-    public static void start(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        context.startActivity(intent);
     }
 
     public String getVersionName() {
