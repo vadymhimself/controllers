@@ -113,8 +113,25 @@
     <string name="faq_cards">Вопросы по картам</string>
     <string name="faq_pools">Вопросы по бассейну</string>
     <string name="faq_ask">Задать вопрос</string>
+    <string name="faq_telegram">telegram.me/XFitBot</string>
 
     <string name="send_feedback_title">Обратная связь</string>
     <string name="send_feedback_send_feedback">Отправить</string>
-    <string name="faq_telegram">telegram.me/XFitBot</string>
+
+    <string name="settings_title">Настройки</string>
+    <string name="settings_notification">Уведомления</string>
+    <string name="settings_alarm">Напоминание</string>
+    <string name="settings_alarm_time">Время напоминания</string>
+    <string name="settings_rate">Оцените приложение</string>
+    <string name="settings_about">О приложении</string>
+
+    <string name="about_title">О приложении</string>
+    <string name="about_developer">Разработчик приложения: \nООО «Айди ИСТ» (iD EAST)</string>
+    <string name="about_web">Web: <u>www.id-east.ru</u></string>
+    <string name="about_web_link">https://id-east.ru</string>
+    <string name="about_email">E-mail: <u>welcome@id-east.ru</u></string>
+    <string name="about_email_link">mailto: welcome@id-east.ru</string>
+    <string name="about_email_title">iD EAST</string>
+    <string name="about_phone">Телефон: <u>+7 (495) 795–67–78</u></string>
+    <string name="about_phone_link">+7(495)795–67–78</string>
 </resources>

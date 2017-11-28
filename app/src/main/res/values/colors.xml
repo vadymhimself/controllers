@@ -33,5 +33,5 @@
     <color name="contractNotOpened">#ffcdcbce</color>
     <color name="contractBlocked">#fffe2146</color>
     <color name="contractSuspended">#ff0fcddb</color>
-
+    <color name="grayBackground">#fff6f5f7</color>
 </resources>
