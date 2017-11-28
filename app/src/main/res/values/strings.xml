@@ -110,7 +110,8 @@
     <string name="call_me_select_club">Выберите клуб</string>
 
     <string name="faq_general">Общие вопросы</string>
-    <string name="faq_cards">Вопросы по картам</string>
+    <string name="faq_trainings">Вопросы по тренировкам</string>
+    <string name="faq_cards">Вопросы по абонементам</string>
     <string name="faq_pools">Вопросы по бассейну</string>
     <string name="faq_ask">Задать вопрос</string>
     <string name="faq_telegram">telegram.me/XFitBot</string>

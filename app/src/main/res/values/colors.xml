@@ -34,4 +34,7 @@
     <color name="contractBlocked">#fffe2146</color>
     <color name="contractSuspended">#ff0fcddb</color>
     <color name="grayBackground">#fff6f5f7</color>
+
+    <color name="slate_grey">#58595b</color>
+    <color name="fade_color">#b1ececec</color>
 </resources>

@@ -16,6 +16,9 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputLayout;
+import android.support.transition.AutoTransition;
+import android.support.transition.Transition;
+import android.support.transition.TransitionManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -35,6 +38,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -806,6 +810,21 @@ public abstract class BindingAdapters {
         textView.setText(string);
     }
 
+    @BindingAdapter("rotate")
+    public static void setRotation(View view, boolean isRotated) {
+        view.setRotation(isRotated ? 180 : 0);
+    }
+
+    @BindingAdapter(value = {"startTransition", "transitionListener"})
+    public static void startTransition(ViewGroup viewGroup, boolean trig, Transition.TransitionListener listener) {
+        Transition transition = new AutoTransition();
+        if (trig)
+            transition.addListener(listener);
+        TransitionManager.beginDelayedTransition(viewGroup, transition);
+        viewGroup.findViewById(R.id.expand_indicator).setRotation(trig ? 180 : 0);
+        viewGroup.findViewById(R.id.expand_view).setVisibility(trig ? View.VISIBLE : View.GONE);
+    }
+
     public interface UrlListener {
         void onUrlChanged(WebView webView, String url);
     }
@@ -813,5 +832,6 @@ public abstract class BindingAdapters {
     public interface ItemSwipeListener {
         void onItemSwiped(int index);
     }
+
 
 }
