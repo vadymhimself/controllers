@@ -37,6 +37,7 @@ import ru.xfit.screens.contacts.ContactsController;
 import ru.xfit.misc.events.OnBackEvent;
 import ru.xfit.screens.schedule.ClubClassesController;
 import ru.xfit.screens.schedule.MyScheduleController;
+import ru.xfit.screens.settings.SettingsController;
 import ru.xfit.screens.xfit.MyXfitController;
 
 import javax.inject.Inject;
@@ -168,6 +169,8 @@ public class MainActivity extends XFitActivity implements
                 drawer.closeDrawers();
                 return true;
             case R.id.settings:
+                replace(new SettingsController());
+                drawer.closeDrawers();
                 return true;
             case R.id.quit:
                 logOut();
