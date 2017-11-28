@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.TextView;
 
+import ru.xfit.BuildConfig;
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutAboutBinding;
 import ru.xfit.domain.App;
@@ -25,6 +26,10 @@ public class AboutController extends XFitController<LayoutAboutBinding> {
 
     public String getTitle() {
         return App.getContext().getResources().getString(R.string.about_title);
+    }
+
+    public String getBuild() {
+        return "Сборка: " + BuildConfig.VERSION_NAME;
     }
 
     public void getFeedback(ContactsEnum contactsEnum) {

@@ -20,56 +20,67 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="116dp"
-            android:background="@drawable/id_east_logo"
-            android:layout_gravity="center_horizontal"/>
+            android:background="@drawable/id_east_logo" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:fontFamily="sans-serif-medium"
-            android:textStyle="normal"
-            android:textColor="@color/calendarCommonDay"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="60dp"
-            android:text="@string/about_developer"/>
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/about_developer"
+            android:textColor="@color/calendarCommonDay"
+            android:textSize="15sp"
+            android:textStyle="normal" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:fontFamily="sans-serif-medium"
-            android:textStyle="normal"
-            android:textColor="@color/calendarCommonDay"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
+            android:fontFamily="sans-serif-medium"
             android:onClick="@{() -> controller.getFeedback(type.WEB)}"
-            android:text="@string/about_web"/>
+            android:text="@string/about_web"
+            android:textColor="@color/calendarCommonDay"
+            android:textSize="15sp"
+            android:textStyle="normal" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:fontFamily="sans-serif-medium"
-            android:textStyle="normal"
-            android:textColor="@color/calendarCommonDay"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
+            android:fontFamily="sans-serif-medium"
             android:onClick="@{() -> controller.getFeedback(type.EMAIL)}"
-            android:text="@string/about_email"/>
+            android:text="@string/about_email"
+            android:textColor="@color/calendarCommonDay"
+            android:textSize="15sp"
+            android:textStyle="normal" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:fontFamily="sans-serif-medium"
-            android:textStyle="normal"
-            android:textColor="@color/calendarCommonDay"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
+            android:fontFamily="sans-serif-medium"
             android:onClick="@{() -> controller.getFeedback(type.PHONE)}"
-            android:text="@string/about_phone"/>
+            android:text="@string/about_phone"
+            android:textColor="@color/calendarCommonDay"
+            android:textSize="15sp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@{controller.getBuild}"
+            android:textColor="@color/calendarCommonDay"
+            android:textSize="15sp"
+            android:textStyle="normal" />
 
     </LinearLayout>
 </layout>
