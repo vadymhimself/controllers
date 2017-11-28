@@ -2,7 +2,6 @@ package ru.xfit.screens.settings;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.widget.TextView;
 
 import ru.xfit.BuildConfig;
 import ru.xfit.R;
@@ -33,9 +32,9 @@ public class AboutController extends XFitController<LayoutAboutBinding> {
     }
 
     public void getFeedback(ContactsEnum contactsEnum) {
-        switch (contactsEnum){
+        switch (contactsEnum) {
             case WEB:
-                Intent intent= new Intent(Intent.ACTION_VIEW, Uri.parse(contactsEnum.getContact()));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(contactsEnum.getContact()));
                 getActivity().startActivity(intent);
                 break;
             case EMAIL:
