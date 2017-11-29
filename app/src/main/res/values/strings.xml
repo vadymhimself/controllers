@@ -84,6 +84,7 @@
     <string name="my_xfit_title">Мой X-Fit</string>
     <string name="my_xfit_add_club">Добавить клуб</string>
     <string name="my_xfit_suspend_contract">Заморозить карту</string>
+    <string name="my_xfit_error">Пожалуйста повторите запрос позже</string>
     <string name="my_xfit_not_found">С Вашим номером телефона нет связанных \nклубов, если Вы уже приобрели карту, нажмите\n «Добавить клуб»</string>
 
     <string name="contract_opened">Открыта</string>
