@@ -16,111 +16,124 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:title="@{controller.title}"
-            app:navigationClickListener="@{controller}"
-            app:showBackButton="@{controller.previous != null}" />
-
         <RelativeLayout
-            android:id="@+id/dropdown_rl"
-            android:layout_below="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:background="@android:color/white"
-            android:elevation="1dp">
+            android:layout_height="match_parent">
 
-            <EditText
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:textSize="16sp"
-                android:fontFamily="sans-serif"
-                android:textStyle="normal"
-                android:hint="@string/call_me_select_club"
-                android:textColor="@color/calendarCommonDay"
-                android:drawableRight="@drawable/ic_arrow_drop_down"
-                android:background="@android:color/transparent"
-                android:text="@{controller.selectedClub.title}"
-                app:hackyPopUp="@{controller}"/>
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                android:title="@{controller.title}"
+                app:navigationClickListener="@{controller}"
+                app:showBackButton="@{controller.previous != null}" />
 
+            <RelativeLayout
+                android:id="@+id/dropdown_rl"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_below="@+id/toolbar"
+                android:background="@android:color/white"
+                android:elevation="1dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/transparent"
+                    android:drawableRight="@drawable/ic_arrow_drop_down"
+                    android:fontFamily="sans-serif"
+                    android:hint="@string/call_me_select_club"
+                    android:text="@{controller.selectedClub.title}"
+                    android:textColor="@color/calendarCommonDay"
+                    android:textSize="16sp"
+                    android:textStyle="normal"
+                    app:hackyPopUp="@{controller}" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/name_rl"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_below="@+id/dropdown_rl"
+                android:layout_marginTop="1dp"
+                android:background="@android:color/white"
+                android:elevation="1dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="sans-serif"
+                    android:text="@{controller.name}"
+                    android:textColor="@color/calendarCommonDay"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/phone_rl"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_below="@+id/name_rl"
+                android:layout_marginTop="1dp"
+                android:background="@android:color/white"
+                android:elevation="1dp">
+
+                <com.github.reinaldoarrosi.maskededittext.MaskedEditText
+                    android:id="@+id/phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/transparent"
+                    android:drawableStart="@drawable/ic_phone"
+                    android:fontFamily="sans-serif"
+                    android:imeOptions="actionDone"
+                    android:inputType="number|phone"
+                    android:maxLines="1"
+                    android:textSize="16sp"
+                    android:textStyle="normal"
+                    app:digitMaskedKeyboard="@{true}"
+                    app:mask="+7(999) 999-99-99"
+                    app:onMaskedTextChanged='@{controller.phone}'
+                    app:placeholder="_"
+                    app:preloadPhone="@{controller.phone}" />
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/login_btn"
+                android:layout_width="328dp"
+                android:layout_height="48dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/button_bg"
+                android:fontFamily="sans-serif"
+                android:foreground="?attr/selectableItemBackground"
+                android:onClick='@{controller.callMe}'
+                android:text="@string/call_me_button"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/name_rl"
+        <include
+            layout="@layout/progress"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_below="@+id/dropdown_rl"
-            android:background="@android:color/white"
-            android:layout_marginTop="1dp"
-            android:elevation="1dp">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:textSize="16sp"
-                android:fontFamily="sans-serif"
-                android:textStyle="normal"
-                android:textColor="@color/calendarCommonDay"
-                android:background="@android:color/transparent"
-                android:text="@{controller.name}"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/phone_rl"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_below="@+id/name_rl"
-            android:background="@android:color/white"
-            android:layout_marginTop="1dp"
-            android:elevation="1dp">
-
-            <com.github.reinaldoarrosi.maskededittext.MaskedEditText
-                android:id="@+id/phone"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:drawableStart="@drawable/ic_phone"
-                android:imeOptions="actionDone"
-                android:inputType="number|phone"
-                android:maxLines="1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:textSize="16sp"
-                android:fontFamily="sans-serif"
-                android:textStyle="normal"
-                android:background="@android:color/transparent"
-                app:digitMaskedKeyboard="@{true}"
-                app:mask="+7(999) 999-99-99"
-                app:onMaskedTextChanged='@{controller.phone}'
-                app:preloadPhone="@{controller.phone}"
-                app:placeholder="_" />
-
-        </RelativeLayout>
-
-        <Button
-            android:id="@+id/login_btn"
-            android:layout_width="328dp"
-            android:layout_height="48dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/button_bg"
-            android:fontFamily="sans-serif"
-            android:foreground="?attr/selectableItemBackground"
-            android:onClick='@{controller.callMe}'
-            android:text="@string/call_me_button"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
+            android:layout_height="match_parent"
+            android:background="@{R.color.loaderBackground}"
+            android:indeterminateTint="@{R.color.controlsColor}"
+            app:visibility="@{controller.progress}" />
 
     </RelativeLayout>
 </layout>

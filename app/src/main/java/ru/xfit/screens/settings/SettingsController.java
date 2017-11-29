@@ -1,9 +1,12 @@
 package ru.xfit.screens.settings;
 
 import android.app.TimePickerDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
+import android.net.Uri;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -97,12 +100,26 @@ public class SettingsController extends DrawerController<LayoutSettingsBinding> 
     }
 
     public void onSetTimeClick(View view) {
-        TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), timeCallBack, 10, 0, true);
-        timePickerDialog.show();
+        if (timeCallBack != null) {
+            TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), timeCallBack, 10, 0, true);
+            timePickerDialog.show();
+        }
     }
 
     public void onRateClick(View view) {
-
+        Uri uri = Uri.parse("market://details?id=" + App.getContext().getPackageName());
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        // To count with Play market backstack, After pressing back button,
+        // to taken back to our application, we need to add following flags to intent.
+        goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        try {
+            getActivity().startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            getActivity().startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id=" + App.getContext().getPackageName())));
+        }
     }
 
     public void onAboutClick(View view) {
@@ -114,10 +131,13 @@ public class SettingsController extends DrawerController<LayoutSettingsBinding> 
         return R.layout.layout_settings;
     }
 
-    private TimePickerDialog.OnTimeSetListener timeCallBack = (view, hourOfDay, minute) -> {
-        DateTime dateTime = new DateTime(DateTime.now().withHourOfDay(hourOfDay).withMinuteOfHour(minute));
-        timeNotify.set(dateTime.toString("HH:mm"));
+    private transient TimePickerDialog.OnTimeSetListener timeCallBack = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            DateTime dateTime = new DateTime(DateTime.now().withHourOfDay(hourOfDay).withMinuteOfHour(minute));
+            timeNotify.set(dateTime.toString("HH:mm"));
 
-        saveSettings();
+            SettingsController.this.saveSettings();
+        }
     };
 }

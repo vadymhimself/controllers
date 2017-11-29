@@ -32,15 +32,20 @@ public class MyXfitController extends DrawerController<LayoutMyxfitBinding> {
     public ObservableField<Contract> contract = new ObservableField<>();
     public final ObservableBoolean progress = new ObservableBoolean();
 
+    public final ObservableField<String> info = new ObservableField<>();
     public ObservableField<String> contractStatus = new ObservableField<>();
     public ObservableField<String> contractDuration = new ObservableField<>();
     public ObservableField<ClubItem> contractClub = new ObservableField<>();
     public ObservableInt contractColor = new ObservableInt();
 
     public MyXfitController() {
+        info.set(App.getContext().getResources().getString(R.string.my_xfit_not_found));
         progress.set(true);
         Request.with(this, Api.class)
                 .create(Api::getContracts)
+                .onError(error -> {
+                    info.set(App.getContext().getResources().getString(R.string.my_xfit_error));
+                })
                 .onFinally(() -> progress.set(false))
                 .execute(this::setContractList);
     }

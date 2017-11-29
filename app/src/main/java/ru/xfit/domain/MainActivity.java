@@ -38,6 +38,7 @@ import ru.xfit.screens.DrawerController;
 import ru.xfit.screens.FeedbackController;
 import ru.xfit.screens.clubs.ClubsController;
 import ru.xfit.screens.contacts.ContactsController;
+import ru.xfit.screens.notifications.NotificationsController;
 import ru.xfit.screens.schedule.ClubClassesController;
 import ru.xfit.screens.schedule.MyScheduleController;
 import ru.xfit.screens.settings.SettingsController;
@@ -164,6 +165,10 @@ public class MainActivity extends XFitActivity implements
                 drawer.closeDrawers();
                 return true;
             case R.id.services:
+                return true;
+            case R.id.notifications:
+                replace(new NotificationsController());
+                drawer.closeDrawers();
                 return true;
             case R.id.clubs:
                 replace(new ClubsController(false));

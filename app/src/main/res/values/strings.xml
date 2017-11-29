@@ -24,6 +24,7 @@
     <string name="nav_menu_x_fit">Мой X-Fit</string>
     <string name="nav_menu_services">Услуги</string>
     <string name="nav_menu_clubs">Клубы</string>
+    <string name="nav_menu_notifications">Уведомления</string>
     <string name="nav_menu_contacts">Контакты</string>
     <string name="nav_menu_settings">Настройки</string>
     <string name="nav_menu_quit"><font fgcolor='#9b65cb'>Выйти</font></string>
@@ -84,6 +85,7 @@
     <string name="my_xfit_title">Мой X-Fit</string>
     <string name="my_xfit_add_club">Добавить клуб</string>
     <string name="my_xfit_suspend_contract">Заморозить карту</string>
+    <string name="my_xfit_error">Пожалуйста повторите запрос позже</string>
     <string name="my_xfit_not_found">С Вашим номером телефона нет связанных \nклубов, если Вы уже приобрели карту, нажмите\n «Добавить клуб»</string>
 
     <string name="contract_opened">Открыта</string>
@@ -108,6 +110,8 @@
     <string name="call_me_title">Перезвоните мне</string>
     <string name="call_me_button">Жду звонка</string>
     <string name="call_me_select_club">Выберите клуб</string>
+    <string name="call_me_success">Ваше обращение принято</string>
+    <string name="call_me_message_caption">Сообщение</string>
 
     <string name="faq_general">Общие вопросы</string>
     <string name="faq_trainings">Вопросы по тренировкам</string>
@@ -144,5 +148,7 @@
     <string name="about_email_title">iD EAST</string>
     <string name="about_phone">Телефон: <u>+7 (495) 795–67–78</u></string>
     <string name="about_phone_link">+7(495)795–67–78</string>
+
+    <string name="notifications_title">Уведомления</string>
 
 </resources>
