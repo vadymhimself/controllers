@@ -24,6 +24,11 @@
             android:checkable="true"
             android:title="@string/nav_menu_clubs" />
         <item
+            android:id="@+id/notifications"
+            android:icon="@drawable/ic_clubs"
+            android:checkable="true"
+            android:title="@string/nav_menu_notifications" />
+        <item
             android:id="@+id/contacts"
             android:icon="@drawable/ic_contacts"
             android:checkable="true"

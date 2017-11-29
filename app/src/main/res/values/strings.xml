@@ -24,6 +24,7 @@
     <string name="nav_menu_x_fit">Мой X-Fit</string>
     <string name="nav_menu_services">Услуги</string>
     <string name="nav_menu_clubs">Клубы</string>
+    <string name="nav_menu_notifications">Уведомления</string>
     <string name="nav_menu_contacts">Контакты</string>
     <string name="nav_menu_settings">Настройки</string>
     <string name="nav_menu_quit"><font fgcolor='#9b65cb'>Выйти</font></string>
@@ -145,5 +146,7 @@
     <string name="about_email_title">iD EAST</string>
     <string name="about_phone">Телефон: <u>+7 (495) 795–67–78</u></string>
     <string name="about_phone_link">+7(495)795–67–78</string>
+
+    <string name="notifications_title">Уведомления</string>
 
 </resources>
