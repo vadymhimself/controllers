@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+
+import com.controllers.Controller;
 
 import ru.xfit.BuildConfig;
 import ru.xfit.R;
@@ -70,5 +73,20 @@ public class StartActivity extends XFitActivity {
 
     public String getVersionName() {
         return "build: " + BuildConfig.VERSION_NAME;
+    }
+
+    @Override
+    public void onBackPressed() {
+        back(R.anim.slidein_left, R.anim.slideout_right);
+    }
+
+    @Override
+    protected Controller show(@NonNull Controller controller) {
+        return show(controller, R.anim.slidein_right, R.anim.slideout_left);
+    }
+
+    @Override
+    protected Controller back() {
+        return back(R.anim.slidein_left, R.anim.slideout_right);
     }
 }
