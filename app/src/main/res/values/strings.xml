@@ -125,6 +125,15 @@
     <string name="settings_alarm_time">Время напоминания</string>
     <string name="settings_rate">Оцените приложение</string>
     <string name="settings_about">О приложении</string>
+    <string name="settings_menu_zero">В день</string>
+    <string name="settings_menu_one">За 1 день</string>
+    <plurals name="settings_notify_day">
+        <item quantity="one">За %d день</item>
+        <item quantity="zero">В день</item>
+        <item quantity="few">За %d дня</item>
+        <item quantity="many">В день</item>
+        <item quantity="other">В день</item>
+    </plurals>
 
     <string name="about_title">О приложении</string>
     <string name="about_developer">Разработчик приложения: \nООО «Айди ИСТ» (iD EAST)</string>
@@ -135,4 +144,5 @@
     <string name="about_email_title">iD EAST</string>
     <string name="about_phone">Телефон: <u>+7 (495) 795–67–78</u></string>
     <string name="about_phone_link">+7(495)795–67–78</string>
+
 </resources>

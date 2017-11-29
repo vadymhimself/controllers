@@ -18,6 +18,7 @@ import ru.xfit.model.data.club.SortingRequest;
 import ru.xfit.model.data.common.EmptyBody;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.data.contract.SuspendRequest;
+import ru.xfit.model.data.notification.NotificationSettings;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationRequest;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
 import ru.xfit.model.data.register.RegisterRequest;
@@ -142,6 +143,37 @@ final class ApiImpl implements Api {
             @Override
             public Void exec() throws Throwable {
                 storage.saveCurrentUser(user);
+                return null;
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        };
+    }
+
+    @Override
+    public Task<NotificationSettings> getNotifySettings() {
+        return new Task<NotificationSettings>() {
+            @Override
+            public NotificationSettings exec() throws Throwable {
+                return storage.getSettings();
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        };
+    }
+
+    @Override
+    public Task<Void> saveNotifySettings(NotificationSettings settings) {
+        return new Task<Void>() {
+            @Override
+            public Void exec() throws Throwable {
+                storage.saveSettings(settings);
                 return null;
             }
 

@@ -7,6 +7,7 @@ import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.data.club.SortingRequest;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.data.contract.SuspendRequest;
+import ru.xfit.model.data.notification.NotificationSettings;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
 import ru.xfit.model.data.register.RegisterRequest;
 import ru.xfit.model.data.schedule.Schedule;
@@ -45,6 +46,10 @@ public interface Api {
     Task<Void> deleteSavedUser();
 
     Task<Void> saveUser(ru.xfit.model.data.auth.User user);
+
+    Task<NotificationSettings> getNotifySettings();
+
+    Task<Void> saveNotifySettings(NotificationSettings settings);
 
     Task<List<ClubItem>> getClubs();
 
