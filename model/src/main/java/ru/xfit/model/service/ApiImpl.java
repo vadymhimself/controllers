@@ -19,6 +19,10 @@ import ru.xfit.model.data.common.EmptyBody;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.data.contract.SuspendRequest;
 import ru.xfit.model.data.notification.NotificationSettings;
+import ru.xfit.model.data.notifications.Notification;
+import ru.xfit.model.data.notifications.NotificationSettingsRequest;
+import ru.xfit.model.data.notifications.RegisterDeviceRequest;
+import ru.xfit.model.data.notifications.ResultResponse;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationRequest;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
 import ru.xfit.model.data.register.RegisterRequest;
@@ -279,55 +283,18 @@ final class ApiImpl implements Api {
         };
     }
 
+    @Override
+    public Task<ResultResponse> registerDevice(String gcmToken) {
+        return TaskBuilder.from(networkInterface.registerDevice(new RegisterDeviceRequest(gcmToken)));
+    }
 
-//    public Task<AccessToken> getAccessToken(String url, String clientId,
-//                                            String clientSecret, String code) {
-//        return TaskBuilder.from(networkInterface.getAccessToken(url, clientId,
-//                clientSecret, code));
-//    }
-//
-//    public Task<User> getCurrentUser() {
-//        return TaskBuilder.from(networkInterface.getCurrentUser());
-//    }
-//
-//    public Task<List<User>> getFollowers(String username) {
-//        return TaskBuilder.from(networkInterface.getFollowers(username));
-//    }
-//
-//    public Task<List<User>> getFollowing(String username) {
-//        return TaskBuilder.from(networkInterface.getFollowing(username));
-//    }
-//
-//    public Task<Object> isFollowing(String username) {
-//        return TaskBuilder.from(networkInterface.isFollowing(username));
-//    }
-//
-//    public Task<User> getUser(String username) {
-//        return TaskBuilder.from(networkInterface.getUser(username));
-//    }
-//
-//
-//    public Task<Object> toggleFollowing(User user, boolean follow) {
-//        if (follow) {
-//            return TaskBuilder.from(networkInterface.follow(user.login));
-//        } else {
-//            return TaskBuilder.from(networkInterface.unFollow(user.login));
-//        }
-//    }
-//
-//    public Task<User> login(String code) {
-//        return TaskBuilder.fromAsync(() -> {
-//
-//            AccessToken token = getAccessToken(
-//                    AccessToken.ACCESS_TOKEN_URL,
-//                    AccessToken.CLIENT_ID,
-//                    AccessToken.CLIENT_SECRET,
-//                    code)
-//                    .exec();
-//
-//            userData.setAccessToken(token);
-//
-//            return getCurrentUser().exec();
-//        });
-//    }
+    @Override
+    public Task<List<Notification>> getNotifications() {
+        return TaskBuilder.from(networkInterface.getNotifications());
+    }
+
+    @Override
+    public Task<ResultResponse> saveNotificationSettings(String isNotify) {
+        return TaskBuilder.from(networkInterface.saveNotificationsSettings(new NotificationSettingsRequest(isNotify)));
+    }
 }

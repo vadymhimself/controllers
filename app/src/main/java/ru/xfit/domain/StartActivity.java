@@ -77,7 +77,10 @@ public class StartActivity extends XFitActivity {
 
     @Override
     public void onBackPressed() {
-        back(R.anim.slidein_left, R.anim.slideout_right);
+        if (stack.size() > 1)
+            back(R.anim.slidein_left, R.anim.slideout_right);
+        else
+            finish();
     }
 
     @Override
