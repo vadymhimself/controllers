@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="controller"
+            type="ru.xfit.screens.notifications.NotificationsController" />
+
+        <import type="ru.xfit.R" />
+
+        <import type="ru.xfit.misc.LayoutManagers" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/spacer"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize" />
+
+        <ru.xfit.misc.views.HackyRecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spacer"
+            app:adapter="@{controller.adapter}"
+            app:layoutManager="@{LayoutManagers.LINEAR_VERTICAL}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/clubs_no_clubs"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:visibility='@{controller.notifysEmpty}'  />
+
+        <include
+            layout="@layout/progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@{R.color.loaderBackground}"
+            android:indeterminateTint="@{R.color.controlsColor}"
+            app:visibility="@{controller.progress}" />
+
+    </RelativeLayout>
+</layout>

@@ -3,6 +3,7 @@ package ru.xfit.model.data.storage.preferences;
 import android.content.Context;
 import com.google.gson.Gson;
 import ru.xfit.model.data.auth.User;
+import ru.xfit.model.data.notification.NotificationSettings;
 import ru.xfit.model.data.storage.Storage;
 
 import javax.inject.Inject;
@@ -50,5 +51,25 @@ public class PreferencesStorage implements Storage {
         preferencesManager.putValue(PreferencesManager.KEY_IS_USER_ALREADY_LOGIN, false);
         preferencesManager.removeValue(KEY_CURRENT_USER);
         return "deleted";
+    }
+
+    @Override
+    public NotificationSettings getSettings() {
+        NotificationSettings currentSettings = mGson.fromJson(preferencesManager.getValue(KEY_SETTINGS), NotificationSettings.class);
+        if (currentSettings != null)
+            return currentSettings;
+        else {
+            NotificationSettings settings = new NotificationSettings();
+            settings.isNotify = true;
+            settings.notifyDay = 1;
+            settings.notifyTime = "10:00";
+            return settings;
+        }
+    }
+
+    @Override
+    public String saveSettings(NotificationSettings settings) {
+        preferencesManager.putValue(KEY_SETTINGS, mGson.toJson(settings));
+        return "saved";
     }
 }

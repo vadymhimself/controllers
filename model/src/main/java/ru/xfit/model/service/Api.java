@@ -7,6 +7,9 @@ import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.data.club.SortingRequest;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.data.contract.SuspendRequest;
+import ru.xfit.model.data.notification.NotificationSettings;
+import ru.xfit.model.data.notifications.Notification;
+import ru.xfit.model.data.notifications.ResultResponse;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
 import ru.xfit.model.data.register.RegisterRequest;
 import ru.xfit.model.data.schedule.Schedule;
@@ -46,6 +49,10 @@ public interface Api {
 
     Task<Void> saveUser(ru.xfit.model.data.auth.User user);
 
+    Task<NotificationSettings> getNotifySettings();
+
+    Task<Void> saveNotifySettings(NotificationSettings settings);
+
     Task<List<ClubItem>> getClubs();
 
     Task<Schedule> getClassesForClub(String id);
@@ -67,5 +74,11 @@ public interface Api {
     Task<List<Contract>> linkToClub(String clubId);
 
     Task<List<ClubItem>> sortClubs(SortingRequest sortingRequest);
+
+    Task<ResultResponse> registerDevice(String gcmToken);
+
+    Task<List<Notification>> getNotifications();
+
+    Task<ResultResponse> saveNotificationSettings(String isNotify);
 
 }

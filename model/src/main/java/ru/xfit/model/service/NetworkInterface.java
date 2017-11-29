@@ -11,6 +11,10 @@ import ru.xfit.model.data.club.LinkRequest;
 import ru.xfit.model.data.common.EmptyBody;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.data.contract.SuspendRequest;
+import ru.xfit.model.data.notifications.Notification;
+import ru.xfit.model.data.notifications.NotificationSettingsRequest;
+import ru.xfit.model.data.notifications.RegisterDeviceRequest;
+import ru.xfit.model.data.notifications.ResultResponse;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationRequest;
 import ru.xfit.model.data.phoneConfiramtion.ConfirmationResponse;
 import ru.xfit.model.data.register.RegisterRequest;
@@ -69,4 +73,13 @@ public interface NetworkInterface {
 
     @PUT("me/clubs")
     Call<List<Contract>> linkToCLub(@Body LinkRequest request );
+
+    @POST("me/notifications/registerDevice")
+    Call<ResultResponse> registerDevice(@Body RegisterDeviceRequest request);
+
+    @GET("me/notifications")
+    Call<List<Notification>> getNotifications();
+
+    @PUT("me/notifications/settings")
+    Call<ResultResponse> saveNotificationsSettings(@Body NotificationSettingsRequest request);
 }
