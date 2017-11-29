@@ -110,6 +110,8 @@
     <string name="call_me_title">Перезвоните мне</string>
     <string name="call_me_button">Жду звонка</string>
     <string name="call_me_select_club">Выберите клуб</string>
+    <string name="call_me_success">Ваше обращение принято</string>
+    <string name="call_me_message_caption">Сообщение</string>
 
     <string name="faq_general">Общие вопросы</string>
     <string name="faq_trainings">Вопросы по тренировкам</string>

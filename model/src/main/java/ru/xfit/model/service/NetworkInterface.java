@@ -2,6 +2,7 @@ package ru.xfit.model.service;
 
 import retrofit2.Call;
 import retrofit2.http.*;
+import ru.xfit.model.data.FeedbackRequest;
 import ru.xfit.model.data.auth.AuthRequest;
 import ru.xfit.model.data.auth.AuthResponse;
 import ru.xfit.model.data.club.AddClassResponse;
@@ -82,4 +83,7 @@ public interface NetworkInterface {
 
     @PUT("me/notifications/settings")
     Call<ResultResponse> saveNotificationsSettings(@Body NotificationSettingsRequest request);
+
+    @POST("feedback")
+    Call<ResultResponse> sendFeedback(@Body FeedbackRequest request);
 }

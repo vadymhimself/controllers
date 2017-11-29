@@ -1,6 +1,8 @@
 package ru.xfit.model.service;
 
 import com.controllers.Task;
+
+import ru.xfit.model.data.FeedbackRequest;
 import ru.xfit.model.data.auth.AuthResponse;
 import ru.xfit.model.data.club.AddClassResponse;
 import ru.xfit.model.data.club.ClubItem;
@@ -80,5 +82,7 @@ public interface Api {
     Task<List<Notification>> getNotifications();
 
     Task<ResultResponse> saveNotificationSettings(String isNotify);
+
+    Task<ResultResponse> sendFeedback(FeedbackRequest request);
 
 }
