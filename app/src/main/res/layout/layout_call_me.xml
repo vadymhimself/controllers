@@ -20,39 +20,39 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:id="@+id/dropdown_rl"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:background="@android:color/white"
-            android:elevation="1dp">
-
-            <EditText
+            <RelativeLayout
+                android:id="@+id/dropdown_rl"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:textSize="16sp"
-                android:fontFamily="sans-serif"
-                android:textStyle="normal"
-                android:hint="@string/call_me_select_club"
-                android:textColor="@color/calendarCommonDay"
-                android:drawableRight="@drawable/ic_arrow_drop_down"
-                android:background="@android:color/transparent"
-                android:text="@{controller.selectedClub.title}"
-                app:hackyPopUp="@{controller}"/>
+                android:layout_height="52dp"
+                android:background="@android:color/white"
+                android:elevation="1dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/transparent"
+                    android:drawableRight="@drawable/ic_arrow_drop_down"
+                    android:fontFamily="sans-serif"
+                    android:hint="@string/call_me_select_club"
+                    android:text="@{controller.selectedClub.title}"
+                    android:textColor="@color/calendarCommonDay"
+                    android:textSize="16sp"
+                    android:textStyle="normal"
+                    app:hackyPopUp="@{controller}" />
 
             </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/name_rl"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_below="@+id/dropdown_rl"
-            android:background="@android:color/white"
-            android:layout_marginTop="1dp"
-            android:elevation="1dp">
+            <RelativeLayout
+                android:id="@+id/name_rl"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_below="@+id/dropdown_rl"
+                android:layout_marginTop="1dp"
+                android:background="@android:color/white"
+                android:elevation="1dp">
 
                 <EditText
                     android:layout_width="match_parent"
@@ -69,14 +69,14 @@
 
             </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/phone_rl"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_below="@+id/name_rl"
-            android:background="@android:color/white"
-            android:layout_marginTop="1dp"
-            android:elevation="1dp">
+            <RelativeLayout
+                android:id="@+id/phone_rl"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_below="@+id/name_rl"
+                android:layout_marginTop="1dp"
+                android:background="@android:color/white"
+                android:elevation="1dp">
 
                 <com.github.reinaldoarrosi.maskededittext.MaskedEditText
                     android:id="@+id/phone"

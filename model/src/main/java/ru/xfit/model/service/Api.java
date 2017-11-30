@@ -2,10 +2,9 @@ package ru.xfit.model.service;
 
 import com.controllers.Task;
 
-import ru.xfit.model.data.FeedbackRequest;
-
 import java.util.List;
 
+import ru.xfit.model.data.FeedbackRequest;
 import ru.xfit.model.data.auth.AuthResponse;
 import ru.xfit.model.data.club.AddClassResponse;
 import ru.xfit.model.data.club.ClubItem;

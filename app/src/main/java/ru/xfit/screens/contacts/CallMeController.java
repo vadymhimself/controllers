@@ -14,13 +14,11 @@ import ru.xfit.R;
 import ru.xfit.databinding.LayoutCallMeBinding;
 import ru.xfit.domain.App;
 import ru.xfit.misc.NavigationClickListener;
-import ru.xfit.misc.events.OnBackEvent;
 import ru.xfit.misc.events.OptionsItemSelectedEvent;
 import ru.xfit.misc.utils.DataUtils;
 import ru.xfit.misc.views.MessageDialog;
 import ru.xfit.model.data.FeedbackRequest;
 import ru.xfit.model.data.club.ClubItem;
-import ru.xfit.model.data.storage.preferences.PreferencesManager;
 import ru.xfit.model.data.storage.preferences.PreferencesStorage;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.FeedbackController;
@@ -32,9 +30,9 @@ import ru.xfit.screens.FeedbackController;
 public class CallMeController extends FeedbackController<LayoutCallMeBinding>
         implements NavigationClickListener, MessageDialog.DialogResultListener {
 
+    public final ObservableBoolean progress = new ObservableBoolean();
     public ObservableField<String> phone = new android.databinding.ObservableField<>("");
     public ObservableField<String> name = new android.databinding.ObservableField<>("");
-    public final ObservableBoolean progress = new ObservableBoolean();
 
     CallMeController(ObservableArrayList<ClubItem> clubs) {
         this.clubs = clubs;
