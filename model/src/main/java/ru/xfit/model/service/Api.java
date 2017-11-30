@@ -2,6 +2,8 @@ package ru.xfit.model.service;
 
 import com.controllers.Task;
 
+import ru.xfit.model.data.FeedbackRequest;
+
 import java.util.List;
 
 import ru.xfit.model.data.auth.AuthResponse;
@@ -84,5 +86,7 @@ public interface Api {
     Task<ResultResponse> saveNotificationSettings(String isNotify);
 
     Task<List<News>> getClubNews(String clubId);
+
+    Task<ResultResponse> sendFeedback(FeedbackRequest request);
 
 }

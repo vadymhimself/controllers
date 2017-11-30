@@ -3,13 +3,8 @@ package ru.xfit.model.service;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.DELETE;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
+import retrofit2.http.*;
+import ru.xfit.model.data.FeedbackRequest;
 import ru.xfit.model.data.auth.AuthRequest;
 import ru.xfit.model.data.auth.AuthResponse;
 import ru.xfit.model.data.club.AddClassResponse;
@@ -91,4 +86,7 @@ public interface NetworkInterface {
 
     @GET("clubs/{clubId}/news")
     Call<List<News>> getClubNews(@Path("clubId") String clubId);
+
+    @POST("feedback")
+    Call<ResultResponse> sendFeedback(@Body FeedbackRequest request);
 }

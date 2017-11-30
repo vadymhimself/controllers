@@ -13,6 +13,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import ru.xfit.model.data.ErrorException;
 import ru.xfit.model.data.ErrorResponse;
+import ru.xfit.model.data.FeedbackRequest;
 import ru.xfit.model.data.UserData;
 import ru.xfit.model.data.auth.AuthRequest;
 import ru.xfit.model.data.auth.AuthResponse;
@@ -303,5 +304,10 @@ final class ApiImpl implements Api {
     @Override
     public Task<List<News>> getClubNews(String clubId) {
         return TaskBuilder.from(networkInterface.getClubNews(clubId));
+    }
+
+    @Override
+    public Task<ResultResponse> sendFeedback(FeedbackRequest request) {
+        return TaskBuilder.from(networkInterface.sendFeedback(request));
     }
 }
