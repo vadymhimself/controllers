@@ -16,8 +16,7 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent">
 
         <ImageView
             android:layout_width="match_parent"
@@ -90,9 +89,9 @@
                         android:id="@+id/pass_inputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:errorTextAppearance="@style/ErrorText"
-                        app:errorEnabled="@{controller.errorResponse.get().length() > 0}"
                         android:textColorHint="@color/textHintColor"
+                        app:errorEnabled="@{controller.errorResponse.get().length() > 0}"
+                        app:errorTextAppearance="@style/ErrorText"
                         app:hintTextAppearance="@style/InputHintTextStyle">
 
                         <EditText

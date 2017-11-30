@@ -1,12 +1,16 @@
 package ru.xfit.model.service;
 
 import com.controllers.Task;
+
+import java.util.List;
+
 import ru.xfit.model.data.auth.AuthResponse;
 import ru.xfit.model.data.club.AddClassResponse;
 import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.data.club.SortingRequest;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.data.contract.SuspendRequest;
+import ru.xfit.model.data.news.News;
 import ru.xfit.model.data.notification.NotificationSettings;
 import ru.xfit.model.data.notifications.Notification;
 import ru.xfit.model.data.notifications.ResultResponse;
@@ -15,8 +19,6 @@ import ru.xfit.model.data.register.RegisterRequest;
 import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.model.data.schedule.ScheduleList;
 import ru.xfit.model.data.schedule.Trainer;
-
-import java.util.List;
 
 
 public interface Api {
@@ -80,5 +82,7 @@ public interface Api {
     Task<List<Notification>> getNotifications();
 
     Task<ResultResponse> saveNotificationSettings(String isNotify);
+
+    Task<List<News>> getClubNews(String clubId);
 
 }

@@ -4,6 +4,11 @@ import android.location.Location;
 
 import com.controllers.Task;
 import com.google.gson.Gson;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Response;
 import ru.xfit.model.data.ErrorException;
@@ -18,6 +23,7 @@ import ru.xfit.model.data.club.SortingRequest;
 import ru.xfit.model.data.common.EmptyBody;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.data.contract.SuspendRequest;
+import ru.xfit.model.data.news.News;
 import ru.xfit.model.data.notification.NotificationSettings;
 import ru.xfit.model.data.notifications.Notification;
 import ru.xfit.model.data.notifications.NotificationSettingsRequest;
@@ -31,10 +37,6 @@ import ru.xfit.model.data.schedule.ScheduleList;
 import ru.xfit.model.data.schedule.Trainer;
 import ru.xfit.model.data.storage.preferences.PreferencesStorage;
 import ru.xfit.model.retrorequest.TaskBuilder;
-
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 final class ApiImpl implements Api {
 
@@ -296,5 +298,10 @@ final class ApiImpl implements Api {
     @Override
     public Task<ResultResponse> saveNotificationSettings(String isNotify) {
         return TaskBuilder.from(networkInterface.saveNotificationsSettings(new NotificationSettingsRequest(isNotify)));
+    }
+
+    @Override
+    public Task<List<News>> getClubNews(String clubId) {
+        return TaskBuilder.from(networkInterface.getClubNews(clubId));
     }
 }

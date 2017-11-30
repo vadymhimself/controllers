@@ -17,11 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <View
-            android:id="@+id/spacer"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize" />
-
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -39,8 +34,8 @@
                     android:id="@+id/calendar_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:elevation="4dp"
-                    android:background="@android:color/white">
+                    android:background="@android:color/white"
+                    android:elevation="4dp">
 
                     <com.molo17.customizablecalendar.library.components.CustomizableCalendar
                         android:id="@+id/calendar"

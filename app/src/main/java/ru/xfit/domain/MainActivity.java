@@ -29,6 +29,7 @@ import javax.inject.Inject;
 import io.fabric.sdk.android.Fabric;
 import ru.xfit.BuildConfig;
 import ru.xfit.R;
+import ru.xfit.misc.TransparentStatusBar;
 import ru.xfit.misc.events.OnBackEvent;
 import ru.xfit.misc.events.OptionsItemSelectedEvent;
 import ru.xfit.model.data.storage.preferences.PreferencesManager;
@@ -56,6 +57,7 @@ public class MainActivity extends XFitActivity implements
     private NavigationView navView;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
+    private View statusBarBgr;
 
     private TextView buildVersion;
 
@@ -83,12 +85,21 @@ public class MainActivity extends XFitActivity implements
         buildVersion = (TextView) findViewById(R.id.build_ver);
         buildVersion.setText(getVersionName());
 
+
+        statusBarBgr = findViewById(R.id.statusBarBgr);
+
+
         drawer = (DrawerLayout) findViewById(R.id.drawer);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         navView = (NavigationView) findViewById(R.id.nav_view);
         navView.setItemIconTintList(null);
 
         setSupportActionBar(toolbar);
+
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        statusBarBgr.getLayoutParams().height = getResources().getDimensionPixelSize(resourceId);
+        buildVersion.setPadding(0, getResources().getDimensionPixelSize(resourceId), 0, 0);
+
 
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -123,6 +134,7 @@ public class MainActivity extends XFitActivity implements
 
         setVisibleHamburgerIcon(!(controller instanceof DrawerController));
         setVisibleToolbar(!(controller instanceof BlankToolbarController));
+        setVisibleStatusBar(!(controller instanceof TransparentStatusBar));
 
         if (controller instanceof ClubClassesController) {
             // TODO: push to the top controller or make a menu presenter
@@ -246,6 +258,26 @@ public class MainActivity extends XFitActivity implements
         }
     }
 
+    public void setVisibleStatusBar(boolean visible) {
+        if (statusBarBgr.getVisibility() == View.VISIBLE && !visible) {
+            //transition hide
+            statusBarBgr.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    TransitionManager.beginDelayedTransition(transitionsContainer);
+                    statusBarBgr.setVisibility(View.GONE);
+                }
+            }, 10);
+
+        } else if (statusBarBgr.getVisibility() == View.GONE && visible) {
+            //transition show
+//            TransitionManager.beginDelayedTransition(transitionsContainer);
+            statusBarBgr.setVisibility(View.VISIBLE);
+        } else {
+            //nothing
+        }
+    }
+
     public String getVersionName() {
         return "build: " + BuildConfig.VERSION_NAME;
     }
@@ -269,8 +301,13 @@ public class MainActivity extends XFitActivity implements
                 ((PopupWindow)((FeedbackController) previous).prevPopup.get()).dismiss();
             }
         }
+//        if(previous instanceof AboutNewsController)
+//            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//        if(next instanceof AboutNewsController)
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         return super.beforeControllersChanged(previous, next);
     }
+
 
     @Override
     public void onBackPressed() {

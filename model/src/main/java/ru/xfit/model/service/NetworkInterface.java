@@ -1,16 +1,24 @@
 package ru.xfit.model.service;
 
+import java.util.List;
+
 import retrofit2.Call;
-import retrofit2.http.*;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 import ru.xfit.model.data.auth.AuthRequest;
 import ru.xfit.model.data.auth.AuthResponse;
 import ru.xfit.model.data.club.AddClassResponse;
-import ru.xfit.model.data.club.Club;
 import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.data.club.LinkRequest;
 import ru.xfit.model.data.common.EmptyBody;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.data.contract.SuspendRequest;
+import ru.xfit.model.data.news.News;
 import ru.xfit.model.data.notifications.Notification;
 import ru.xfit.model.data.notifications.NotificationSettingsRequest;
 import ru.xfit.model.data.notifications.RegisterDeviceRequest;
@@ -21,8 +29,6 @@ import ru.xfit.model.data.register.RegisterRequest;
 import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.model.data.schedule.ScheduleList;
 import ru.xfit.model.data.schedule.Trainer;
-
-import java.util.List;
 
 /**
  * Created by TESLA on 25.10.2017.
@@ -82,4 +88,7 @@ public interface NetworkInterface {
 
     @PUT("me/notifications/settings")
     Call<ResultResponse> saveNotificationsSettings(@Body NotificationSettingsRequest request);
+
+    @GET("clubs/{clubId}/news")
+    Call<List<News>> getClubNews(@Path("clubId") String clubId);
 }

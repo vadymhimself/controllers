@@ -16,17 +16,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <View
-            android:id="@+id/spacer"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            />
-
         <RelativeLayout
             android:id="@+id/calendar_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/spacer"
             android:background="@android:color/white"
             android:elevation="4dp">
 
@@ -34,11 +27,11 @@
                 android:id="@+id/calendar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:canSuspendDays="@{controller.canSuspendDays}"
                 app:initCalendarSchedule="@{controller}"
                 app:layout="@layout/c_calendar"
                 app:month_view="true"
                 app:multipleSelect="@{true}"
-                app:canSuspendDays="@{controller.canSuspendDays}"
                 app:setContract="@{controller.getContract()}"/>
         </RelativeLayout>
 
@@ -48,12 +41,12 @@
             android:layout_below="@+id/calendar_container"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="18dp"
-            android:textSize="14sp"
             android:fontFamily="sans-serif"
-            android:textStyle="normal"
-            android:textColor="@color/calendarCommonDay"
             android:gravity="center_horizontal"
             android:text="@string/suspend_card_hint"
+            android:textColor="@color/calendarCommonDay"
+            android:textSize="14sp"
+            android:textStyle="normal"
             android:visibility="@{controller.canSuspendDays > 0}"
             />
 
@@ -65,12 +58,12 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="28dp"
             android:background="@drawable/button_bg"
-            android:foreground="?attr/selectableItemBackground"
             android:fontFamily="sans-serif"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick='@{controller.suspend}'
             android:text="@string/suspend_card_btn"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:onClick='@{controller.suspend}'/>
+            android:textSize="18sp" />
 
     </RelativeLayout>
 </layout>
