@@ -7,7 +7,6 @@ import android.support.transition.Transition;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.xfit.BR;
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutFaqGeneralBinding;
 import ru.xfit.misc.adapters.BaseAdapter;
@@ -33,7 +32,6 @@ public class FAQQuestionsController extends XFitController<LayoutFaqGeneralBindi
             items.add(new QuestionVM(questions[i], answers[i], this, this));
         }
         adapter = new BaseAdapter<>(items);
-        notifyPropertyChanged(BR.adapter);
     }
 
     @Override
