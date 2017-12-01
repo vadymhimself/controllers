@@ -13,7 +13,7 @@ import ru.xfit.domain.App;
 public class PhoneValidator extends StringValidator {
     @Override
     public String validate(String... args) {
-        Pattern pattern = Pattern.compile("^[+]7\\(\\d{3}\\)\\s\\d{3}[-]\\d{2}[-]\\d{2}$");
+        Pattern pattern = Pattern.compile("^[+]7\\s\\(\\d{3}\\)\\s\\d{3}[-]\\d{2}[-]\\d{2}$");
         Matcher matcher = pattern.matcher(args[0]);
         if (!matcher.matches())
             return App.getContext().getString(R.string.validation_incorrect_number);
