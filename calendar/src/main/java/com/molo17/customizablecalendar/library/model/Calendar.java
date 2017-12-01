@@ -8,6 +8,7 @@ import org.joda.time.Weeks;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by francescofurlan on 27/06/17.
@@ -30,7 +31,7 @@ public class Calendar {
         this.firstMonth = firstMonth;
         this.firstDayOfWeek = java.util.Calendar.getInstance(DateUtils.myLocale).getFirstDayOfWeek();
 
-        int startMonth = firstMonth.getMonthOfYear();
+        int startMonth = firstMonth.plusMonths(1).getMonthOfYear();
         int monthsBetweenCount = Months.monthsBetween(firstMonth, lastMonth).getMonths();
         int weeksBetweenCount = Weeks.weeksBetween(firstMonth, lastMonth).getWeeks();
 
@@ -47,7 +48,7 @@ public class Calendar {
         }
 
         DateTime today = new DateTime();
-        int startWeekDay = today.getDayOfMonth() - (today.getDayOfWeek() - 1);
+        int startWeekDay = today.plusDays(-1).getDayOfWeek();
         startMonth = firstMonth.getMonthOfYear();
         DateTime weekToAdd = new DateTime(firstMonth.getYear(), startMonth, startWeekDay, 0, 0);
         for (int i = 0; i <= weeksBetweenCount; i++) {
@@ -76,16 +77,16 @@ public class Calendar {
         return currentMonth;
     }
 
-    public void setCurrentMonth(DateTime currentMonth) {
-        this.currentMonth = currentMonth;
-    }
-
     public String getCurrentYear() {
         return firstMonth.toString("yyyy", DateUtils.myLocale);
     }
 
     public int getCurrentWeek() {
         return firstMonth.getWeekOfWeekyear();
+    }
+
+    public void setCurrentMonth(DateTime currentMonth) {
+        this.currentMonth = currentMonth;
     }
 
     public List<DateTime> getMonths() {
@@ -124,12 +125,12 @@ public class Calendar {
         return firstMonth;
     }
 
-    public DateTime getToday() {
-        return today;
-    }
-
     public void setToday(DateTime today) {
         this.today = today;
+    }
+
+    public DateTime getToday() {
+        return today;
     }
 
     public int getMaxDaysSelection() {
