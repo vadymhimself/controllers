@@ -22,6 +22,7 @@ import android.support.transition.TransitionManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,6 +43,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -66,6 +68,7 @@ import com.molo17.customizablecalendar.library.model.Calendar;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -90,6 +93,7 @@ import ru.xfit.misc.views.HackyRecyclerView;
 import ru.xfit.misc.views.LayoutManagers;
 import ru.xfit.misc.views.RecyclerItemClickListener;
 import ru.xfit.misc.views.RefreshListener;
+import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.data.common.Image;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.screens.DateChangeListener;
@@ -860,6 +864,29 @@ public abstract class BindingAdapters {
             p.setMargins(0, padding, 0, 0);
             view.requestLayout();
         }
+    }
+
+    @BindingAdapter("clubItems")
+    public static void setClubItems(ViewGroup viewGroup, List<ClubItem> clubItems) {
+        AppCompatAutoCompleteTextView autoCompleteTextView = (AppCompatAutoCompleteTextView) viewGroup.findViewById(R.id.club);
+        List<String> clubTitles = new ArrayList<>();
+        for (ClubItem clubItem : clubItems) {
+            clubTitles.add(clubItem.title);
+        }
+        autoCompleteTextView.setAdapter(new ArrayAdapter<>(autoCompleteTextView.getContext(), R.layout.view_dropdown, clubTitles));
+        viewGroup.setOnClickListener(view -> {
+            if (!autoCompleteTextView.isPopupShowing())
+                autoCompleteTextView.showDropDown();
+        });
+        autoCompleteTextView.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus && !autoCompleteTextView.isPopupShowing())
+                autoCompleteTextView.showDropDown();
+
+        });
+        autoCompleteTextView.setOnClickListener(v -> {
+            if (!autoCompleteTextView.isPopupShowing())
+                autoCompleteTextView.showDropDown();
+        });
     }
 
 

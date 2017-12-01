@@ -140,7 +140,7 @@ public class AboutClubController extends BlankToolbarController<LayoutAboutClubB
     }
 
     public void getGuestVisit(View view) {
-        show(new GuestVisitController());
+        show(new GuestVisitController(club));
     }
 
     public void buyCard(View view) {

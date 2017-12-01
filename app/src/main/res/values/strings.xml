@@ -152,5 +152,6 @@
     <string name="notifications_title">Уведомления</string>
 
     <string name="club_news_empty">Нет новостей</string>
+    <string name="club_order_guest_visit">Заказать гостевой визит</string>
 
 </resources>
