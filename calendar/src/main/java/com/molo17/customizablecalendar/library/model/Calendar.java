@@ -31,7 +31,7 @@ public class Calendar {
         this.firstMonth = firstMonth;
         this.firstDayOfWeek = java.util.Calendar.getInstance(DateUtils.myLocale).getFirstDayOfWeek();
 
-        int startMonth = firstMonth.getMonthOfYear() + 1;
+        int startMonth = firstMonth.plusMonths(1).getMonthOfYear();
         int monthsBetweenCount = Months.monthsBetween(firstMonth, lastMonth).getMonths();
         int weeksBetweenCount = Weeks.weeksBetween(firstMonth, lastMonth).getWeeks();
 
@@ -48,7 +48,7 @@ public class Calendar {
         }
 
         DateTime today = new DateTime();
-        int startWeekDay = today.getDayOfMonth() - (today.getDayOfWeek() - 1);
+        int startWeekDay = today.plusDays(-1).getDayOfWeek();
         startMonth = firstMonth.getMonthOfYear();
         DateTime weekToAdd = new DateTime(firstMonth.getYear(), startMonth, startWeekDay, 0, 0);
         for (int i = 0; i <= weeksBetweenCount; i++) {
