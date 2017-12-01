@@ -16,15 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <View
-            android:id="@+id/spacer"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/spacer"
             android:background="@color/grayBackground"
             android:orientation="vertical">
 
@@ -41,8 +35,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:onClick="@{controller.onSetNotify}"
-                    android:checked="@={controller.isNotify}" />
+                    android:checked="@={controller.isNotify}"
+                    android:onClick="@{controller.onSetNotify}" />
             </RelativeLayout>
 
             <RelativeLayout

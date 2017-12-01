@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="controller"
+            type="ru.xfit.screens.clubs.news.AboutNewsController" />
+
+        <import type="ru.xfit.R" />
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ru.xfit.misc.views.MyAppBarLayout
+            android:id="@+id/my_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:collapsedTitleTextAppearance="@style/CollapsingToolbarLayoutCollapsedTextStyle"
+                app:contentScrim="@color/colorPrimary"
+                app:expandedTitleGravity="center_horizontal|top"
+                app:expandedTitleMarginTop="76dp"
+                app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextStyle"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:statusBarScrim="@color/transparent">
+
+                <ImageView
+                    android:id="@+id/photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:minHeight="234dp"
+                    android:src='@{controller.news.photo}' />
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    menu="@{R.menu.menu_share}"
+                    oldItemClickListener="@{controller}"
+                    paddingForStatusBar="@{true}"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:title="@{controller.news.title}"
+                    app:layout_collapseMode="pin"
+                    app:navigationClickListener="@{controller}"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:showBackButton="@{controller.previous != null}"
+                    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </ru.xfit.misc.views.MyAppBarLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="-0.02"
+                    android:text="@{controller.news.date}"
+                    android:textColor="#4b0887"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginTop="9dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@{controller.news.title}"
+                    android:textColor="@color/slate_grey"
+                    android:textSize="22sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="sans-serif-light"
+                    android:letterSpacing="-0.03"
+                    android:lineSpacingExtra="5sp"
+                    android:text="@{controller.news.body}"
+                    android:textColor="@color/slate_grey"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

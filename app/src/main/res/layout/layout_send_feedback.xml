@@ -20,21 +20,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorPrimary"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                android:title="@{controller.title}"
-                app:navigationClickListener="@{controller}"
-                app:showBackButton="@{controller.previous != null}" />
-
             <RelativeLayout
                 android:id="@+id/dropdown_rl"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:layout_below="@+id/toolbar"
                 android:background="@android:color/white"
                 android:elevation="1dp">
 
@@ -62,19 +51,18 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/dropdown_rl"
                 android:layout_marginTop="17dp"
-                android:orientation="vertical"
-                android:elevation="1dp">
+                android:elevation="1dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
                     android:layout_marginLeft="10dp"
                     android:fontFamily="sans-serif"
-                    android:textStyle="normal"
-                    android:textColor="#61000000"
                     android:text="@string/call_me_message_caption"
-                    />
+                    android:textColor="#61000000"
+                    android:textSize="12sp"
+                    android:textStyle="normal" />
 
                 <EditText
                     android:layout_width="match_parent"
@@ -84,10 +72,10 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="4dp"
                     android:fontFamily="sans-serif"
+                    android:minHeight="72dp"
                     android:text="@={controller.feedback}"
                     android:textColor="@color/calendarCommonDay"
                     android:textSize="16sp"
-                    android:minHeight="72dp"
                     android:textStyle="normal" />
 
             </LinearLayout>

@@ -151,4 +151,6 @@
 
     <string name="notifications_title">Уведомления</string>
 
+    <string name="club_news_empty">Нет новостей</string>
+
 </resources>

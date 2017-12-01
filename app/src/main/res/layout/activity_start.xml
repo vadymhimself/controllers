@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:clickable="false"
+        android:fitsSystemWindows="true"
         android:focusable="false"
         android:textColor="@color/calendarAccent" />
 </RelativeLayout>

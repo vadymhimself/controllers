@@ -57,6 +57,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.daimajia.slider.library.SliderLayout;
+import com.fondesa.recyclerviewdivider.RecyclerViewDivider;
 import com.github.reinaldoarrosi.maskededittext.MaskedEditText;
 import com.molo17.customizablecalendar.library.components.CustomizableCalendar;
 import com.molo17.customizablecalendar.library.interactors.AUCalendar;
@@ -134,6 +135,15 @@ public abstract class BindingAdapters {
     @BindingAdapter("oldItemClickListener")
     public static void bindMenu(Toolbar toolbar, Toolbar.OnMenuItemClickListener listener) {
         if (toolbar != null && listener != null) {
+            toolbar.setOnMenuItemClickListener(listener);
+        }
+    }
+
+    @BindingAdapter(value = {"menu", "oldItemClickListener"})
+    public static void bindMenu(Toolbar toolbar, @MenuRes Integer menuRes, Toolbar.OnMenuItemClickListener listener) {
+        if (toolbar != null && listener != null) {
+            if (menuRes != null && menuRes != 0)
+                toolbar.inflateMenu(menuRes);
             toolbar.setOnMenuItemClickListener(listener);
         }
     }
@@ -824,6 +834,34 @@ public abstract class BindingAdapters {
         viewGroup.findViewById(R.id.expand_indicator).setRotation(trig ? 180 : 0);
         viewGroup.findViewById(R.id.expand_view).setVisibility(trig ? View.VISIBLE : View.GONE);
     }
+
+    @BindingAdapter(value = {"dividerHigh", "dividerColor"})
+    public static void setupDividers(RecyclerView recyclerView, float height, int color) {
+        RecyclerViewDivider.with(recyclerView.getContext())
+                .color(color)
+                .size((int) height)
+                .hideLastDivider()
+                .build()
+                .addTo(recyclerView);
+    }
+
+    @BindingAdapter("paddingForStatusBar")
+    public static void setPaddingForStatusBar(View view, boolean enabled) {
+        int padding = 0;
+        if (enabled) {
+            int resourceId = view.getContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
+            if (resourceId > 0) {
+                padding = view.getContext().getResources().getDimensionPixelSize(resourceId);
+            }
+
+        }
+        if (view.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+            p.setMargins(0, padding, 0, 0);
+            view.requestLayout();
+        }
+    }
+
 
     public interface UrlListener {
         void onUrlChanged(WebView webView, String url);

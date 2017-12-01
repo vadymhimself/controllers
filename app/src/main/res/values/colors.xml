@@ -37,4 +37,5 @@
 
     <color name="slate_grey">#58595b</color>
     <color name="fade_color">#b1ececec</color>
+    <color name="dark_image_mask">#8058595b</color>
 </resources>

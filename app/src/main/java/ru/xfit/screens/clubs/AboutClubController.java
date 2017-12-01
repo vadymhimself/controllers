@@ -17,11 +17,13 @@ import ru.xfit.R;
 import ru.xfit.databinding.LayoutAboutClubBinding;
 import ru.xfit.domain.App;
 import ru.xfit.misc.NavigationClickListener;
+import ru.xfit.misc.TransparentStatusBar;
 import ru.xfit.misc.views.MessageDialog;
 import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.BlankToolbarController;
+import ru.xfit.screens.clubs.news.NewsController;
 import ru.xfit.screens.schedule.ClubClassesController;
 
 /**
@@ -29,10 +31,9 @@ import ru.xfit.screens.schedule.ClubClassesController;
  */
 
 public class AboutClubController extends BlankToolbarController<LayoutAboutClubBinding>
-        implements NavigationClickListener, MessageDialog.DialogResultListener {
-    public ClubItem club;
-
+        implements NavigationClickListener, MessageDialog.DialogResultListener, TransparentStatusBar {
     public final ObservableBoolean progress = new ObservableBoolean();
+    public ClubItem club;
     public ObservableBoolean isMyClub = new ObservableBoolean();
 
     public AboutClubController(ClubItem club, boolean isMyClub) {
@@ -134,7 +135,7 @@ public class AboutClubController extends BlankToolbarController<LayoutAboutClubB
     }
 
     public void getNews(View view) {
-        Snackbar.make(view, "Coming soon...", BaseTransientBottomBar.LENGTH_SHORT).show();
+        show(new NewsController(club.id));
     }
 
     public void getGuestVisit(View view) {

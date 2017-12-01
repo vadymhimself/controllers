@@ -27,11 +27,11 @@
                 android:id="@+id/collapsing_toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:collapsedTitleTextAppearance="@style/CollapsingToolbarLayoutCollapsedTextStyle"
                 app:contentScrim="@color/colorPrimary"
                 app:expandedTitleGravity="center_horizontal|top"
                 app:expandedTitleMarginTop="76dp"
                 app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextStyle"
-                app:collapsedTitleTextAppearance="@style/CollapsingToolbarLayoutCollapsedTextStyle"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:statusBarScrim="@color/transparent">
 
@@ -62,12 +62,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="180dp"
-                        android:visibility="@{controller.isMyClub}"
-                        android:background="@drawable/label_my_club_transparent"/>
+                        android:background="@drawable/label_my_club_transparent"
+                        android:visibility="@{controller.isMyClub}" />
                 </RelativeLayout>
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
+                    paddingForStatusBar="@{true}"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:title="@{controller.title}"
@@ -139,12 +140,12 @@
                     android:layout_below="@+id/address"
                     android:layout_marginLeft="18dp"
                     android:layout_marginTop="20dp"
-                    android:textSize="14sp"
                     android:fontFamily="sans-serif-light"
-                    android:textStyle="normal"
-                    android:textColor="#58595b"
                     android:maxWidth="220dp"
-                    android:text="@{controller.club.workingHours}" />
+                    android:text="@{controller.club.workingHours}"
+                    android:textColor="#58595b"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
 
                 <TextView
                     android:id="@+id/description"
@@ -154,11 +155,11 @@
                     android:layout_marginLeft="18dp"
                     android:layout_marginRight="18dp"
                     android:layout_marginTop="20dp"
-                    android:text="@{controller.club.description}"
-                    android:textSize="14sp"
                     android:fontFamily="sans-serif-light"
-                    android:textStyle="normal"
-                    android:textColor="#58595b"/>
+                    android:text="@{controller.club.description}"
+                    android:textColor="#58595b"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
 
                 <LinearLayout
                     android:id="@+id/menu"
@@ -288,8 +289,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
                         android:background="@color/white"
-                        android:visibility="@{!controller.isMyClub}"
-                        android:onClick="@{controller.getSchedule}">
+                        android:onClick="@{controller.getSchedule}"
+                        android:visibility="@{!controller.isMyClub}">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -326,8 +327,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
                         android:background="@color/white"
-                        android:visibility="@{!controller.isMyClub}"
-                        android:onClick="@{controller.getTrainers}">
+                        android:onClick="@{controller.getTrainers}"
+                        android:visibility="@{!controller.isMyClub}">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -359,8 +360,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
                         android:background="@color/white"
-                        android:visibility="@{controller.isMyClub}"
-                        android:onClick="@{controller.suspendCard}">
+                        android:onClick="@{controller.suspendCard}"
+                        android:visibility="@{controller.isMyClub}">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -435,13 +436,13 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/button_bg"
-                    android:foreground="?attr/selectableItemBackground"
                     android:fontFamily="sans-serif"
+                    android:foreground="?attr/selectableItemBackground"
                     android:onClick="@{controller.getSchedule}"
                     android:text="@string/clubs_schedule"
                     android:textColor="@android:color/white"
-                    android:visibility="@{controller.isMyClub}"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:visibility="@{controller.isMyClub}" />
 
                 <Button
                     android:id="@+id/trainers_btn"
@@ -452,13 +453,13 @@
                     android:layout_marginBottom="30dp"
                     android:layout_marginTop="18dp"
                     android:background="@drawable/button_bg"
-                    android:foreground="?attr/selectableItemBackground"
                     android:fontFamily="sans-serif"
+                    android:foreground="?attr/selectableItemBackground"
                     android:onClick="@{controller.getTrainers}"
                     android:text="@string/clubs_trainers"
                     android:textColor="@android:color/white"
-                    android:visibility="@{controller.isMyClub}"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:visibility="@{controller.isMyClub}" />
 
                 <Button
                     android:id="@+id/guest_btn"
@@ -468,13 +469,13 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/button_bg"
-                    android:foreground="?attr/selectableItemBackground"
                     android:fontFamily="sans-serif"
+                    android:foreground="?attr/selectableItemBackground"
                     android:onClick="@{controller.getGuestVisit}"
                     android:text="@string/clubs_guest"
                     android:textColor="@android:color/white"
-                    android:visibility="@{!controller.isMyClub}"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:visibility="@{!controller.isMyClub}" />
 
                 <Button
                     android:id="@+id/buy_card_btn"
@@ -485,13 +486,13 @@
                     android:layout_marginBottom="30dp"
                     android:layout_marginTop="18dp"
                     android:background="@drawable/button_bg"
-                    android:foreground="?attr/selectableItemBackground"
                     android:fontFamily="sans-serif"
+                    android:foreground="?attr/selectableItemBackground"
                     android:onClick="@{controller.buyCard}"
                     android:text="@string/clubs_buy_card"
                     android:textColor="@android:color/white"
-                    android:visibility="@{!controller.isMyClub}"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:visibility="@{!controller.isMyClub}" />
 
             </RelativeLayout>
         </android.support.v4.widget.NestedScrollView>

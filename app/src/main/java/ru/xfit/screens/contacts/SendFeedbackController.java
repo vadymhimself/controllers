@@ -10,7 +10,6 @@ import com.controllers.Request;
 
 import ru.xfit.BuildConfig;
 import ru.xfit.R;
-import ru.xfit.databinding.LayoutCallMeBinding;
 import ru.xfit.databinding.LayoutSendFeedbackBinding;
 import ru.xfit.domain.App;
 import ru.xfit.misc.NavigationClickListener;
@@ -26,12 +25,12 @@ import ru.xfit.screens.FeedbackController;
  * Created by TESLA on 28.11.2017.
  */
 
-public class SendFeedbackController  extends FeedbackController<LayoutSendFeedbackBinding>
+public class SendFeedbackController extends FeedbackController<LayoutSendFeedbackBinding>
         implements NavigationClickListener, MessageDialog.DialogResultListener {
 
-    public ObservableField<String> feedback = new ObservableField<>();
     public final ObservableBoolean progress = new ObservableBoolean();
     private final String phone;
+    public ObservableField<String> feedback = new ObservableField<>();
 
     SendFeedbackController(ObservableArrayList<ClubItem> clubs) {
         this.clubs = clubs;
