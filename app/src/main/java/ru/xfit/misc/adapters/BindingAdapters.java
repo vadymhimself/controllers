@@ -439,6 +439,28 @@ public abstract class BindingAdapters {
         });
     }
 
+    @BindingAdapter("onMaskedTextChange")
+    public static void bindOnMaskedTextChangedListener(ru.xfit.misc.views.maskededittext.MaskedEditText maskedEditText, ObservableField<String> observableField) {
+        maskedEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!observableField.get().equals(maskedEditText.getRawText())) {
+                    observableField.set(maskedEditText.getRawText());
+                }
+            }
+        });
+    }
+
     @BindingAdapter("focusOnView")
     public static void bindFocusOnView(View view, ObservableBoolean focus) {
         view.setOnFocusChangeListener((view1, b) -> focus.set(b));
@@ -452,6 +474,7 @@ public abstract class BindingAdapters {
             view.setBackgroundColor(view.getContext().getResources().getColor(R.color.white));
         }
     }
+
 
     @BindingAdapter(value = {"valid", "checkValue"})
     public static void addRePasswordValidation(TextInputLayout textInputLayout, ObservableBoolean isValid, ObservableField<String> checkValue) {
@@ -525,14 +548,61 @@ public abstract class BindingAdapters {
                 default:
                     validator = new EmptyValidator();
             }
-            textInputLayout.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            EditText editText = textInputLayout.getEditText();
+            if (editText instanceof ru.xfit.misc.views.maskededittext.MaskedEditText) {
+                ru.xfit.misc.views.maskededittext.MaskedEditText maskedEditText = (ru.xfit.misc.views.maskededittext.MaskedEditText) editText;
+                maskedEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
-                int trig = 0;
+                    int trig = 0;
 
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if (trig == 1) {
-                        String s = validator.validate(textInputLayout.getEditText().getText().toString());
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (trig == 1) {
+                            String s = validator.validate(maskedEditText.getRawText());
+                            if (s == null) {
+                                textInputLayout.setErrorEnabled(false);
+                                isValid.set(true);
+                            } else {
+                                isValid.set(false);
+                            }
+                            textInputLayout.setError(s);
+                            maskedEditText.addTextChangedListener(new TextWatcher() {
+                                @Override
+                                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                                }
+
+                                @Override
+                                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                                }
+
+                                @Override
+                                public void afterTextChanged(Editable s) {
+                                    String valid = validator.validate(maskedEditText.getRawText());
+                                    if (valid == null) {
+                                        textInputLayout.setErrorEnabled(false);
+                                        isValid.set(true);
+                                    } else {
+                                        isValid.set(false);
+                                    }
+                                    textInputLayout.setError(valid);
+
+                                }
+                            });
+                        }
+                        trig++;
+                    }
+                });
+            } else
+                editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+                    int trig = 0;
+
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (trig == 1) {
+                            String s = validator.validate(editText.getText().toString());
                         if (s == null) {
                             textInputLayout.setErrorEnabled(false);
                             isValid.set(true);
@@ -540,7 +610,7 @@ public abstract class BindingAdapters {
                             isValid.set(false);
                         }
                         textInputLayout.setError(s);
-                        textInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
+                            editText.addTextChangedListener(new TextWatcher() {
                             @Override
                             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 

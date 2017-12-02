@@ -89,25 +89,26 @@
                 android:background="@android:color/white"
                 android:elevation="1dp">
 
-                <com.github.reinaldoarrosi.maskededittext.MaskedEditText
+                <ru.xfit.misc.views.maskededittext.DisabledPasteMaskedEditText
                     android:id="@+id/phone"
+                    onMaskedTextChange="@{controller.phone}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/transparent"
                     android:fontFamily="sans-serif"
+                    android:hint="          "
                     android:imeOptions="actionDone"
                     android:inputType="number|phone"
                     android:maxLines="1"
+                    android:text="@{controller.phone}"
                     android:textColor="@color/slate_grey"
                     android:textSize="16sp"
                     android:textStyle="normal"
-                    app:digitMaskedKeyboard="@{true}"
-                    app:mask="+7(999) 999-99-99"
-                    app:onMaskedTextChanged='@{controller.phone}'
-                    app:placeholder="_"
-                    app:preloadPhone="@{controller.phone}" />
+                    app:allowed_chars="1234567890"
+                    app:keep_hint="true"
+                    app:mask="+7 (###) ###-##-##" />
 
             </RelativeLayout>
 

@@ -16,8 +16,7 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent">
 
         <ImageView
             android:layout_width="match_parent"
@@ -55,25 +54,28 @@
                         android:id="@+id/phone_inputLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:hintEnabled="false"
                         app:hintTextAppearance="@style/InputHintTextStyle"
                         app:valid='@{controller.isTelValid}'
                         app:validationType='@{type.PHONE}'>
 
-                        <com.github.pinball83.maskededittext.MaskedEditText
+                        <ru.xfit.misc.views.maskededittext.DisabledPasteMaskedEditText
                             android:id="@+id/tel_editText"
+                            onMaskedTextChange="@{controller.phone}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:lines="1"
                             android:drawableStart="@drawable/ic_phone"
+                            android:hint="          "
                             android:imeOptions="actionNext"
                             android:inputType="number|phone"
+                            android:lines="1"
                             android:textColor="@android:color/white"
-                            android:theme="@style/EditTextTheme"
                             android:textSize="17sp"
-                            app:mask="+7 (***) ***-**-**"
-                            app:notMaskedSymbol="*"
-                            app:onMaskedTextChange='@{controller.phone}' />
-                        
+                            android:theme="@style/EditTextTheme"
+                            app:allowed_chars="1234567890"
+                            app:keep_hint="true"
+                            app:mask="+7 (###) ###-##-##" />
+
                     </android.support.design.widget.TextInputLayout>
                 </RelativeLayout>
 

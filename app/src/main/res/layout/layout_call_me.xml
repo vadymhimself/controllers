@@ -78,25 +78,27 @@
                 android:background="@android:color/white"
                 android:elevation="1dp">
 
-                <com.github.pinball83.maskededittext.MaskedEditText
+                <ru.xfit.misc.views.maskededittext.DisabledPasteMaskedEditText
                     android:id="@+id/tel_editText"
+                    onMaskedTextChange="@{controller.phone}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_centerVertical="true"
                     android:background="@android:color/transparent"
                     android:drawableStart="@drawable/ic_phone"
                     android:fontFamily="sans-serif"
+                    android:hint="          "
                     android:imeOptions="actionDone"
                     android:inputType="number|phone"
                     android:maxLines="1"
+                    android:text="@{controller.phone}"
                     android:textSize="16sp"
                     android:textStyle="normal"
-                    app:mask="+7 (***) ***-**-**"
-                    app:notMaskedSymbol="*"
-                    app:onMaskedTextChange='@{controller.phone}'
-                    app:preloadPhone="@{controller.phone}"/>
+                    app:allowed_chars="1234567890"
+                    app:keep_hint="true"
+                    app:mask="+7 (###) ###-##-##" />
 
             </RelativeLayout>
 
