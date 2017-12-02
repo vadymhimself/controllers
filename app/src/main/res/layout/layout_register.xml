@@ -279,7 +279,6 @@
                         android:layout_height="30dp"
                         android:background="@drawable/gender_bg"
                         android:button="@android:color/transparent"
-                        android:checked="true"
                         android:text="Мужской"
                         android:textAlignment="center"
                         android:textColor="@drawable/gender_text_color"

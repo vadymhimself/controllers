@@ -26,7 +26,7 @@ public class RegisterController extends XFitController<LayoutRegisterBinding>{
     public ObservableField<String> passwordRepeat = new ObservableField<>("");
     public ObservableField<String> name = new ObservableField<>("");
     public ObservableField<String> email = new ObservableField<>("");
-    public ObservableInt gender = new ObservableInt();
+    public ObservableInt gender = new ObservableInt(R.id.male);
     public ObservableField<String> errorResponse = new ObservableField<>();
     public ObservableBoolean isPasswordValid = new ObservableBoolean();
     public ObservableBoolean isRePasswordValid = new ObservableBoolean();
