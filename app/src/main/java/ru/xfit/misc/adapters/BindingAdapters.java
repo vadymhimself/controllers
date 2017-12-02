@@ -60,7 +60,7 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.daimajia.slider.library.SliderLayout;
 import com.fondesa.recyclerviewdivider.RecyclerViewDivider;
-import com.github.reinaldoarrosi.maskededittext.MaskedEditText;
+import com.github.pinball83.maskededittext.MaskedEditText;
 import com.molo17.customizablecalendar.library.components.CustomizableCalendar;
 import com.molo17.customizablecalendar.library.interactors.AUCalendar;
 import com.molo17.customizablecalendar.library.model.Calendar;
@@ -416,7 +416,7 @@ public abstract class BindingAdapters {
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    @BindingAdapter("onMaskedTextChanged")
+    @BindingAdapter("onMaskedTextChange")
     public static void bindOnMaskedTextChangedListener(MaskedEditText maskedEditText, ObservableField<String> observableField) {
         maskedEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -431,7 +431,10 @@ public abstract class BindingAdapters {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                observableField.set(maskedEditText.getText(true).toString());
+                if (!observableField.get().equals(editable.toString())) {
+                    String result = editable.toString().replace("+7", "").replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
+                    observableField.set(result);
+                }
             }
         });
     }

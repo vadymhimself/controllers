@@ -16,7 +16,8 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
         <ImageView
             android:layout_width="match_parent"
@@ -58,21 +59,21 @@
                         app:valid='@{controller.isTelValid}'
                         app:validationType='@{type.PHONE}'>
 
-                        <com.github.reinaldoarrosi.maskededittext.MaskedEditText
-                            android:id="@+id/phone"
+                        <com.github.pinball83.maskededittext.MaskedEditText
+                            android:id="@+id/tel_editText"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
+                            android:lines="1"
                             android:drawableStart="@drawable/ic_phone"
                             android:imeOptions="actionNext"
                             android:inputType="number|phone"
-                            android:maxLines="1"
                             android:textColor="@android:color/white"
-                            android:textSize="17sp"
                             android:theme="@style/EditTextTheme"
-                            app:digitMaskedKeyboard="@{true}"
-                            app:mask="+7(999) 999-99-99"
-                            app:onMaskedTextChanged='@{controller.phone}'
-                            app:placeholder="_" />
+                            android:textSize="17sp"
+                            app:mask="+7 (***) ***-**-**"
+                            app:notMaskedSymbol="*"
+                            app:onMaskedTextChange='@{controller.phone}' />
+                        
                     </android.support.design.widget.TextInputLayout>
                 </RelativeLayout>
 

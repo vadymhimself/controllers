@@ -62,21 +62,20 @@
                     app:valid='@{controller.isTelValid}'
                     app:validationType='@{type.PHONE}'>
 
-                    <com.github.reinaldoarrosi.maskededittext.MaskedEditText
-                        android:id="@+id/phone"
+                    <com.github.pinball83.maskededittext.MaskedEditText
+                        android:id="@+id/tel_editText"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lines="1"
                         android:drawableStart="@drawable/ic_phone"
                         android:imeOptions="actionNext"
                         android:inputType="number|phone"
-                        android:maxLines="1"
                         android:textColor="@android:color/white"
-                        android:textSize="17sp"
                         android:theme="@style/EditTextTheme"
-                        app:digitMaskedKeyboard="@{true}"
-                        app:mask="+7(999) 999-99-99"
-                        app:onMaskedTextChanged='@{controller.phone}'
-                        app:placeholder="_" />
+                        android:textSize="17sp"
+                        app:mask="+7 (***) ***-**-**"
+                        app:notMaskedSymbol="*"
+                        app:onMaskedTextChange='@{controller.phone}' />
                 </android.support.design.widget.TextInputLayout>
 
             </RelativeLayout>
@@ -229,22 +228,22 @@
                     app:valid='@{controller.isDateValid}'
                     app:validationType='@{type.DATE}'>
 
-                    <com.github.reinaldoarrosi.maskededittext.MaskedEditText
+                    <com.github.pinball83.maskededittext.MaskedEditText
                         android:id="@+id/date"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/date_label"
                         android:hint="@string/reg_date_hint"
-                        android:imeOptions="actionDone"
+                        android:imeOptions="actionNext"
                         android:inputType="number"
                         android:maxLines="1"
                         android:textColor="@android:color/white"
                         android:textSize="17sp"
                         android:theme="@style/EditTextTheme"
-                        app:digitMaskedKeyboard="@{true}"
-                        app:mask="99.99.9999"
-                        app:onMaskedTextChanged='@{controller.date}'
-                        app:placeholder="_" />
+                        app:mask="**.**.****"
+                        app:notMaskedSymbol="*"
+                        app:onMaskedTextChange='@{controller.phone}' />
+
                 </android.support.design.widget.TextInputLayout>
 
             </RelativeLayout>
