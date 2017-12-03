@@ -5,43 +5,54 @@
 
         <variable
             name="controller"
-            type="ru.xfit.screens.contacts.CallMeController" />
+            type="ru.xfit.screens.clubs.guest_visit.GuestVisitController" />
 
         <import type="ru.xfit.R" />
-
-        <import type="ru.xfit.misc.LayoutManagers" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:title="@{controller.title}"
+            app:navigationClickListener="@{controller}"
+            app:showBackButton="@{controller.previous != null}" />
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar">
 
             <RelativeLayout
                 android:id="@+id/dropdown_rl"
+                clubItems="@{controller.clubs}"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:background="@android:color/white"
                 android:elevation="1dp">
 
-                <EditText
+                <ru.xfit.misc.views.MyAutoCompleteText
+                    android:id="@+id/club"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/transparent"
-                    android:drawableRight="@drawable/ic_arrow_drop_down"
+                    android:dropDownAnchor="@id/dropdown_rl"
+                    android:dropDownWidth="match_parent"
                     android:fontFamily="sans-serif"
                     android:hint="@string/call_me_select_club"
-                    android:text="@{controller.selectedClub.title}"
-                    android:textColor="@color/calendarCommonDay"
+                    android:text="@={controller.selectedClub}"
+                    android:textColor="@color/slate_grey"
                     android:textSize="16sp"
-                    android:textStyle="normal"
-                    app:hackyPopUp="@{controller}" />
+                    android:textStyle="normal" />
 
             </RelativeLayout>
 
@@ -49,7 +60,7 @@
                 android:id="@+id/name_rl"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:layout_below="@+id/dropdown_rl"
+                android:layout_below="@id/dropdown_rl"
                 android:layout_marginTop="1dp"
                 android:background="@android:color/white"
                 android:elevation="1dp">
@@ -62,8 +73,8 @@
                     android:layout_marginRight="10dp"
                     android:background="@android:color/transparent"
                     android:fontFamily="sans-serif"
-                    android:text="@{controller.name}"
-                    android:textColor="@color/calendarCommonDay"
+                    android:text="@={controller.name}"
+                    android:textColor="@color/slate_grey"
                     android:textSize="16sp"
                     android:textStyle="normal" />
 
@@ -79,21 +90,20 @@
                 android:elevation="1dp">
 
                 <ru.xfit.misc.views.maskededittext.DisabledPasteMaskedEditText
-                    android:id="@+id/tel_editText"
+                    android:id="@+id/phone"
                     onMaskedTextChange="@{controller.phone}"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/transparent"
-                    android:drawableStart="@drawable/ic_phone"
                     android:fontFamily="sans-serif"
                     android:hint="          "
                     android:imeOptions="actionDone"
                     android:inputType="number|phone"
                     android:maxLines="1"
                     android:text="@{controller.phone}"
+                    android:textColor="@color/slate_grey"
                     android:textSize="16sp"
                     android:textStyle="normal"
                     app:allowed_chars="1234567890"
@@ -112,10 +122,11 @@
                 android:background="@drawable/button_bg"
                 android:fontFamily="sans-serif"
                 android:foreground="?attr/selectableItemBackground"
-                android:onClick='@{controller.callMe}'
-                android:text="@string/call_me_button"
+                android:onClick='@{controller::requestGuestVisit}'
+                android:text="@string/club_order_guest_visit"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
+
         </RelativeLayout>
 
         <include
@@ -127,4 +138,5 @@
             app:visibility="@{controller.progress}" />
 
     </RelativeLayout>
+
 </layout>

@@ -23,6 +23,7 @@ import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.BlankToolbarController;
+import ru.xfit.screens.clubs.guest_visit.GuestVisitController;
 import ru.xfit.screens.clubs.news.NewsController;
 import ru.xfit.screens.schedule.ClubClassesController;
 
@@ -139,7 +140,7 @@ public class AboutClubController extends BlankToolbarController<LayoutAboutClubB
     }
 
     public void getGuestVisit(View view) {
-        Snackbar.make(view, "Coming soon...", BaseTransientBottomBar.LENGTH_SHORT).show();
+        show(new GuestVisitController(club));
     }
 
     public void buyCard(View view) {

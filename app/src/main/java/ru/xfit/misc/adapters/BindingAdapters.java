@@ -22,6 +22,7 @@ import android.support.transition.TransitionManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,6 +43,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -66,6 +68,7 @@ import com.molo17.customizablecalendar.library.model.Calendar;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -90,6 +93,7 @@ import ru.xfit.misc.views.HackyRecyclerView;
 import ru.xfit.misc.views.LayoutManagers;
 import ru.xfit.misc.views.RecyclerItemClickListener;
 import ru.xfit.misc.views.RefreshListener;
+import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.data.common.Image;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.screens.DateChangeListener;
@@ -435,6 +439,28 @@ public abstract class BindingAdapters {
         });
     }
 
+    @BindingAdapter("onMaskedTextChange")
+    public static void bindOnMaskedTextChangedListener(ru.xfit.misc.views.maskededittext.MaskedEditText maskedEditText, ObservableField<String> observableField) {
+        maskedEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!observableField.get().equals(maskedEditText.getRawText())) {
+                    observableField.set(maskedEditText.getRawText());
+                }
+            }
+        });
+    }
+
     @BindingAdapter("focusOnView")
     public static void bindFocusOnView(View view, ObservableBoolean focus) {
         view.setOnFocusChangeListener((view1, b) -> focus.set(b));
@@ -448,6 +474,7 @@ public abstract class BindingAdapters {
             view.setBackgroundColor(view.getContext().getResources().getColor(R.color.white));
         }
     }
+
 
     @BindingAdapter(value = {"valid", "checkValue"})
     public static void addRePasswordValidation(TextInputLayout textInputLayout, ObservableBoolean isValid, ObservableField<String> checkValue) {
@@ -521,14 +548,61 @@ public abstract class BindingAdapters {
                 default:
                     validator = new EmptyValidator();
             }
-            textInputLayout.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            EditText editText = textInputLayout.getEditText();
+            if (editText instanceof ru.xfit.misc.views.maskededittext.MaskedEditText) {
+                ru.xfit.misc.views.maskededittext.MaskedEditText maskedEditText = (ru.xfit.misc.views.maskededittext.MaskedEditText) editText;
+                maskedEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
-                int trig = 0;
+                    int trig = 0;
 
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if (trig == 1) {
-                        String s = validator.validate(textInputLayout.getEditText().getText().toString());
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (trig == 1) {
+                            String s = validator.validate(maskedEditText.getRawText());
+                            if (s == null) {
+                                textInputLayout.setErrorEnabled(false);
+                                isValid.set(true);
+                            } else {
+                                isValid.set(false);
+                            }
+                            textInputLayout.setError(s);
+                            maskedEditText.addTextChangedListener(new TextWatcher() {
+                                @Override
+                                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                                }
+
+                                @Override
+                                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                                }
+
+                                @Override
+                                public void afterTextChanged(Editable s) {
+                                    String valid = validator.validate(maskedEditText.getRawText());
+                                    if (valid == null) {
+                                        textInputLayout.setErrorEnabled(false);
+                                        isValid.set(true);
+                                    } else {
+                                        isValid.set(false);
+                                    }
+                                    textInputLayout.setError(valid);
+
+                                }
+                            });
+                        }
+                        trig++;
+                    }
+                });
+            } else
+                editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+                    int trig = 0;
+
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (trig == 1) {
+                            String s = validator.validate(editText.getText().toString());
                         if (s == null) {
                             textInputLayout.setErrorEnabled(false);
                             isValid.set(true);
@@ -536,7 +610,7 @@ public abstract class BindingAdapters {
                             isValid.set(false);
                         }
                         textInputLayout.setError(s);
-                        textInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
+                            editText.addTextChangedListener(new TextWatcher() {
                             @Override
                             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -863,6 +937,29 @@ public abstract class BindingAdapters {
             p.setMargins(0, padding, 0, 0);
             view.requestLayout();
         }
+    }
+
+    @BindingAdapter("clubItems")
+    public static void setClubItems(ViewGroup viewGroup, List<ClubItem> clubItems) {
+        AppCompatAutoCompleteTextView autoCompleteTextView = (AppCompatAutoCompleteTextView) viewGroup.findViewById(R.id.club);
+        List<String> clubTitles = new ArrayList<>();
+        for (ClubItem clubItem : clubItems) {
+            clubTitles.add(clubItem.title);
+        }
+        autoCompleteTextView.setAdapter(new ArrayAdapter<>(autoCompleteTextView.getContext(), R.layout.view_dropdown, clubTitles));
+        viewGroup.setOnClickListener(view -> {
+            if (!autoCompleteTextView.isPopupShowing())
+                autoCompleteTextView.showDropDown();
+        });
+        autoCompleteTextView.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus && !autoCompleteTextView.isPopupShowing())
+                autoCompleteTextView.showDropDown();
+
+        });
+        autoCompleteTextView.setOnClickListener(v -> {
+            if (!autoCompleteTextView.isPopupShowing())
+                autoCompleteTextView.showDropDown();
+        });
     }
 
 

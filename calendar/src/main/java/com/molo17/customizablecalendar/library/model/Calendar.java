@@ -8,7 +8,6 @@ import org.joda.time.Weeks;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by francescofurlan on 27/06/17.
@@ -77,16 +76,16 @@ public class Calendar {
         return currentMonth;
     }
 
+    public void setCurrentMonth(DateTime currentMonth) {
+        this.currentMonth = currentMonth;
+    }
+
     public String getCurrentYear() {
         return firstMonth.toString("yyyy", DateUtils.myLocale);
     }
 
     public int getCurrentWeek() {
         return firstMonth.getWeekOfWeekyear();
-    }
-
-    public void setCurrentMonth(DateTime currentMonth) {
-        this.currentMonth = currentMonth;
     }
 
     public List<DateTime> getMonths() {
@@ -125,12 +124,12 @@ public class Calendar {
         return firstMonth;
     }
 
-    public void setToday(DateTime today) {
-        this.today = today;
-    }
-
     public DateTime getToday() {
         return today;
+    }
+
+    public void setToday(DateTime today) {
+        this.today = today;
     }
 
     public int getMaxDaysSelection() {

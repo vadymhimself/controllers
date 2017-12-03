@@ -7,7 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowTranslucentStatus">true</item>
-        <!--<item name="android:statusBarColor">#961a1a1a</item>-->
+        <item name="android:statusBarColor">#961a1a1a</item>
         <item name="android:actionMenuTextAppearance">@style/MyMenuTextAppearance</item>
     </style>
 
