@@ -52,14 +52,14 @@
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/phone_inputLayout"
+                        error="@{controller.isTelErrorVisible ? controller.telError : null}"
+                        errorText="@{controller.telError}"
+                        isErrorShown="@{controller.isTelErrorVisible}"
+                        validType="@{type.PHONE}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:hintEnabled="false"
                         app:errorTextAppearance="@style/ErrorText"
-                        app:hintTextAppearance="@style/InputHintTextStyle"
-                        app:valid='@{controller.isTelInvalid}'
-                        app:validationType='@{type.PHONE}'
-                        app:errorListener='@{controller.isError}'>
+                        app:hintTextAppearance="@style/InputHintTextStyle">
 
                         <ru.xfit.misc.views.maskededittext.DisabledPasteMaskedEditText
                             android:id="@+id/tel_editText"
@@ -80,21 +80,6 @@
 
                     </android.support.design.widget.TextInputLayout>
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/phone_inputLayout"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="-30dp"
-                        android:visibility="@{!controller.isError}">
-
-                        <ImageView
-                            android:layout_width="17dp"
-                            android:layout_height="15dp"
-                            android:layout_alignParentRight="true"
-                            android:background="@drawable/ic_report_problem" />
-                    </RelativeLayout>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -108,14 +93,17 @@
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/pass_inputLayout"
+                        error="@{controller.isPasswordErrorVisible ? controller.passwordError : null}"
+                        errorText="@{controller.passwordError}"
+                        isErrorShown="@{controller.isPasswordErrorVisible}"
+                        validType="@{type.TEXT}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColorHint="@color/textHintColor"
-                        app:errorEnabled="@{controller.errorResponse.get().length() > 0}"
                         app:errorTextAppearance="@style/ErrorText"
                         app:hintTextAppearance="@style/InputHintTextStyle">
 
-                        <EditText
+                        <android.support.v7.widget.AppCompatEditText
                             android:id="@+id/password"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -127,23 +115,8 @@
                             android:textColorHint="@color/textHintColor"
                             android:textSize="17sp"
                             android:theme="@style/EditTextTheme" />
+
                     </android.support.design.widget.TextInputLayout>
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/pass_inputLayout"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="-40dp"
-                        android:visibility="@{controller.errorResponse.get().length() > 0}">
-
-                        <ImageView
-                            android:layout_width="17dp"
-                            android:layout_height="15dp"
-                            android:layout_alignParentRight="true"
-                            android:background="@drawable/ic_report_problem" />
-                    </RelativeLayout>
 
                 </RelativeLayout>
 

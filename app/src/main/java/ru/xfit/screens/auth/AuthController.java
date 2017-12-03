@@ -28,14 +28,14 @@ import ru.xfit.screens.XFitController;
 
 public class AuthController extends XFitController<LayoutAuthBinding> {
 
+    public final ObservableBoolean progress = new ObservableBoolean();
     public ObservableField<String> phone = new ObservableField<>("");
     public ObservableField<String> password = new ObservableField<>("");
     public ObservableField<String> errorResponse = new ObservableField<>();
-
-    public ObservableBoolean isTelInvalid = new ObservableBoolean();
-    public ObservableBoolean isError = new ObservableBoolean();
-
-    public final ObservableBoolean progress = new ObservableBoolean();
+    public ObservableField<String> passwordError = new ObservableField<>(null);
+    public ObservableField<String> telError = new ObservableField<>(null);
+    public ObservableBoolean isPasswordErrorVisible = new ObservableBoolean();
+    public ObservableBoolean isTelErrorVisible = new ObservableBoolean();
 
     @Override
     public int getLayoutId() {
@@ -47,59 +47,59 @@ public class AuthController extends XFitController<LayoutAuthBinding> {
     }
 
     public void auth(View view) {
-        progress.set(true);
-        Request.with(this, Api.class)
-                .create(api -> api.authByPhone(phone.get(), password.get()))
-                .onFinally(() -> progress.set(false))
-                .onError(error -> {
-                    if (error instanceof NetworkError) {
-                        if (((NetworkError) error).getErrorResponse().code.equals(ErrorCodes.USER_ID_NOT_SPECIFIED.getErrorCode())) {
-                            if (getBinding() != null) {
-                                getBinding().phoneInputLayout.setErrorEnabled(true);
-                                getBinding().phoneInputLayout.setError(view.getContext().getResources().getString(R.string.auth_phone_error));
-                                getBinding().passInputLayout.setErrorEnabled(true);
-                                getBinding().passInputLayout.setError(view.getContext().getResources().getString(R.string.auth_pass_error));
+        isPasswordErrorVisible.set(true);
+        isTelErrorVisible.set(true);
+        if (passwordError.get() == null && telError.get() == null) {
+            progress.set(true);
+            Request.with(this, Api.class)
+                    .create(api -> api.authByPhone(phone.get(), password.get()))
+                    .onFinally(() -> progress.set(false))
+                    .onError(error -> {
+                        if (error instanceof NetworkError) {
+                            if (((NetworkError) error).getErrorResponse().code.equals(ErrorCodes.USER_ID_NOT_SPECIFIED.getErrorCode())) {
+                                if (getBinding() != null) {
+                                    telError.set(view.getContext().getResources().getString(R.string.auth_phone_error));
+                                    passwordError.set(view.getContext().getResources().getString(R.string.auth_pass_error));
+                                }
+                            } else if (((NetworkError) error).getErrorResponse().code.equals(ErrorCodes.INVALID_USER_ID_OR_PASSWORD.getErrorCode())) {
+                                if (getBinding() != null) {
+                                    passwordError.set(view.getContext().getResources().getString(R.string.auth_pass_error));
+                                }
+                            } else {
+                                //TODO озможно эту ошибку стоит показывать тостом или снэком
+                                errorResponse.set(error.getMessage());
+                                if (getBinding() != null) {
+                                    passwordError.set(error.getMessage());
+                                }
                             }
-                        } else if (((NetworkError) error).getErrorResponse().code.equals(ErrorCodes.INVALID_USER_ID_OR_PASSWORD.getErrorCode())) {
+                        } else if (error instanceof UnknownHostException) {
+                            //TODO озможно эту ошибку стоит показывать тостом или снэком
                             if (getBinding() != null) {
-                                getBinding().passInputLayout.setErrorEnabled(true);
-                                getBinding().passInputLayout.setError(view.getContext().getResources().getString(R.string.auth_pass_error));
+                                passwordError.set(view.getContext().getResources().getString(R.string.auth_internet_error));
                             }
                         } else {
-                            errorResponse.set(error.getMessage());
-                            if (getBinding() != null) {
-                                getBinding().passInputLayout.setError(error.getMessage());
-                            }
+                            //TODO озможно эту ошибку стоит показывать тостом или снэком
+                            passwordError.set(error.getMessage());
                         }
-                    } else if (error instanceof UnknownHostException) {
-                        if (getBinding() != null) {
-                            getBinding().passInputLayout.setErrorEnabled(true);
-                            getBinding().passInputLayout.setError(view.getContext().getResources().getString(R.string.auth_internet_error));
-                        }
-                    } else {
-                        errorResponse.set(error.getMessage());
-                        if (getBinding() != null) {
-                            getBinding().passInputLayout.setError(error.getMessage());
-                        }
-                    }
-                })
-                .execute(user -> {
+                    })
+                    .execute(user -> {
 
-                    PreferencesManager preferencesManager = new PreferencesManager(App.getContext());
-                    preferencesManager.putValue(PreferencesManager.KEY_IS_USER_ALREADY_LOGIN, true);
+                        PreferencesManager preferencesManager = new PreferencesManager(App.getContext());
+                        preferencesManager.putValue(PreferencesManager.KEY_IS_USER_ALREADY_LOGIN, true);
 
-                    user.user.language = user.language;
-                    user.user.city = user.city;
-                    user.user.token = user.token;
+                        user.user.language = user.language;
+                        user.user.city = user.city;
+                        user.user.token = user.token;
 
-                    user.user.pass = password.get();
-                    user.user.phone = phone.get();
+                        user.user.pass = password.get();
+                        user.user.phone = phone.get();
 
-                    saveUser(user.user);
+                        saveUser(user.user);
 
-                    MainActivity.start(getActivity());
-                    getActivity().finish();
-                });
+                        MainActivity.start(getActivity());
+                        getActivity().finish();
+                    });
+        }
     }
 
     private void saveUser(User user) {

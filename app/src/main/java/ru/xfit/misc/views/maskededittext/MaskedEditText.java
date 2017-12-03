@@ -16,6 +16,9 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static android.content.ContentValues.TAG;
 
 /**
@@ -43,6 +46,7 @@ public class MaskedEditText extends AppCompatEditText implements TextWatcher {
     private OnFocusChangeListener focusChangeListener;
     private String allowedChars;
     private String deniedChars;
+    private List<OnFocusChangeListener> onFocusChangeListeners = new ArrayList<>();
 
 
     public MaskedEditText(Context context) {
@@ -117,15 +121,6 @@ public class MaskedEditText extends AppCompatEditText implements TextWatcher {
         super.setText(text, type);
     }
 
-    /**
-     * @param listener - its onFocusChange() method will be called before performing MaskedEditText operations,
-     *                 related to this event.
-     */
-    @Override
-    public void setOnFocusChangeListener(OnFocusChangeListener listener) {
-        focusChangeListener = listener;
-    }
-
     private void cleanUp() {
         initialized = false;
 
@@ -161,8 +156,30 @@ public class MaskedEditText extends AppCompatEditText implements TextWatcher {
                     selectionChanged = false;
                     MaskedEditText.this.setSelection(lastValidPosition());
                 }
+                for (OnFocusChangeListener listener : onFocusChangeListeners)
+                    listener.onFocusChange(v, hasFocus);
             }
         });
+    }
+
+    public void addOnFocusChangeListener(OnFocusChangeListener listener) {
+        onFocusChangeListeners.add(listener);
+    }
+
+    @Override
+    public OnFocusChangeListener getOnFocusChangeListener() {
+        if (onFocusChangeListeners.size() > 0)
+            return onFocusChangeListeners.get(0);
+        return super.getOnFocusChangeListener();
+    }
+
+    /**
+     * @param listener - its onFocusChange() method will be called before performing MaskedEditText operations,
+     *                 related to this event.
+     */
+    @Override
+    public void setOnFocusChangeListener(OnFocusChangeListener listener) {
+        focusChangeListener = listener;
     }
 
     private int findLastValidMaskPosition() {

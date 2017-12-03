@@ -55,6 +55,7 @@
     <style name="ErrorText" parent="TextAppearance.AppCompat.Small">
         <item name="android:textColor">@color/reportProblem</item>
         <item name="android:drawableRight">@drawable/ic_report_problem</item>
+        <item name="android:drawableEnd">@drawable/ic_report_problem</item>
     </style>
 
     <style name="SettingsRl" parent="AppTheme">

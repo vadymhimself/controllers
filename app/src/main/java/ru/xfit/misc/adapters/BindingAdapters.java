@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
 import android.support.annotation.MenuRes;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -95,8 +94,10 @@ import ru.xfit.misc.views.BannerSliderView;
 import ru.xfit.misc.views.BottomNavigationViewHelper;
 import ru.xfit.misc.views.HackyRecyclerView;
 import ru.xfit.misc.views.LayoutManagers;
+import ru.xfit.misc.views.MaskedTextInputLayoutValidator;
 import ru.xfit.misc.views.RecyclerItemClickListener;
 import ru.xfit.misc.views.RefreshListener;
+import ru.xfit.misc.views.TextInputLayoutValidator;
 import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.data.common.Image;
 import ru.xfit.model.data.contract.Contract;
@@ -975,6 +976,30 @@ public abstract class BindingAdapters {
                 autoCompleteTextView.showDropDown();
         });
     }
+
+    @BindingAdapter(value = {"errorText", "validType", "isErrorShown"})
+    public static void setupTextInputValidation(TextInputLayout textInputLayout, ObservableField<String> errorText, ValidationType validationType, ObservableBoolean isErrorShown) {
+        EditText editText = textInputLayout.getEditText();
+        if (!(editText.getOnFocusChangeListener() instanceof TextInputLayoutValidator)) {
+            TextInputLayoutValidator validator;
+            if (editText instanceof ru.xfit.misc.views.maskededittext.MaskedEditText) {
+                ru.xfit.misc.views.maskededittext.MaskedEditText maskedEditText = (ru.xfit.misc.views.maskededittext.MaskedEditText) editText;
+                validator = new MaskedTextInputLayoutValidator(errorText, validationType, isErrorShown, maskedEditText);
+                maskedEditText.addOnFocusChangeListener(validator);
+            } else {
+                validator = new TextInputLayoutValidator(errorText, validationType, isErrorShown);
+                textInputLayout.getEditText().setOnFocusChangeListener(validator);
+
+            }
+            textInputLayout.getEditText().addTextChangedListener(validator);
+        }
+    }
+
+    @BindingAdapter("error")
+    public static void setTextInputError(TextInputLayout textInputError, String error) {
+        textInputError.setError(error);
+    }
+
 
     @BindingAdapter("tintProgress")
     public static void bindTintProgress(ProgressBar progressBar, @ColorRes int resColor) {
