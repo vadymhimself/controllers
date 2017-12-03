@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="background"
@@ -27,6 +27,7 @@
             android:layout_width="124dp"
             android:layout_height="124dp"
             android:layout_gravity="center"
+            app:tintProgress="@{indeterminateTint}"
             android:indeterminateTint="@{indeterminateTint}"
             />
 

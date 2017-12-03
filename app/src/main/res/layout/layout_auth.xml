@@ -55,9 +55,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:hintEnabled="false"
+                        app:errorTextAppearance="@style/ErrorText"
                         app:hintTextAppearance="@style/InputHintTextStyle"
-                        app:valid='@{controller.isTelValid}'
-                        app:validationType='@{type.PHONE}'>
+                        app:valid='@{controller.isTelInvalid}'
+                        app:validationType='@{type.PHONE}'
+                        app:errorListener='@{controller.isError}'>
 
                         <ru.xfit.misc.views.maskededittext.DisabledPasteMaskedEditText
                             android:id="@+id/tel_editText"
@@ -77,6 +79,22 @@
                             app:mask="+7 (###) ###-##-##" />
 
                     </android.support.design.widget.TextInputLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/phone_inputLayout"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="-30dp"
+                        android:visibility="@{!controller.isError}">
+
+                        <ImageView
+                            android:layout_width="17dp"
+                            android:layout_height="15dp"
+                            android:layout_alignParentRight="true"
+                            android:background="@drawable/ic_report_problem" />
+                    </RelativeLayout>
                 </RelativeLayout>
 
                 <RelativeLayout

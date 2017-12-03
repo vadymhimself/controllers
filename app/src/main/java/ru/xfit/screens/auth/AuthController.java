@@ -5,13 +5,19 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.net.Uri;
 import android.view.View;
+
 import com.controllers.Request;
+
+import java.net.UnknownHostException;
+
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutAuthBinding;
 import ru.xfit.domain.App;
 import ru.xfit.domain.MainActivity;
+import ru.xfit.model.data.ErrorCodes;
 import ru.xfit.model.data.auth.User;
 import ru.xfit.model.data.storage.preferences.PreferencesManager;
+import ru.xfit.model.retrorequest.NetworkError;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.XFitController;
 
@@ -26,7 +32,8 @@ public class AuthController extends XFitController<LayoutAuthBinding> {
     public ObservableField<String> password = new ObservableField<>("");
     public ObservableField<String> errorResponse = new ObservableField<>();
 
-    public ObservableBoolean isTelValid = new ObservableBoolean();
+    public ObservableBoolean isTelInvalid = new ObservableBoolean();
+    public ObservableBoolean isError = new ObservableBoolean();
 
     public final ObservableBoolean progress = new ObservableBoolean();
 
@@ -45,9 +52,35 @@ public class AuthController extends XFitController<LayoutAuthBinding> {
                 .create(api -> api.authByPhone(phone.get(), password.get()))
                 .onFinally(() -> progress.set(false))
                 .onError(error -> {
-                    errorResponse.set(error.getMessage());
-                    if (getBinding() != null) {
-                        getBinding().passInputLayout.setError(error.getMessage());
+                    if (error instanceof NetworkError) {
+                        if (((NetworkError) error).getErrorResponse().code.equals(ErrorCodes.USER_ID_NOT_SPECIFIED.getErrorCode())) {
+                            if (getBinding() != null) {
+                                getBinding().phoneInputLayout.setErrorEnabled(true);
+                                getBinding().phoneInputLayout.setError(view.getContext().getResources().getString(R.string.auth_phone_error));
+                                getBinding().passInputLayout.setErrorEnabled(true);
+                                getBinding().passInputLayout.setError(view.getContext().getResources().getString(R.string.auth_pass_error));
+                            }
+                        } else if (((NetworkError) error).getErrorResponse().code.equals(ErrorCodes.INVALID_USER_ID_OR_PASSWORD.getErrorCode())) {
+                            if (getBinding() != null) {
+                                getBinding().passInputLayout.setErrorEnabled(true);
+                                getBinding().passInputLayout.setError(view.getContext().getResources().getString(R.string.auth_pass_error));
+                            }
+                        } else {
+                            errorResponse.set(error.getMessage());
+                            if (getBinding() != null) {
+                                getBinding().passInputLayout.setError(error.getMessage());
+                            }
+                        }
+                    } else if (error instanceof UnknownHostException) {
+                        if (getBinding() != null) {
+                            getBinding().passInputLayout.setErrorEnabled(true);
+                            getBinding().passInputLayout.setError(view.getContext().getResources().getString(R.string.auth_internet_error));
+                        }
+                    } else {
+                        errorResponse.set(error.getMessage());
+                        if (getBinding() != null) {
+                            getBinding().passInputLayout.setError(error.getMessage());
+                        }
                     }
                 })
                 .execute(user -> {
@@ -76,7 +109,7 @@ public class AuthController extends XFitController<LayoutAuthBinding> {
     }
 
     public void onForgotPasswordClicked(View view) {
-        Intent intent= new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.xfit.ru/payonline/wnd.php?a=forgot"));
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.xfit.ru/payonline/wnd.php?a=forgot"));
         getActivity().startActivity(intent);
     }
 }

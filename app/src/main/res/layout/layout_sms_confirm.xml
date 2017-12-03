@@ -9,6 +9,7 @@
 
         <import type="ru.xfit.R" />
     </data>
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,188 +20,205 @@
             android:layout_width="300dp"
             android:layout_height="152dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp" />
+            android:layout_marginTop="50dp"
+            android:background="@drawable/logo_x_fit" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="17sp"
-            android:fontFamily="sans-serif"
-            android:textStyle="normal"
-            android:textColor="#ffffff"
             android:layout_below="@+id/logo"
-            android:layout_marginTop="27dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="27dp"
+            android:fontFamily="sans-serif"
             android:text="@string/sms_confirm_title"
-            />
+            android:textColor="#ffffff"
+            android:textSize="17sp"
+            android:textStyle="normal" />
 
         <RelativeLayout
             android:id="@+id/sms_rl"
             android:layout_width="260dp"
             android:layout_height="48dp"
             android:layout_below="@+id/title"
-            android:layout_marginLeft="16dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="29dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="36dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="9dp">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/sms_input_bg"/>
+                        android:background="@drawable/sms_input_bg" />
+
                     <EditText
                         android:id="@+id/sms1"
-                        android:layout_width="wrap_content"
+                        android:layout_width="36dp"
                         android:layout_height="wrap_content"
-                        android:theme="@style/EditTextTheme"
-                        android:inputType="number"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:minWidth="26dp"
-                        android:maxLength="1"
                         android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:minWidth="26dp"
+                        android:nextFocusForward="@+id/sms2"
+                        android:text='@={controller.code1}'
                         android:textColor="@android:color/white"
                         android:textColorHint="@color/textHintColor"
-                        android:text='@={controller.code1}'
-                        android:nextFocusForward="@+id/sms2"
-                        android:textSize="27sp"/>
+                        android:textSize="27sp"
+                        android:textAlignment="center"
+                        android:theme="@style/EditTextTheme" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="36dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="9dp">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/sms_input_bg"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/sms_input_bg" />
+
                     <EditText
                         android:id="@+id/sms2"
-                        android:layout_width="wrap_content"
+                        android:layout_width="36dp"
                         android:layout_height="wrap_content"
-                        android:theme="@style/EditTextTheme"
-                        android:inputType="number"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:minWidth="26dp"
-                        android:maxLength="1"
                         android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:minWidth="26dp"
+                        android:nextFocusForward="@+id/sms3"
+                        android:text='@={controller.code2}'
                         android:textColor="@android:color/white"
                         android:textColorHint="@color/textHintColor"
-                        android:text='@={controller.code2}'
-                        android:nextFocusForward="@+id/sms3"
-                        android:textSize="27sp"/>
+                        android:textSize="27sp"
+                        android:textAlignment="center"
+                        android:theme="@style/EditTextTheme" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="36dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="9dp">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/sms_input_bg"/>
+                        android:background="@drawable/sms_input_bg" />
+
                     <EditText
                         android:id="@+id/sms3"
-                        android:layout_width="wrap_content"
+                        android:layout_width="36dp"
                         android:layout_height="wrap_content"
-                        android:theme="@style/EditTextTheme"
-                        android:inputType="number"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:minWidth="26dp"
-                        android:maxLength="1"
                         android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:minWidth="26dp"
+                        android:nextFocusForward="@+id/sms4"
+                        android:text='@={controller.code3}'
                         android:textColor="@android:color/white"
                         android:textColorHint="@color/textHintColor"
-                        android:text='@={controller.code3}'
-                        android:nextFocusForward="@+id/sms4"
-                        android:textSize="27sp"/>
+                        android:textSize="27sp"
+                        android:textAlignment="center"
+                        android:theme="@style/EditTextTheme" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="36dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="9dp">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/sms_input_bg"/>
+                        android:background="@drawable/sms_input_bg" />
 
                     <EditText
                         android:id="@+id/sms4"
-                        android:layout_width="wrap_content"
+                        android:layout_width="36dp"
                         android:layout_height="wrap_content"
-                        android:theme="@style/EditTextTheme"
-                        android:inputType="number"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:minWidth="26dp"
-                        android:maxLength="1"
                         android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:minWidth="26dp"
+                        android:nextFocusForward="@+id/sms5"
+                        android:text='@={controller.code4}'
                         android:textColor="@android:color/white"
                         android:textColorHint="@color/textHintColor"
-                        android:text='@={controller.code4}'
-                        android:nextFocusForward="@+id/sms5"
-                        android:textSize="27sp"/>
+                        android:textSize="27sp"
+                        android:textAlignment="center"
+                        android:theme="@style/EditTextTheme" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="36dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="9dp">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/sms_input_bg"/>
+                        android:background="@drawable/sms_input_bg" />
 
                     <EditText
                         android:id="@+id/sms5"
-                        android:layout_width="wrap_content"
+                        android:layout_width="36dp"
                         android:layout_height="wrap_content"
-                        android:theme="@style/EditTextTheme"
-                        android:inputType="number"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:minWidth="26dp"
-                        android:maxLength="1"
                         android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:minWidth="26dp"
+                        android:nextFocusForward="@+id/sms6"
+                        android:text='@={controller.code5}'
                         android:textColor="@android:color/white"
                         android:textColorHint="@color/textHintColor"
-                        android:text='@={controller.code5}'
-                        android:nextFocusForward="@+id/sms6"
-                        android:textSize="27sp"/>
+                        android:textSize="27sp"
+                        android:textAlignment="center"
+                        android:theme="@style/EditTextTheme" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="36dp"
                     android:layout_height="wrap_content">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/sms_input_bg"/>
+                        android:background="@drawable/sms_input_bg" />
+
                     <EditText
                         android:id="@+id/sms6"
-                        android:layout_width="wrap_content"
+                        android:layout_width="36dp"
                         android:layout_height="wrap_content"
-                        android:theme="@style/EditTextTheme"
-                        android:inputType="number"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:minWidth="26dp"
-                        android:maxLength="1"
                         android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:minWidth="26dp"
+                        android:text='@={controller.code6}'
                         android:textColor="@android:color/white"
                         android:textColorHint="@color/textHintColor"
-                        android:text='@={controller.code6}'
-                        android:textSize="27sp"/>
+                        android:textSize="27sp"
+                        android:textAlignment="center"
+                        android:theme="@style/EditTextTheme" />
                 </RelativeLayout>
             </LinearLayout>
         </RelativeLayout>
@@ -213,12 +231,12 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="180dp"
             android:background="@drawable/button_bg"
-            android:foreground="?attr/selectableItemBackground"
             android:fontFamily="sans-serif"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick='@{controller.activate}'
             android:text="@string/sms_confirm_btn"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:onClick='@{controller.activate}'/>
+            android:textSize="18sp" />
 
         <include
             layout="@layout/progress"

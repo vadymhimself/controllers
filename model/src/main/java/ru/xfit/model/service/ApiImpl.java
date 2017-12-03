@@ -37,6 +37,7 @@ import ru.xfit.model.data.schedule.Schedule;
 import ru.xfit.model.data.schedule.ScheduleList;
 import ru.xfit.model.data.schedule.Trainer;
 import ru.xfit.model.data.storage.preferences.PreferencesStorage;
+import ru.xfit.model.retrorequest.NetworkError;
 import ru.xfit.model.retrorequest.TaskBuilder;
 
 final class ApiImpl implements Api {
@@ -59,7 +60,7 @@ final class ApiImpl implements Api {
             String json = response.errorBody().string();
             ErrorResponse errorResponse = new Gson().fromJson(json, ErrorResponse.class);
 
-            throw new ErrorException(errorResponse.message);
+            throw new NetworkError(response.code(), response.message(), errorResponse);
         }
     }
 

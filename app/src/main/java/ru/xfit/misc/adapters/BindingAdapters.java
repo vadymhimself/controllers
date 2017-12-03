@@ -7,10 +7,13 @@ import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.support.annotation.MenuRes;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -20,6 +23,7 @@ import android.support.transition.AutoTransition;
 import android.support.transition.Transition;
 import android.support.transition.TransitionManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
@@ -525,6 +529,16 @@ public abstract class BindingAdapters {
         });
     }
 
+    @BindingAdapter("errorListener")
+    public static void bindErrorListener(TextInputLayout textInputLayout, ObservableBoolean isValid) {
+        textInputLayout.addOnLayoutChangeListener((view, i, i1, i2, i3, i4, i5, i6, i7) -> {
+            if (textInputLayout.getError() != null)
+                isValid.set(false);
+            else
+                isValid.set(true);
+        });
+    }
+
     @BindingAdapter({"valid", "validationType"})
     public static void addValidation(TextInputLayout textInputLayout, ObservableBoolean isValid, ValidationType validationType) {
         if (validationType != null) {
@@ -960,6 +974,17 @@ public abstract class BindingAdapters {
             if (!autoCompleteTextView.isPopupShowing())
                 autoCompleteTextView.showDropDown();
         });
+    }
+
+    @BindingAdapter("tintProgress")
+    public static void bindTintProgress(ProgressBar progressBar, @ColorRes int resColor) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            Drawable wrapDrawable = DrawableCompat.wrap(progressBar.getIndeterminateDrawable());
+            DrawableCompat.setTint(wrapDrawable, ContextCompat.getColor(App.getContext(), resColor));
+            progressBar.setIndeterminateDrawable(DrawableCompat.unwrap(wrapDrawable));
+        } else {
+            progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(App.getContext(), resColor), PorterDuff.Mode.SRC_IN);
+        }
     }
 
 
