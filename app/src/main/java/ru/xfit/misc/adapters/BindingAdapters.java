@@ -978,8 +978,7 @@ public abstract class BindingAdapters {
 
     @BindingAdapter("tintProgress")
     public static void bindTintProgress(ProgressBar progressBar, @ColorRes int resColor) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             Drawable wrapDrawable = DrawableCompat.wrap(progressBar.getIndeterminateDrawable());
             DrawableCompat.setTint(wrapDrawable, ContextCompat.getColor(App.getContext(), resColor));
             progressBar.setIndeterminateDrawable(DrawableCompat.unwrap(wrapDrawable));

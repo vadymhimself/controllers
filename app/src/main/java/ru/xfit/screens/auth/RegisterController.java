@@ -60,8 +60,8 @@ public class RegisterController extends XFitController<LayoutRegisterBinding>{
             progress.set(true);
             RegisterRequest regData = new RegisterRequest();
             regData.phone = phone.get();
-            //01234567
-            String bDay = date.get().substring(4, 8) + "-" + date.get().substring(2, 4) + "-" + date.get().substring(0, 2);
+            //01.34.6789  YYYY-MM-DD
+            String bDay = date.get().substring(6, 10) + "-" + date.get().substring(3, 5) + "-" + date.get().substring(0, 2);
             regData.birthday = bDay;
             regData.password = password.get();
             regData.name = name.get();

@@ -236,7 +236,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/date_label"
                         android:hint="@string/reg_date_hint"
-                        android:imeOptions="actionNext"
+                        android:imeOptions="actionDone"
                         android:inputType="number"
                         android:maxLines="1"
                         android:textColor="@android:color/white"
@@ -244,7 +244,7 @@
                         android:theme="@style/EditTextTheme"
                         app:mask="**.**.****"
                         app:notMaskedSymbol="*"
-                        app:onMaskedTextChange='@{controller.phone}' />
+                        app:onMaskedTextChange='@{controller.date}' />
 
                 </android.support.design.widget.TextInputLayout>
 
