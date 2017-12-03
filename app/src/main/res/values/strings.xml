@@ -5,6 +5,8 @@
     <string name="auth_reset_pwd">Забыли пароль?</string>
     <string name="auth_registration">Зарегистрироваться</string>
     <string name="auth_login">войти</string>
+    <string name="auth_phone_error">Неверно указан номер телефона</string>
+    <string name="auth_pass_error">Указан неверный или недействительный \nпользователь и/или пароль</string>
 
     <string name="reg_name">Фамилия Имя</string>
     <string name="reg_email">E-mail</string>
