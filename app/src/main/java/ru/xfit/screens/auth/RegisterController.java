@@ -9,8 +9,11 @@ import android.view.View;
 
 import com.controllers.Request;
 
+import java.net.UnknownHostException;
+
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutRegisterBinding;
+import ru.xfit.domain.App;
 import ru.xfit.model.data.register.RegisterRequest;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.XFitController;
@@ -71,8 +74,13 @@ public class RegisterController extends XFitController<LayoutRegisterBinding>{
             Request.with(this, Api.class)
                     .create(api -> api.pleaseConfirm(regData.phone))
                     .onError(error -> {
-                        errorResponse.set(error.getMessage());
-                        Snackbar.make(view, "Error: " + error.getMessage(), BaseTransientBottomBar.LENGTH_LONG).show();
+                         if (error instanceof UnknownHostException) {
+                             errorResponse.set(App.getContext().getResources().getString(R.string.auth_internet_error));
+
+                        } else {
+                             errorResponse.set(error.getMessage());
+                         }
+                        Snackbar.make(view, "Error: " + errorResponse.get(), BaseTransientBottomBar.LENGTH_LONG).show();
                     })
                     .onFinally(() -> progress.set(false))
                     .execute(confirmationResponse -> {

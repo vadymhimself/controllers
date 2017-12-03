@@ -8,6 +8,8 @@ import android.view.View;
 
 import com.controllers.Request;
 
+import java.net.UnknownHostException;
+
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutAuthBinding;
 import ru.xfit.domain.App;
@@ -68,6 +70,11 @@ public class AuthController extends XFitController<LayoutAuthBinding> {
                             if (getBinding() != null) {
                                 getBinding().passInputLayout.setError(error.getMessage());
                             }
+                        }
+                    } else if (error instanceof UnknownHostException) {
+                        if (getBinding() != null) {
+                            getBinding().passInputLayout.setErrorEnabled(true);
+                            getBinding().passInputLayout.setError(view.getContext().getResources().getString(R.string.auth_internet_error));
                         }
                     } else {
                         errorResponse.set(error.getMessage());

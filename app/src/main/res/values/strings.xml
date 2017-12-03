@@ -7,6 +7,7 @@
     <string name="auth_login">войти</string>
     <string name="auth_phone_error">Неверно указан номер телефона</string>
     <string name="auth_pass_error">Указан неверный или недействительный \nпользователь и/или пароль</string>
+    <string name="auth_internet_error">Проверьте подключение к интернету</string>
 
     <string name="reg_name">Фамилия Имя</string>
     <string name="reg_email">E-mail</string>
@@ -52,8 +53,8 @@
     <string name="filter_by_evening">Вечер</string>
     <string name="filter_accept">Применить</string>
 
-    <string name="validation_incorrect_number">Не верный номер телефона</string>
-    <string name="validation_incorrect_date">Не верная дата</string>
+    <string name="validation_incorrect_number">Неверный номер телефона</string>
+    <string name="validation_incorrect_date">Неверная дата рождения</string>
 
     <string name="clubs_no_clubs">Ничего не найдено, повторите запрос позже</string>
     <string name="clubs_controller_title">Клубы</string>
