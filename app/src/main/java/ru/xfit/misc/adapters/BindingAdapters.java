@@ -525,6 +525,16 @@ public abstract class BindingAdapters {
         });
     }
 
+    @BindingAdapter("errorListener")
+    public static void bindErrorListener(TextInputLayout textInputLayout, ObservableBoolean isValid) {
+        textInputLayout.addOnLayoutChangeListener((view, i, i1, i2, i3, i4, i5, i6, i7) -> {
+            if (textInputLayout.getError() != null)
+                isValid.set(false);
+            else
+                isValid.set(true);
+        });
+    }
+
     @BindingAdapter({"valid", "validationType"})
     public static void addValidation(TextInputLayout textInputLayout, ObservableBoolean isValid, ValidationType validationType) {
         if (validationType != null) {

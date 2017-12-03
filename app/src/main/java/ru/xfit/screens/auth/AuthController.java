@@ -26,7 +26,8 @@ public class AuthController extends XFitController<LayoutAuthBinding> {
     public ObservableField<String> password = new ObservableField<>("");
     public ObservableField<String> errorResponse = new ObservableField<>();
 
-    public ObservableBoolean isTelValid = new ObservableBoolean();
+    public ObservableBoolean isTelInvalid = new ObservableBoolean();
+    public ObservableBoolean isError = new ObservableBoolean();
 
     public final ObservableBoolean progress = new ObservableBoolean();
 
