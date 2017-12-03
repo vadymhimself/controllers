@@ -206,7 +206,7 @@
 
             <RelativeLayout
                 android:id="@+id/date_rl"
-                android:layout_width="120dp"
+                android:layout_width="135dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true">
 
@@ -217,7 +217,7 @@
                     android:fontFamily="sans-serif"
                     android:text="@string/reg_date_birth"
                     android:textColor="#ffffff"
-                    android:textSize="16sp"
+                    android:textSize="16dp"
                     android:textStyle="normal" />
 
                 <android.support.design.widget.TextInputLayout
