@@ -15,6 +15,7 @@ import com.controllers.Controller;
 
 import ru.xfit.BuildConfig;
 import ru.xfit.R;
+import ru.xfit.misc.utils.UiUtils;
 import ru.xfit.model.data.storage.preferences.PreferencesManager;
 import ru.xfit.screens.auth.AuthController;
 
@@ -82,23 +83,19 @@ public class StartActivity extends XFitActivity {
             finish();
     }
 
-    public void hideKeyBoard() {
-        InputMethodManager inputManager = (InputMethodManager) getSystemService(
-                Context.INPUT_METHOD_SERVICE);
-        if(getCurrentFocus() != null)
-            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS);
-    }
-
     @Override
     protected Controller show(@NonNull Controller controller) {
-        hideKeyBoard();
         return show(controller, R.anim.slidein_right, R.anim.slideout_left);
     }
 
     @Override
     protected Controller back() {
-        hideKeyBoard();
         return back(R.anim.slidein_left, R.anim.slideout_right);
+    }
+
+    @Override
+    protected boolean beforeControllersChanged(Controller previous, Controller next) {
+        UiUtils.hideKeyboard(this);
+        return super.beforeControllersChanged(previous, next);
     }
 }

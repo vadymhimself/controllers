@@ -15,6 +15,7 @@ import ru.xfit.R;
 import ru.xfit.databinding.LayoutRegisterBinding;
 import ru.xfit.domain.App;
 import ru.xfit.domain.StartActivity;
+import ru.xfit.misc.utils.UiUtils;
 import ru.xfit.model.data.register.RegisterRequest;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.XFitController;
@@ -61,8 +62,7 @@ public class RegisterController extends XFitController<LayoutRegisterBinding> {
     public void register(View view) {
         initValidation();
         if (validate()) {
-            if (getActivity() != null)
-                ((StartActivity)getActivity()).hideKeyBoard();
+            UiUtils.hideKeyboard(getActivity());
 
             progress.set(true);
             RegisterRequest regData = new RegisterRequest();

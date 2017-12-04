@@ -836,6 +836,32 @@ public abstract class BindingAdapters {
         }
     }
 
+    @BindingAdapter("nextFocus")
+    public static void bindNextFocus(EditText editText, boolean isNextFocus) {
+        if (isNextFocus) {
+            editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if (editText != null && editText.getText().toString().length() > 0) {
+                        View next = editText.focusSearch(View.FOCUS_RIGHT); // or FOCUS_FORWARD
+                        if (next != null)
+                            next.requestFocus();
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+        }
+    }
+
 
     public interface UrlListener {
         void onUrlChanged(WebView webView, String url);

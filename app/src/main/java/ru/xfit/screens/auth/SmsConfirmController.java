@@ -6,6 +6,9 @@ import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import com.controllers.Request;
+
+import java.net.UnknownHostException;
+
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutSmsConfirmBinding;
 import ru.xfit.domain.App;
@@ -13,6 +16,7 @@ import ru.xfit.domain.MainActivity;
 import ru.xfit.model.data.auth.User;
 import ru.xfit.model.data.register.RegisterRequest;
 import ru.xfit.model.data.storage.preferences.PreferencesManager;
+import ru.xfit.model.retrorequest.NetworkError;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.HomeController;
 import ru.xfit.screens.XFitController;
@@ -60,8 +64,21 @@ public class SmsConfirmController extends XFitController<LayoutSmsConfirmBinding
                     progress.set(true);
                     return api.register(regData);})
                 .onError(error -> {
-                    errorResponse.set(error.getMessage());
-                    Snackbar.make(view, "Ошибка: " + error.getMessage(), BaseTransientBottomBar.LENGTH_LONG).show(); })
+                    if (error instanceof NetworkError) {
+                        Snackbar.make(view, ((NetworkError)error).getErrorResponse().message, BaseTransientBottomBar.LENGTH_INDEFINITE)
+                                .setAction("Ok", view1 -> {})
+                                .show();
+                    } else if (error instanceof UnknownHostException) {
+                        Snackbar.make(view, view.getContext().getResources().getString(R.string.auth_internet_error), BaseTransientBottomBar.LENGTH_INDEFINITE)
+                                .setAction("Ok", view1 -> {})
+                                .show();
+                    } else {
+                        Snackbar.make(view, error.getMessage(), BaseTransientBottomBar.LENGTH_INDEFINITE)
+                                .setAction("Ok", view1 -> {})
+                                .show();
+                    }
+
+                })
                 .onFinally(() -> progress.set(false))
                 .execute(registrationResponse -> {
                     //save user
@@ -83,6 +100,10 @@ public class SmsConfirmController extends XFitController<LayoutSmsConfirmBinding
         Request.with(this, Api.class)
                 .create(api -> api.saveUser(user))
                 .execute();
+    }
+
+    public void back(View view) {
+        back();
     }
 
 }

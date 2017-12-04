@@ -19,12 +19,31 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="21dp"
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/ic_arrow_back"
+                android:backgroundTint="@color/colorAccent"
+                android:onClick="@{controller.back}" />
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="300dp"
+                android:layout_height="152dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/logo_x_fit" />
+
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="250dp"
+                android:layout_below="@+id/logo"
+                android:layout_marginTop="50dp"
                 android:fontFamily="sans-serif"
                 android:text="@string/sms_confirm_title"
                 android:textColor="#ffffff"
@@ -34,7 +53,7 @@
             <RelativeLayout
                 android:id="@+id/sms_rl"
                 android:layout_width="260dp"
-                android:layout_height="48dp"
+                android:layout_height="56dp"
                 android:layout_below="@+id/title"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="16dp"
@@ -70,7 +89,8 @@
                             android:textColor="@android:color/white"
                             android:textColorHint="@color/textHintColor"
                             android:textSize="27sp"
-                            android:theme="@style/EditTextTheme" />
+                            android:theme="@style/EditTextTheme"
+                            app:nextFocus="@{true}"/>
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -99,6 +119,7 @@
                             android:textColor="@android:color/white"
                             android:textColorHint="@color/textHintColor"
                             android:textSize="27sp"
+                            app:nextFocus="@{true}"
                             android:theme="@style/EditTextTheme" />
                     </RelativeLayout>
 
@@ -128,6 +149,7 @@
                             android:textColor="@android:color/white"
                             android:textColorHint="@color/textHintColor"
                             android:textSize="27sp"
+                            app:nextFocus="@{true}"
                             android:theme="@style/EditTextTheme" />
                     </RelativeLayout>
 
@@ -157,6 +179,7 @@
                             android:textColor="@android:color/white"
                             android:textColorHint="@color/textHintColor"
                             android:textSize="27sp"
+                            app:nextFocus="@{true}"
                             android:theme="@style/EditTextTheme" />
                     </RelativeLayout>
 
@@ -186,6 +209,7 @@
                             android:textColor="@android:color/white"
                             android:textColorHint="@color/textHintColor"
                             android:textSize="27sp"
+                            app:nextFocus="@{true}"
                             android:theme="@style/EditTextTheme" />
                     </RelativeLayout>
 
@@ -224,8 +248,9 @@
                 android:layout_height="48dp"
                 android:layout_below="@+id/sms_rl"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="180dp"
+                android:layout_marginTop="150dp"
                 android:background="@drawable/button_bg"
+                android:enabled="@{controller.code6.get().length() > 0}"
                 android:fontFamily="sans-serif"
                 android:foreground="?attr/selectableItemBackground"
                 android:onClick='@{controller.activate}'

@@ -47,6 +47,8 @@
                         android:layout_below="@+id/logo"
                         android:layout_centerHorizontal="true"
                         android:layout_marginLeft="16dp"
+                        android:descendantFocusability="beforeDescendants"
+                        android:focusableInTouchMode="true"
                         android:layout_marginTop="70dp">
 
                         <android.support.design.widget.TextInputLayout
