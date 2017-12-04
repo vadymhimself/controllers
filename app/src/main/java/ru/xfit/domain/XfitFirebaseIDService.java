@@ -2,8 +2,11 @@ package ru.xfit.domain;
 
 import android.util.Log;
 
+import com.controllers.Request;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+
+import ru.xfit.model.service.Api;
 
 /**
  * Created by TESLA on 03.12.2017.
@@ -31,6 +34,9 @@ public class XfitFirebaseIDService extends FirebaseInstanceIdService {
      * @param token The new token.
      */
     private void sendRegistrationToServer(String token) {
-        // Add custom implementation, as needed.
+        // null controller its ok ?
+        Request.with(null, Api.class)
+                .create(api -> api.registerDevice(token))
+                .execute();
     }
 }
