@@ -82,7 +82,6 @@ import ru.xfit.domain.App;
 import ru.xfit.misc.CircleTransform;
 import ru.xfit.misc.NavigationClickListener;
 import ru.xfit.misc.OnViewReadyListener;
-import ru.xfit.misc.utils.validation.PasswordEqualValidator;
 import ru.xfit.misc.utils.validation.ValidationType;
 import ru.xfit.misc.views.BannerSliderView;
 import ru.xfit.misc.views.BottomNavigationViewHelper;
@@ -417,29 +416,6 @@ public abstract class BindingAdapters {
     }
 
     @BindingAdapter("onMaskedTextChange")
-    public static void bindOnMaskedTextChangedListener(MaskedEditText maskedEditText, ObservableField<String> observableField) {
-        maskedEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (!observableField.get().equals(editable.toString())) {
-                    String result = editable.toString().replace("+7", "").replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
-                    observableField.set(result);
-                }
-            }
-        });
-    }
-
-    @BindingAdapter("onMaskedTextChange")
     public static void bindOnMaskedTextChangedListener(ru.xfit.misc.views.maskededittext.MaskedEditText maskedEditText, ObservableField<String> observableField) {
         maskedEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -473,56 +449,6 @@ public abstract class BindingAdapters {
         } else {
             view.setBackgroundColor(view.getContext().getResources().getColor(R.color.white));
         }
-    }
-
-
-    @BindingAdapter(value = {"valid", "checkValue"})
-    public static void addRePasswordValidation(TextInputLayout textInputLayout, ObservableBoolean isValid, ObservableField<String> checkValue) {
-        if (checkValue == null)
-            return;
-        PasswordEqualValidator validator = new PasswordEqualValidator();
-        textInputLayout.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-            int trig = 0;
-
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (trig == 1) {
-                    String s = validator.validate(textInputLayout.getEditText().getText().toString(), checkValue.get());
-                    if (s == null) {
-                        textInputLayout.setErrorEnabled(false);
-                        isValid.set(true);
-                    } else {
-                        isValid.set(false);
-                    }
-                    textInputLayout.setError(s);
-                    textInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                        }
-
-                        @Override
-                        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                        }
-
-                        @Override
-                        public void afterTextChanged(Editable s) {
-                            String valid = validator.validate(s.toString(), checkValue.get());
-                            if (valid == null) {
-                                textInputLayout.setErrorEnabled(false);
-                                isValid.set(true);
-                            } else {
-                                isValid.set(false);
-                            }
-                            textInputLayout.setError(valid);
-                        }
-                    });
-                }
-                trig++;
-            }
-        });
     }
 
     @BindingAdapter("errorListener")
