@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.controllers.Controller;
@@ -81,13 +82,23 @@ public class StartActivity extends XFitActivity {
             finish();
     }
 
+    public void hideKeyBoard() {
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        if(getCurrentFocus() != null)
+            inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
     @Override
     protected Controller show(@NonNull Controller controller) {
+        hideKeyBoard();
         return show(controller, R.anim.slidein_right, R.anim.slideout_left);
     }
 
     @Override
     protected Controller back() {
+        hideKeyBoard();
         return back(R.anim.slidein_left, R.anim.slideout_right);
     }
 }
