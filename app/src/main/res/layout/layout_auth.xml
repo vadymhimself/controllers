@@ -8,168 +8,173 @@
             type="ru.xfit.screens.auth.AuthController" />
 
         <import type="ru.xfit.R" />
+
         <import
             alias="type"
             type="ru.xfit.misc.utils.validation.ValidationType" />
 
     </data>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
 
-        <ScrollView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
-            <RelativeLayout
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/logo"
-                    android:layout_width="300dp"
-                    android:layout_height="152dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="30dp"
-                    android:background="@drawable/logo_x_fit" />
-
                 <RelativeLayout
-                    android:id="@+id/phone_rl"
-                    android:layout_width="328dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/logo"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="70dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/phone_inputLayout"
-                        error="@{controller.isTelErrorVisible ? controller.telError : null}"
-                        errorText="@{controller.telError}"
-                        isErrorShown="@{controller.isTelErrorVisible}"
-                        validType="@{type.PHONE}"
-                        android:layout_width="match_parent"
+                    <ImageView
+                        android:id="@+id/logo"
+                        android:layout_width="300dp"
+                        android:layout_height="152dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/logo_x_fit" />
+
+                    <RelativeLayout
+                        android:id="@+id/phone_rl"
+                        android:layout_width="328dp"
                         android:layout_height="wrap_content"
-                        app:errorTextAppearance="@style/ErrorText"
-                        app:hintEnabled="false"
-                        app:hintTextAppearance="@style/InputHintTextStyle">
+                        android:layout_below="@+id/logo"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="70dp">
 
-                        <ru.xfit.misc.views.maskededittext.DisabledPasteMaskedEditText
-                            android:id="@+id/tel_editText"
-                            onMaskedTextChange="@{controller.phone}"
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/phone_inputLayout"
+                            error="@{controller.isTelErrorVisible ? controller.telError : null}"
+                            errorText="@{controller.telError}"
+                            isErrorShown="@{controller.isTelErrorVisible}"
+                            validType="@{type.PHONE}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_phone"
-                            android:hint="          "
-                            android:imeOptions="actionNext"
-                            android:inputType="number|phone"
-                            android:lines="1"
-                            android:textColor="@android:color/white"
-                            android:textSize="17sp"
-                            android:theme="@style/EditTextTheme"
-                            app:allowed_chars="1234567890"
-                            app:keep_hint="true"
-                            app:mask="+7 (###) ###-##-##" />
+                            app:errorTextAppearance="@style/ErrorText"
+                            app:hintEnabled="false"
+                            app:hintTextAppearance="@style/InputHintTextStyle">
 
-                    </android.support.design.widget.TextInputLayout>
+                            <ru.xfit.misc.views.maskededittext.DisabledPasteMaskedEditText
+                                android:id="@+id/tel_editText"
+                                onMaskedTextChange="@{controller.phone}"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableStart="@drawable/ic_phone"
+                                android:hint="          "
+                                android:imeOptions="actionNext"
+                                android:inputType="number|phone"
+                                android:lines="1"
+                                android:textColor="@android:color/white"
+                                android:textSize="17sp"
+                                android:theme="@style/EditTextTheme"
+                                app:allowed_chars="1234567890"
+                                app:keep_hint="true"
+                                app:mask="+7 (###) ###-##-##" />
 
-                </RelativeLayout>
+                        </android.support.design.widget.TextInputLayout>
 
-                <RelativeLayout
-                    android:id="@+id/pass_rl"
-                    android:layout_width="328dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/phone_rl"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="14dp"
-                    android:paddingBottom="60dp">
+                    </RelativeLayout>
 
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/pass_inputLayout"
-                        error="@{controller.isPasswordErrorVisible ? controller.passwordError : null}"
-                        errorText="@{controller.passwordError}"
-                        isErrorShown="@{controller.isPasswordErrorVisible}"
-                        validType="@{type.TEXT}"
-                        android:layout_width="match_parent"
+                    <RelativeLayout
+                        android:id="@+id/pass_rl"
+                        android:layout_width="328dp"
                         android:layout_height="wrap_content"
-                        android:textColorHint="@color/textHintColor"
-                        app:errorTextAppearance="@style/ErrorText"
-                        app:hintTextAppearance="@style/InputHintTextStyle">
+                        android:layout_below="@+id/phone_rl"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="14dp"
+                        android:paddingBottom="60dp">
 
-                        <android.support.v7.widget.AppCompatEditText
-                            android:id="@+id/password"
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/pass_inputLayout"
+                            error="@{controller.isPasswordErrorVisible ? controller.passwordError : null}"
+                            errorText="@{controller.passwordError}"
+                            isErrorShown="@{controller.isPasswordErrorVisible}"
+                            validType="@{type.TEXT}"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:drawableStart="@drawable/ic_lock_outline"
-                            android:hint="@string/auth_passwd_hint"
-                            android:inputType="textPassword"
-                            android:text='@={controller.password}'
-                            android:textColor="@android:color/white"
+                            android:layout_height="wrap_content"
                             android:textColorHint="@color/textHintColor"
-                            android:textSize="17sp"
-                            android:theme="@style/EditTextTheme" />
+                            app:errorTextAppearance="@style/ErrorText"
+                            app:hintTextAppearance="@style/InputHintTextStyle">
 
-                    </android.support.design.widget.TextInputLayout>
+                            <android.support.v7.widget.AppCompatEditText
+                                android:id="@+id/password"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:drawableStart="@drawable/ic_lock_outline"
+                                android:hint="@string/auth_passwd_hint"
+                                android:inputType="textPassword"
+                                android:text='@={controller.password}'
+                                android:textColor="@android:color/white"
+                                android:textColorHint="@color/textHintColor"
+                                android:textSize="17sp"
+                                android:theme="@style/EditTextTheme" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                    </RelativeLayout>
+
+                    <Button
+                        android:id="@+id/login_btn"
+                        android:layout_width="328dp"
+                        android:layout_height="48dp"
+                        android:layout_below="@+id/pass_rl"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/button_bg"
+                        android:fontFamily="sans-serif"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:onClick='@{controller.auth}'
+                        android:text="@string/auth_login"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/reset_passwd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/login_btn"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="23dp"
+                        android:fontFamily="sans-serif"
+                        android:onClick="@{controller.onForgotPasswordClicked}"
+                        android:text="@string/auth_reset_pwd"
+                        android:textColor="#ffffff"
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
+
+                    <TextView
+                        android:id="@+id/registration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/reset_passwd"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="sans-serif"
+                        android:onClick='@{controller.register}'
+                        android:text="@string/auth_registration"
+                        android:textColor="#ffffff"
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
 
                 </RelativeLayout>
+            </ScrollView>
 
+            <include
+                layout="@layout/progress"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@{R.color.loaderBackground}"
+                android:indeterminateTint="@{R.color.controlsColor}"
+                app:visibility="@{controller.progress}" />
 
-
-                <Button
-                    android:id="@+id/login_btn"
-                    android:layout_width="328dp"
-                    android:layout_height="48dp"
-                    android:layout_below="@+id/pass_rl"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/button_bg"
-                    android:fontFamily="sans-serif"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:onClick='@{controller.auth}'
-                    android:text="@string/auth_login"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/reset_passwd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/login_btn"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="23dp"
-                    android:fontFamily="sans-serif"
-                    android:onClick="@{controller.onForgotPasswordClicked}"
-                    android:text="@string/auth_reset_pwd"
-                    android:textColor="#ffffff"
-                    android:textSize="14sp"
-                    android:textStyle="normal" />
-
-                <TextView
-                    android:id="@+id/registration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/reset_passwd"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="sans-serif"
-                    android:onClick='@{controller.register}'
-                    android:text="@string/auth_registration"
-                    android:textColor="#ffffff"
-                    android:textSize="14sp"
-                    android:textStyle="normal" />
-
-            </RelativeLayout>
-        </ScrollView>
-
-        <include
-            layout="@layout/progress"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@{R.color.loaderBackground}"
-            android:indeterminateTint="@{R.color.controlsColor}"
-            app:visibility="@{controller.progress}" />
-
-    </RelativeLayout>
+        </RelativeLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.net.Uri;
+import android.support.design.widget.BaseTransientBottomBar;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.controllers.Request;
@@ -66,20 +68,18 @@ public class AuthController extends XFitController<LayoutAuthBinding> {
                                     passwordError.set(view.getContext().getResources().getString(R.string.auth_pass_error));
                                 }
                             } else {
-                                //TODO озможно эту ошибку стоит показывать тостом или снэком
-                                errorResponse.set(error.getMessage());
-                                if (getBinding() != null) {
-                                    passwordError.set(error.getMessage());
-                                }
+                                Snackbar.make(view, error.getMessage(), BaseTransientBottomBar.LENGTH_INDEFINITE)
+                                        .setAction("Ok", view1 -> {})
+                                        .show();
                             }
                         } else if (error instanceof UnknownHostException) {
-                            //TODO озможно эту ошибку стоит показывать тостом или снэком
-                            if (getBinding() != null) {
-                                passwordError.set(view.getContext().getResources().getString(R.string.auth_internet_error));
-                            }
+                            Snackbar.make(view, view.getContext().getResources().getString(R.string.auth_internet_error), BaseTransientBottomBar.LENGTH_INDEFINITE)
+                                    .setAction("Ok", view1 -> {})
+                                    .show();
                         } else {
-                            //TODO озможно эту ошибку стоит показывать тостом или снэком
-                            passwordError.set(error.getMessage());
+                            Snackbar.make(view, error.getMessage(), BaseTransientBottomBar.LENGTH_INDEFINITE)
+                                    .setAction("Ok", view1 -> {})
+                                    .show();
                         }
                     })
                     .execute(user -> {
