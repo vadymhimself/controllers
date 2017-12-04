@@ -9,5 +9,7 @@ public enum ValidationType {
     EMAIL,
     PASSWORD,
     PHONE,
-    DATE
+    DATE,
+    NAME,
+    REPASSWORD
 }

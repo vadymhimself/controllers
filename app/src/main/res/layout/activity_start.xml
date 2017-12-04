@@ -5,18 +5,30 @@
     android:layout_height="match_parent"
     tools:context=".domain.StartActivity">
 
-    <FrameLayout
-        android:id="@+id/container"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:scaleType="matrix"
+        android:src="@drawable/main_bg" />
 
-    <TextView
-        android:id="@+id/build_ver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="30dp"
-        android:clickable="false"
-        android:focusable="false"
-        android:textColor="@color/calendarAccent" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/build_ver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:clickable="false"
+            android:focusable="false"
+            android:textColor="@color/calendarAccent" />
+
+    </FrameLayout>
 </RelativeLayout>

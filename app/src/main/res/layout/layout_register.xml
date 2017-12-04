@@ -20,20 +20,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="matrix"
-            android:src="@drawable/main_bg"/>
-
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:orientation="vertical">
@@ -42,7 +35,7 @@
                 android:id="@+id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="44dp"
+                android:layout_marginTop="21dp"
                 android:background="@drawable/ic_arrow_back"
                 android:backgroundTint="@color/colorAccent"
                 android:onClick="@{controller.back}" />
@@ -55,12 +48,14 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/phone_inputLayout"
+                    error="@{controller.isPhoneErrorVisible ? controller.phoneError : null}"
+                    errorText="@{controller.phoneError}"
+                    isErrorShown="@{controller.isPhoneErrorVisible}"
+                    validType="@{type.PHONE}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:hintEnabled="false"
-                    app:hintTextAppearance="@style/InputHintTextStyle"
-                    app:valid='@{controller.isTelValid}'
-                    app:validationType='@{type.PHONE}'>
+                    app:hintTextAppearance="@style/InputHintTextStyle">
 
                     <ru.xfit.misc.views.maskededittext.DisabledPasteMaskedEditText
                         android:id="@+id/tel_editText"
@@ -77,7 +72,11 @@
                         android:theme="@style/EditTextTheme"
                         app:allowed_chars="1234567890"
                         app:keep_hint="true"
-                        app:mask="+7 (###) ###-##-##" />
+                        app:mask="+7 (###) ###-##-##">
+
+                        <requestFocus />
+
+                    </ru.xfit.misc.views.maskededittext.DisabledPasteMaskedEditText>
                 </android.support.design.widget.TextInputLayout>
 
             </RelativeLayout>
@@ -88,12 +87,14 @@
                 android:layout_height="wrap_content">
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/name_inputLayout"
+                    error="@{controller.isNameErrorVisible ? controller.nameError : null}"
+                    errorText="@{controller.nameError}"
+                    isErrorShown="@{controller.isNameErrorVisible}"
+                    validType="@{type.NAME}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="@color/textHintColor"
-                    app:hintTextAppearance="@style/InputHintTextStyle"
-                    app:valid='@{controller.isNameValid}'
-                    app:validationType='@{type.TEXT}'>
+                    app:hintTextAppearance="@style/InputHintTextStyle">
                     <EditText
                         android:id="@+id/name"
                         android:layout_width="match_parent"
@@ -118,12 +119,14 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/email_inputLayout"
+                    error="@{controller.isEmailErrorVisible ? controller.emailError : null}"
+                    errorText="@{controller.emailError}"
+                    isErrorShown="@{controller.isEmailErrorVisible}"
+                    validType="@{type.EMAIL}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="@color/textHintColor"
-                    app:hintTextAppearance="@style/InputHintTextStyle"
-                    app:valid='@{controller.isEmailValid}'
-                    app:validationType='@{type.EMAIL}'>
+                    app:hintTextAppearance="@style/InputHintTextStyle">
                     <EditText
                         android:id="@+id/email"
                         android:layout_width="match_parent"
@@ -148,12 +151,14 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/password_inputLayout"
+                    error="@{controller.isPasswordErrorVisible ? controller.passwordError : null}"
+                    errorText="@{controller.passwordError}"
+                    isErrorShown="@{controller.isPasswordErrorVisible}"
+                    validType="@{type.PASSWORD}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="@color/textHintColor"
-                    app:hintTextAppearance="@style/InputHintTextStyle"
-                    app:valid='@{controller.isPasswordValid}'
-                    app:validationType='@{type.PASSWORD}'>
+                    app:hintTextAppearance="@style/InputHintTextStyle">
                     <EditText
                         android:id="@+id/password"
                         android:layout_width="match_parent"
@@ -177,12 +182,14 @@
                 android:layout_height="wrap_content">
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/repassword_inputLayout"
+                    compareWith="@{controller.password.get()}"
+                    error="@{controller.isRePasswordErrorVisible ? controller.rePasswordError : null}"
+                    errorText="@{controller.rePasswordError}"
+                    isErrorShown="@{controller.isRePasswordErrorVisible}"
+                    validType="@{type.REPASSWORD}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/textHintColor"
-                    app:checkValue='@{controller.password}'
-                    app:hintTextAppearance="@style/InputHintTextStyle"
-                    app:valid='@{controller.isRePasswordValid}'>
+                    android:textColorHint="@color/textHintColor">
 
                     <EditText
                         android:id="@+id/password_rep"
@@ -200,38 +207,57 @@
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <RelativeLayout
-                android:id="@+id/date_rl"
-                android:layout_width="135dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true">
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/date_label"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="25"
                     android:fontFamily="sans-serif"
                     android:text="@string/reg_date_birth"
                     android:textColor="#ffffff"
                     android:textSize="16dp"
                     android:textStyle="normal" />
 
+                <TextView
+                    android:id="@+id/gender_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="37"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/reg_gender"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:orientation="horizontal">
+
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/date_inputLayout"
-                    android:layout_width="match_parent"
+                    error="@{controller.isDateErrorVisible ? controller.dateError : null}"
+                    errorText="@{controller.dateError}"
+                    isErrorShown="@{controller.isDateErrorVisible}"
+                    validType="@{type.DATE}"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_weight="25"
                     android:textColorHint="@color/textHintColor"
-                    app:hintTextAppearance="@style/InputHintTextStyle"
-                    app:valid='@{controller.isDateValid}'
-                    app:validationType='@{type.DATE}'>
+                    app:hintEnabled="false">
 
-                    <com.github.pinball83.maskededittext.MaskedEditText
+                    <ru.xfit.misc.views.maskededittext.DisabledPasteMaskedEditText
                         android:id="@+id/date"
+                        onMaskedTextChange="@{controller.date}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/date_label"
@@ -242,35 +268,18 @@
                         android:textColor="@android:color/white"
                         android:textSize="17sp"
                         android:theme="@style/EditTextTheme"
-                        app:mask="**.**.****"
-                        app:notMaskedSymbol="*"
-                        app:onMaskedTextChange='@{controller.date}' />
+                        app:allowed_chars="1234567890"
+                        app:keep_hint="true"
+                        app:mask="##.##.####" />
 
                 </android.support.design.widget.TextInputLayout>
 
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/gender_rl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true">
-
-                <TextView
-                    android:id="@+id/gender_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:text="@string/reg_gender"
-                    android:textColor="#ffffff"
-                    android:textSize="16sp"
-                    android:textStyle="normal" />
-                
                 <RadioGroup
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/gender_label"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="37"
                     android:orientation="horizontal"
                     app:onCheckedChange='@{controller.gender}'>
 
@@ -284,6 +293,7 @@
                         android:textAlignment="center"
                         android:textColor="@drawable/gender_text_color"
                         android:textSize="14sp" />
+
                     <RadioButton
                         android:id="@+id/female"
                         android:layout_width="90dp"
@@ -297,9 +307,8 @@
                         android:textSize="14sp" />
 
                 </RadioGroup>
-            </RelativeLayout>
 
-            </RelativeLayout>
+            </LinearLayout>
 
             <Button
                 android:id="@+id/login_btn"
@@ -319,7 +328,7 @@
 
         </LinearLayout>
 
-        </android.support.v4.widget.NestedScrollView>
+        </ScrollView>
 
         <include
             layout="@layout/progress"

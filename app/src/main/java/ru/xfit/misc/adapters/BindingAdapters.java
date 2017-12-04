@@ -92,6 +92,7 @@ import ru.xfit.misc.utils.validation.StringValidator;
 import ru.xfit.misc.utils.validation.ValidationType;
 import ru.xfit.misc.views.BannerSliderView;
 import ru.xfit.misc.views.BottomNavigationViewHelper;
+import ru.xfit.misc.views.CompareTextInputLayoutValidator;
 import ru.xfit.misc.views.HackyRecyclerView;
 import ru.xfit.misc.views.LayoutManagers;
 import ru.xfit.misc.views.MaskedTextInputLayoutValidator;
@@ -995,9 +996,29 @@ public abstract class BindingAdapters {
         }
     }
 
+    @BindingAdapter(value = {"errorText", "validType", "isErrorShown", "compareWith"})
+    public static void setupTextInputValidation(TextInputLayout textInputLayout, ObservableField<String> errorText, ValidationType validationType, ObservableBoolean isErrorShown, String compareValue) {
+        EditText editText = textInputLayout.getEditText();
+        if (editText.getOnFocusChangeListener() instanceof CompareTextInputLayoutValidator) {
+            CompareTextInputLayoutValidator validator = (CompareTextInputLayoutValidator) editText.getOnFocusChangeListener();
+            validator.setCompareValue(compareValue);
+        } else {
+            CompareTextInputLayoutValidator validator = new CompareTextInputLayoutValidator(errorText, validationType, isErrorShown);
+            validator.setCompareValue(compareValue);
+            textInputLayout.getEditText().setOnFocusChangeListener(validator);
+            textInputLayout.getEditText().addTextChangedListener(validator);
+        }
+    }
+
     @BindingAdapter("error")
     public static void setTextInputError(TextInputLayout textInputError, String error) {
-        textInputError.setError(error);
+        if (error == null || error.equals("")) {
+            textInputError.setErrorEnabled(false);
+            textInputError.setError(null);
+        } else {
+            textInputError.setErrorEnabled(true);
+            textInputError.setError(error);
+        }
     }
 
 

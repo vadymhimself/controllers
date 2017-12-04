@@ -6,8 +6,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 
+import ru.xfit.misc.utils.validation.DateValidator;
 import ru.xfit.misc.utils.validation.EmailValidator;
 import ru.xfit.misc.utils.validation.EmptyValidator;
+import ru.xfit.misc.utils.validation.NameSurnameValidator;
+import ru.xfit.misc.utils.validation.PasswordEqualValidator;
 import ru.xfit.misc.utils.validation.PasswordValidator;
 import ru.xfit.misc.utils.validation.PhoneValidator;
 import ru.xfit.misc.utils.validation.StringValidator;
@@ -18,9 +21,9 @@ import ru.xfit.misc.utils.validation.ValidationType;
  */
 
 public class TextInputLayoutValidator implements View.OnFocusChangeListener, TextWatcher {
-    private ObservableField<String> errorText;
+    protected ObservableField<String> errorText;
+    protected EmptyValidator validator;
     private ObservableBoolean isErrorShown;
-    private EmptyValidator validator;
     private int focusTrig;
 
     public TextInputLayoutValidator(ObservableField<String> errorText, ValidationType validationType, ObservableBoolean isErrorShown) {
@@ -38,6 +41,15 @@ public class TextInputLayoutValidator implements View.OnFocusChangeListener, Tex
                 break;
             case PHONE:
                 validator = new PhoneValidator();
+                break;
+            case NAME:
+                validator = new NameSurnameValidator();
+                break;
+            case REPASSWORD:
+                validator = new PasswordEqualValidator();
+                break;
+            case DATE:
+                validator = new DateValidator();
                 break;
             default:
                 validator = new EmptyValidator();
