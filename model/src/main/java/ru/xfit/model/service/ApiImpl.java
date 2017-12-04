@@ -257,7 +257,7 @@ final class ApiImpl implements Api {
         return new Task<List<ClubItem>>() {
             @Override
             public List<ClubItem> exec() throws Throwable {
-                if (sortingRequest != null) {
+                if (sortingRequest != null && sortingRequest.location != null) {
                     Comparator comp = (Comparator<ClubItem>) (o, o2) -> {
                         float[] result1 = new float[3];
                         Location.distanceBetween(sortingRequest.location.getLatitude(), sortingRequest.location.getLongitude(),
