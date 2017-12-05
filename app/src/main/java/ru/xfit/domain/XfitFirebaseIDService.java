@@ -22,7 +22,6 @@ public class XfitFirebaseIDService extends FirebaseInstanceIdService {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
 
-        // TODO: Implement this method to send any registration to your app's servers.
         sendRegistrationToServer(refreshedToken);
     }
 
@@ -35,9 +34,7 @@ public class XfitFirebaseIDService extends FirebaseInstanceIdService {
      * @param token The new token.
      */
     private void sendRegistrationToServer(String token) {
-        //
-        AboutController controller = new AboutController();
-        Request.with(controller, Api.class)
+        Request.with(null, Api.class)
                 .create(api -> api.registerDevice(token))
                 .execute();
     }
