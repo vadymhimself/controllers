@@ -23,6 +23,7 @@ import android.support.transition.Transition;
 import android.support.transition.TransitionManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
@@ -61,16 +62,20 @@ import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.controllers.ControllerPagerAdapter;
 import com.daimajia.slider.library.SliderLayout;
 import com.fondesa.recyclerviewdivider.RecyclerViewDivider;
 import com.github.pinball83.maskededittext.MaskedEditText;
 import com.molo17.customizablecalendar.library.components.CustomizableCalendar;
 import com.molo17.customizablecalendar.library.interactors.AUCalendar;
 import com.molo17.customizablecalendar.library.model.Calendar;
+import com.nshmura.recyclertablayout.RecyclerTabLayout;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -847,16 +852,15 @@ public abstract class BindingAdapters {
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
                     if (editText != null && editText.getText().toString().length() > 0) {
                         View next = editText.focusSearch(View.FOCUS_RIGHT); // or FOCUS_FORWARD
                         if (next != null)
                             next.requestFocus();
                     }
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-
                 }
             });
         }
@@ -871,5 +875,18 @@ public abstract class BindingAdapters {
         void onItemSwiped(int index);
     }
 
+    @BindingAdapter("loopPagerAdapter")
+    public static void setLoopPagerAdapter(ViewPager view, ControllerPagerAdapter controllerPagerAdapter) {
+        try {
+            Method m = ControllerPagerAdapter.class.getDeclaredMethod("asFragmentPagerAdapter");
+            m.setAccessible(true);// Abracadabra
+            //PagerAdapter wrappedAdapter = new InfinitePagerAdapter((PagerAdapter) m.invoke(controllerPagerAdapter));
+            view.setAdapter((PagerAdapter) m.invoke(controllerPagerAdapter));
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        ((RecyclerTabLayout) view.getRootView().findViewById(R.id.recycler_tab_layout)).setUpWithViewPager(view);
+    }
 
 }

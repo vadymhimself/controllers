@@ -89,7 +89,7 @@
     <string name="dialog_phone_not_found">Ваш номер телефона не найден в данном клубе</string>
 
     <string name="my_xfit_contract_duration">Действует до %1$s года</string>
-    <string name="my_xfit_my_params">Мои параметры</string>
+    <string name="my_xfit_my_params">Мои достижения</string>
     <string name="my_xfit_title">Мой X-Fit</string>
     <string name="my_xfit_add_club">Добавить клуб</string>
     <string name="my_xfit_suspend_contract">Заморозить карту</string>
@@ -161,5 +161,10 @@
 
     <string name="club_news_empty">Нет новостей</string>
     <string name="club_order_guest_visit">Заказать гостевой визит</string>
+
+    <string name="achievements_title">Мои достижения</string>
+    <string name="achievements_impulse_title">ИМТ</string>
+    <string name="achievements_diary_title">Дневник</string>
+    <string name="achievements_dynamics_title">Динамика</string>
 
 </resources>

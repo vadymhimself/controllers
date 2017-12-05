@@ -20,6 +20,7 @@ import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.DrawerController;
+import ru.xfit.screens.achievements.AchievementsHomeController;
 import ru.xfit.screens.clubs.AboutClubController;
 import ru.xfit.screens.clubs.ClubsController;
 import ru.xfit.screens.clubs.SuspendCardController;
@@ -121,6 +122,11 @@ public class MyXfitController extends DrawerController<LayoutMyxfitBinding> {
     public void onMyClubClick(View view) {
         if (contractClub.get() != null)
             show(new AboutClubController(contractClub.get(), true));
+    }
+
+    public void onAchevementsClick(View view) {
+        if (contractClub.get() != null)
+            show(new AchievementsHomeController());
     }
 
     public void onSuspendCardClick(View view) {

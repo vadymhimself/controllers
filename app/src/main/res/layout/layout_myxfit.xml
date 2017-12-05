@@ -45,7 +45,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/spacer"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
             android:text="@{controller.contract.number}"
             android:textColor="#4b0887"
             android:textSize="36sp"
@@ -164,6 +163,7 @@
             android:layout_marginTop="18dp"
             android:background="@drawable/button_bg"
             android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{controller.onAchevementsClick}"
             android:orientation="horizontal"
             android:visibility="@{controller.contract != null}">
             <ImageView

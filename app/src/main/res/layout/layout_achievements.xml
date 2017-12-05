@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="controller"
+            type="ru.xfit.screens.achievements.AchievementsHomeController" />
+
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <ru.xfit.misc.views.MyRecyclerTabLayout
+                android:id="@+id/recycler_tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@color/colorPrimary"
+                android:elevation="10dp"
+                app:rtl_scrollEnabled="false"
+                app:rtl_tabBackground="?attr/selectableItemBackground"
+                app:rtl_tabIndicatorColor="@color/calendarAccent"
+                app:rtl_tabIndicatorHeight="2dp"
+                app:rtl_tabMinWidth="170dp"
+                app:rtl_tabSelectedTextColor="@color/white"
+                app:rtl_tabTextAppearance="@style/TextTabBar"/>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                app:loopPagerAdapter="@{controller.pagerAdapter}"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>
