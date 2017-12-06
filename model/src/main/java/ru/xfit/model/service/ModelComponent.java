@@ -10,6 +10,7 @@ import javax.inject.Singleton;
         NetworkModule.class,
         ApiModule.class,
         ContextModule.class,
+        DataModule.class,
         PreferencesStorageModule.class,
         EventBusModule.class
 })

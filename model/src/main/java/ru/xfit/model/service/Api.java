@@ -2,6 +2,7 @@ package ru.xfit.model.service;
 
 import com.controllers.Task;
 
+import java.util.Date;
 import java.util.List;
 
 import ru.xfit.model.data.FeedbackRequest;
@@ -11,6 +12,7 @@ import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.data.club.SortingRequest;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.data.contract.SuspendRequest;
+import ru.xfit.model.data.diary.DiaryItem;
 import ru.xfit.model.data.news.News;
 import ru.xfit.model.data.notification.NotificationSettings;
 import ru.xfit.model.data.notifications.Notification;
@@ -88,4 +90,7 @@ public interface Api {
 
     Task<ResultResponse> sendFeedback(FeedbackRequest request);
 
+    Task<List<DiaryItem>> getDiaryItems(Date month);
+
+    Task<Void> setDiaryItem(Date dateTime, long mass);
 }

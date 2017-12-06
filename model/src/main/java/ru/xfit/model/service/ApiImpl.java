@@ -7,8 +7,10 @@ import com.google.gson.Gson;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Response;
 import ru.xfit.model.data.ErrorException;
@@ -24,6 +26,7 @@ import ru.xfit.model.data.club.SortingRequest;
 import ru.xfit.model.data.common.EmptyBody;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.data.contract.SuspendRequest;
+import ru.xfit.model.data.diary.DiaryItem;
 import ru.xfit.model.data.news.News;
 import ru.xfit.model.data.notification.NotificationSettings;
 import ru.xfit.model.data.notifications.Notification;
@@ -45,11 +48,13 @@ final class ApiImpl implements Api {
     private final NetworkInterface networkInterface;
     private final PreferencesStorage storage;
     private final UserData userData;
+    private final Realm realm;
 
-    ApiImpl(NetworkInterface networkInterface, UserData userData, PreferencesStorage preferencesStorage) {
+    ApiImpl(NetworkInterface networkInterface, UserData userData, PreferencesStorage preferencesStorage, Realm realm) {
         this.networkInterface = networkInterface;
         this.userData = userData;
         this.storage = preferencesStorage;
+        this.realm = realm;
     }
 
     private <T> T executeSync(Call<T> call) throws Throwable {
@@ -310,5 +315,17 @@ final class ApiImpl implements Api {
     @Override
     public Task<ResultResponse> sendFeedback(FeedbackRequest request) {
         return TaskBuilder.from(networkInterface.sendFeedback(request));
+    }
+
+    @Override
+    public Task<List<DiaryItem>> getDiaryItems(Date month) {
+        //// TODO: 07.12.2017 get all diary items
+        return null;
+    }
+
+    @Override
+    public Task<Void> setDiaryItem(Date dateTime, long mass) {
+        //// TODO: 07.12.2017 set mass in diary item
+        return null;
     }
 }
