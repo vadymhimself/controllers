@@ -1,5 +1,7 @@
 package ru.xfit.screens.achievements.diary;
 
+import com.controllers.ControllerPagerAdapter;
+
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutDiaryBinding;
 import ru.xfit.domain.App;
@@ -10,6 +12,9 @@ import ru.xfit.screens.XFitController;
  */
 
 public class DiaryController extends XFitController<LayoutDiaryBinding> {
+
+    public ControllerPagerAdapter pagerAdapter;
+
     @Override
     public int getLayoutId() {
         return R.layout.layout_diary;

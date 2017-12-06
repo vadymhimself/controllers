@@ -1,5 +1,7 @@
 package ru.xfit.screens.achievements.diary;
 
+import android.view.View;
+
 import ru.xfit.R;
 import ru.xfit.misc.adapters.BaseVM;
 
@@ -11,5 +13,9 @@ public class DiaryInputVM implements BaseVM {
     @Override
     public int getLayoutId() {
         return R.layout.item_diary_input;
+    }
+
+    public void onItemClick(View view) {
+
     }
 }
