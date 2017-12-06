@@ -7,12 +7,66 @@
             name="controller"
             type="ru.xfit.screens.achievements.diary.DiaryController" />
 
+        <import type="ru.xfit.R" />
+        <import type="ru.xfit.misc.LayoutManagers" />
+
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/month"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="10dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="20dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/ic_disclosure_left"/>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textColor="#58595b"
+                android:textAllCaps="true"
+                android:textSize="15sp"
+                android:text="ДЕКАБРЬ"
+                android:fontFamily="sans-serif-medium"
+                android:textStyle="normal"/>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_height="20dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/ic_disclosure_right"/>
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <ru.xfit.misc.views.NonSwipeableViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/month"
+            app:adapter="@{controller.pagerAdapter}" />
 
     </RelativeLayout>
 </layout>

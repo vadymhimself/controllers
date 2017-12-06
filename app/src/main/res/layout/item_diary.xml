@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="ru.xfit.screens.achievements.diary.DiaryItemVM" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:elevation="2dp"
+            android:onClick="@{viewModel.onItemClick}"
+            app:cardCornerRadius="0dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="bold"
+                    android:textColor="@color/calendarCommonDay"
+                    android:lineSpacingExtra="3sp"
+                    android:layout_marginLeft="14dp"
+                    android:layout_centerVertical="true"
+                    android:text="@{viewModel.date}"
+                    />
+
+                <EditText
+                    android:id="@+id/weight_input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/pencil"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginTop="10dp"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="normal"
+                    android:textColor="#9b9b9b"
+                    android:maxLines="1"
+                    android:hint="@string/diary_not_filled"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberDecimal"
+                    android:visibility="gone"
+                    />
+
+                <TextView
+                    android:id="@+id/mass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="bold"
+                    android:textColor="@color/calendarCommonDay"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="44dp"
+                    android:lineSpacingExtra="3sp"
+                    android:text="@{viewModel.getItemMass}"
+                    android:visibility="gone"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="normal"
+                    android:textColor="#9b9b9b"
+                    android:layout_toLeftOf="@+id/pencil"
+                    android:layout_marginRight="3dp"
+                    android:layout_centerVertical="true"
+                    android:text="@string/diary_not_filled"
+                    />
+
+                <ImageView
+                    android:id="@+id/pencil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="16dp"
+                    android:background="@drawable/ic_pencil"/>
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+</layout>

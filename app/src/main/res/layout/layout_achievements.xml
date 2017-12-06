@@ -31,7 +31,7 @@
                 app:rtl_tabBackground="?attr/selectableItemBackground"
                 app:rtl_tabIndicatorColor="@color/calendarAccent"
                 app:rtl_tabIndicatorHeight="2dp"
-                app:rtl_tabMinWidth="170dp"
+                app:rtl_tabMinWidth="120dp"
                 app:rtl_tabSelectedTextColor="@color/white"
                 app:rtl_tabTextAppearance="@style/TextTabBar"/>
 

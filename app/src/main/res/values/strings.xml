@@ -18,7 +18,6 @@
     <string name="sms_confirm_title">Код активации из SMS</string>
     <string name="sms_confirm_btn">Активировать</string>
 
-
     <string name="password_not_equal">Пароль не совпал</string>
     <string name="empty_field_error">Поле должно быть заполненным</string>
     <string name="incorrect_email">Проверьте правильность вашего адреса</string>
@@ -166,5 +165,9 @@
     <string name="achievements_impulse_title">ИМТ</string>
     <string name="achievements_diary_title">Дневник</string>
     <string name="achievements_dynamics_title">Динамика</string>
+
+    <string name="diary_today">Сегодня</string>
+    <string name="diary_mass">кг</string>
+    <string name="diary_not_filled">Не указано</string>
 
 </resources>

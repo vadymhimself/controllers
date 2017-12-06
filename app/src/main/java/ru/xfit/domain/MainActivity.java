@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 
 import com.controllers.Controller;
 import com.crashlytics.android.Crashlytics;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.hwangjr.rxbus.Bus;
 import com.hwangjr.rxbus.annotation.Subscribe;
 
@@ -115,6 +117,9 @@ public class MainActivity extends XFitActivity implements
         if (savedInstanceState == null) {
             show(myScheduleController, 0, 0);
         }
+
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Log.e(">>>>>>>>", "Firebase token: " + token);
     }
 
     @Override
