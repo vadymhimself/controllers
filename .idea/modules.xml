@@ -8,7 +8,6 @@
       <module fileurl="file://$PROJECT_DIR$/controllers/library/controllers.iml" filepath="$PROJECT_DIR$/controllers/library/controllers.iml" />
       <module fileurl="file://$PROJECT_DIR$/controllers-request/library/controllers-req.iml" filepath="$PROJECT_DIR$/controllers-request/library/controllers-req.iml" />
       <module fileurl="file://$PROJECT_DIR$/model/model.iml" filepath="$PROJECT_DIR$/model/model.iml" />
-      <module fileurl="file://$PROJECT_DIR$/xfit.iml" filepath="$PROJECT_DIR$/xfit.iml" />
       <module fileurl="file://C:\Users\aleks\AndroidStudioProjects\XFit-Android\XFit-Android\xfit.iml" filepath="C:\Users\aleks\AndroidStudioProjects\XFit-Android\XFit-Android\xfit.iml" />
     </modules>
   </component>
