@@ -17,6 +17,7 @@
     <string name="reg_registration">Зарегистрироваться</string>
     <string name="sms_confirm_title">Код активации из SMS</string>
     <string name="sms_confirm_btn">Активировать</string>
+    <string name="sms_wrong_code">Неверный код активации</string>
 
     <string name="password_not_equal">Пароль не совпал</string>
     <string name="empty_field_error">Поле должно быть заполненным</string>

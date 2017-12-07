@@ -5,6 +5,7 @@ import android.databinding.ObservableField;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+
 import com.controllers.Request;
 
 import java.net.UnknownHostException;
@@ -18,7 +19,6 @@ import ru.xfit.model.data.register.RegisterRequest;
 import ru.xfit.model.data.storage.preferences.PreferencesManager;
 import ru.xfit.model.retrorequest.NetworkError;
 import ru.xfit.model.service.Api;
-import ru.xfit.screens.HomeController;
 import ru.xfit.screens.XFitController;
 
 /**
@@ -27,6 +27,7 @@ import ru.xfit.screens.XFitController;
 
 public class SmsConfirmController extends XFitController<LayoutSmsConfirmBinding> {
 
+    public final ObservableBoolean progress = new ObservableBoolean();
     public ObservableField<String> code1 = new ObservableField<>("");
     public ObservableField<String> code2 = new ObservableField<>("");
     public ObservableField<String> code3 = new ObservableField<>("");
@@ -34,9 +35,6 @@ public class SmsConfirmController extends XFitController<LayoutSmsConfirmBinding
     public ObservableField<String> code5 = new ObservableField<>("");
     public ObservableField<String> code6 = new ObservableField<>("");
     public ObservableField<String> errorResponse = new ObservableField<>();
-
-    public final ObservableBoolean progress = new ObservableBoolean();
-
     private RegisterRequest regData;
 
     public SmsConfirmController(RegisterRequest regData) {
@@ -65,6 +63,22 @@ public class SmsConfirmController extends XFitController<LayoutSmsConfirmBinding
                     return api.register(regData);})
                 .onError(error -> {
                     if (error instanceof NetworkError) {
+                        NetworkError netError = (NetworkError) error;
+                        String errorText;
+                        switch (netError.getCode()) {
+                            case 503:
+                                errorText = view.getContext().getString(R.string.sms_wrong_code);
+                                break;
+                            case 500:
+                                errorText = view.getContext().getString(R.string.sms_wrong_code);
+                                break;
+                            default:
+                                errorText = netError.getMessage();
+                        }
+                        Snackbar.make(view, errorText, BaseTransientBottomBar.LENGTH_INDEFINITE)
+                                .setAction("Ok", view1 -> {
+                                })
+                                .show();
                         Snackbar.make(view, ((NetworkError)error).getErrorResponse().message, BaseTransientBottomBar.LENGTH_INDEFINITE)
                                 .setAction("Ok", view1 -> {})
                                 .show();
