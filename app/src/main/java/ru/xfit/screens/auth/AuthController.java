@@ -61,12 +61,13 @@ public class AuthController extends XFitController<LayoutAuthBinding> implements
                         if (error instanceof NetworkError) {
                             if (((NetworkError) error).getErrorResponse().code.equals(ErrorCodes.USER_ID_NOT_SPECIFIED.getErrorCode())) {
                                 if (getBinding() != null) {
-                                    telError.set(view.getContext().getResources().getString(R.string.auth_phone_error));
-                                    passwordError.set(view.getContext().getResources().getString(R.string.auth_pass_error));
+                                    Snackbar snackbar = Snackbar.make(view, view.getContext().getResources().getString(R.string.auth_pass_error), BaseTransientBottomBar.LENGTH_SHORT);
+                                    snackbar.show();
                                 }
                             } else if (((NetworkError) error).getErrorResponse().code.equals(ErrorCodes.INVALID_USER_ID_OR_PASSWORD.getErrorCode())) {
                                 if (getBinding() != null) {
-                                    passwordError.set(view.getContext().getResources().getString(R.string.auth_pass_error));
+                                    Snackbar snackbar = Snackbar.make(view, view.getContext().getResources().getString(R.string.auth_pass_error), BaseTransientBottomBar.LENGTH_SHORT);
+                                    snackbar.show();
                                 }
                             } else {
                                 Snackbar.make(view, error.getMessage(), BaseTransientBottomBar.LENGTH_INDEFINITE)
