@@ -317,14 +317,48 @@ final class ApiImpl implements Api {
     }
 
     @Override
-    public Task<List<DiaryItem>> getDiaryItems(Date month) {
-        //// TODO: 07.12.2017 get all diary items
-        return null;
+    public Task<List<DiaryItem>> getDiaryItems(String month) {
+        return new Task<List<DiaryItem>>() {
+            @Override
+            public List<DiaryItem> exec() throws Throwable {
+                return dataBase.diaryDao().getAll();
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        };
     }
 
     @Override
-    public Task<Void> setDiaryItem(Date dateTime, long mass) {
-        //// TODO: 07.12.2017 set mass in diary item
-        return null;
+    public Task<Integer> setDiaryItem(String month, String day, long mass) {
+        return new Task<Integer>() {
+            @Override
+            public Integer exec() throws Throwable {
+                return dataBase.diaryDao().updateDiary(month, day, mass);
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        };
+    }
+
+    @Override
+    public Task<Void> insertDiaryItems(List<DiaryItem> diaryItems) {
+        return new Task<Void>() {
+            @Override
+            public Void exec() throws Throwable {
+                dataBase.diaryDao().insertAll(diaryItems);
+                return null;
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        };
     }
 }

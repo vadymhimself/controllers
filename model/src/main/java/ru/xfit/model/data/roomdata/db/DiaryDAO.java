@@ -20,17 +20,17 @@ public interface DiaryDAO extends Serializable {
     @Query("SELECT * FROM diary")
     List<DiaryItem> getAll();
 
-    @Query("SELECT * FROM diary WHERE dateTime LIKE :month")
+    @Query("SELECT * FROM diary WHERE month LIKE :month")
     List<DiaryItem> loadAllByDates(String month);
 
-    @Query("SELECT * FROM diary WHERE dateTime LIKE :dt LIMIT 1")
-    DiaryItem findByDateTime(String dt);
+    @Query("SELECT * FROM diary WHERE month LIKE :month AND day LIKE :day LIMIT 1")
+    DiaryItem findByDateTime(String month, String day);
 
-    @Query("UPDATE diary SET mass = :mass WHERE dateTime LIKE :dateTime")
-    int updateDiary(String dateTime, long mass);
+    @Query("UPDATE diary SET mass = :mass WHERE month LIKE :month AND day LIKE :day")
+    int updateDiary(String month, String day, long mass);
 
     @Insert
-    void insertAll(DiaryItem... items);
+    void insertAll(List<DiaryItem> items);
 
     @Delete
     void delete(DiaryItem diaryItem);

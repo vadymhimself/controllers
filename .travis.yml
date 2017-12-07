@@ -11,10 +11,11 @@ android:
   - extra-android-m2repository
   - extra-google-google_play_services
   - extra-google-m2repository
+  - extra-android-support
 licenses:
-  - android-sdk-preview-license-c81a61d9
-  - android-sdk-license-.+
-  - google-gdk-license-.+
+  - 'android-sdk-license-.+'
+  - 'google-gdk-license-.+'
+  - '.+'
 script:
   - set -e
   - ./gradlew assembleRelease --stacktrace --no-daemon
