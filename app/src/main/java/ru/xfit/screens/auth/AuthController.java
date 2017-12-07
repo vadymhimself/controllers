@@ -116,6 +116,7 @@ public class AuthController extends XFitController<LayoutAuthBinding> implements
 
     @Override
     public void onDoneClicked() {
-        auth(null);
+        if (getBinding() != null)
+            auth(getBinding().loginBtn);
     }
 }

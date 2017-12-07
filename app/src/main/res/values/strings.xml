@@ -27,6 +27,8 @@
     <string name="long_name">Фамилия и имя слишком длинные</string>
     <string name="incorrect_name">Недопустимые символы в фамилии или имени</string>
     <string name="incorrect_date">Неверная дата</string>
+    <string name="registered_number">Телефонный номер уже используется</string>
+    <string name="code_request_error">SMS с кодом подтверждения было запрошено слишком часто</string>
 
     <string name="nav_menu_schedule">Моё расписание</string>
     <string name="nav_menu_x_fit">Мой X-Fit</string>

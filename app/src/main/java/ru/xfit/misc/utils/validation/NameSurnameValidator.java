@@ -10,7 +10,7 @@ import ru.xfit.domain.App;
  */
 
 public class NameSurnameValidator extends StringValidator {
-    public static final Pattern NAME = Pattern.compile("[a-zA-Zа-яА-Я\\-\\s]{3,65}");
+    public static final Pattern NAME = Pattern.compile("[ёЁa-zA-Zа-яА-Я\\-\\s]{3,65}");
 
     @Override
     public String validate(String... args) {
