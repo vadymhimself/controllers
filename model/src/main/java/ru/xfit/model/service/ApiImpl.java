@@ -12,7 +12,6 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
-import ru.xfit.model.data.ErrorException;
 import ru.xfit.model.data.ErrorResponse;
 import ru.xfit.model.data.FeedbackRequest;
 import ru.xfit.model.data.UserData;
@@ -25,7 +24,8 @@ import ru.xfit.model.data.club.SortingRequest;
 import ru.xfit.model.data.common.EmptyBody;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.data.contract.SuspendRequest;
-import ru.xfit.model.data.diary.DiaryItem;
+import ru.xfit.model.data.roomdata.db.XfitDB;
+import ru.xfit.model.data.roomdata.model.DiaryItem;
 import ru.xfit.model.data.news.News;
 import ru.xfit.model.data.notification.NotificationSettings;
 import ru.xfit.model.data.notifications.Notification;
@@ -47,11 +47,13 @@ final class ApiImpl implements Api {
     private final NetworkInterface networkInterface;
     private final PreferencesStorage storage;
     private final UserData userData;
+    private final XfitDB dataBase;
 
-    ApiImpl(NetworkInterface networkInterface, UserData userData, PreferencesStorage preferencesStorage) {
+    ApiImpl(NetworkInterface networkInterface, UserData userData, PreferencesStorage preferencesStorage, XfitDB dataBase) {
         this.networkInterface = networkInterface;
         this.userData = userData;
         this.storage = preferencesStorage;
+        this.dataBase = dataBase;
     }
 
     private <T> T executeSync(Call<T> call) throws Throwable {

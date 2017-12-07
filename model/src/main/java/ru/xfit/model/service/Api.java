@@ -12,7 +12,7 @@ import ru.xfit.model.data.club.ClubItem;
 import ru.xfit.model.data.club.SortingRequest;
 import ru.xfit.model.data.contract.Contract;
 import ru.xfit.model.data.contract.SuspendRequest;
-import ru.xfit.model.data.diary.DiaryItem;
+import ru.xfit.model.data.roomdata.model.DiaryItem;
 import ru.xfit.model.data.news.News;
 import ru.xfit.model.data.notification.NotificationSettings;
 import ru.xfit.model.data.notifications.Notification;
