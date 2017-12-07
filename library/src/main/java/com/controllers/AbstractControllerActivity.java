@@ -128,7 +128,7 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
         if (prev != null) prev.onDetachedFromScreenInternal();
 
         transaction.replace(containerId, next.asFragment(), next.getTag())
-                .commitNowAllowingStateLoss();
+                .commitAllowingStateLoss();
         next.onAttachedToScreenInternal();
         onControllerChanged(next);
         return prev;
