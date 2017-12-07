@@ -1,5 +1,6 @@
 package ru.xfit.misc.utils.validation;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -27,17 +28,14 @@ public class DateValidator extends StringValidator {
             return App.getContext().getString(R.string.incorrect_date);
         try {
             Calendar calendar = new GregorianCalendar();
-            int day = Integer.valueOf(args[0].substring(0, 2));
-            calendar.set(Calendar.DAY_OF_MONTH, day);
-            int month = Integer.valueOf(args[0].substring(2, 4));
-            calendar.set(Calendar.MONTH, month - 1);
-            int year = Integer.valueOf(args[0].substring(4, 8));
-            calendar.set(Calendar.YEAR, year);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyyyy");
+            simpleDateFormat.setLenient(false);
+            calendar.setTime(simpleDateFormat.parse(args[0]));
             if (calendar.compareTo(currentCalendar) > 0)
                 return App.getContext().getString(R.string.incorrect_date);
             if (calendar.get(Calendar.YEAR) < 1900)
                 return App.getContext().getString(R.string.incorrect_date);
-        } catch (NumberFormatException | ArrayIndexOutOfBoundsException ex) {
+        } catch (Exception ex) {
             return App.getContext().getString(R.string.incorrect_date);
         }
         return null;
