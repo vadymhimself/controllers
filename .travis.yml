@@ -25,6 +25,7 @@ before_install:
   - chmod +x gradlew
   - openssl aes-256-cbc -K $encrypted_9f0b5b623ead_key -iv $encrypted_9f0b5b623ead_iv -in release.keystore.enc -out keystore/release.keystore -d
   - bash .travis-android-license-bugfix.sh
+
 branches:
   only:
   - beta
