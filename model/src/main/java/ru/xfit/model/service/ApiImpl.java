@@ -10,7 +10,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Response;
 import ru.xfit.model.data.ErrorException;
@@ -48,13 +47,11 @@ final class ApiImpl implements Api {
     private final NetworkInterface networkInterface;
     private final PreferencesStorage storage;
     private final UserData userData;
-    private final Realm realm;
 
-    ApiImpl(NetworkInterface networkInterface, UserData userData, PreferencesStorage preferencesStorage, Realm realm) {
+    ApiImpl(NetworkInterface networkInterface, UserData userData, PreferencesStorage preferencesStorage) {
         this.networkInterface = networkInterface;
         this.userData = userData;
         this.storage = preferencesStorage;
-        this.realm = realm;
     }
 
     private <T> T executeSync(Call<T> call) throws Throwable {

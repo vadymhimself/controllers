@@ -9,6 +9,8 @@
 
         <import type="ru.xfit.R"/>
 
+        <import type="ru.xfit.misc.LayoutManagers" />
+
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -133,12 +135,12 @@
             android:layout_below="@+id/local"
             android:layout_marginTop="23dp">
 
-            <include
-                android:id="@+id/list"
-                layout="@layout/list"
+            <ru.xfit.misc.views.HackyRecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:adapter='@{controller.adapter}' />
+                android:layout_height="wrap_content"
+                android:visibility="@{!controller.adapter.empty}"
+                app:adapter="@{controller.adapter}"
+                app:layoutManager="@{LayoutManagers.LINEAR_VERTICAL}" />
         </RelativeLayout>
 
         <Button

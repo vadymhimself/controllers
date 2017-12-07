@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://C:\Users\aleks\AndroidStudioProjects\XFit-Android\XFit-Android\xfit.iml" filepath="C:\Users\aleks\AndroidStudioProjects\XFit-Android\XFit-Android\xfit.iml" />
       <module fileurl="file://$PROJECT_DIR$/XFit-Android.iml" filepath="$PROJECT_DIR$/XFit-Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/calendar/calendar.iml" filepath="$PROJECT_DIR$/calendar/calendar.iml" />
@@ -10,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/controllers-request/library/controllers-req.iml" filepath="$PROJECT_DIR$/controllers-request/library/controllers-req.iml" />
       <module fileurl="file://$PROJECT_DIR$/model/model.iml" filepath="$PROJECT_DIR$/model/model.iml" />
       <module fileurl="file://$PROJECT_DIR$/xfit.iml" filepath="$PROJECT_DIR$/xfit.iml" />
+      <module fileurl="file://C:\Users\aleks\AndroidStudioProjects\XFit-Android\XFit-Android\xfit.iml" filepath="C:\Users\aleks\AndroidStudioProjects\XFit-Android\XFit-Android\xfit.iml" />
     </modules>
   </component>
 </project>
