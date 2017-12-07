@@ -185,7 +185,8 @@
                     validType="@{type.REPASSWORD}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/textHintColor">
+                    android:textColorHint="@color/textHintColor"
+                    app:hintTextAppearance="@style/InputHintTextStyle">
 
                     <EditText
                         android:id="@+id/password_rep"
