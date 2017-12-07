@@ -15,6 +15,7 @@ import ru.xfit.R;
 import ru.xfit.databinding.LayoutRegisterBinding;
 import ru.xfit.domain.App;
 import ru.xfit.domain.StartActivity;
+import ru.xfit.misc.EditDoneListener;
 import ru.xfit.misc.utils.UiUtils;
 import ru.xfit.model.data.register.RegisterRequest;
 import ru.xfit.model.service.Api;
@@ -24,7 +25,7 @@ import ru.xfit.screens.XFitController;
  * Created by TESLA on 25.10.2017.
  */
 
-public class RegisterController extends XFitController<LayoutRegisterBinding> {
+public class RegisterController extends XFitController<LayoutRegisterBinding> implements EditDoneListener {
     public ObservableField<String> phone = new ObservableField<>("");
     public ObservableField<String> date = new ObservableField<>("");
     public ObservableField<String> password = new ObservableField<>("");
@@ -151,5 +152,10 @@ public class RegisterController extends XFitController<LayoutRegisterBinding> {
 
     private String clearEmail() {
         return email.get().replaceAll("\\s", "");
+    }
+
+    @Override
+    public void onDoneClicked() {
+        register(null);
     }
 }

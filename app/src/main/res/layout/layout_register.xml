@@ -72,11 +72,7 @@
                         android:theme="@style/EditTextTheme"
                         app:allowed_chars="1234567890"
                         app:keep_hint="true"
-                        app:mask="+7 (###) ###-##-##">
-
-                        <requestFocus />
-
-                    </ru.xfit.misc.views.maskededittext.DisabledPasteMaskedEditText>
+                        app:mask="+7 (###) ###-##-##" />
                 </android.support.design.widget.TextInputLayout>
 
             </RelativeLayout>
@@ -257,6 +253,7 @@
 
                     <ru.xfit.misc.views.maskededittext.DisabledPasteMaskedEditText
                         android:id="@+id/date"
+                        doneListener="@{controller}"
                         onMaskedTextChange="@{controller.date}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

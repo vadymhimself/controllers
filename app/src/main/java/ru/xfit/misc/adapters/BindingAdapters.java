@@ -39,12 +39,14 @@ import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
@@ -85,6 +87,7 @@ import ru.xfit.R;
 import ru.xfit.databinding.PopupRecyclerBinding;
 import ru.xfit.domain.App;
 import ru.xfit.misc.CircleTransform;
+import ru.xfit.misc.EditDoneListener;
 import ru.xfit.misc.NavigationClickListener;
 import ru.xfit.misc.OnViewReadyListener;
 import ru.xfit.misc.utils.validation.ValidationType;
@@ -864,6 +867,18 @@ public abstract class BindingAdapters {
                 }
             });
         }
+    }
+
+    @BindingAdapter("doneListener")
+    public static void setEditDoneListener(EditText editText, EditDoneListener listener) {
+        editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        editText.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                listener.onDoneClicked();
+                return true;
+            }
+            return false;
+        });
     }
 
 

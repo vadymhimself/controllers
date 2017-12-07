@@ -16,6 +16,7 @@ import ru.xfit.R;
 import ru.xfit.databinding.LayoutAuthBinding;
 import ru.xfit.domain.App;
 import ru.xfit.domain.MainActivity;
+import ru.xfit.misc.EditDoneListener;
 import ru.xfit.model.data.ErrorCodes;
 import ru.xfit.model.data.auth.User;
 import ru.xfit.model.data.storage.preferences.PreferencesManager;
@@ -28,7 +29,7 @@ import ru.xfit.screens.XFitController;
  * Created by TESLA on 25.10.2017.
  */
 
-public class AuthController extends XFitController<LayoutAuthBinding> {
+public class AuthController extends XFitController<LayoutAuthBinding> implements EditDoneListener {
 
     public final ObservableBoolean progress = new ObservableBoolean();
     public ObservableField<String> phone = new ObservableField<>("");
@@ -111,5 +112,10 @@ public class AuthController extends XFitController<LayoutAuthBinding> {
     public void onForgotPasswordClicked(View view) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.xfit.ru/payonline/wnd.php?a=forgot"));
         getActivity().startActivity(intent);
+    }
+
+    @Override
+    public void onDoneClicked() {
+        auth(null);
     }
 }
