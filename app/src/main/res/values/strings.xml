@@ -22,6 +22,7 @@
     <string name="empty_field_error">Поле должно быть заполненным</string>
     <string name="incorrect_email">Проверьте правильность вашего адреса</string>
     <string name="incorrect_password">Пароль должен содержать не менее 8 символов и включать буквы верхнего и нижнего регистров, цифры, спецсимволы.</string>
+    <string name="easy_password">Слишком простой пароль</string>
     <string name="short_name">Фамилия и имя слишком короткие</string>
     <string name="long_name">Фамилия и имя слишком длинные</string>
     <string name="incorrect_name">Недопустимые символы в фамилии или имени</string>
