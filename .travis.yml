@@ -24,7 +24,16 @@ after_script:
 before_install:
   - chmod +x gradlew
   - openssl aes-256-cbc -K $encrypted_9f0b5b623ead_key -iv $encrypted_9f0b5b623ead_iv -in release.keystore.enc -out keystore/release.keystore -d
-  - bash .travis-android-license-bugfix.sh
+
+install:
+  - echo yes | sdkmanager "platform;tools"
+  - echo yes | sdkmanager "tools"
+  - echo yes | sdkmanager "platforms;android-27"
+  - echo yes | sdkmanager "platforms;android-27"
+  - echo yes | sdkmanager "extra;google;google_play_services"
+  - echo yes | sdkmanager "extras;android;m2repository"
+  - echo yes | sdkmanager "extra;android;support"
+  - echo yes | sdkmanager "extras;google;m2repository"
 
 branches:
   only:
