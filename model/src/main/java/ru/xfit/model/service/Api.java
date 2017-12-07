@@ -90,7 +90,9 @@ public interface Api {
 
     Task<ResultResponse> sendFeedback(FeedbackRequest request);
 
-    Task<List<DiaryItem>> getDiaryItems(Date month);
+    Task<List<DiaryItem>> getDiaryItems(String month);
 
-    Task<Void> setDiaryItem(Date dateTime, long mass);
+    Task<Integer> setDiaryItem(String month, String day, long mass);
+
+    Task<Void> insertDiaryItems(List<DiaryItem> diaryItems);
 }

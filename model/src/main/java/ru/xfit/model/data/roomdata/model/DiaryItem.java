@@ -19,8 +19,11 @@ public class DiaryItem implements Serializable {
     @ColumnInfo(name = "mass")
     private long mass;
 
-    @ColumnInfo(name = "dateTime")
-    private String dateTime;
+    @ColumnInfo(name = "month")
+    private String month;
+
+    @ColumnInfo(name = "day")
+    private String day;
 
     public int getDid() {
         return did;
@@ -38,11 +41,19 @@ public class DiaryItem implements Serializable {
         this.mass = mass;
     }
 
-    public String getDateTime() {
-        return dateTime;
+    public String getMonth() {
+        return month;
     }
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
     }
 }
