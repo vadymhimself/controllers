@@ -14,10 +14,10 @@ import java.net.UnknownHostException;
 import ru.xfit.R;
 import ru.xfit.databinding.LayoutRegisterBinding;
 import ru.xfit.domain.App;
-import ru.xfit.domain.StartActivity;
 import ru.xfit.misc.EditDoneListener;
 import ru.xfit.misc.utils.UiUtils;
 import ru.xfit.model.data.register.RegisterRequest;
+import ru.xfit.model.retrorequest.NetworkError;
 import ru.xfit.model.service.Api;
 import ru.xfit.screens.XFitController;
 
@@ -82,6 +82,19 @@ public class RegisterController extends XFitController<LayoutRegisterBinding> im
                     .onError(error -> {
                         if (error instanceof UnknownHostException) {
                             errorResponse.set(App.getContext().getResources().getString(R.string.auth_internet_error));
+
+                        } else if (error instanceof NetworkError) {
+                            NetworkError netError = (NetworkError) error;
+                            switch (((NetworkError) error).getCode()) {
+                                case 403:
+                                    errorResponse.set(getActivity().getString(R.string.registered_number));
+                                    break;
+                                case 429:
+                                    errorResponse.set(getActivity().getString(R.string.code_request_error));
+                                    break;
+                                default:
+                                    errorResponse.set(netError.getMessage());
+                            }
 
                         } else {
                             errorResponse.set(error.getMessage());
@@ -156,6 +169,7 @@ public class RegisterController extends XFitController<LayoutRegisterBinding> im
 
     @Override
     public void onDoneClicked() {
-        register(null);
+        if (getBinding() != null)
+            register(getBinding().loginBtn);
     }
 }

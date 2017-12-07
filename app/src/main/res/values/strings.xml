@@ -17,6 +17,7 @@
     <string name="reg_registration">Зарегистрироваться</string>
     <string name="sms_confirm_title">Код активации из SMS</string>
     <string name="sms_confirm_btn">Активировать</string>
+    <string name="sms_wrong_code">Неверный код активации</string>
 
     <string name="password_not_equal">Пароль не совпал</string>
     <string name="empty_field_error">Поле должно быть заполненным</string>
@@ -27,6 +28,8 @@
     <string name="long_name">Фамилия и имя слишком длинные</string>
     <string name="incorrect_name">Недопустимые символы в фамилии или имени</string>
     <string name="incorrect_date">Неверная дата</string>
+    <string name="registered_number">Телефонный номер уже используется</string>
+    <string name="code_request_error">SMS с кодом подтверждения было запрошено слишком часто</string>
 
     <string name="nav_menu_schedule">Моё расписание</string>
     <string name="nav_menu_x_fit">Мой X-Fit</string>

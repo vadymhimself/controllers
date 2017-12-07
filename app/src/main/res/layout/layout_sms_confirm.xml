@@ -12,252 +12,259 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/main_bg">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="21dp"
-                android:layout_marginLeft="16dp"
-                android:background="@drawable/ic_arrow_back"
-                android:backgroundTint="@color/colorAccent"
-                android:onClick="@{controller.back}" />
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/logo"
-                android:layout_width="300dp"
-                android:layout_height="152dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="50dp"
-                android:background="@drawable/logo_x_fit" />
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@+id/logo"
-                android:layout_marginTop="50dp"
-                android:fontFamily="sans-serif"
-                android:text="@string/sms_confirm_title"
-                android:textColor="#ffffff"
-                android:textSize="17sp"
-                android:textStyle="normal" />
-
-            <RelativeLayout
-                android:id="@+id/sms_rl"
-                android:layout_width="260dp"
-                android:layout_height="56dp"
-                android:layout_below="@+id/title"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="29dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <RelativeLayout
-                        android:layout_width="36dp"
+                    <ImageView
+                        android:id="@+id/back"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="9dp">
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="21dp"
+                        android:background="@drawable/ic_arrow_back"
+                        android:backgroundTint="@color/colorAccent"
+                        android:onClick="@{controller::back}" />
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/sms_input_bg" />
+                    <ImageView
+                        android:id="@+id/logo"
+                        android:layout_width="300dp"
+                        android:layout_height="152dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="50dp"
+                        android:background="@drawable/logo_x_fit" />
 
-                        <EditText
-                            android:id="@+id/sms1"
-                            android:layout_width="36dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"
-                            android:imeOptions="actionNext"
-                            android:inputType="number"
-                            android:maxLength="1"
-                            android:minWidth="26dp"
-                            android:nextFocusForward="@+id/sms2"
-                            android:text='@={controller.code1}'
-                            android:textAlignment="center"
-                            android:textColor="@android:color/white"
-                            android:textColorHint="@color/textHintColor"
-                            android:textSize="27sp"
-                            android:theme="@style/EditTextTheme"
-                            app:nextFocus="@{true}"/>
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="36dp"
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="9dp">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/sms_input_bg" />
-
-                        <EditText
-                            android:id="@+id/sms2"
-                            android:layout_width="36dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"
-                            android:imeOptions="actionNext"
-                            android:inputType="number"
-                            android:maxLength="1"
-                            android:minWidth="26dp"
-                            android:nextFocusForward="@+id/sms3"
-                            android:text='@={controller.code2}'
-                            android:textAlignment="center"
-                            android:textColor="@android:color/white"
-                            android:textColorHint="@color/textHintColor"
-                            android:textSize="27sp"
-                            app:nextFocus="@{true}"
-                            android:theme="@style/EditTextTheme" />
-                    </RelativeLayout>
+                        android:layout_below="@+id/logo"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="50dp"
+                        android:fontFamily="sans-serif"
+                        android:text="@string/sms_confirm_title"
+                        android:textColor="#ffffff"
+                        android:textSize="17sp"
+                        android:textStyle="normal" />
 
                     <RelativeLayout
-                        android:layout_width="36dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="9dp">
+                        android:id="@+id/sms_rl"
+                        android:layout_width="260dp"
+                        android:layout_height="56dp"
+                        android:layout_below="@+id/title"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="29dp">
 
-                        <ImageView
+                        <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/sms_input_bg" />
+                            android:layout_height="wrap_content">
 
-                        <EditText
-                            android:id="@+id/sms3"
-                            android:layout_width="36dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"
-                            android:imeOptions="actionNext"
-                            android:inputType="number"
-                            android:maxLength="1"
-                            android:minWidth="26dp"
-                            android:nextFocusForward="@+id/sms4"
-                            android:text='@={controller.code3}'
-                            android:textAlignment="center"
-                            android:textColor="@android:color/white"
-                            android:textColorHint="@color/textHintColor"
-                            android:textSize="27sp"
-                            app:nextFocus="@{true}"
-                            android:theme="@style/EditTextTheme" />
+                            <RelativeLayout
+                                android:layout_width="36dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="9dp">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/sms_input_bg" />
+
+                                <ru.xfit.misc.views.DisabledPasteEditText
+                                    android:id="@+id/sms1"
+                                    android:layout_width="36dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_centerHorizontal="true"
+                                    android:imeOptions="actionNext"
+                                    android:inputType="number"
+                                    android:maxLength="1"
+                                    android:minWidth="26dp"
+                                    android:nextFocusForward="@+id/sms2"
+                                    android:text='@={controller.code1}'
+                                    android:textAlignment="center"
+                                    android:textColor="@android:color/white"
+                                    android:textColorHint="@color/textHintColor"
+                                    android:textSize="27sp"
+                                    android:theme="@style/EditTextTheme"
+                                    app:nextFocus="@{true}" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="36dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="9dp">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/sms_input_bg" />
+
+                                <ru.xfit.misc.views.DisabledPasteEditText
+                                    android:id="@+id/sms2"
+                                    android:layout_width="36dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_centerHorizontal="true"
+                                    android:imeOptions="actionNext"
+                                    android:inputType="number"
+                                    android:maxLength="1"
+                                    android:minWidth="26dp"
+                                    android:nextFocusForward="@+id/sms3"
+                                    android:text='@={controller.code2}'
+                                    android:textAlignment="center"
+                                    android:textColor="@android:color/white"
+                                    android:textColorHint="@color/textHintColor"
+                                    android:textSize="27sp"
+                                    android:theme="@style/EditTextTheme"
+                                    app:nextFocus="@{true}" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="36dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="9dp">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/sms_input_bg" />
+
+                                <ru.xfit.misc.views.DisabledPasteEditText
+                                    android:id="@+id/sms3"
+                                    android:layout_width="36dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_centerHorizontal="true"
+                                    android:imeOptions="actionNext"
+                                    android:inputType="number"
+                                    android:maxLength="1"
+                                    android:minWidth="26dp"
+                                    android:nextFocusForward="@+id/sms4"
+                                    android:text='@={controller.code3}'
+                                    android:textAlignment="center"
+                                    android:textColor="@android:color/white"
+                                    android:textColorHint="@color/textHintColor"
+                                    android:textSize="27sp"
+                                    android:theme="@style/EditTextTheme"
+                                    app:nextFocus="@{true}" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="36dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="9dp">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/sms_input_bg" />
+
+                                <ru.xfit.misc.views.DisabledPasteEditText
+                                    android:id="@+id/sms4"
+                                    android:layout_width="36dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_centerHorizontal="true"
+                                    android:imeOptions="actionNext"
+                                    android:inputType="number"
+                                    android:maxLength="1"
+                                    android:minWidth="26dp"
+                                    android:nextFocusForward="@+id/sms5"
+                                    android:text='@={controller.code4}'
+                                    android:textAlignment="center"
+                                    android:textColor="@android:color/white"
+                                    android:textColorHint="@color/textHintColor"
+                                    android:textSize="27sp"
+                                    android:theme="@style/EditTextTheme"
+                                    app:nextFocus="@{true}" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="36dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="9dp">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/sms_input_bg" />
+
+                                <ru.xfit.misc.views.DisabledPasteEditText
+                                    android:id="@+id/sms5"
+                                    android:layout_width="36dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_centerHorizontal="true"
+                                    android:imeOptions="actionNext"
+                                    android:inputType="number"
+                                    android:maxLength="1"
+                                    android:minWidth="26dp"
+                                    android:nextFocusForward="@+id/sms6"
+                                    android:text='@={controller.code5}'
+                                    android:textAlignment="center"
+                                    android:textColor="@android:color/white"
+                                    android:textColorHint="@color/textHintColor"
+                                    android:textSize="27sp"
+                                    android:theme="@style/EditTextTheme"
+                                    app:nextFocus="@{true}" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="36dp"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/sms_input_bg" />
+
+                                <ru.xfit.misc.views.DisabledPasteEditText
+                                    android:id="@+id/sms6"
+                                    android:layout_width="36dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_centerHorizontal="true"
+                                    android:imeOptions="actionDone"
+                                    android:inputType="number"
+                                    android:maxLength="1"
+                                    android:minWidth="26dp"
+                                    android:text='@={controller.code6}'
+                                    android:textAlignment="center"
+                                    android:textColor="@android:color/white"
+                                    android:textColorHint="@color/textHintColor"
+                                    android:textSize="27sp"
+                                    android:theme="@style/EditTextTheme" />
+                            </RelativeLayout>
+                        </LinearLayout>
                     </RelativeLayout>
 
-                    <RelativeLayout
-                        android:layout_width="36dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="9dp">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/sms_input_bg" />
-
-                        <EditText
-                            android:id="@+id/sms4"
-                            android:layout_width="36dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"
-                            android:imeOptions="actionNext"
-                            android:inputType="number"
-                            android:maxLength="1"
-                            android:minWidth="26dp"
-                            android:nextFocusForward="@+id/sms5"
-                            android:text='@={controller.code4}'
-                            android:textAlignment="center"
-                            android:textColor="@android:color/white"
-                            android:textColorHint="@color/textHintColor"
-                            android:textSize="27sp"
-                            app:nextFocus="@{true}"
-                            android:theme="@style/EditTextTheme" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="36dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="9dp">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/sms_input_bg" />
-
-                        <EditText
-                            android:id="@+id/sms5"
-                            android:layout_width="36dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"
-                            android:imeOptions="actionNext"
-                            android:inputType="number"
-                            android:maxLength="1"
-                            android:minWidth="26dp"
-                            android:nextFocusForward="@+id/sms6"
-                            android:text='@={controller.code5}'
-                            android:textAlignment="center"
-                            android:textColor="@android:color/white"
-                            android:textColorHint="@color/textHintColor"
-                            android:textSize="27sp"
-                            app:nextFocus="@{true}"
-                            android:theme="@style/EditTextTheme" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="36dp"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/sms_input_bg" />
-
-                        <EditText
-                            android:id="@+id/sms6"
-                            android:layout_width="36dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"
-                            android:imeOptions="actionDone"
-                            android:inputType="number"
-                            android:maxLength="1"
-                            android:minWidth="26dp"
-                            android:text='@={controller.code6}'
-                            android:textAlignment="center"
-                            android:textColor="@android:color/white"
-                            android:textColorHint="@color/textHintColor"
-                            android:textSize="27sp"
-                            android:theme="@style/EditTextTheme" />
-                    </RelativeLayout>
-                </LinearLayout>
-            </RelativeLayout>
-
-            <Button
-                android:id="@+id/activate_btn"
-                android:layout_width="328dp"
-                android:layout_height="48dp"
-                android:layout_below="@+id/sms_rl"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="150dp"
-                android:background="@drawable/button_bg"
-                android:enabled="@{controller.code6.get().length() > 0}"
-                android:fontFamily="sans-serif"
-                android:foreground="?attr/selectableItemBackground"
-                android:onClick='@{controller.activate}'
-                android:text="@string/sms_confirm_btn"
-                android:textColor="@android:color/white"
-                android:textSize="18sp" />
-
+                    <Button
+                        android:id="@+id/activate_btn"
+                        android:layout_width="328dp"
+                        android:layout_height="48dp"
+                        android:layout_below="@+id/sms_rl"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="180dp"
+                        android:background="@drawable/button_bg"
+                        android:fontFamily="sans-serif"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:onClick='@{controller.activate}'
+                        android:text="@string/sms_confirm_btn"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+            </ScrollView>
         </RelativeLayout>
 
         <include

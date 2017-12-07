@@ -73,6 +73,7 @@
                                 android:imeOptions="actionNext"
                                 android:inputType="number|phone"
                                 android:lines="1"
+                                android:nextFocusForward="@id/password"
                                 android:textColor="@android:color/white"
                                 android:textSize="17sp"
                                 android:theme="@style/EditTextTheme"
