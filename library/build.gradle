@@ -7,9 +7,6 @@ android {
     compileSdkVersion 26
     buildToolsVersion "27.0.1"
 
-    // allow extensions
-//    enforceUniquePackageName = false
-
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 26
