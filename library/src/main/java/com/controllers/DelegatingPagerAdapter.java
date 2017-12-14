@@ -49,13 +49,13 @@ class DelegatingPagerAdapter extends FragmentStatePagerAdapter implements Serial
 
     @Override public Object instantiateItem(ViewGroup container, int position) {
         Object o =  super.instantiateItem(container, position);
-        delegate.getItem(position).onAttachedToScreen();
+        delegate.getItem(position).onAttachedToScreenInternal();
         return o;
     }
 
     @Override public void destroyItem(ViewGroup container, int position, Object object) {
         super.destroyItem(container, position, object);
-        delegate.getItem(position).onDetachedFromScreen();
+        delegate.getItem(position).onDetachedFromScreenInternal();
     }
 
     interface Delegate {
