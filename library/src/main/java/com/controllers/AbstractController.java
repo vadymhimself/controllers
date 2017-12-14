@@ -2,6 +2,7 @@ package com.controllers;
 
 import android.databinding.BaseObservable;
 import android.databinding.ViewDataBinding;
+import android.os.Bundle;
 import android.support.annotation.AnimRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,46 +21,56 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
     public static final String TAG = AbstractController.class.getSimpleName();
 
     /**
-     * Strategy of the Controller representation in terms of Android
+     * ViewStrategy of the Controller representation in terms of Android
      */
-    interface Strategy<B extends ViewDataBinding> {
+    interface ViewStrategy<B extends ViewDataBinding> {
         ControllerActivity getActivity();
-
         Fragment asFragment();
-
         B getBinding();
+        void subscribe(ViewLifecycleConsumer consumer);
+        void unsubscribe(ViewLifecycleConsumer consumer);
     }
 
-    private transient Strategy<B> strategy;
-    private transient boolean attachedToScreen;
+    public interface ViewLifecycleConsumer {
+        void onCreate(Bundle var1);
+        void onStart();
+        void onResume();
+        void onPause();
+        void onStop();
+        void onDestroy();
+    }
 
+    private transient ViewStrategy<B> viewStrategy;
+
+    private transient boolean attachedToScreen;
+    private transient boolean retained;
     private boolean attachedToStack;
 
     // must be public with no arguments
     public AbstractController() {
-        strategy = createStrategy();
-        if (strategy == null) throw new IllegalStateException();
+        viewStrategy = createStrategy();
+        if (viewStrategy == null) throw new IllegalStateException();
     }
 
-    abstract Strategy<B> createStrategy();
+    abstract ViewStrategy<B> createStrategy();
 
     @Nullable
     public ControllerActivity getActivity() {
-        return strategy.getActivity();
+        return viewStrategy.getActivity();
     }
 
     @NonNull
     @Override
     public final Fragment asFragment() {
-        return strategy.asFragment();
+        return viewStrategy.asFragment();
     }
 
-    void onAttachedToScreen() {
+    void onAttachedToScreenInternal() {
         if (attachedToScreen) throw new IllegalStateException();
         attachedToScreen = true;
     }
 
-    void onDetachedFromScreen() {
+    void onDetachedFromScreenInternal() {
         if (!attachedToScreen) throw new IllegalStateException();
         attachedToScreen = false;
     }
@@ -76,6 +87,13 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         onDetachedFromStack();
     }
 
+    void onRestoredInternal() {
+        if (attachedToScreen || !attachedToStack) throw new IllegalStateException();
+        // check if was deserialized
+        onRestored(!retained);
+        retained = true;
+    }
+
     protected void onAttachedToStack() {
 
     }
@@ -84,7 +102,14 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
 
     }
 
-    void onRestored() {
+    /**
+     * This method is called when the controllers stack was restored after the
+     * activity recreation.
+     *
+     * @param deserialized true if the controller was deserialized during the
+     *                     recreation.
+     */
+    void onRestored(boolean deserialized) {
 
     }
 
@@ -94,7 +119,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
 
     @Nullable
     protected B getBinding() {
-        return strategy.getBinding();
+        return viewStrategy.getBinding();
     }
 
     /**
@@ -214,11 +239,20 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
     }
 
     // TODO: I don't really like it
-    protected String getTitle() {
+    public String getTitle() {
         return "Untitled controller";
     }
 
+
     boolean beforeChanged(AbstractController next) {
         return false;
+    }
+
+    void subscribe(ViewLifecycleConsumer consumer) {
+        viewStrategy.subscribe(consumer);
+    }
+
+    void unsubscribe(ViewLifecycleConsumer consumer) {
+        viewStrategy.unsubscribe(consumer);
     }
 }
