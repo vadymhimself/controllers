@@ -40,10 +40,12 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         void onDestroy();
     }
 
-    private transient ViewStrategy<B> viewStrategy;
+    private transient ControllerActivity host;
 
+    private transient ViewStrategy<B> viewStrategy;
     private transient boolean attachedToScreen;
     private transient boolean retained;
+
     private boolean attachedToStack;
 
     // must be public with no arguments
@@ -56,7 +58,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
 
     @Nullable
     public ControllerActivity getActivity() {
-        return viewStrategy.getActivity();
+        return host;
     }
 
     @NonNull
@@ -75,8 +77,9 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         attachedToScreen = false;
     }
 
-    void onAttachedToStackInternal() {
-        if (attachedToStack) throw new IllegalStateException();
+    void onAttachedToStackInternal(ControllerActivity host) {
+        if (attachedToStack || host == null) throw new IllegalStateException();
+        this.host = host;
         attachedToStack = true;
         onAttachedToStack();
     }
@@ -85,6 +88,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         if (!attachedToStack) throw new IllegalStateException();
         attachedToStack = false;
         onDetachedFromStack();
+        this.host = null;
     }
 
     void onRestoredInternal() {
@@ -126,7 +130,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
      * @return true if want to override default behaviour
      */
     protected boolean onBackPressed() {
-        AbstractControllerActivity activity = getActivity();
+        ControllerActivity activity = getActivity();
         if (activity != null) {
             if (activity.stack != null && activity.stack.size() > 1) {
                 activity.back();
