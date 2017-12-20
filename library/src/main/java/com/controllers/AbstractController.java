@@ -19,33 +19,10 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         BaseObservable implements IController {
 
     public static final String TAG = AbstractController.class.getSimpleName();
-
-    /**
-     * ViewStrategy of the Controller representation in terms of Android
-     */
-    interface ViewStrategy<B extends ViewDataBinding> {
-        ControllerActivity getActivity();
-        Fragment asFragment();
-        B getBinding();
-        void subscribe(ViewLifecycleConsumer consumer);
-        void unsubscribe(ViewLifecycleConsumer consumer);
-    }
-
-    public interface ViewLifecycleConsumer {
-        void onCreate(Bundle var1);
-        void onStart();
-        void onResume();
-        void onPause();
-        void onStop();
-        void onDestroy();
-    }
-
     private transient ViewStrategy<B> viewStrategy;
-
     private transient boolean attachedToScreen;
     private transient boolean retained;
     private boolean attachedToStack;
-
     // must be public with no arguments
     public AbstractController() {
         viewStrategy = createStrategy();
@@ -115,6 +92,10 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
 
     boolean isAttachedToScreen() {
         return attachedToScreen;
+    }
+
+    boolean isAttachedToStack() {
+        return attachedToStack;
     }
 
     @Nullable
@@ -243,7 +224,6 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         return "Untitled controller";
     }
 
-
     boolean beforeChanged(AbstractController next) {
         return false;
     }
@@ -254,5 +234,34 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
 
     void unsubscribe(ViewLifecycleConsumer consumer) {
         viewStrategy.unsubscribe(consumer);
+    }
+
+    /**
+     * ViewStrategy of the Controller representation in terms of Android
+     */
+    interface ViewStrategy<B extends ViewDataBinding> {
+        ControllerActivity getActivity();
+
+        Fragment asFragment();
+
+        B getBinding();
+
+        void subscribe(ViewLifecycleConsumer consumer);
+
+        void unsubscribe(ViewLifecycleConsumer consumer);
+    }
+
+    public interface ViewLifecycleConsumer {
+        void onCreate(Bundle var1);
+
+        void onStart();
+
+        void onResume();
+
+        void onPause();
+
+        void onStop();
+
+        void onDestroy();
     }
 }
