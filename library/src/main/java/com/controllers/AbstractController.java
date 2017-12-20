@@ -40,11 +40,10 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         void onDestroy();
     }
 
-    private transient ControllerActivity host;
+    private ControllerActivity host;
 
-    private transient ViewStrategy<B> viewStrategy;
-    private transient boolean attachedToScreen;
-    private transient boolean retained;
+    private ViewStrategy<B> viewStrategy;
+    private boolean attachedToScreen;
 
     private boolean attachedToStack;
 
@@ -93,9 +92,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
 
     void onRestoredInternal() {
         if (attachedToScreen || !attachedToStack) throw new IllegalStateException();
-        // check if was deserialized
-        onRestored(!retained);
-        retained = true;
+        onRestored();
     }
 
     protected void onAttachedToStack() {
@@ -109,11 +106,9 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
     /**
      * This method is called when the controllers stack was restored after the
      * activity recreation.
-     *
-     * @param deserialized true if the controller was deserialized during the
-     *                     recreation.
+     *.
      */
-    void onRestored(boolean deserialized) {
+    void onRestored() {
 
     }
 
