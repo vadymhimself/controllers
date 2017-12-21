@@ -65,7 +65,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
     }
 
     void onRestoredInternal() {
-        if (attachedToScreen || !attachedToStack) throw new IllegalStateException();
+        if (attachedToScreen || attachedToStack) throw new IllegalStateException();
         // check if was deserialized
         onRestored(!retained);
         retained = true;
@@ -76,7 +76,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
     }
 
     protected void onDetachedFromStack() {
-
+        Log.d("", "");
     }
 
     /**
