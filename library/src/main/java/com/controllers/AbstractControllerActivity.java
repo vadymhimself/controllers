@@ -21,6 +21,19 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
     protected ControllerStack stack;
     private @IdRes int containerId;
 
+    /**
+     * Improve bundle to prevent restoring of fragments.
+     *
+     * @param bundle bundle container
+     * @return improved bundle with removed "fragments parcelable"
+     */
+    private static Bundle noFragmentsRestore(Bundle bundle) {
+        if (bundle != null) {
+            bundle.remove("android:support:fragments");
+        }
+        return bundle;
+    }
+
     protected void setControllerContainer(@IdRes int containerResId) {
         this.containerId = containerResId;
     }
@@ -182,7 +195,7 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
             }
 
             for (Controller controller : stack) {
-                controller.onAttachedToStack();
+                controller.onAttachedToStackInternal();
                 controller.onRestoredInternal();
             }
         } else {
@@ -199,19 +212,6 @@ abstract class AbstractControllerActivity extends AppCompatActivity {
             if (controller == null) throw new IllegalStateException();
             restore(controller);
         }
-    }
-
-    /**
-     * Improve bundle to prevent restoring of fragments.
-     *
-     * @param bundle bundle container
-     * @return improved bundle with removed "fragments parcelable"
-     */
-    private static Bundle noFragmentsRestore(Bundle bundle) {
-        if (bundle != null) {
-            bundle.remove("android:support:fragments");
-        }
-        return bundle;
     }
 
     @Override
