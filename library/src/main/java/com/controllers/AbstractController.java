@@ -242,6 +242,9 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         return "Untitled controller";
     }
 
+    protected boolean shouldRetainView() {
+        return false;
+    }
 
     boolean beforeChanged(AbstractController next) {
         return false;
