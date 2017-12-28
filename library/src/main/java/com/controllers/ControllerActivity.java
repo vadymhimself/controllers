@@ -228,6 +228,14 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
         outState.putSerializable(KEY_STACK, stack);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        for (Controller controller : stack) {
+            controller.onDetachedFromStackInternal();
+        }
+    }
+
     /**
      * Shows controller with default animation
      */
