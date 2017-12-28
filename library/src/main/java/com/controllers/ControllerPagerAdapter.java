@@ -70,7 +70,7 @@ public class ControllerPagerAdapter implements DelegatingPagerAdapter
         @Override
         public void onAttachedToStack(ObservableController observable) {
             for (Controller controller : controllerList) {
-                controller.onAttachedToStackInternal();
+                controller.onAttachedToStackInternal(parent.getActivity());
             }
         }
 

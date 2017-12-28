@@ -13,6 +13,7 @@ import java.util.*;
 public class ControllerStack implements Serializable, Iterable<Controller> {
 
     private final Stack<Controller> controllers = new Stack<>();
+    private final Map<Object, Controller> index = new HashMap<>();
 
     @Nullable
     Controller peek() {
@@ -23,15 +24,46 @@ public class ControllerStack implements Serializable, Iterable<Controller> {
     }
 
     public void add(Controller controller) {
+        Controller c = index.put(controller.getTag(), controller);
+        if (c != null) {
+            throw new IllegalArgumentException("Controller with this tag " +
+                    "already exists in the index");
+        }
         controllers.add(controller);
+    }
+
+    AbstractController pop() {
+        Controller c = controllers.pop();
+        index.remove(c.getTag());
+        return c;
+    }
+
+    List<Controller> pop(int i) {
+        if (i > controllers.size() || i < 1) throw new IllegalArgumentException();
+
+        List<Controller> popped = new ArrayList<>();
+
+        for (int j = 0; j < i; j++) {
+            Controller c = controllers.pop();
+            index.remove(c);
+            popped.add(c);
+        }
+
+        return popped;
+    }
+
+    Controller peek(int i) {
+        if (i > controllers.size()) throw new IllegalArgumentException();
+        int j = 0;
+        for (Controller controller : this) {
+            if (j == i) return controller;
+            j++;
+        }
+        return null;
     }
 
     public int size() {
         return controllers.size();
-    }
-
-    AbstractController pop() {
-        return controllers.pop();
     }
 
     @Override
@@ -48,27 +80,5 @@ public class ControllerStack implements Serializable, Iterable<Controller> {
                 return it.previous();
             }
         };
-    }
-
-    List<Controller> pop(int i) {
-        if (i > controllers.size() || i < 1) throw new IllegalArgumentException();
-
-        List<Controller> popped = new ArrayList<>();
-
-        for (int j = 0; j < i; j++) {
-            popped.add(controllers.pop());
-        }
-
-        return popped;
-    }
-
-    Controller peek(int i) {
-        if (i > controllers.size()) throw new IllegalArgumentException();
-        int j = 0;
-        for (Controller controller : this) {
-            if (j == i) return controller;
-            j++;
-        }
-        return null;
     }
 }

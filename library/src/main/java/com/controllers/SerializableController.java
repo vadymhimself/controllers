@@ -4,8 +4,6 @@ import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -19,7 +17,7 @@ abstract class SerializableController<B extends ViewDataBinding> extends
 
     @NonNull
     @Override
-    public final String getTag() {
+    public final Object getTag() {
         return tag;
     }
 

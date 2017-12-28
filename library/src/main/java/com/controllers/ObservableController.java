@@ -36,8 +36,8 @@ abstract class ObservableController<B extends ViewDataBinding> extends Serializa
         return observers != null && observers.remove(observer);
     }
 
-    @Override void onAttachedToStackInternal() {
-        super.onAttachedToStackInternal();
+    @Override void onAttachedToStackInternal(ControllerActivity host) {
+        super.onAttachedToStackInternal(host);
         if (observers != null) {
             for (Observer observer : observers) {
                 observer.onAttachedToStack(this);
