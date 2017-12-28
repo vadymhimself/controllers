@@ -13,7 +13,7 @@ import android.support.v7.app.AppCompatActivity;
  * 18.10.2016.
  */
 
-public abstract class ControllerActivity extends AppCompatActivity {
+public abstract class ControllerActivity extends AppCompatActivity implements Router {
 
     private static final String KEY_STACK = "_controller_stack";
     private static final String KEY_CONTAINER_ID = "_container_id";
@@ -25,7 +25,7 @@ public abstract class ControllerActivity extends AppCompatActivity {
         this.containerId = containerResId;
     }
 
-    protected Controller show(@NonNull Controller next,
+    public Controller show(@NonNull Controller next,
                         @AnimRes int enter, @AnimRes int exit) {
 
         Controller prev = stack.peek();
@@ -44,7 +44,8 @@ public abstract class ControllerActivity extends AppCompatActivity {
     }
 
     @SuppressWarnings("ConstantConditions")
-    @Nullable protected Controller back(@AnimRes int enter, @AnimRes int exit) {
+    @Nullable
+    public Controller back(@AnimRes int enter, @AnimRes int exit) {
         if (stack.size() <= 1) throw new IllegalStateException("Stack must be bigger than 1");
 
         Controller prev = stack.peek();
@@ -60,7 +61,7 @@ public abstract class ControllerActivity extends AppCompatActivity {
         return changeControllersInternal(prev, next, enter, exit);
     }
 
-    protected Controller goBackTo(Controller controller, @AnimRes int enter, @AnimRes int exit) {
+    public Controller goBackTo(Controller controller, @AnimRes int enter, @AnimRes int exit) {
         Controller prev = stack.peek();
         Controller next = null;
 
@@ -127,7 +128,7 @@ public abstract class ControllerActivity extends AppCompatActivity {
 
         if (prev != null) prev.onDetachedFromScreenInternal();
 
-        transaction.replace(containerId, next.asFragment(), next.getTag())
+        transaction.replace(containerId, next.asFragment(), next.getTag().toString())
                 .commitNowAllowingStateLoss();
         next.onAttachedToScreenInternal();
         onControllerChanged(next);
@@ -136,7 +137,7 @@ public abstract class ControllerActivity extends AppCompatActivity {
 
     @Nullable
     @SuppressWarnings("unchecked")
-    protected <T extends Controller> T findByClass(Class<T> clazz) {
+    public  <T extends Controller> T findByClass(Class<T> clazz) {
         if (stack == null) throw new IllegalStateException();
         for (Controller controller : stack) {
             if (controller.getClass() == clazz) {
@@ -147,7 +148,7 @@ public abstract class ControllerActivity extends AppCompatActivity {
     }
 
     @Nullable
-    protected Controller findByTag(String tag){
+    public Controller findByTag(Object tag){
         if (stack == null) throw new IllegalStateException();
         for (Controller controller : stack) {
             if (controller.getTag().equals(tag)) {
@@ -230,29 +231,41 @@ public abstract class ControllerActivity extends AppCompatActivity {
     /**
      * Shows controller with default animation
      */
-    protected Controller show(@NonNull Controller controller) {
+    public Controller show(@NonNull Controller controller) {
         return show(controller, R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     /**
      * Pops top controller with default animation
      */
-    protected Controller back() {
+    public Controller back() {
         return back(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
     /**
      * Backs to given controller with default animation
      */
-    protected Controller goBackTo(Controller controller) {
+    public Controller goBackTo(Controller controller) {
         return goBackTo(controller, R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
-    protected Controller replace(Controller controller) {
+    public Controller replace(Controller controller) {
         return replace(controller, android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
-    @Nullable protected Controller getTop() {
+    @Nullable
+    @Override
+    public Controller getTop() {
+        if (stack != null) {
+            return stack.peek();
+        } else {
+            return null;
+        }
+    }
+
+    @Nullable
+    @Override
+    public Controller getPrevious() {
         if (stack != null) {
             return stack.peek();
         } else {
