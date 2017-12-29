@@ -10,7 +10,7 @@ import android.support.v4.app.Fragment;
 
 class FragmentViewStrategy<B extends ViewDataBinding> implements AbstractController.ViewStrategy<B> {
 
-    private transient final InnerFragment<B> fragment;
+    private final InnerFragment<B> fragment;
 
     FragmentViewStrategy(SerializableController controller) {
         fragment = InnerFragment.createInstance(controller);

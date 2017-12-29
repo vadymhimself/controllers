@@ -1,6 +1,5 @@
 package com.controllers;
 
-import android.support.annotation.AnimRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,29 +19,6 @@ interface IController {
     @NonNull
     Fragment asFragment();
 
-
-    void show(Controller controller);
-    void show(@NonNull Controller next,
-              @AnimRes int enter, @AnimRes int exit);
-
-    void back();
-    void back(@AnimRes int enter, @AnimRes int exit);
-
-    void replace(Controller controller);
-
-    void goBackTo(Controller controller);
-    void goBackTo(Controller controller, @AnimRes int
-            enter, @AnimRes int exit);
-
-    @Nullable
-    <T extends Controller> T findByClass(Class<T> clazz);
-
-    @Nullable
-    Controller findByTag(String tag);
-
-    @Nullable
-    Controller getPrevious();
-
-    @NonNull String getTag();
+    @NonNull Object getTag();
     @LayoutRes int getLayoutId();
 }

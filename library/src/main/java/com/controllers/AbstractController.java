@@ -16,13 +16,37 @@ import android.util.Log;
  */
 
 public abstract class AbstractController<B extends ViewDataBinding> extends
-        BaseObservable implements IController {
+        BaseObservable implements IController, Router {
 
     public static final String TAG = AbstractController.class.getSimpleName();
-    private transient ViewStrategy<B> viewStrategy;
-    private transient boolean attachedToScreen;
-    private transient boolean retained;
+
+    /**
+     * ViewStrategy of the Controller representation in terms of Android
+     */
+    interface ViewStrategy<B extends ViewDataBinding> {
+        ControllerActivity getActivity();
+        Fragment asFragment();
+        B getBinding();
+        void subscribe(ViewLifecycleConsumer consumer);
+        void unsubscribe(ViewLifecycleConsumer consumer);
+    }
+
+    public interface ViewLifecycleConsumer {
+        void onCreate(Bundle var1);
+        void onStart();
+        void onResume();
+        void onPause();
+        void onStop();
+        void onDestroy();
+    }
+
+    private ControllerActivity host;
+
+    private ViewStrategy<B> viewStrategy;
+    private boolean attachedToScreen;
+
     private boolean attachedToStack;
+
     // must be public with no arguments
     public AbstractController() {
         viewStrategy = createStrategy();
@@ -33,7 +57,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
 
     @Nullable
     public ControllerActivity getActivity() {
-        return viewStrategy.getActivity();
+        return host;
     }
 
     @NonNull
@@ -52,8 +76,9 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         attachedToScreen = false;
     }
 
-    void onAttachedToStackInternal() {
-        if (attachedToStack) throw new IllegalStateException();
+    void onAttachedToStackInternal(ControllerActivity host) {
+        if (attachedToStack || host == null) throw new IllegalStateException();
+        this.host = host;
         attachedToStack = true;
         onAttachedToStack();
     }
@@ -62,13 +87,12 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         if (!attachedToStack) throw new IllegalStateException();
         attachedToStack = false;
         onDetachedFromStack();
+        this.host = null;
     }
 
     void onRestoredInternal() {
         if (attachedToScreen || !attachedToStack) throw new IllegalStateException();
-        // check if was deserialized
-        onRestored(!retained);
-        retained = true;
+        onRestored();
     }
 
     protected void onAttachedToStack() {
@@ -82,20 +106,14 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
     /**
      * This method is called when the controllers stack was restored after the
      * activity recreation.
-     *
-     * @param deserialized true if the controller was deserialized during the
-     *                     recreation.
+     *.
      */
-    void onRestored(boolean deserialized) {
+    void onRestored() {
 
     }
 
     boolean isAttachedToScreen() {
         return attachedToScreen;
-    }
-
-    boolean isAttachedToStack() {
-        return attachedToStack;
     }
 
     @Nullable
@@ -107,7 +125,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
      * @return true if want to override default behaviour
      */
     protected boolean onBackPressed() {
-        AbstractControllerActivity activity = getActivity();
+        ControllerActivity activity = getActivity();
         if (activity != null) {
             if (activity.stack != null && activity.stack.size() > 1) {
                 activity.back();
@@ -118,74 +136,86 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
     }
 
     @Override
-    public final void show(Controller controller) {
+    @Nullable
+    public final Controller show(Controller controller) {
         if (attachedToScreen && getActivity() != null && !getActivity()
                 .isFinishing()) {
-            getActivity().show(controller);
+            return getActivity().show(controller);
         } else {
             Log.w(TAG, "show: ignored call from detached controller");
+            return null;
         }
     }
 
     @Override
-    public final void show(@NonNull Controller next,
+    @Nullable
+    public final Controller show(@NonNull Controller next,
                            @AnimRes int enter, @AnimRes int exit) {
         if (attachedToScreen && getActivity() != null && !getActivity()
                 .isFinishing()) {
-            getActivity().show(next, enter, exit);
+            return getActivity().show(next, enter, exit);
         } else {
             Log.w(TAG, "show: ignored call from detached controller");
+            return null;
         }
     }
 
     @Override
-    public final void back() {
+    @Nullable
+    public final Controller back() {
         if (attachedToScreen && getActivity() != null && !getActivity()
                 .isFinishing()) {
-            getActivity().back();
+            return getActivity().back();
         } else {
             Log.w(TAG, "back: ignored call from detached controller");
+            return null;
         }
     }
 
     @Override
-    public final void back(@AnimRes int enter, @AnimRes int exit) {
+    public final Controller back(@AnimRes int enter, @AnimRes int exit) {
         if (attachedToScreen && getActivity() != null && !getActivity()
                 .isFinishing()) {
-            getActivity().back(enter, exit);
+            return getActivity().back(enter, exit);
         } else {
             Log.w(TAG, "back: ignored call from detached controller");
+            return null;
         }
     }
 
     @Override
-    public final void replace(Controller controller) {
+    @Nullable
+    public final Controller replace(Controller controller) {
         if (attachedToScreen && getActivity() != null && !getActivity()
                 .isFinishing()) {
-            getActivity().replace(controller);
+            return getActivity().replace(controller);
         } else {
             Log.w(TAG, "replace: ignored call from detached controller");
+            return null;
         }
     }
 
     @Override
-    public final void goBackTo(Controller controller) {
+    @Nullable
+    public final Controller goBackTo(Controller controller) {
         if (attachedToScreen && getActivity() != null && !getActivity()
                 .isFinishing()) {
-            getActivity().goBackTo(controller);
+            return getActivity().goBackTo(controller);
         } else {
             Log.w(TAG, "goBackTo: ignored call from detached controller");
+            return null;
         }
     }
 
     @Override
-    public final void goBackTo(Controller controller,
+    @Nullable
+    public final Controller goBackTo(Controller controller,
                                @AnimRes int enter, @AnimRes int exit) {
-        if (attachedToScreen && getActivity() != null && !getActivity()
-                .isFinishing()) {
-            getActivity().goBackTo(controller, enter, exit);
+        if (attachedToScreen && getActivity() != null && !getActivity().isFinishing()) {
+            return getActivity().goBackTo(controller, enter, exit);
         } else {
             Log.w(TAG, "goBackTo: ignored call from detached controller");
+            return null;
         }
     }
 
@@ -201,7 +231,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
 
     @Override
     @Nullable
-    public final Controller findByTag(String tag) {
+    public final Controller findByTag(Object tag) {
         if (getActivity() != null) {
             return getActivity().findByTag(tag);
         } else {
@@ -212,8 +242,18 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
     @Override
     @Nullable
     public Controller getPrevious() {
-        if (getActivity() != null && getActivity().stack.size() > 1) {
-            return getActivity().stack.peek(1);
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            return getActivity().getPrevious();
+        } else {
+            return null;
+        }
+    }
+
+    @Nullable
+    @Override
+    public Controller getTop() {
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            return getActivity().getTop();
         } else {
             return null;
         }
@@ -222,6 +262,10 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
     // TODO: I don't really like it
     public String getTitle() {
         return "Untitled controller";
+    }
+
+    protected boolean shouldRetainView() {
+        return false;
     }
 
     boolean beforeChanged(AbstractController next) {
@@ -234,34 +278,5 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
 
     void unsubscribe(ViewLifecycleConsumer consumer) {
         viewStrategy.unsubscribe(consumer);
-    }
-
-    /**
-     * ViewStrategy of the Controller representation in terms of Android
-     */
-    interface ViewStrategy<B extends ViewDataBinding> {
-        ControllerActivity getActivity();
-
-        Fragment asFragment();
-
-        B getBinding();
-
-        void subscribe(ViewLifecycleConsumer consumer);
-
-        void unsubscribe(ViewLifecycleConsumer consumer);
-    }
-
-    public interface ViewLifecycleConsumer {
-        void onCreate(Bundle var1);
-
-        void onStart();
-
-        void onResume();
-
-        void onPause();
-
-        void onStop();
-
-        void onDestroy();
     }
 }
