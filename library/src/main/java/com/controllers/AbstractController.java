@@ -20,6 +20,10 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
 
     public static final String TAG = AbstractController.class.getSimpleName();
 
+    public boolean isAttachedToStack() {
+        return attachedToStack;
+    }
+
     /**
      * ViewStrategy of the Controller representation in terms of Android
      */

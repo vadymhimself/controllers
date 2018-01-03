@@ -34,6 +34,8 @@ public class ControllerPagerAdapter implements DelegatingPagerAdapter
 
     public void addController(Controller controller) {
         controllerList.add(controller);
+        if (parent.isAttachedToStack() && !controller.isAttachedToStack())
+            controller.onAttachedToStackInternal(parent.getActivity());
     }
 
     public void set(int index, Controller controller) {
@@ -70,7 +72,8 @@ public class ControllerPagerAdapter implements DelegatingPagerAdapter
         @Override
         public void onAttachedToStack(ObservableController observable) {
             for (Controller controller : controllerList) {
-                controller.onAttachedToStackInternal(parent.getActivity());
+                if (parent.isAttachedToStack() && !controller.isAttachedToStack())
+                    controller.onAttachedToStackInternal(parent.getActivity());
             }
         }
 
