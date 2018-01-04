@@ -6,12 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.controllers.AbstractController.ViewLifecycleConsumer;
 
+import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -56,10 +56,18 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment {
 
         if (binding != null) {
             // if view was retained
-            return binding.getRoot();
+            try {
+                // clear fucking parent reference (because SDK fails to do it)
+                Field f = View.class.getField("mParent");
+                f.setAccessible(true);
+                f.set(binding.getRoot(), null);
+                return binding.getRoot();
+            } catch (ReflectiveOperationException e) {
+                e.printStackTrace();
+                // failed reflection
+            }
         }
         
-        // binding could have been retained
         binding = DataBindingUtil.inflate(inflater, layoutRes, parent, false);
 
         if (binding == null) {
@@ -123,9 +131,7 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment {
         super.onDestroyView();
 
         if (controller.shouldRetainView()) {
-            // remove view from parent, but keep alive
-            ViewGroup parent = (ViewGroup) getView().getParent();
-            parent.removeView(getView());
+            // keep alive
             return;
         }
 
@@ -138,7 +144,6 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.wtf("XXX", "onDestroy: ");
         for (ViewLifecycleConsumer c : consumers) {
             c.onDestroy();
             unsubscribe(c);
