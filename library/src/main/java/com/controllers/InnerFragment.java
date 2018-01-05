@@ -58,7 +58,7 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment {
             // if view was retained
             try {
                 // clear fucking parent reference (because SDK fails to do it)
-                Field f = View.class.getField("mParent");
+                Field f = View.class.getDeclaredField("mParent");
                 f.setAccessible(true);
                 f.set(binding.getRoot(), null);
                 return binding.getRoot();
@@ -67,7 +67,7 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment {
                 // failed reflection
             }
         }
-        
+
         binding = DataBindingUtil.inflate(inflater, layoutRes, parent, false);
 
         if (binding == null) {
@@ -75,7 +75,6 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment {
                     "Failed to inflate layout for " +
                             controller.getClass().getSimpleName() +
                             ". Make sure to declare binding <layout> in xml."
-                    
             );
         }
 
