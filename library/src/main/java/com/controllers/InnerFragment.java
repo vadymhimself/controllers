@@ -62,7 +62,16 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment {
 
         if (binding != null) {
             // if view was retained
-            return binding.getRoot();
+            try {
+                // clear fucking parent reference (because SDK fails to do it)
+                Field f = View.class.getDeclaredField("mParent");
+                f.setAccessible(true);
+                f.set(binding.getRoot(), null);
+                return binding.getRoot();
+            } catch (ReflectiveOperationException e) {
+                e.printStackTrace();
+                // failed reflection
+            }
         }
         
         // binding could have been retained
@@ -130,8 +139,6 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment {
 
         if (controller.shouldRetainView()) {
             // remove view from parent, but keep alive
-            ViewGroup parent = (ViewGroup) getView().getParent();
-            parent.removeView(getView());
             return;
         }
 
