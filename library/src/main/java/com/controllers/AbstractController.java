@@ -173,6 +173,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
     }
 
     @Override
+    @Nullable
     public final Controller back(@AnimRes int enter, @AnimRes int exit) {
         if (attachedToScreen && getActivity() != null && !getActivity()
                 .isFinishing()) {
@@ -185,10 +186,46 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
 
     @Override
     @Nullable
+    public final Controller replace(Controller controller, @AnimRes int enter, @AnimRes int exit) {
+        if (attachedToScreen && getActivity() != null && !getActivity()
+                .isFinishing()) {
+            return getActivity().replace(controller, enter, exit);
+        } else {
+            Log.w(TAG, "replace: ignored call from detached controller");
+            return null;
+        }
+    }
+
+    @Override
+    @Nullable
     public final Controller replace(Controller controller) {
         if (attachedToScreen && getActivity() != null && !getActivity()
                 .isFinishing()) {
             return getActivity().replace(controller);
+        } else {
+            Log.w(TAG, "replace: ignored call from detached controller");
+            return null;
+        }
+    }
+
+    @Nullable
+    @Override
+    public Controller clear(Controller controller) {
+        if (attachedToScreen && getActivity() != null && !getActivity()
+                .isFinishing()) {
+            return getActivity().clear(controller);
+        } else {
+            Log.w(TAG, "replace: ignored call from detached controller");
+            return null;
+        }
+    }
+
+    @Nullable
+    @Override
+    public Controller clear(Controller controller, int enter, int exit) {
+        if (attachedToScreen && getActivity() != null && !getActivity()
+                .isFinishing()) {
+            return getActivity().clear(controller, enter, exit);
         } else {
             Log.w(TAG, "replace: ignored call from detached controller");
             return null;

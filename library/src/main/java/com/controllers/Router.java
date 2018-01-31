@@ -23,9 +23,24 @@ public interface Router {
     Controller replace(Controller controller);
 
     @Nullable
+    Controller replace(Controller next, @AnimRes int enter, @AnimRes int exit);
+
+    @Nullable
     Controller goBackTo(Controller controller);
+
     @Nullable
     Controller goBackTo(Controller controller, @AnimRes int enter, @AnimRes int exit);
+
+    /**
+     * Clear the stack of controllers and place one on the top
+     * @param controller controller to place on top
+     * @return top controller
+     */
+    @Nullable
+    Controller clear(Controller controller);
+
+    @Nullable
+    Controller clear(Controller controller, @AnimRes int enter, @AnimRes int exit);
 
     @Nullable
     <T extends Controller> T findByClass(Class<T> clazz);

@@ -52,14 +52,13 @@ public class ControllerStack implements Serializable, Iterable<Controller> {
         return popped;
     }
 
-    Controller peek(int i) {
-        if (i > controllers.size()) throw new IllegalArgumentException();
-        int j = 0;
-        for (Controller controller : this) {
-            if (j == i) return controller;
-            j++;
-        }
-        return null;
+    Controller peek(int indexFromEnd) {
+        if (indexFromEnd > controllers.size()) throw new IllegalArgumentException();
+        return controllers.get(controllers.size() - indexFromEnd - 1);
+    }
+
+    Controller get(int index) {
+        return controllers.get(index);
     }
 
     public int size() {
