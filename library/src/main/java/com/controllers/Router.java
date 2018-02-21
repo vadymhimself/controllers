@@ -43,7 +43,7 @@ public interface Router {
     Controller clear(Controller controller, @AnimRes int enter, @AnimRes int exit);
 
     @Nullable
-    <T extends Controller> T findByClass(Class<T> clazz);
+    <T> T findByClass(Class<T> clazz);
 
     @Nullable
     Controller findByTag(Object tag);

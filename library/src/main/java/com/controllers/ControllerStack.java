@@ -38,12 +38,12 @@ public class ControllerStack implements Serializable, Iterable<Controller> {
         return c;
     }
 
-    List<Controller> pop(int i) {
-        if (i > controllers.size() || i < 1) throw new IllegalArgumentException();
+    List<Controller> pop(int howMany) {
+        if (howMany > controllers.size() || howMany < 1) throw new IllegalArgumentException();
 
         List<Controller> popped = new ArrayList<>();
 
-        for (int j = 0; j < i; j++) {
+        for (int j = 0; j < howMany; j++) {
             Controller c = controllers.pop();
             index.remove(c);
             popped.add(c);

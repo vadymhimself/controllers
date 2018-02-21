@@ -8,12 +8,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import java.util.Iterator;
+
 /**
  * Created by Vadym Ovcharenko
  * 18.10.2016.
  */
 
-public abstract class ControllerActivity extends AppCompatActivity implements Router {
+public abstract class ControllerActivity extends AppCompatActivity implements Router, Host {
 
     private static final String KEY_STACK = "_controller_stack";
     private static final String KEY_CONTAINER_ID = "_container_id";
@@ -95,7 +97,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
             c.onDetachedFromStackInternal();
         }
 
-        return replaceInternal(prev, next, enter, exit);
+        return changeControllersInternal(prev, next, enter, exit);
     }
 
     @Override
@@ -109,7 +111,15 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
             return null;
         }
 
-        return replaceInternal(prev, next, enter, exit);
+        if (prev != null) {
+            stack.pop();
+            prev.onDetachedFromStackInternal();
+        }
+
+        stack.add(next);
+        next.onAttachedToStackInternal(this);
+
+        return changeControllersInternal(prev, next, enter, exit);
     }
 
     @Nullable
@@ -140,16 +150,6 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
         return changeControllersInternal(prev, next, enter, exit);
     }
 
-    // replaces top controller with the new one
-    private Controller replaceInternal(Controller prev, Controller next,
-                                       @AnimRes int enter, @AnimRes int exit) {
-        stack.pop();
-        prev.onDetachedFromStackInternal();
-        stack.add(next);
-        next.onAttachedToStackInternal(this);
-        return changeControllersInternal(prev, next, enter, exit);
-    }
-
     private Controller changeControllersInternal(@Nullable Controller prev,
                                                  final Controller next,
                                                  @AnimRes int enter,
@@ -171,12 +171,11 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
 
     @Override
     @Nullable
-    @SuppressWarnings("unchecked")
-    public  <T extends Controller> T findByClass(Class<T> clazz) {
+    public  <T> T findByClass(Class<T> clazz) {
         if (stack == null) throw new IllegalStateException();
         for (Controller controller : stack) {
-            if (controller.getClass() == clazz) {
-                return (T) controller;
+            if (clazz.isAssignableFrom(controller.getClass())) {
+                return clazz.cast(controller);
             }
         }
         return null;
@@ -319,10 +318,16 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     @Override
     public Controller getPrevious() {
         if (stack != null) {
-            return stack.peek();
+            return stack.peek(1);
         } else {
             return null;
         }
+    }
+
+    @NonNull
+    @Override
+    public Iterator<Controller> iterator() {
+        return stack.iterator();
     }
 
     @SuppressWarnings("ConstantConditions")

@@ -187,6 +187,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
     @Override
     @Nullable
     public final Controller replace(Controller controller, @AnimRes int enter, @AnimRes int exit) {
+        // TODO: should pop all the controllers laying above it before replace
         if (attachedToScreen && getActivity() != null && !getActivity()
                 .isFinishing()) {
             return getActivity().replace(controller, enter, exit);
@@ -258,7 +259,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
 
     @Override
     @Nullable
-    public final <T extends Controller> T findByClass(Class<T> clazz) {
+    public final <T> T findByClass(Class<T> clazz) {
         if (getActivity() != null) {
             return getActivity().findByClass(clazz);
         } else {
