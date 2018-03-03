@@ -45,7 +45,7 @@ public class ControllerStack implements Serializable, Iterable<Controller> {
 
         for (int j = 0; j < howMany; j++) {
             Controller c = controllers.pop();
-            index.remove(c);
+            index.remove(c.getTag());
             popped.add(c);
         }
 
