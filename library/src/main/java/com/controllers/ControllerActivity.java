@@ -30,7 +30,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     @Override
     @Nullable
     public Controller show(@NonNull Controller next,
-                        @AnimRes int enter, @AnimRes int exit) {
+                           @AnimRes int enter, @AnimRes int exit) {
 
         Controller prev = stack.peek();
         if (beforeControllersChanged(prev, next) || prev != null && prev.beforeChanged(next)) {
@@ -103,7 +103,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     @Override
     @Nullable
     public Controller replace(Controller next,
-                                 @AnimRes int enter, @AnimRes int exit) {
+                              @AnimRes int enter, @AnimRes int exit) {
         Controller prev = stack.peek();
 
         if (beforeControllersChanged(prev, next) ||
@@ -171,7 +171,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
 
     @Override
     @Nullable
-    public  <T> T findByClass(Class<T> clazz) {
+    public <T> T findByClass(Class<T> clazz) {
         if (stack == null) throw new IllegalStateException();
         for (Controller controller : stack) {
             if (clazz.isAssignableFrom(controller.getClass())) {
@@ -183,7 +183,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
 
     @Override
     @Nullable
-    public Controller findByTag(Object tag){
+    public Controller findByTag(Object tag) {
         if (stack == null) throw new IllegalStateException();
         for (Controller controller : stack) {
             if (controller.getTag().equals(tag)) {
@@ -328,7 +328,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     @Override
     public Controller getBottom() {
         if (stack != null) {
-            return stack.peek(stack.size()-1);
+            return stack.peek(stack.size() - 1);
         } else {
             return null;
         }
