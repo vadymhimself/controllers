@@ -53,4 +53,7 @@ public interface Router {
 
     @Nullable
     Controller getTop();
+
+    @Nullable
+    Controller getBottom();
 }

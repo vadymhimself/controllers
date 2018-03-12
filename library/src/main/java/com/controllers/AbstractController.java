@@ -297,6 +297,16 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         }
     }
 
+    @Nullable
+    @Override
+    public Controller getBottom() {
+        if (getActivity() != null && !getActivity().isFinishing()) {
+            return getActivity().getBottom();
+        } else {
+            return null;
+        }
+    }
+
     // TODO: I don't really like it
     public String getTitle() {
         return "Untitled controller";

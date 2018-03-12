@@ -324,6 +324,16 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
         }
     }
 
+    @Nullable
+    @Override
+    public Controller getBottom() {
+        if (stack != null) {
+            return stack.peek(stack.size()-1);
+        } else {
+            return null;
+        }
+    }
+
     @NonNull
     @Override
     public Iterator<Controller> iterator() {
