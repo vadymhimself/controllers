@@ -3,6 +3,7 @@ package com.controllers;
 import android.databinding.ViewDataBinding;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,7 +40,7 @@ abstract class ObservableController<B extends ViewDataBinding> extends Serializa
     @Override void onAttachedToStackInternal(ControllerActivity host) {
         super.onAttachedToStackInternal(host);
         if (observers != null) {
-            for (Observer observer : observers) {
+            for (Observer observer : new ArrayList<>(observers)) {
                 observer.onAttachedToStack(this);
             }
         }
@@ -48,7 +49,7 @@ abstract class ObservableController<B extends ViewDataBinding> extends Serializa
     @Override void onDetachedFromStackInternal() {
         super.onDetachedFromStackInternal();
         if (observers != null) {
-            for (Observer observer : observers) {
+            for (Observer observer : new ArrayList<>(observers)) {
                 observer.onDetachedFromStack(this);
             }
         }
@@ -57,7 +58,7 @@ abstract class ObservableController<B extends ViewDataBinding> extends Serializa
     @Override void onAttachedToScreenInternal() {
         super.onAttachedToScreenInternal();
         if (observers != null) {
-            for (Observer observer : observers) {
+            for (Observer observer : new ArrayList<>(observers)) {
                 observer.onAttachedToScreen(this);
             }
         }
@@ -66,7 +67,7 @@ abstract class ObservableController<B extends ViewDataBinding> extends Serializa
     @Override void onDetachedFromScreenInternal() {
         super.onDetachedFromScreenInternal();
         if (observers != null) {
-            for (Observer observer : observers) {
+            for (Observer observer : new ArrayList<>(observers)) {
                 observer.onDetachedFromScreen(this);
             }
         }
@@ -76,7 +77,7 @@ abstract class ObservableController<B extends ViewDataBinding> extends Serializa
     void onRestoredInternal() {
         super.onRestoredInternal();
         if (observers != null) {
-            for (Observer observer : observers) {
+            for (Observer observer : new ArrayList<>(observers)) {
                 observer.onRestored(this);
             }
         }
