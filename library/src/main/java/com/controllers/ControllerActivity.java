@@ -8,12 +8,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import java.util.Iterator;
+
 /**
  * Created by Vadym Ovcharenko
  * 18.10.2016.
  */
 
-public abstract class ControllerActivity extends AppCompatActivity implements Router {
+public abstract class ControllerActivity extends AppCompatActivity implements Router, Host {
 
     private static final String KEY_STACK = "_controller_stack";
     private static final String KEY_CONTAINER_ID = "_container_id";
@@ -25,8 +27,10 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
         this.containerId = containerResId;
     }
 
+    @Override
+    @Nullable
     public Controller show(@NonNull Controller next,
-                        @AnimRes int enter, @AnimRes int exit) {
+                           @AnimRes int enter, @AnimRes int exit) {
 
         Controller prev = stack.peek();
         if (beforeControllersChanged(prev, next) || prev != null && prev.beforeChanged(next)) {
@@ -44,6 +48,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     }
 
     @SuppressWarnings("ConstantConditions")
+    @Override
     @Nullable
     public Controller back(@AnimRes int enter, @AnimRes int exit) {
         if (stack.size() <= 1) throw new IllegalStateException("Stack must be bigger than 1");
@@ -61,6 +66,8 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
         return changeControllersInternal(prev, next, enter, exit);
     }
 
+    @Override
+    @Nullable
     public Controller goBackTo(Controller controller, @AnimRes int enter, @AnimRes int exit) {
         Controller prev = stack.peek();
         Controller next = null;
@@ -90,12 +97,13 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
             c.onDetachedFromStackInternal();
         }
 
-        return replaceInternal(prev, next, enter, exit);
+        return changeControllersInternal(prev, next, enter, exit);
     }
 
+    @Override
     @Nullable
-    protected Controller replace(Controller next,
-                                 @AnimRes int enter, @AnimRes int exit) {
+    public Controller replace(Controller next,
+                              @AnimRes int enter, @AnimRes int exit) {
         Controller prev = stack.peek();
 
         if (beforeControllersChanged(prev, next) ||
@@ -103,16 +111,42 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
             return null;
         }
 
-        return replaceInternal(prev, next, enter, exit);
-    }
+        if (prev != null) {
+            stack.pop();
+            prev.onDetachedFromStackInternal();
+        }
 
-    // replaces top controller with the new one
-    private Controller replaceInternal(Controller prev, Controller next,
-                                       @AnimRes int enter, @AnimRes int exit) {
-        stack.pop();
-        prev.onDetachedFromStackInternal();
         stack.add(next);
         next.onAttachedToStackInternal(this);
+
+        return changeControllersInternal(prev, next, enter, exit);
+    }
+
+    @Nullable
+    @Override
+    public Controller clear(Controller controller) {
+        return clear(controller, R.anim.fade_in_short, R.anim.fade_out_short);
+    }
+
+    @Nullable
+    @Override
+    public Controller clear(Controller next, @AnimRes int enter, @AnimRes int exit) {
+        Controller prev = stack.peek();
+
+        if (beforeControllersChanged(prev, next) ||
+                prev != null && prev.beforeChanged(next)) {
+            return null;
+        }
+
+        for (Controller c : stack.pop(stack.size())) {
+            // pop and detach all controllers
+            c.onDetachedFromStackInternal();
+        }
+
+        // attach new controller
+        stack.add(next);
+        next.onAttachedToStackInternal(this);
+
         return changeControllersInternal(prev, next, enter, exit);
     }
 
@@ -135,20 +169,21 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
         return prev;
     }
 
+    @Override
     @Nullable
-    @SuppressWarnings("unchecked")
-    public  <T extends Controller> T findByClass(Class<T> clazz) {
+    public <T> T findByClass(Class<T> clazz) {
         if (stack == null) throw new IllegalStateException();
         for (Controller controller : stack) {
-            if (controller.getClass() == clazz) {
-                return (T) controller;
+            if (clazz.isAssignableFrom(controller.getClass())) {
+                return clazz.cast(controller);
             }
         }
         return null;
     }
 
+    @Override
     @Nullable
-    public Controller findByTag(Object tag){
+    public Controller findByTag(Object tag) {
         if (stack == null) throw new IllegalStateException();
         for (Controller controller : stack) {
             if (controller.getTag().equals(tag)) {
@@ -239,6 +274,8 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     /**
      * Shows controller with default animation
      */
+    @Override
+    @Nullable
     public Controller show(@NonNull Controller controller) {
         return show(controller, R.anim.slide_in_right, R.anim.slide_out_left);
     }
@@ -246,6 +283,8 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     /**
      * Pops top controller with default animation
      */
+    @Override
+    @Nullable
     public Controller back() {
         return back(R.anim.slide_in_left, R.anim.slide_out_right);
     }
@@ -253,10 +292,14 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     /**
      * Backs to given controller with default animation
      */
+    @Override
+    @Nullable
     public Controller goBackTo(Controller controller) {
         return goBackTo(controller, R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
+    @Override
+    @Nullable
     public Controller replace(Controller controller) {
         return replace(controller, android.R.anim.fade_in, android.R.anim.fade_out);
     }
@@ -275,10 +318,26 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     @Override
     public Controller getPrevious() {
         if (stack != null) {
-            return stack.peek();
+            return stack.peek(1);
         } else {
             return null;
         }
+    }
+
+    @Nullable
+    @Override
+    public Controller getBottom() {
+        if (stack != null) {
+            return stack.peek(stack.size() - 1);
+        } else {
+            return null;
+        }
+    }
+
+    @NonNull
+    @Override
+    public Iterator<Controller> iterator() {
+        return stack.iterator();
     }
 
     @SuppressWarnings("ConstantConditions")
