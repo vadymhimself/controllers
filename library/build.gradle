@@ -5,7 +5,7 @@ group='com.github.bolein'
 
 android {
     compileSdkVersion compileVersion
-    buildToolsVersion supportVersion
+    buildToolsVersion toolsVersion
 
     defaultConfig {
         minSdkVersion minVersion
