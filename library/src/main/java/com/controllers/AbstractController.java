@@ -43,8 +43,8 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
     private ControllerActivity host;
 
     private ViewStrategy<B> viewStrategy;
-    private boolean attachedToScreen;
 
+    private boolean attachedToScreen;
     private boolean attachedToStack;
 
     // must be public with no arguments
@@ -114,6 +114,10 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
 
     boolean isAttachedToScreen() {
         return attachedToScreen;
+    }
+
+    boolean isAttachedToStack() {
+        return attachedToStack;
     }
 
     @Nullable
