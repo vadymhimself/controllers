@@ -11,6 +11,14 @@ buildscript {
     }
 }
 
+ext {
+    supportVersion = '27.0.2'
+    toolsVersion = '27.0.3'
+    compileVersion = 27
+    targetVersion = 27
+    minVersion = 16
+}
+
 allprojects {
     repositories {
         jcenter()

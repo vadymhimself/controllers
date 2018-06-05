@@ -30,7 +30,7 @@ dependencies {
         exclude group: 'com.google.code.findbugs'
     })
 
-    compile "com.android.support:appcompat-v7:$supportVersion"
+    implementation "com.android.support:appcompat-v7:$supportVersion"
     testCompile 'junit:junit:4.12'
 }
 
