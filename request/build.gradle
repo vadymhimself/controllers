@@ -5,12 +5,14 @@ group='com.github.bolein'
 
 android {
     compileSdkVersion compileVersion
-    buildToolsVersion supportVersion
+    buildToolsVersion toolsVersion
 
     defaultConfig {
         minSdkVersion minVersion
         targetSdkVersion targetVersion
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -24,14 +26,9 @@ android {
 }
 
 dependencies {
+//    compile controllers
+    compile project(':router')
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'com.google.code.findbugs'
-    })
-
-    compile "com.android.support:appcompat-v7:$supportVersion"
-    testCompile 'junit:junit:4.12'
 }
 
 // build a jar with source files
@@ -57,3 +54,4 @@ artifacts {
     archives sourcesJar
     archives javadocJar
 }
+

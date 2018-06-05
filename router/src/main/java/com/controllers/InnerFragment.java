@@ -143,6 +143,9 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (binding != null) {
+            binding = null;
+        }
         for (ViewLifecycleConsumer c : consumers) {
             c.onDestroy();
             unsubscribe(c);

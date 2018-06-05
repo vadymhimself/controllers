@@ -12,8 +12,8 @@ import java.util.List;
  * 04.11.2016.
  */
 
-public class ControllerPagerAdapter implements DelegatingPagerAdapter
-        .Delegate, Serializable {
+public class ControllerPagerAdapter implements DelegatingPagerAdapter.Delegate,
+        Serializable {
 
     private List<Controller> controllerList = new ArrayList<>();
     @NonNull private final AbstractController parent;
@@ -33,11 +33,28 @@ public class ControllerPagerAdapter implements DelegatingPagerAdapter
     }
 
     public void addController(Controller controller) {
-        controllerList.add(controller);
+        if (controllerList.add(controller)) {
+            if (parent.isAttachedToStack() && !controller.isAttachedToStack()) {
+                controller.onAttachedToStackInternal(parent.getActivity());
+            }
+            notifyChange();
+        }
     }
 
+    public void removeController(Controller controller) {
+        if (controllerList.remove(controller)) {
+            controller.onDetachedFromStackInternal();
+            notifyChange();
+        }
+    }
+
+    @Deprecated
     public void set(int index, Controller controller) {
         controllerList.set(index, controller);
+        notifyChange();
+    }
+
+    private void notifyChange() {
         if (pagerAdapter != null && parent.isAttachedToScreen() &&
                 parent.getActivity() != null && !parent.asFragment()
                 .getChildFragmentManager().isDestroyed()) {
@@ -65,6 +82,10 @@ public class ControllerPagerAdapter implements DelegatingPagerAdapter
         return pagerAdapter;
     }
 
+    public boolean contains(Controller controller) {
+        return controllerList.contains(controller);
+    }
+
     private final class ParentControllerObserver implements
             ObservableController.Observer {
         @Override
@@ -83,7 +104,7 @@ public class ControllerPagerAdapter implements DelegatingPagerAdapter
 
         @Override
         public void onAttachedToScreen(ObservableController observable) {
-
+            // propagated via #instantiateItem
         }
 
         @Override
