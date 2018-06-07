@@ -28,6 +28,7 @@ dependencies {
         exclude group: 'com.google.code.findbugs'
     })
 
+    implementation "com.android.databinding:library:$gradlePluginVer"
     implementation "com.android.support:appcompat-v7:$supportVersion"
     testCompile 'junit:junit:4.12'
 }
