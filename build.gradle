@@ -17,6 +17,8 @@ ext {
     compileVersion = 27
     targetVersion = 27
     minVersion = 16
+    kotlin_version = '1.2.41'
+    kotlin_coroutines_version = '0.22.5'
 }
 
 allprojects {
