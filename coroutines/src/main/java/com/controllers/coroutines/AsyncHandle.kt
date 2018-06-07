@@ -1,5 +1,6 @@
-package com.controllers
+package com.controllers.coroutines
 
+import com.controllers.Controller
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 
