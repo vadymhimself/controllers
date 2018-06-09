@@ -41,6 +41,8 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
 
+    kapt "com.android.databinding:compiler:$gradlePluginVer"
+
     implementation project(':router')
 }
 
