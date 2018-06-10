@@ -1,6 +1,7 @@
 package com.controllers;
 
 import android.databinding.ViewDataBinding;
+import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,15 +11,15 @@ import java.util.Set;
 /**
  * Controller that notifies of its lifecycle. All observers are serialized.
  */
-abstract class ObservableController<B extends ViewDataBinding> extends SerializableController<B> {
+public abstract class ObservableController<B extends ViewDataBinding> extends SerializableController<B> {
 
 
     public interface Observer extends Serializable {
-        void onAttachedToStack(ObservableController observable);
-        void onDetachedFromStack(ObservableController observable);
-        void onAttachedToScreen(ObservableController observable);
-        void onDetachedFromScreen(ObservableController observable);
-        void onRestored(ObservableController observable);
+        void onAttachedToStack(@NonNull ObservableController observable);
+        void onDetachedFromStack(@NonNull ObservableController observable);
+        void onAttachedToScreen(@NonNull ObservableController observable);
+        void onDetachedFromScreen(@NonNull ObservableController observable);
+        void onRestored(@NonNull ObservableController observable);
     }
 
     private Set<Observer> observers;
