@@ -15,7 +15,7 @@ inline fun <T : Controller<*>> T.async(crossinline block: suspend AsyncHandle.()
 }
 
 class AsyncHandle {
-    suspend inline fun <R> await(crossinline block: () -> R) : R {
+    suspend inline fun <R> await(crossinline block: suspend () -> R) : R {
         return withContext(BG_CONTEXT) {
             block()
         }
