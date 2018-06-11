@@ -11,16 +11,23 @@ import kotlinx.coroutines.experimental.android.UI as UI_CONTEXT
 /**
  * TODO: postpone coroutine launch until controller is attached
  */
-inline fun <T : Controller<*>> T.async(crossinline block: suspend AsyncHandle.() -> Unit): Job {
+fun <T : Controller<*>> T.async(block: suspend AsyncHandle.() -> Unit): Job {
 
     val job = Job()
     // subscribe Job object to controller's lifecycle
     this.observeWith(JobObserver(job))
 
+    val exception = Exception()
+
     // launch a new UI coroutine in the context of new job
     launch(job + UI_CONTEXT) {
         val asyncHandle = AsyncHandle()
-        block(asyncHandle)
+        try {
+            block(asyncHandle)
+        } catch (e: Exception) {
+            e.stackTrace = exception.stackTrace
+            Log.e(this@async::class.qualifiedName, "Ignored runtime exception", e)
+        }
     }
 
     return job
