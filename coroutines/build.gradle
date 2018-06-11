@@ -1,5 +1,18 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.dcendents.android-maven'
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
 
 android {
     compileSdkVersion compileVersion
@@ -8,7 +21,9 @@ android {
     defaultConfig {
         minSdkVersion minVersion
         targetSdkVersion targetVersion
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -23,13 +38,14 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'com.google.code.findbugs'
-    })
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation "com.android.support:appcompat-v7:$supportVersion"
-    testImplementation 'junit:junit:4.12'
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
+
+    kapt "com.android.databinding:compiler:$gradlePluginVer"
+
+    implementation project(':router')
 }
 
 // build a jar with source files

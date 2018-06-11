@@ -89,26 +89,26 @@ public class ControllerPagerAdapter implements DelegatingPagerAdapter.Delegate,
     private final class ParentControllerObserver implements
             ObservableController.Observer {
         @Override
-        public void onAttachedToStack(ObservableController observable) {
+        public void onAttachedToStack(@NonNull ObservableController observable) {
             for (Controller controller : controllerList) {
                 controller.onAttachedToStackInternal(parent.getActivity());
             }
         }
 
         @Override
-        public void onDetachedFromStack(ObservableController observable) {
+        public void onDetachedFromStack(@NonNull ObservableController observable) {
             for (Controller controller : controllerList) {
                 controller.onDetachedFromStackInternal();
             }
         }
 
         @Override
-        public void onAttachedToScreen(ObservableController observable) {
+        public void onAttachedToScreen(@NonNull ObservableController observable) {
             // propagated via #instantiateItem
         }
 
         @Override
-        public void onDetachedFromScreen(ObservableController observable) {
+        public void onDetachedFromScreen(@NonNull ObservableController observable) {
             for (Controller controller : controllerList) {
                 // forward signal of the parent detach
                 if (controller.isAttachedToScreen()) {
@@ -118,7 +118,7 @@ public class ControllerPagerAdapter implements DelegatingPagerAdapter.Delegate,
         }
 
         @Override
-        public void onRestored(ObservableController observable) {
+        public void onRestored(@NonNull ObservableController observable) {
 
         }
     }
