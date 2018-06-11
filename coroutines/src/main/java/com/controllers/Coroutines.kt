@@ -26,7 +26,7 @@ fun <T : Controller<*>> T.async(block: suspend AsyncHandle.() -> Unit): Job {
             block(asyncHandle)
         } catch (e: Exception) {
             e.stackTrace = exception.stackTrace
-            Log.e(this@async::class.qualifiedName, "Ignored runtime exception", e)
+            throw e
         }
     }
 
@@ -53,7 +53,6 @@ class JobObserver(private val job : Job) : ObservableController.Observer {
 
     override fun onDetachedFromStack(observable: ObservableController<*>) {
         job.cancel()
-        Log.e("XXX", "job cancelled")
         observable.removeObserver(this)
     }
 
