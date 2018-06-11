@@ -1,1 +1,1 @@
-include ':router', ':request', ':coroutines'
+include ':router', ':request', ':coroutines', ':misc'
