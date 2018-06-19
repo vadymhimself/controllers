@@ -40,6 +40,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -374,6 +375,16 @@ public abstract class BindingAdapters {
     @BindingAdapter("html")
     public static void bindHtml(TextView textView, String html) {
         textView.setText(Html.fromHtml(html));
+    }
+
+    @BindingAdapter(value = {"url", "webClient"})
+    public static void _bindUrl(WebView webView, String uri, WebViewClient webViewClient) {
+        if (webViewClient == null) {
+            webView.setWebViewClient(new WebViewClient());
+        } else {
+            webView.setWebViewClient(webViewClient);
+        }
+        webView.loadUrl(uri);
     }
 
     @BindingAdapter("html")
