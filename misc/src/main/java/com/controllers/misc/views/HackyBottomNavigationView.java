@@ -6,15 +6,15 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 
-public class BottomNavigationView extends android.support.design.widget.BottomNavigationView {
+public class HackyBottomNavigationView extends android.support.design.widget.BottomNavigationView {
 
     private static final String SELECTED_ITEM = "_slctd_item";
 
-    public BottomNavigationView(Context context) {
+    public HackyBottomNavigationView(Context context) {
         super(context);
     }
 
-    public BottomNavigationView(Context context, AttributeSet attrs) {
+    public HackyBottomNavigationView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

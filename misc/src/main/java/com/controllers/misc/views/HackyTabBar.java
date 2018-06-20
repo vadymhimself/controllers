@@ -10,19 +10,19 @@ import android.util.AttributeSet;
  * Created by User on 23.12.2017.
  */
 
-public class SavedStateTabBar extends TabLayout {
+public class HackyTabBar extends TabLayout {
 
     public static final String SELECTED = "selected_item_tabl";
 
-    public SavedStateTabBar(Context context) {
+    public HackyTabBar(Context context) {
         super(context);
     }
 
-    public SavedStateTabBar(Context context, AttributeSet attrs) {
+    public HackyTabBar(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public SavedStateTabBar(Context context, AttributeSet attrs, int defStyleAttr) {
+    public HackyTabBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
