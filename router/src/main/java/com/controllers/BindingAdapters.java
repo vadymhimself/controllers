@@ -13,14 +13,6 @@ import com.controllers.AbstractController.ViewLifecycleConsumer;
 
 public class BindingAdapters {
 
-    @BindingAdapter("adapter")
-    public static void bindPagerAdapter(final ViewPager viewPager, final ControllerPagerAdapter adapter) {
-        if (Const.LOGV)
-            Log.w(Const.TAG, "using default binding adapter");
-
-        viewPager.setAdapter(adapter.asFragmentPagerAdapter());
-    }
-
     @BindingAdapter("lifecycle")
     public static void bindLifeCycle(final View view,
                                      Controller controller) {
