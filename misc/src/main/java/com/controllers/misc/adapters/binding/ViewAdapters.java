@@ -21,7 +21,7 @@ public abstract class ViewAdapters {
         }
     }
 
-    @BindingAdapter(value = {"android:visibility"}, requireAll = false)
+    @BindingAdapter("android:visibility")
     public static void _bindVisibility(View view, int visibility) {
         view.setVisibility(visibility);
     }
@@ -39,7 +39,7 @@ public abstract class ViewAdapters {
     }
 
     @BindingAdapter("android:minWidth")
-    public static void _bindWidth(View view, int width) {
+    public static void _bindMinWidth(View view, int width) {
         view.setMinimumWidth(width);
     }
 

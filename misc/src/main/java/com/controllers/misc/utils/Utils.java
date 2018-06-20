@@ -60,29 +60,4 @@ public class Utils {
         }
     }
 
-    private static List<String> readAsset(String fileName, Context context){
-        List<String> data = new LinkedList<>();
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(
-                    new InputStreamReader(context.getAssets().open(fileName), "UTF-8"));
-            // do reading, usually loop until end of file reading
-            String mLine;
-            while ((mLine = reader.readLine()) != null) {
-                data.add(mLine);
-            }
-        } catch (IOException e) {
-            Log.d("Utils", "readAsset: ", e);
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    Log.d("Utils", "readAsset: ", e);
-                }
-            }
-        }
-        return data;
-    }
-
 }

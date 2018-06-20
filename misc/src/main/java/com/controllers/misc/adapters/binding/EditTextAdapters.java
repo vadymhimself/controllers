@@ -12,18 +12,6 @@ import android.widget.EditText;
  */
 public abstract class EditTextAdapters {
 
-    @BindingAdapter("actionSearchListener")
-    public static void _bindSearchListener(EditText view,
-                                          final OnSearchListener onSearchListener) {
-        view.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                onSearchListener.onSearchQuery(v.getText().toString());
-                return true;
-            }
-            return false;
-        });
-    }
-
     public interface OnSearchListener {
         void onSearchQuery(String text);
     }

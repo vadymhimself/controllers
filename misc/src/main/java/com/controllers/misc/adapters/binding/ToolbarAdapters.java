@@ -26,8 +26,6 @@ public abstract class ToolbarAdapters {
 
     @BindingAdapter("itemClickListener")
     public static void _bindItemClickListener(Toolbar toolbar, Toolbar.OnMenuItemClickListener listener) {
-        if (toolbar != null) {
-            toolbar.setOnMenuItemClickListener(listener);
-        }
+        toolbar.setOnMenuItemClickListener(listener);
     }
 }
