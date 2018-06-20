@@ -2,13 +2,12 @@ package com.controllers.misc.views;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
-
-import com.controllers.misc.TextWatcherAdapter;
 
 /**
  * Created by Artem Sisetskyi on 2/20/18.
@@ -24,7 +23,7 @@ import com.controllers.misc.TextWatcherAdapter;
  * </pre>
  */
 public class ClearableEditText extends android.support.v7.widget.AppCompatEditText implements View.OnTouchListener,
-        View.OnFocusChangeListener, TextWatcherAdapter.TextWatcherListener {
+        View.OnFocusChangeListener, TextWatcher {
 
     public static enum Location {
         LEFT(0), RIGHT(2);
@@ -122,13 +121,6 @@ public class ClearableEditText extends android.support.v7.widget.AppCompatEditTe
     }
 
     @Override
-    public void onTextChanged(EditText view, String text) {
-        if (isFocused()) {
-            setClearIconVisible(!TextUtils.isEmpty(text));
-        }
-    }
-
-    @Override
     public void setCompoundDrawables(Drawable left, Drawable top, Drawable right, Drawable bottom) {
         super.setCompoundDrawables(left, top, right, bottom);
         initIcon();
@@ -137,7 +129,7 @@ public class ClearableEditText extends android.support.v7.widget.AppCompatEditTe
     private void init() {
         super.setOnTouchListener(this);
         super.setOnFocusChangeListener(this);
-        addTextChangedListener(new TextWatcherAdapter(this, this));
+        addTextChangedListener(this);
         initIcon();
         setClearIconVisible(false);
     }
@@ -170,5 +162,22 @@ public class ClearableEditText extends android.support.v7.widget.AppCompatEditTe
             super.setCompoundDrawables((loc == Location.LEFT) ? x : cd[0], cd[1], (loc == Location.RIGHT) ? x : cd[2],
                     cd[3]);
         }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        if (isFocused()) {
+            setClearIconVisible(!TextUtils.isEmpty(charSequence));
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+
     }
 }
