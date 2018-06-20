@@ -8,7 +8,7 @@ import android.support.design.widget.AppBarLayout;
  * AppDevelopmentShop
  * sisetskyi.a@gmail.com
  */
-public class AppBarLayoutAdapters {
+public abstract class AppBarLayoutAdapters {
 
     @BindingAdapter("offsetChangedListener")
     public static void _bindOnOffsetChangeListener(AppBarLayout abl,

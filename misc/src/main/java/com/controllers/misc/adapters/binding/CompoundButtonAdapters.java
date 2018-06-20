@@ -10,11 +10,6 @@ import android.widget.CompoundButton;
  */
 public abstract class CompoundButtonAdapters {
 
-    @BindingAdapter("android:onCheckedChanged")
-    public static void _bindOnCheckedChangedListener(CompoundButton v, CompoundButton.OnCheckedChangeListener l) {
-        v.setOnCheckedChangeListener(l);
-    }
-
     @BindingAdapter("checkedChangedListener")
     public static void _bindCheckedChangedListener(CompoundButton cb,
                                                   CompoundButton.OnCheckedChangeListener listener) {
