@@ -26,6 +26,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.ImageViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
 import android.text.Html;
@@ -51,7 +52,6 @@ import android.widget.SearchView;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -79,10 +79,14 @@ public abstract class BindingAdapters {
         view.addOnTabSelectedListener(listener);
     }
 
-    @BindingAdapter("setupWithViewPager")
-    public static void bindItemSelected(TabLayout view,
-                                        @IdRes int viewPagerId) {
-        view.setupWithViewPager((ViewPager) view.getRootView().findViewById(viewPagerId));
+    @BindingAdapter("viewPager")
+    public static void _bindViewPager(TabLayout tabLayout, @IdRes int pagerId) {
+        ViewPager viewPager = (ViewPager) tabLayout.getRootView().findViewById(pagerId);
+        if (viewPager != null) {
+            tabLayout.setupWithViewPager(viewPager);
+        } else {
+            throw new IllegalArgumentException("Can't find ViewPager in view hierarchy");
+        }
     }
 
     @BindingAdapter("etSearchListener")
@@ -129,7 +133,7 @@ public abstract class BindingAdapters {
     }
 
     @BindingAdapter("itemClickListener")
-    public static void bindMenu(Toolbar toolbar, Toolbar.OnMenuItemClickListener listener) {
+    public static void _bindItemClickListener(Toolbar toolbar, Toolbar.OnMenuItemClickListener listener) {
         if (toolbar != null) {
             toolbar.setOnMenuItemClickListener(listener);
         }
@@ -393,8 +397,8 @@ public abstract class BindingAdapters {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    @BindingAdapter("jsEnabled")
-    public static void bindJsEnabled(WebView wv, Boolean enabled) {
+    @BindingAdapter("javascriptEnabled")
+    public static void _bindJavascriptEnabled(WebView wv, Boolean enabled) {
         wv.getSettings().setJavaScriptEnabled(enabled);
         wv.getSettings().setLoadWithOverviewMode(enabled);
         wv.getSettings().setUseWideViewPort(enabled);
