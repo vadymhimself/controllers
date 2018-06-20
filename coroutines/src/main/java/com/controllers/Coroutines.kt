@@ -1,8 +1,10 @@
 package com.controllers
 
+import android.util.Log
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
+import java.net.UnknownHostException
 
 import kotlinx.coroutines.experimental.CommonPool as BG_CONTEXT
 import kotlinx.coroutines.experimental.android.UI as UI_CONTEXT
@@ -16,7 +18,7 @@ fun <T : Controller<*>> T.async(block: suspend AsyncHandle.() -> Unit): Job {
     // subscribe Job object to controller's lifecycle
     this.observeWith(JobObserver(job))
 
-    // a snapshot of the stack trace used to make the exception inside
+    // take a snapshot of the stack trace in order to make the exception inside
     // the coroutine more readable
     val snapshot = Exception()
 
@@ -26,9 +28,15 @@ fun <T : Controller<*>> T.async(block: suspend AsyncHandle.() -> Unit): Job {
         try {
             block(asyncHandle)
         } catch (e: Exception) {
-            val exWrapper = Exception("Runtime exception in $coroutineContext", e)
-            exWrapper.stackTrace = snapshot.stackTrace
-            throw exWrapper
+            val ex = Exception("Runtime exception in $coroutineContext", e)
+            ex.stackTrace = snapshot.stackTrace
+            if (e is UnknownHostException || e.cause is UnknownHostException) { // TODO check cause recursively
+                // Log does not print stack of the UnknownHostException
+                ex.printStackTrace()
+            } else {
+                Log.e(coroutineContext.toString(), "Runtime exception", ex)
+            }
+            throw ex
         }
     }
 
@@ -41,14 +49,14 @@ internal fun <T : ObservableController<*>> T.observeWith(obs: ObservableControll
 }
 
 class AsyncHandle {
-    suspend inline fun <R> await(crossinline block: suspend () -> R): R {
+    suspend inline fun <R> await(crossinline block: suspend () -> R) : R {
         return withContext(BG_CONTEXT) {
             block()
         }
     }
 }
 
-class JobObserver(private val job: Job) : ObservableController.Observer {
+class JobObserver(private val job : Job) : ObservableController.Observer {
     override fun onAttachedToStack(observable: ObservableController<*>) {
 
     }
