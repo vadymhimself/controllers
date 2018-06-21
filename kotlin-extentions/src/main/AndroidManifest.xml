@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.controllers.coroutines">
+          package="com.controllers.kotlin_extensions">
 
     <application
         android:allowBackup="true"
