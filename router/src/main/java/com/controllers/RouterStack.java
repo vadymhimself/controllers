@@ -84,44 +84,6 @@ public class RouterStack<T> implements Serializable, Iterable<T> {
         }
     }
 
-    /**
-     * @deprecated use beginTransaction() to perform mutating operations to the stack
-     */
-    @Deprecated
-    void add(T element) {
-        T c = index.put(element.hashCode(), element);
-        if (c != null) {
-            throw new IllegalArgumentException("Element already exists in the index");
-        }
-        stack.add(element);
-    }
-
-    /**
-     * @deprecated use beginTransaction() to perform mutating operations to the stack
-     */
-    @Deprecated
-    T pop() {
-        T c = stack.remove(stack.size() - 1);
-        index.remove(c.hashCode());
-        return c;
-    }
-
-    /**
-     * @deprecated use beginTransaction() to perform mutating operations to the stack
-     */
-    @Deprecated
-    List<T> pop(int howMany) {
-        if (howMany > stack.size() || howMany < 1) throw new IllegalArgumentException();
-
-        List<T> popped = new ArrayList<>();
-
-        for (int j = 0; j < howMany; j++) {
-            popped.add(pop());
-        }
-
-        return popped;
-    }
-
     @NonNull
     @Override
     public Iterator<T> iterator() {
@@ -166,26 +128,41 @@ public class RouterStack<T> implements Serializable, Iterable<T> {
             inTransaction = false;
         }
 
-        @Override public boolean isInTransaction() {
+        @Override
+        public boolean isInTransaction() {
             return RouterStack.this.isInTransaction();
         }
 
         @Override
         public List<T> pop(int howMany) {
             checkInTransaction();
-            return RouterStack.this.pop(howMany);
+            if (howMany > stack.size() || howMany < 1) throw new IllegalArgumentException();
+
+            List<T> popped = new ArrayList<>();
+
+            for (int j = 0; j < howMany; j++) {
+              popped.add(pop());
+            }
+
+            return popped;
         }
 
         @Override
         public T pop() {
             checkInTransaction();
-            return RouterStack.this.pop();
+            T c = stack.remove(stack.size() - 1);
+            index.remove(c.hashCode());
+            return c;
         }
 
         @Override
         public void add(T element) {
             checkInTransaction();
-            RouterStack.this.add(element);
+            T c = index.put(element.hashCode(), element);
+            if (c != null) {
+              throw new IllegalArgumentException("Element already exists in the index");
+            }
+            stack.add(element);
         }
 
         private void checkInTransaction() {
