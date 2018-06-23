@@ -1,5 +1,6 @@
 package com.controllers;
 
+import android.annotation.SuppressLint;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
@@ -10,41 +11,37 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.controllers.AbstractController.ViewLifecycleConsumer;
-
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Representation of the basic Controller in terms of Android
+ * Representation of the basic Controller in terms of Android.
+ *
+ * Fragments are never recreated by Android, state is saved through
+ * Controller upon recreation of activity.
+ *
  * Created by Vadym Ovcharenko
  * 27.11.2016.
  */
 
-// must be public
-public final class InnerFragment<B extends ViewDataBinding> extends Fragment {
-
-    private static final String KEY_FRAG = "_inner_fragment";
+@SuppressLint("ValidFragment") // Fragments are never recreated by Android
+public final class InnerFragment<B extends ViewDataBinding> extends Fragment
+    implements View.OnAttachStateChangeListener {
 
     AbstractController controller;
     B binding;
-
     private final Set<ViewLifecycleConsumer> consumers = new HashSet<>();
 
-    static <B extends ViewDataBinding> InnerFragment<B> createInstance(SerializableController c) {
-        InnerFragment<B> fragment = new InnerFragment<>();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(KEY_FRAG, c);
-        fragment.setArguments(bundle);
-        return fragment;
+
+    InnerFragment(SerializableController c) {
+        this.controller = c;
     }
 
     @SuppressWarnings(value = {"ConstantConditions", "unchecked"})
     @Nullable @Override public View onCreateView(@NonNull LayoutInflater inflater,
                                                  @Nullable ViewGroup parent,
                                                  @Nullable Bundle savedInstanceState) {
-        // sometimes, we need fragment to save it's state (for example in ViewPager)
-        controller = (AbstractController) getArguments().getSerializable(KEY_FRAG);
         if (controller == null) {
             throw new IllegalStateException();
         }
@@ -78,8 +75,13 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment {
             );
         }
 
+        binding.getRoot().addOnAttachStateChangeListener(this);
+
         // inject controller
         binding.setVariable(BR.controller, controller);
+        // executePendingBindings() was actually done to make sure that "onCreate" is pushed
+        // to LifecycleConsumers, however it causes problems that restoreInstanceState is called
+        // after bindings executed TODO: fix!
         binding.executePendingBindings();
 
         return binding.getRoot();
@@ -91,6 +93,15 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment {
         for (ViewLifecycleConsumer c : consumers) {
             c.onCreate(savedInstanceState);
         }
+    }
+
+    @Override public void onViewAttachedToWindow(View v) {
+        controller.setAttachedToScreen(true);
+    }
+
+    @Override public void onViewDetachedFromWindow(View v) {
+        controller.setAttachedToScreen(false);
+        v.removeOnAttachStateChangeListener(this);
     }
 
     @Override
@@ -151,43 +162,6 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment {
             unsubscribe(c);
         }
     }
-
-//    private static final int DEFAULT_CHILD_ANIMATION_DURATION = 250;
-//
-//    @Override
-//    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-//        final Fragment parent = getParentFragment();
-//
-//        // Apply the workaround only if this is a child fragment, and the parent
-//        // is being removed.
-//        if (!enter && parent != null && parent.isRemoving()) {
-//            // This is a workaround for the bug where child fragments disappear when
-//            // the parent is removed (as all children are first removed from the parent)
-//            // See https://code.google.com/p/android/issues/detail?id=55228
-//            Animation doNothingAnim = new AlphaAnimation(1, 1);
-//            doNothingAnim.setDuration(getNextAnimationDuration(parent, DEFAULT_CHILD_ANIMATION_DURATION));
-//            return doNothingAnim;
-//        } else {
-//            return super.onCreateAnimation(transit, enter, nextAnim);
-//        }
-//    }
-//
-//    private static long getNextAnimationDuration(Fragment fragment, long defValue) {
-//        try {
-//            // Attempt to get the resource ID of the next animation that
-//            // will be applied to the given fragment.
-//            Field nextAnimField = Fragment.class.getDeclaredField("mNextAnim");
-//            nextAnimField.setAccessible(true);
-//            int nextAnimResource = nextAnimField.getInt(fragment);
-//            Animation nextAnim = AnimationUtils.loadAnimation(fragment.getActivity(), nextAnimResource);
-//
-//            // ...and if it can be loaded, return that animation's duration
-//            return (nextAnim == null) ? defValue : nextAnim.getDuration();
-//        } catch (NoSuchFieldException|IllegalAccessException|Resources.NotFoundException ex) {
-//            Log.w(InnerFragment.class.getSimpleName(), "Unable to load next animation from parent.", ex);
-//            return defValue;
-//        }
-//    }
 
     void subscribe(ViewLifecycleConsumer consumer) {
         consumers.add(consumer);

@@ -13,8 +13,7 @@ class FragmentViewStrategy<B extends ViewDataBinding> implements AbstractControl
     private final InnerFragment<B> fragment;
 
     FragmentViewStrategy(SerializableController controller) {
-        fragment = InnerFragment.createInstance(controller);
-        fragment.setRetainInstance(false);
+        fragment = new InnerFragment<>(controller);
     }
 
     @Override public ControllerActivity getActivity() {

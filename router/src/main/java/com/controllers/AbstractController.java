@@ -95,6 +95,13 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         onRestored();
     }
 
+    void setAttachedToScreen(boolean isAttached) {
+        if (isAttached == this.attachedToScreen) {
+            throwIllegalState("attachedToScreen is already " + isAttached);
+        }
+        this.attachedToScreen = isAttached;
+    }
+
     protected void onAttachedToStack() {
 
     }
@@ -316,6 +323,7 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         return "Untitled controller";
     }
 
+    @Deprecated
     protected boolean shouldRetainView() {
         return false;
     }
@@ -330,5 +338,9 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
 
     void unsubscribe(ViewLifecycleConsumer consumer) {
         viewStrategy.unsubscribe(consumer);
+    }
+
+    private void throwIllegalState(String message) {
+        throw new IllegalStateException(getClass().getSimpleName() + ": " + message);
     }
 }

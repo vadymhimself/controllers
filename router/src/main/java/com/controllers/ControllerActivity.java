@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-
 import java.util.Iterator;
 
 /**
@@ -159,12 +158,8 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
         if (enter != 0 || exit != 0) {
             transaction.setCustomAnimations(enter, exit);
         }
-
-        if (prev != null) prev.onDetachedFromScreenInternal();
-
         transaction.replace(containerId, next.asFragment(), next.getTag().toString())
-                .commitNowAllowingStateLoss();
-        next.onAttachedToScreenInternal();
+                .commit();
         onControllerChanged(next);
         return prev;
     }
