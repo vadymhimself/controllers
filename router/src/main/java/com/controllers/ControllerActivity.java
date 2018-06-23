@@ -229,13 +229,12 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
                 // TODO: check for state loss
                 try {
                     t.commitNow();
-                    onControllerChanged(next);
                     stackTransaction.commit();
                 } catch (Throwable t) {
                     stackTransaction.rollBack();
-                    Log.e(TAG, "applyTransaction: rolled back "
-                        + "stack transaction " + stackTransaction);
+                    throw new RuntimeException("Transaction failed with rollback", t);
                 }
+                onControllerChanged(next);
             }
         };
 

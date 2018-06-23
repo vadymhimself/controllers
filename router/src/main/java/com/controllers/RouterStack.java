@@ -14,7 +14,7 @@ import java.util.Map;
 
 /**
  *
- * TODO: synchronize
+ * TODO: properly synchronize
  *
  * Created by Vadym Ovcharenko
  * 18.10.2016.
