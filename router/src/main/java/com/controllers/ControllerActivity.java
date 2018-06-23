@@ -1,6 +1,9 @@
 package com.controllers;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.AnimRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -19,8 +22,10 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     private static final String KEY_STACK = "_controller_stack";
     private static final String KEY_CONTAINER_ID = "_container_id";
 
-    protected ControllerStack stack;
+    protected RouterStack<Controller> stack;
+
     private @IdRes int containerId;
+    private final Handler handler = new Handler(Looper.getMainLooper());
 
     protected void setControllerContainer(@IdRes int containerResId) {
         this.containerId = containerResId;
@@ -153,14 +158,25 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
                                                  final Controller next,
                                                  @AnimRes int enter,
                                                  @AnimRes int exit) {
+
+        @SuppressLint("CommitTransaction")
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
         if (enter != 0 || exit != 0) {
-            transaction.setCustomAnimations(enter, exit);
+            transaction = transaction.setCustomAnimations(enter, exit);
         }
-        transaction.replace(containerId, next.asFragment(), next.getTag().toString())
-                .commit();
-        onControllerChanged(next);
+
+        final FragmentTransaction capturedTransaction = transaction.
+            replace(containerId, next.asFragment(), next.getTag().toString());
+
+        handler.post(new Runnable() {
+            @Override public void run() {
+                // TODO: check for state loss
+                capturedTransaction.commitNow();
+                onControllerChanged(next);
+            }
+        });
+
         return prev;
     }
 
@@ -202,12 +218,13 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
 
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(noFragmentsRestore(savedInstanceState));
         if (savedInstanceState != null) {
             this.containerId = savedInstanceState.getInt(KEY_CONTAINER_ID);
-            this.stack = (ControllerStack) savedInstanceState.getSerializable(KEY_STACK);
+            this.stack = (RouterStack) savedInstanceState.getSerializable(KEY_STACK);
             if (stack == null) {
                 throw new IllegalStateException("Stack should be saved");
             }
@@ -217,7 +234,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
                 controller.onRestoredInternal();
             }
         } else {
-            stack = new ControllerStack();
+            stack = new RouterStack<>();
         }
     }
 

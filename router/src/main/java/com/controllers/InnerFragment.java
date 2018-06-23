@@ -29,8 +29,11 @@ import java.util.Set;
 public final class InnerFragment<B extends ViewDataBinding> extends Fragment
     implements View.OnAttachStateChangeListener {
 
-    AbstractController controller;
+    @NonNull
+    final AbstractController controller;
+    @Nullable
     B binding;
+
     private final Set<ViewLifecycleConsumer> consumers = new HashSet<>();
 
 
