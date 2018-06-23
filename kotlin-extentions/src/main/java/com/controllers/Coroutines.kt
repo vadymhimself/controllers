@@ -1,13 +1,12 @@
 package com.controllers
 
-import android.util.Log
+import android.os.Handler
+import android.os.Looper
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.cancel
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
-import java.net.UnknownHostException
 import kotlin.coroutines.experimental.CoroutineContext
-
 import kotlinx.coroutines.experimental.CommonPool as BG_CONTEXT
 import kotlinx.coroutines.experimental.android.UI as UI_CONTEXT
 
@@ -17,27 +16,23 @@ import kotlinx.coroutines.experimental.android.UI as UI_CONTEXT
  */
 fun <T : Controller<*>> T.async(block: suspend AsyncHandle.() -> Unit): Job {
 
-  // take a snapshot of the stack trace in order to make the exception inside
-  // the coroutine more readable
-  val snapshot = Exception()
-
   // launch a new UI coroutine in the context of new job
   return launch(UI_CONTEXT) {
     val jobObserver = JobObserver(coroutineContext)
     this@async.addObserver(jobObserver)
     try {
       block(AsyncHandle())
-    } catch (e: Exception) {
-      val ex = Exception("Runtime exception in $coroutineContext", e)
-      ex.stackTrace = snapshot.stackTrace
-      // TODO check cause recursively
-      if (e is UnknownHostException || e.cause is UnknownHostException) {
-        // Log does not print stack of the UnknownHostException
-        ex.printStackTrace()
-      } else {
-        Log.e(coroutineContext.toString(), "Runtime exception", ex)
+    } catch (e: Throwable) {
+      if (!isActive) {
+        // if an exception is thrown in a cancelled coroutine, it will be ignored by
+        // the bad coroutines design https://github.com/Kotlin/kotlinx.coroutines/issues/333
+        // so we post it in a main thread to actually kill the app
+        Handler(Looper.getMainLooper()).post({
+          // the problem is that it can never be caught
+          throw Exception("Exception thrown in a cancelled coroutine $coroutineContext", e)
+        })
       }
-      throw ex
+      throw e
     } finally {
       this@async.removeObserver(jobObserver)
     }
