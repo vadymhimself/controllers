@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import java.util.Iterator;
 
 /**
@@ -19,6 +20,7 @@ import java.util.Iterator;
 
 public abstract class ControllerActivity extends AppCompatActivity implements Router, Host {
 
+    private static final String TAG = ControllerActivity.class.getSimpleName();
     private static final String KEY_STACK = "_controller_stack";
     private static final String KEY_CONTAINER_ID = "_container_id";
 
@@ -35,6 +37,11 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     @Nullable
     public Controller show(@NonNull Controller next,
                            @AnimRes int enter, @AnimRes int exit) {
+        if (stack.isInTransaction() || isFinishing()) {
+            // TODO: logger
+            Log.w(TAG, "show: ignored call for router in transaction");
+            return null;
+        }
 
         Controller prev = stack.peek();
         if (beforeControllersChanged(prev, next) || prev != null && prev.beforeChanged(next)) {
@@ -55,6 +62,13 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     @Override
     @Nullable
     public Controller back(@AnimRes int enter, @AnimRes int exit) {
+
+        if (stack.isInTransaction() || isFinishing()) {
+            // TODO: logger
+            Log.w(TAG, "show: ignored call for router in transaction");
+            return null;
+        }
+
         if (stack.size() <= 1) throw new IllegalStateException("Stack must be bigger than 1");
 
         Controller prev = stack.peek();
@@ -73,6 +87,13 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     @Override
     @Nullable
     public Controller goBackTo(Controller controller, @AnimRes int enter, @AnimRes int exit) {
+
+        if (stack.isInTransaction() || isFinishing()) {
+            // TODO: logger
+            Log.w(TAG, "show: ignored call for router in transaction");
+            return null;
+        }
+
         Controller prev = stack.peek();
         Controller next = null;
 
@@ -108,6 +129,13 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     @Nullable
     public Controller replace(Controller next,
                               @AnimRes int enter, @AnimRes int exit) {
+
+        if (stack.isInTransaction() || isFinishing()) {
+            // TODO: logger
+            Log.w(TAG, "show: ignored call for router in transaction");
+            return null;
+        }
+
         Controller prev = stack.peek();
 
         if (beforeControllersChanged(prev, next) ||
@@ -135,6 +163,13 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     @Nullable
     @Override
     public Controller clear(Controller next, @AnimRes int enter, @AnimRes int exit) {
+
+        if (stack.isInTransaction() || isFinishing()) {
+            // TODO: logger
+            Log.w(TAG, "show: ignored call for router in transaction");
+            return null;
+        }
+
         Controller prev = stack.peek();
 
         if (beforeControllersChanged(prev, next) ||
