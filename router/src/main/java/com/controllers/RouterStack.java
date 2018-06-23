@@ -3,7 +3,6 @@ package com.controllers;
 import android.support.annotation.GuardedBy;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,11 +73,10 @@ public class RouterStack<T> implements Serializable, Iterable<T> {
         try {
             block.run(transaction);
         } catch (Throwable t) {
+            // check if user rolled back manually
             if (transaction.isInTransaction()) {
-                // TODO logger
-                Log.e(getClass().getSimpleName(), "Uncaught exception inside a running "
-                    + "transaction block, rolling back...");
                 transaction.rollBack();
+                throw new RuntimeException("Transaction failed with rollback", t);
             }
             throw t;
         }
