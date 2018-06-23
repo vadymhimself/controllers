@@ -6,41 +6,31 @@ import android.support.annotation.Nullable;
 
 public interface Router {
 
-    @Nullable
-    Controller show(Controller controller);
+    boolean show(Controller controller);
 
-    @Nullable
-    Controller show(@NonNull Controller next,
+    boolean show(@NonNull Controller next,
               @AnimRes int enter, @AnimRes int exit);
 
-    @Nullable
-    Controller back();
+    boolean back();
 
-    @Nullable
-    Controller back(@AnimRes int enter, @AnimRes int exit);
+    boolean back(@AnimRes int enter, @AnimRes int exit);
 
-    @Nullable
-    Controller replace(Controller controller);
+    boolean replace(Controller controller);
 
-    @Nullable
-    Controller replace(Controller next, @AnimRes int enter, @AnimRes int exit);
+    boolean replace(Controller next, @AnimRes int enter, @AnimRes int exit);
 
-    @Nullable
-    Controller goBackTo(Controller controller);
+    boolean goBackTo(Controller controller);
 
-    @Nullable
-    Controller goBackTo(Controller controller, @AnimRes int enter, @AnimRes int exit);
+    boolean goBackTo(Controller controller, @AnimRes int enter, @AnimRes int exit);
 
     /**
      * Clear the stack of controllers and place one on the top
      * @param controller controller to place on top
      * @return top controller
      */
-    @Nullable
-    Controller clear(Controller controller);
+    boolean clear(Controller controller);
 
-    @Nullable
-    Controller clear(Controller controller, @AnimRes int enter, @AnimRes int exit);
+    boolean clear(Controller controller, @AnimRes int enter, @AnimRes int exit);
 
     @Nullable
     <T> T findByClass(Class<T> clazz);

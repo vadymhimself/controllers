@@ -147,124 +147,105 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
     }
 
     @Override
-    @Nullable
-    public final Controller show(Controller controller) {
-        if (attachedToScreen && getActivity() != null && !getActivity()
-                .isFinishing()) {
+    public final boolean show(Controller controller) {
+        if (attachedToScreen && getActivity() != null) {
             return getActivity().show(controller);
         } else {
             Log.w(TAG, "show: ignored call from detached controller");
-            return null;
+            return false;
         }
     }
 
     @Override
-    @Nullable
-    public final Controller show(@NonNull Controller next,
+    public final boolean show(@NonNull Controller next,
                            @AnimRes int enter, @AnimRes int exit) {
-        if (attachedToScreen && getActivity() != null && !getActivity()
-                .isFinishing()) {
+        if (attachedToScreen && getActivity() != null) {
             return getActivity().show(next, enter, exit);
         } else {
             Log.w(TAG, "show: ignored call from detached controller");
-            return null;
+            return false;
         }
     }
 
     @Override
-    @Nullable
-    public final Controller back() {
-        if (attachedToScreen && getActivity() != null && !getActivity()
-                .isFinishing()) {
+    public final boolean back() {
+        if (attachedToScreen && getActivity() != null) {
             return getActivity().back();
         } else {
             Log.w(TAG, "back: ignored call from detached controller");
-            return null;
+            return false;
         }
     }
 
     @Override
-    @Nullable
-    public final Controller back(@AnimRes int enter, @AnimRes int exit) {
-        if (attachedToScreen && getActivity() != null && !getActivity()
-                .isFinishing()) {
+    public final boolean back(@AnimRes int enter, @AnimRes int exit) {
+        if (attachedToScreen && getActivity() != null) {
             return getActivity().back(enter, exit);
         } else {
             Log.w(TAG, "back: ignored call from detached controller");
-            return null;
+            return false;
         }
     }
 
     @Override
-    @Nullable
-    public final Controller replace(Controller controller, @AnimRes int enter, @AnimRes int exit) {
+    public final boolean replace(Controller controller, @AnimRes int enter, @AnimRes int exit) {
         // TODO: should pop all the controllers laying above it before replace
-        if (attachedToScreen && getActivity() != null && !getActivity()
-                .isFinishing()) {
+        if (attachedToScreen && getActivity() != null) {
             return getActivity().replace(controller, enter, exit);
         } else {
             Log.w(TAG, "replace: ignored call from detached controller");
-            return null;
+            return false;
         }
     }
 
     @Override
-    @Nullable
-    public final Controller replace(Controller controller) {
-        if (attachedToScreen && getActivity() != null && !getActivity()
-                .isFinishing()) {
+    public final boolean replace(Controller controller) {
+        if (attachedToScreen && getActivity() != null) {
             return getActivity().replace(controller);
         } else {
             Log.w(TAG, "replace: ignored call from detached controller");
-            return null;
+            return false;
         }
     }
 
-    @Nullable
     @Override
-    public Controller clear(Controller controller) {
-        if (attachedToScreen && getActivity() != null && !getActivity()
-                .isFinishing()) {
+    public boolean clear(Controller controller) {
+        if (attachedToScreen && getActivity() != null) {
             return getActivity().clear(controller);
         } else {
-            Log.w(TAG, "replace: ignored call from detached controller");
-            return null;
+            Log.w(TAG, "clear: ignored call from detached controller");
+            return false;
         }
     }
 
-    @Nullable
     @Override
-    public Controller clear(Controller controller, int enter, int exit) {
-        if (attachedToScreen && getActivity() != null && !getActivity()
-                .isFinishing()) {
+    public boolean clear(Controller controller, int enter, int exit) {
+        if (attachedToScreen && getActivity() != null) {
             return getActivity().clear(controller, enter, exit);
         } else {
-            Log.w(TAG, "replace: ignored call from detached controller");
-            return null;
+            Log.w(TAG, "clear: ignored call from detached controller");
+            return false;
         }
     }
 
     @Override
-    @Nullable
-    public final Controller goBackTo(Controller controller) {
-        if (attachedToScreen && getActivity() != null && !getActivity()
-                .isFinishing()) {
+    public final boolean goBackTo(Controller controller) {
+        if (attachedToScreen && getActivity() != null) {
             return getActivity().goBackTo(controller);
         } else {
             Log.w(TAG, "goBackTo: ignored call from detached controller");
-            return null;
+            return false;
         }
     }
 
     @Override
-    @Nullable
-    public final Controller goBackTo(Controller controller,
+    public final boolean goBackTo(Controller controller,
                                @AnimRes int enter, @AnimRes int exit) {
-        if (attachedToScreen && getActivity() != null && !getActivity().isFinishing()) {
+        if (attachedToScreen && getActivity() != null) {
             return getActivity().goBackTo(controller, enter, exit);
         } else {
             Log.w(TAG, "goBackTo: ignored call from detached controller");
-            return null;
+            return false;
         }
     }
 

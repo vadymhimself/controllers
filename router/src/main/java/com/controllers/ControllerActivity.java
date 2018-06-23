@@ -34,67 +34,72 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     }
 
     @Override
-    @Nullable
-    public Controller show(@NonNull Controller next,
-                           @AnimRes int enter, @AnimRes int exit) {
+    public boolean show(@NonNull final Controller next,
+                           @AnimRes final int enter, @AnimRes final int exit) {
         if (stack.isInTransaction() || isFinishing()) {
             // TODO: logger
             Log.w(TAG, "show: ignored call for router in transaction");
-            return null;
+            return false;
         }
 
-        Controller prev = stack.peek();
+        final Controller prev = stack.peek();
         if (beforeControllersChanged(prev, next) || prev != null && prev.beforeChanged(next)) {
-            return null;
+            return false;
         }
 
-        stack.add(next);
-        next.onAttachedToStackInternal(this);
+        stack.beginTransaction(new RouterStack.TransactionBlock<Controller>() {
+            @Override public void run(RouterStack.Transaction<Controller> transaction) {
 
-        return changeControllersInternal(prev, next, enter, exit);
-    }
+                transaction.add(next);
+                next.onAttachedToStackInternal(ControllerActivity.this);
 
-    private void restore(@NonNull Controller controller) {
-        changeControllersInternal(null, controller, 0, 0);
+                applyTransaction(prev, next, enter, exit, false, transaction);
+            }
+        });
+
+        return true;
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    @Nullable
-    public Controller back(@AnimRes int enter, @AnimRes int exit) {
+    public boolean back(@AnimRes final int enter, @AnimRes final int exit) {
 
         if (stack.isInTransaction() || isFinishing()) {
             // TODO: logger
-            Log.w(TAG, "show: ignored call for router in transaction");
-            return null;
+            Log.w(TAG, "back: ignored call for router in transaction");
+            return false;
         }
 
         if (stack.size() <= 1) throw new IllegalStateException("Stack must be bigger than 1");
 
-        Controller prev = stack.peek();
-        Controller next = stack.peek(1);
+        final Controller prev = stack.peek();
+        final Controller next = stack.peek(1);
 
         if (beforeControllersChanged(prev, next) || prev != null && prev.beforeChanged(next)) {
-            return null;
+            return false;
         }
 
-        stack.pop();
-        prev.onDetachedFromStackInternal();
+        stack.beginTransaction(new RouterStack.TransactionBlock<Controller>() {
+            @Override public void run(RouterStack.Transaction<Controller> transaction) {
+                transaction.pop();
+                prev.onDetachedFromStackInternal();
+                applyTransaction(prev, next, enter, exit, false, transaction);
+            }
+        });
 
-        return changeControllersInternal(prev, next, enter, exit);
+        return true;
     }
 
     @Override
-    @Nullable
-    public Controller goBackTo(Controller controller, @AnimRes int enter, @AnimRes int exit) {
+    public boolean goBackTo(Controller controller, @AnimRes final int enter, @AnimRes final int exit) {
 
         if (stack.isInTransaction() || isFinishing()) {
             // TODO: logger
-            Log.w(TAG, "show: ignored call for router in transaction");
-            return null;
+            Log.w(TAG, "goBackTo: ignored call for router in transaction");
+            return false;
         }
 
-        Controller prev = stack.peek();
+        final Controller prev = stack.peek();
         Controller next = null;
 
         int i = 0;
@@ -115,104 +120,130 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
 
         if (next == null || beforeControllersChanged(prev, next) ||
                 prev != null && prev.beforeChanged(next)) {
-            return null;
+            return false;
         }
 
-        for (Controller c : stack.pop(i)) {
-            c.onDetachedFromStackInternal();
-        }
+        final int depth = i;
+        final Controller finalNext = next;
 
-        return changeControllersInternal(prev, next, enter, exit);
-    }
+        stack.beginTransaction(new RouterStack.TransactionBlock<Controller>() {
+            @Override public void run(RouterStack.Transaction<Controller> transaction) {
+                for (Controller c : transaction.pop(depth)) {
+                    c.onDetachedFromStackInternal();
+                }
 
-    @Override
-    @Nullable
-    public Controller replace(Controller next,
-                              @AnimRes int enter, @AnimRes int exit) {
-
-        if (stack.isInTransaction() || isFinishing()) {
-            // TODO: logger
-            Log.w(TAG, "show: ignored call for router in transaction");
-            return null;
-        }
-
-        Controller prev = stack.peek();
-
-        if (beforeControllersChanged(prev, next) ||
-                prev != null && prev.beforeChanged(next)) {
-            return null;
-        }
-
-        if (prev != null) {
-            stack.pop();
-            prev.onDetachedFromStackInternal();
-        }
-
-        stack.add(next);
-        next.onAttachedToStackInternal(this);
-
-        return changeControllersInternal(prev, next, enter, exit);
-    }
-
-    @Nullable
-    @Override
-    public Controller clear(Controller controller) {
-        return clear(controller, R.anim.fade_in_short, R.anim.fade_out_short);
-    }
-
-    @Nullable
-    @Override
-    public Controller clear(Controller next, @AnimRes int enter, @AnimRes int exit) {
-
-        if (stack.isInTransaction() || isFinishing()) {
-            // TODO: logger
-            Log.w(TAG, "show: ignored call for router in transaction");
-            return null;
-        }
-
-        Controller prev = stack.peek();
-
-        if (beforeControllersChanged(prev, next) ||
-                prev != null && prev.beforeChanged(next)) {
-            return null;
-        }
-
-        for (Controller c : stack.pop(stack.size())) {
-            // pop and detach all controllers
-            c.onDetachedFromStackInternal();
-        }
-
-        // attach new controller
-        stack.add(next);
-        next.onAttachedToStackInternal(this);
-
-        return changeControllersInternal(prev, next, enter, exit);
-    }
-
-    private Controller changeControllersInternal(@Nullable Controller prev,
-                                                 final Controller next,
-                                                 @AnimRes int enter,
-                                                 @AnimRes int exit) {
-
-        @SuppressLint("CommitTransaction")
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-        if (enter != 0 || exit != 0) {
-            transaction = transaction.setCustomAnimations(enter, exit);
-        }
-
-        final FragmentTransaction capturedTransaction = transaction.
-            replace(containerId, next.asFragment(), next.getTag().toString());
-
-        handler.post(new Runnable() {
-            @Override public void run() {
-                // TODO: check for state loss
-                capturedTransaction.commitNow();
-                onControllerChanged(next);
+                applyTransaction(prev, finalNext, enter, exit, false, transaction);
             }
         });
 
-        return prev;
+        return true;
+    }
+
+    @Override
+    public boolean replace(final Controller next,
+                              @AnimRes final int enter, @AnimRes final int exit) {
+
+        if (stack.isInTransaction() || isFinishing()) {
+            // TODO: logger
+            Log.w(TAG, "replace: ignored call for router in transaction");
+            return false;
+        }
+
+        final Controller prev = stack.peek();
+
+        if (beforeControllersChanged(prev, next) ||
+                prev != null && prev.beforeChanged(next)) {
+            return false;
+        }
+
+        stack.beginTransaction(new RouterStack.TransactionBlock<Controller>() {
+            @Override public void run(RouterStack.Transaction<Controller> transaction) {
+                if (prev != null) {
+                    transaction.pop();
+                    prev.onDetachedFromStackInternal();
+                }
+
+                transaction.add(next);
+                next.onAttachedToStackInternal(ControllerActivity.this);
+
+                applyTransaction(prev, next, enter, exit, false, transaction);
+            }
+        });
+
+        return true;
+    }
+
+    @Override
+    public boolean clear(final Controller next, @AnimRes final int enter, @AnimRes final int exit) {
+
+        if (stack.isInTransaction() || isFinishing()) {
+            // TODO: logger
+            Log.w(TAG, "clear: ignored call for router in transaction");
+            return false;
+        }
+
+        final Controller prev = stack.peek();
+
+        if (beforeControllersChanged(prev, next) ||
+                prev != null && prev.beforeChanged(next)) {
+            return false;
+        }
+
+        stack.beginTransaction(new RouterStack.TransactionBlock<Controller>() {
+            @Override public void run(RouterStack.Transaction<Controller> transaction) {
+                for (Controller c : transaction.pop(stack.size())) {
+                    // pop and detach all controllers
+                    c.onDetachedFromStackInternal();
+                }
+
+                // attach new controller
+                transaction.add(next);
+                next.onAttachedToStackInternal(ControllerActivity.this);
+
+                applyTransaction(prev, next, enter, exit, false, transaction);
+            }
+        });
+
+        return true;
+    }
+
+    private void applyTransaction(@Nullable Controller prev,
+                                    final Controller next,
+                                    @AnimRes int enter,
+                                    @AnimRes int exit,
+                                    boolean immediate,
+                                    final RouterStack.Transaction<Controller> stackTransaction) {
+
+        @SuppressLint("CommitTransaction")
+        FragmentTransaction fragTrans = getSupportFragmentManager().beginTransaction();
+
+        if (enter != 0 || exit != 0) {
+            fragTrans = fragTrans.setCustomAnimations(enter, exit);
+        }
+
+        final FragmentTransaction t = fragTrans.
+            replace(containerId, next.asFragment(), next.getTag().toString());
+
+        Runnable r = new Runnable() {
+            @Override public void run() {
+                // TODO: check for state loss
+                try {
+                    t.commitNow();
+                    onControllerChanged(next);
+                    stackTransaction.commit();
+                } catch (Throwable t) {
+                    stackTransaction.rollBack();
+                    Log.e(TAG, "applyTransaction: rolled back "
+                        + "stack transaction " + stackTransaction);
+                }
+            }
+        };
+
+        if (immediate) {
+            r.run();
+        } else {
+            handler.post(r);
+        }
     }
 
     @Override
@@ -278,9 +309,14 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
         super.onPostCreate(savedInstanceState);
         if (savedInstanceState != null) {
             // restore top controller after recreation
-            Controller controller = stack.peek();
+            final Controller controller = stack.peek();
             if (controller == null) throw new IllegalStateException();
-            restore(controller);
+
+            stack.beginTransaction(new RouterStack.TransactionBlock<Controller>() {
+                @Override public void run(RouterStack.Transaction<Controller> transaction) {
+                    applyTransaction(null, controller, 0, 0, true, transaction);
+                }
+            });
         }
     }
 
@@ -322,8 +358,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
      * Shows controller with default animation
      */
     @Override
-    @Nullable
-    public Controller show(@NonNull Controller controller) {
+    public boolean show(@NonNull Controller controller) {
         return show(controller, R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
@@ -331,8 +366,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
      * Pops top controller with default animation
      */
     @Override
-    @Nullable
-    public Controller back() {
+    public boolean back() {
         return back(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
@@ -340,15 +374,18 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
      * Backs to given controller with default animation
      */
     @Override
-    @Nullable
-    public Controller goBackTo(Controller controller) {
+    public boolean goBackTo(Controller controller) {
         return goBackTo(controller, R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
     @Override
-    @Nullable
-    public Controller replace(Controller controller) {
+    public boolean replace(Controller controller) {
         return replace(controller, android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    @Override
+    public boolean clear(Controller controller) {
+        return clear(controller, R.anim.fade_in_short, R.anim.fade_out_short);
     }
 
     @Nullable

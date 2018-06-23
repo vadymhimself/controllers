@@ -14,6 +14,8 @@ import java.util.Map;
 
 /**
  *
+ * TODO: synchronize
+ *
  * Created by Vadym Ovcharenko
  * 18.10.2016.
  */
@@ -30,8 +32,8 @@ public class RouterStack<T> implements Serializable, Iterable<T> {
         void add(T element);
     }
 
-    interface TransactionBlock {
-        void run(Transaction transaction);
+    interface TransactionBlock<T> {
+        void run(Transaction<T> transaction);
     }
 
     @NonNull
@@ -66,16 +68,18 @@ public class RouterStack<T> implements Serializable, Iterable<T> {
         return inTransaction;
     }
 
-    void beginTransaction(TransactionBlock block) {
+    void beginTransaction(TransactionBlock<T> block) {
         StackTransaction transaction = new StackTransaction();
         transaction.begin();
         try {
             block.run(transaction);
         } catch (Throwable t) {
-            // TODO logger
-            Log.e(getClass().getSimpleName(), "Uncaught exception inside a "
-                + "transaction block, rolling back...");
-            transaction.rollBack();
+            if (transaction.isInTransaction()) {
+                // TODO logger
+                Log.e(getClass().getSimpleName(), "Uncaught exception inside a running "
+                    + "transaction block, rolling back...");
+                transaction.rollBack();
+            }
             throw t;
         }
     }
@@ -144,6 +148,7 @@ public class RouterStack<T> implements Serializable, Iterable<T> {
             checkNotInTransaction();
             this.stackBackup = stack;
             stack = new ArrayList<>(stackBackup);
+            inTransaction = true;
         }
 
         @Override
