@@ -2,7 +2,6 @@ package com.controllers;
 
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -38,8 +37,9 @@ public abstract class ObservableController<B extends ViewDataBinding> extends Se
         return observers != null && observers.remove(observer);
     }
 
-    @Override void onAttachedToStackInternal(ControllerActivity host) {
-        super.onAttachedToStackInternal(host);
+    @Override
+    public final void onAttachedToStack(@NonNull Router router) {
+        super.onAttachedToStack(router);
         if (observers != null) {
             for (Observer observer : new ArrayList<>(observers)) {
                 observer.onAttachedToStack(this);
@@ -47,8 +47,9 @@ public abstract class ObservableController<B extends ViewDataBinding> extends Se
         }
     }
 
-    @Override void onDetachedFromStackInternal() {
-        super.onDetachedFromStackInternal();
+    @Override
+    public final void onDetachedFromStack(@NonNull Router router) {
+        super.onDetachedFromStack(router);
         if (observers != null) {
             for (Observer observer : new ArrayList<>(observers)) {
                 observer.onDetachedFromStack(this);
@@ -56,8 +57,9 @@ public abstract class ObservableController<B extends ViewDataBinding> extends Se
         }
     }
 
-    @Override void onAttachedToScreenInternal() {
-        super.onAttachedToScreenInternal();
+    @Override
+    public void onAttachedToScreen() {
+        super.onAttachedToScreen();
         if (observers != null) {
             for (Observer observer : new ArrayList<>(observers)) {
                 observer.onAttachedToScreen(this);
@@ -65,8 +67,9 @@ public abstract class ObservableController<B extends ViewDataBinding> extends Se
         }
     }
 
-    @Override void onDetachedFromScreenInternal() {
-        super.onDetachedFromScreenInternal();
+    @Override
+    public void onDetachedFromScreen() {
+        super.onDetachedFromScreen();
         if (observers != null) {
             for (Observer observer : new ArrayList<>(observers)) {
                 observer.onDetachedFromScreen(this);

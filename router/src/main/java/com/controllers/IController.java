@@ -1,9 +1,6 @@
 package com.controllers;
 
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 
 /**
  * Controller interface for testing purposes.
@@ -12,13 +9,9 @@ import android.support.v4.app.Fragment;
  */
 
 interface IController {
+    void onAttachedToStack(@NonNull Router router);
+    void onDetachedFromStack(@NonNull Router router);
 
-    @Nullable
-    ControllerActivity getActivity();
-
-    @NonNull
-    Fragment asFragment();
-
-    @NonNull Object getTag();
-    @LayoutRes int getLayoutId();
+    void onAttachedToScreen();
+    void onDetachedFromScreen();
 }

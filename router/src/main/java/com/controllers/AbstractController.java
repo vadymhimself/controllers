@@ -4,6 +4,7 @@ import android.databinding.BaseObservable;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.AnimRes;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -55,59 +56,47 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
 
     abstract ViewStrategy<B> createStrategy();
 
+    protected abstract @LayoutRes int getLayoutId();
+
     @Nullable
-    public ControllerActivity getActivity() {
+    public final ControllerActivity getActivity() {
         return host;
     }
 
     @NonNull
-    @Override
     public final Fragment asFragment() {
         return viewStrategy.asFragment();
     }
 
-    void onAttachedToScreenInternal() {
-        if (attachedToScreen) throw new IllegalStateException();
+    @Override
+    public void onAttachedToScreen() {
+        if (attachedToScreen) throwIllegalState("already attached");
         attachedToScreen = true;
     }
 
-    void onDetachedFromScreenInternal() {
-        if (!attachedToScreen) throw new IllegalStateException();
+    @Override
+    public void onDetachedFromScreen() {
+        if (!attachedToScreen) throwIllegalState("already detached");
         attachedToScreen = false;
     }
 
-    void onAttachedToStackInternal(ControllerActivity host) {
+    @Override
+    public void onAttachedToStack(@NonNull Router router) {
         if (attachedToStack || host == null) throw new IllegalStateException();
-        this.host = host;
+        this.host = (ControllerActivity) router;
         attachedToStack = true;
-        onAttachedToStack();
     }
 
-    void onDetachedFromStackInternal() {
+    @Override
+    public void onDetachedFromStack(@NonNull Router router) {
         if (!attachedToStack) throw new IllegalStateException();
         attachedToStack = false;
-        onDetachedFromStack();
         this.host = null;
     }
 
     void onRestoredInternal() {
         if (attachedToScreen || !attachedToStack) throw new IllegalStateException();
         onRestored();
-    }
-
-    void setAttachedToScreen(boolean isAttached) {
-        if (isAttached == this.attachedToScreen) {
-            throwIllegalState("attachedToScreen is already " + isAttached);
-        }
-        this.attachedToScreen = isAttached;
-    }
-
-    protected void onAttachedToStack() {
-
-    }
-
-    protected void onDetachedFromStack() {
-
     }
 
     /**

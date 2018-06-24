@@ -19,7 +19,7 @@ import java.util.Map;
  * 18.10.2016.
  */
 
-public class RouterStack<T> implements Serializable, Iterable<T> {
+public class RouterStack<T extends IController> implements Serializable, Iterable<T> {
 
     interface Transaction<T> {
         void commit();
@@ -41,6 +41,13 @@ public class RouterStack<T> implements Serializable, Iterable<T> {
 
     @GuardedBy("this")
     private boolean inTransaction; // guarded by this
+
+    @NonNull
+    transient Router router; // late init, injected from the router
+
+    RouterStack(@NonNull Router router) {
+        this.router = router;
+    }
 
     @Nullable
     T peek() {
@@ -101,7 +108,6 @@ public class RouterStack<T> implements Serializable, Iterable<T> {
 
     private class StackTransaction implements Transaction<T> {
 
-        @Nullable
         private ArrayList<T> stackBackup;
 
         private synchronized void begin() {
@@ -114,6 +120,21 @@ public class RouterStack<T> implements Serializable, Iterable<T> {
         @Override
         public synchronized void commit() {
             checkInTransaction();
+
+            // use stack backup and the new stack to
+            for (T element : stack) {
+                if (!stackBackup.remove(element)) { // pop all remained elements
+                    // was not in the old list, so it's new
+                    element.onAttachedToStack(router);
+                }
+            }
+
+            // by this time all remained elements were removed
+            for (T removed : stackBackup) {
+                // only removed left
+                removed.onDetachedFromStack(router);
+            }
+
             stackBackup = null;
             inTransaction = false;
         }

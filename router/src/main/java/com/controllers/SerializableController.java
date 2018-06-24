@@ -2,7 +2,6 @@ package com.controllers;
 
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
-
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -16,8 +15,7 @@ abstract class SerializableController<B extends ViewDataBinding> extends
     private final String tag = UUID.randomUUID().toString();
 
     @NonNull
-    @Override
-    public final Object getTag() {
+    final Object getTag() {
         return tag;
     }
 

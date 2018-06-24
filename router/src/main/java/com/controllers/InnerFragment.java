@@ -99,11 +99,11 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment
     }
 
     @Override public void onViewAttachedToWindow(View v) {
-        controller.setAttachedToScreen(true);
+        controller.onAttachedToScreen();
     }
 
     @Override public void onViewDetachedFromWindow(View v) {
-        controller.setAttachedToScreen(false);
+        controller.onDetachedFromScreen();
         v.removeOnAttachStateChangeListener(this);
     }
 

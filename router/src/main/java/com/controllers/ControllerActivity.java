@@ -49,10 +49,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
 
         stack.beginTransaction(new RouterStack.TransactionBlock<Controller>() {
             @Override public void run(RouterStack.Transaction<Controller> transaction) {
-
                 transaction.add(next);
-                next.onAttachedToStackInternal(ControllerActivity.this);
-
                 applyTransaction(prev, next, enter, exit, false, transaction);
             }
         });
@@ -82,7 +79,6 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
         stack.beginTransaction(new RouterStack.TransactionBlock<Controller>() {
             @Override public void run(RouterStack.Transaction<Controller> transaction) {
                 transaction.pop();
-                prev.onDetachedFromStackInternal();
                 applyTransaction(prev, next, enter, exit, false, transaction);
             }
         });
@@ -128,10 +124,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
 
         stack.beginTransaction(new RouterStack.TransactionBlock<Controller>() {
             @Override public void run(RouterStack.Transaction<Controller> transaction) {
-                for (Controller c : transaction.pop(depth)) {
-                    c.onDetachedFromStackInternal();
-                }
-
+                transaction.pop(depth);
                 applyTransaction(prev, finalNext, enter, exit, false, transaction);
             }
         });
@@ -160,12 +153,8 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
             @Override public void run(RouterStack.Transaction<Controller> transaction) {
                 if (prev != null) {
                     transaction.pop();
-                    prev.onDetachedFromStackInternal();
                 }
-
                 transaction.add(next);
-                next.onAttachedToStackInternal(ControllerActivity.this);
-
                 applyTransaction(prev, next, enter, exit, false, transaction);
             }
         });
@@ -191,15 +180,10 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
 
         stack.beginTransaction(new RouterStack.TransactionBlock<Controller>() {
             @Override public void run(RouterStack.Transaction<Controller> transaction) {
-                for (Controller c : transaction.pop(stack.size())) {
-                    // pop and detach all controllers
-                    c.onDetachedFromStackInternal();
-                }
-
+                // pop all controllers
+                transaction.pop(stack.size());
                 // attach new controller
                 transaction.add(next);
-                next.onAttachedToStackInternal(ControllerActivity.this);
-
                 applyTransaction(prev, next, enter, exit, false, transaction);
             }
         });
@@ -293,13 +277,14 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
             if (stack == null) {
                 throw new IllegalStateException("Stack should be saved");
             }
+            this.stack.router = this; // transient router field was gone
 
             for (Controller controller : stack) {
-                controller.onAttachedToStackInternal(this);
+                controller.onAttachedToStack(this);
                 controller.onRestoredInternal();
             }
         } else {
-            stack = new RouterStack<>();
+            stack = new RouterStack<>(this);
         }
     }
 
@@ -335,12 +320,6 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (isChangingConfigurations() || isFinishing()) {
-            // activity is about to die
-            for (Controller controller : stack) {
-                controller.onDetachedFromScreenInternal();
-            }
-        }
         outState.putInt(KEY_CONTAINER_ID, containerId);
         outState.putSerializable(KEY_STACK, stack);
     }
@@ -349,7 +328,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     protected void onDestroy() {
         super.onDestroy();
         for (Controller controller : stack) {
-            controller.onDetachedFromStackInternal();
+            controller.onDetachedFromStack(this);
         }
     }
 
