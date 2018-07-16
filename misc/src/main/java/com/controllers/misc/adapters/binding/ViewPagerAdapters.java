@@ -15,5 +15,10 @@ public abstract class ViewPagerAdapters {
         pager.addOnPageChangeListener(pageChangeListener);
     }
 
+    @BindingAdapter(value = {"selectedPage", "smoothScroll"}, requireAll = false)
+    public static void _bindSelectedPage(ViewPager viewPager, int page, boolean smoothScroll) {
+        viewPager.setCurrentItem(page, smoothScroll);
+    }
+
 
 }
