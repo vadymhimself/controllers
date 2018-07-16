@@ -12,6 +12,6 @@ interface IController {
     void onAttachedToStack(@NonNull Router router);
     void onDetachedFromStack(@NonNull Router router);
 
-    void onAttachedToScreen();
-    void onDetachedFromScreen();
+    void onAttachedToScreen(View view);
+    void onDetachedFromScreen(View view);
 }

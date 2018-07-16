@@ -245,6 +245,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     @Nullable
     public Controller findByTag(Object tag) {
         if (stack == null) throw new IllegalStateException();
+        // TODO: optimize with stack index
         for (Controller controller : stack) {
             if (controller.getTag().equals(tag)) {
                 return controller;
@@ -404,7 +405,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
 
     @SuppressWarnings("ConstantConditions")
     @Override public void onBackPressed() {
-        if (stack == null || stack.size() == 0 || !stack.peek().onBackPressed()) {
+        if (stack == null || stack.size() <= 1 || !stack.peek().onBackPressed()) {
             super.onBackPressed();
         }
     }

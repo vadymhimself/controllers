@@ -21,13 +21,15 @@ import java.util.Set;
  * Fragments are never recreated by Android, state is saved through
  * Controller upon recreation of activity.
  *
+ * TODO: replace with simple ViewGroup
+ * TODO: make sure that onCreate is pushed to the LifecycleConsumers
  * Created by Vadym Ovcharenko
  * 27.11.2016.
  */
 
 @SuppressLint("ValidFragment") // Fragments are never recreated by Android
 public final class InnerFragment<B extends ViewDataBinding> extends Fragment
-    implements View.OnAttachStateChangeListener {
+    implements View.OnAttachStateChangeListener, com.controllers.View {
 
     @NonNull
     final AbstractController controller;
@@ -82,10 +84,6 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment
 
         // inject controller
         binding.setVariable(BR.controller, controller);
-        // executePendingBindings() was actually done to make sure that "onCreate" is pushed
-        // to LifecycleConsumers, however it causes problems that restoreInstanceState is called
-        // after bindings executed TODO: fix!
-        binding.executePendingBindings();
 
         return binding.getRoot();
     }
@@ -99,11 +97,11 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment
     }
 
     @Override public void onViewAttachedToWindow(View v) {
-        controller.onAttachedToScreen();
+        controller.onAttachedToScreen(this);
     }
 
     @Override public void onViewDetachedFromWindow(View v) {
-        controller.onDetachedFromScreen();
+        controller.onDetachedFromScreen(this);
         v.removeOnAttachStateChangeListener(this);
     }
 

@@ -120,8 +120,13 @@ public class RouterStack<T extends IController> implements Serializable, Iterabl
         @Override
         public synchronized void commit() {
             checkInTransaction();
+            notifyControllerStackChanges();
+            stackBackup = null;
+            inTransaction = false;
+        }
 
-            // use stack backup and the new stack to
+        private void notifyControllerStackChanges() {
+            // use stack backup and the new stack to notify changed states
             for (T element : stack) {
                 if (!stackBackup.remove(element)) { // pop all remained elements
                     // was not in the old list, so it's new
@@ -134,9 +139,6 @@ public class RouterStack<T extends IController> implements Serializable, Iterabl
                 // only removed left
                 removed.onDetachedFromStack(router);
             }
-
-            stackBackup = null;
-            inTransaction = false;
         }
 
         @Override

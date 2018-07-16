@@ -58,8 +58,8 @@ public abstract class ObservableController<B extends ViewDataBinding> extends Se
     }
 
     @Override
-    public void onAttachedToScreen() {
-        super.onAttachedToScreen();
+    public void onAttachedToScreen(View view) {
+        super.onAttachedToScreen(view);
         if (observers != null) {
             for (Observer observer : new ArrayList<>(observers)) {
                 observer.onAttachedToScreen(this);
@@ -68,8 +68,8 @@ public abstract class ObservableController<B extends ViewDataBinding> extends Se
     }
 
     @Override
-    public void onDetachedFromScreen() {
-        super.onDetachedFromScreen();
+    public void onDetachedFromScreen(View view) {
+        super.onDetachedFromScreen(view);
         if (observers != null) {
             for (Observer observer : new ArrayList<>(observers)) {
                 observer.onDetachedFromScreen(this);
