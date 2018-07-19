@@ -15,6 +15,10 @@ import android.util.Log;
 /**
  * Created by Vadym Ovcharenko
  * 18.10.2016.
+ *
+ * Lifecycle contract: stack lifecycle does not depend on the screen lifecycle. A controller
+ * may stay on screen even after it was detached from stack (e.g. for ending transitions). It may
+ * also be attached to screen before stack in some cases.
  */
 
 public abstract class AbstractController<B extends ViewDataBinding> extends
@@ -63,14 +67,21 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
     @Nullable
     public final Activity getActivity() {
         if (view != null) {
-            return ((InnerFragment) view).getActivity();
+            return ((InnerFragment) view).getActivity(); // TODO: AndroidView
         }
         return null;
     }
 
     @Nullable
+    @Override
     public final Router getRouter() {
         return router;
+    }
+
+    @Nullable
+    @Override
+    public View getView() {
+        return view;
     }
 
     @NonNull
@@ -322,5 +333,11 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
 
     private void throwIllegalState(String message) {
         throw new IllegalStateException(getClass().getSimpleName() + ": " + message);
+    }
+
+    public void logd(String tag, String msg) {
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG + "/" + tag, msg);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.controllers;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 /**
  * Controller interface for testing purposes.
@@ -14,4 +15,9 @@ interface IController {
 
     void onAttachedToScreen(View view);
     void onDetachedFromScreen(View view);
+
+    @Nullable
+    Router getRouter();
+    @Nullable
+    View getView();
 }

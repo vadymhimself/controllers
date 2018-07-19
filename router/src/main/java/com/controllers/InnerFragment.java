@@ -92,7 +92,7 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         for (ViewLifecycleConsumer c : consumers) {
-            c.onCreate(savedInstanceState);
+            c.onCreate(savedInstanceState); // TODO is it delivered?
         }
     }
 
@@ -108,6 +108,7 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment
     @Override
     public void onStart() {
         super.onStart();
+        logd("onStart");
         for (ViewLifecycleConsumer c : consumers) {
             c.onStart();
         }
@@ -116,6 +117,7 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment
     @Override
     public void onResume() {
         super.onResume();
+        logd("onResume");
         for (ViewLifecycleConsumer c : consumers) {
             c.onResume();
         }
@@ -124,6 +126,7 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment
     @Override
     public void onPause() {
         super.onPause();
+        logd("onPause");
         for (ViewLifecycleConsumer c : consumers) {
             c.onPause();
         }
@@ -132,6 +135,7 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment
     @Override
     public void onStop() {
         super.onStop();
+        logd("onStop");
         for (ViewLifecycleConsumer c : consumers) {
             c.onStop();
         }
@@ -140,6 +144,7 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment
     @SuppressWarnings("ConstantConditions")
     @Override public void onDestroyView() {
         super.onDestroyView();
+        logd("onDestroyView");
 
         if (controller.shouldRetainView()) {
             // keep alive
@@ -155,9 +160,12 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment
     @Override
     public void onDestroy() {
         super.onDestroy();
+        logd("onDestroyView");
+
         if (binding != null) {
             binding = null;
         }
+
         for (ViewLifecycleConsumer c : consumers) {
             c.onDestroy();
             unsubscribe(c);
@@ -170,5 +178,9 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment
 
     void unsubscribe(ViewLifecycleConsumer consumer) {
         consumers.remove(consumer);
+    }
+
+    private void logd(String msg) {
+        controller.logd(getClass().getSimpleName(), msg);
     }
 }

@@ -2,8 +2,6 @@ package com.controllers;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.AnimRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -18,7 +16,7 @@ import java.util.Iterator;
  * 18.10.2016.
  */
 
-public abstract class ControllerActivity extends AppCompatActivity implements Router, Host {
+public abstract class ControllerActivity extends AppCompatActivity implements Router, Host, View {
 
     private static final String TAG = ControllerActivity.class.getSimpleName();
     private static final String KEY_STACK = "_controller_stack";
@@ -27,7 +25,6 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     protected RouterStack<Controller> stack;
 
     private @IdRes int containerId;
-    private final Handler handler = new Handler(Looper.getMainLooper());
 
     protected void setControllerContainer(@IdRes int containerResId) {
         this.containerId = containerResId;
@@ -50,7 +47,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
         stack.beginTransaction(new RouterStack.TransactionBlock<Controller>() {
             @Override public void run(RouterStack.Transaction<Controller> transaction) {
                 transaction.add(next);
-                applyTransaction(prev, next, enter, exit, false, transaction);
+                applyTransaction(prev, next, enter, exit, transaction);
             }
         });
 
@@ -79,7 +76,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
         stack.beginTransaction(new RouterStack.TransactionBlock<Controller>() {
             @Override public void run(RouterStack.Transaction<Controller> transaction) {
                 transaction.pop();
-                applyTransaction(prev, next, enter, exit, false, transaction);
+                applyTransaction(prev, next, enter, exit, transaction);
             }
         });
 
@@ -125,7 +122,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
         stack.beginTransaction(new RouterStack.TransactionBlock<Controller>() {
             @Override public void run(RouterStack.Transaction<Controller> transaction) {
                 transaction.pop(depth);
-                applyTransaction(prev, finalNext, enter, exit, false, transaction);
+                applyTransaction(prev, finalNext, enter, exit, transaction);
             }
         });
 
@@ -155,7 +152,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
                     transaction.pop();
                 }
                 transaction.add(next);
-                applyTransaction(prev, next, enter, exit, false, transaction);
+                applyTransaction(prev, next, enter, exit, transaction);
             }
         });
 
@@ -184,7 +181,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
                 transaction.pop(stack.size());
                 // attach new controller
                 transaction.add(next);
-                applyTransaction(prev, next, enter, exit, false, transaction);
+                applyTransaction(prev, next, enter, exit, transaction);
             }
         });
 
@@ -192,41 +189,32 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     }
 
     private void applyTransaction(@Nullable Controller prev,
-                                    final Controller next,
-                                    @AnimRes int enter,
-                                    @AnimRes int exit,
-                                    boolean immediate,
-                                    final RouterStack.Transaction<Controller> stackTransaction) {
+        final Controller next,
+        @AnimRes int enter,
+        @AnimRes int exit,
+        final RouterStack.Transaction<Controller> stackTransaction) {
 
         @SuppressLint("CommitTransaction")
-        FragmentTransaction fragTrans = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
         if (enter != 0 || exit != 0) {
-            fragTrans = fragTrans.setCustomAnimations(enter, exit);
+            transaction = transaction.setCustomAnimations(enter, exit);
         }
 
-        final FragmentTransaction t = fragTrans.
-            replace(containerId, next.asFragment(), next.getTag().toString());
+        transaction.replace(containerId, next.asFragment(), next.getTag().toString());
 
-        Runnable r = new Runnable() {
-            @Override public void run() {
-                // TODO: check for state loss
-                try {
-                    t.commitNow();
-                    stackTransaction.commit();
-                } catch (Throwable t) {
-                    stackTransaction.rollBack();
-                    throw new RuntimeException("Transaction failed with rollback", t);
-                }
-                onControllerChanged(next);
-            }
-        };
-
-        if (immediate) {
-            r.run();
-        } else {
-            handler.post(r);
+        try {
+            transaction.commitNow();
+            stackTransaction.commit();
+        } catch (Throwable t) {
+            // TODO: should re-render top controller?
+            stackTransaction.rollBack();
+            // We still throw to crash the current runtime. If it is a coroutine
+            // it will fail but not leave the stack in an unpredicted state (rollback)
+            throw new RuntimeException("Transaction failed", t);
         }
+
+        onControllerChanged(next);
     }
 
     @Override
@@ -299,7 +287,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
 
             stack.beginTransaction(new RouterStack.TransactionBlock<Controller>() {
                 @Override public void run(RouterStack.Transaction<Controller> transaction) {
-                    applyTransaction(null, controller, 0, 0, true, transaction);
+                    applyTransaction(null, controller, 0, 0, transaction);
                 }
             });
         }
