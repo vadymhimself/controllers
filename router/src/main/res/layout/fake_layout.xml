@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--this layout is declared only for Data Binding to generate id for controller-->
-    <data>
+  <!--this layout is declared only for Data Binding to generate id for controller-->
+  <data>
 
-        <variable
-            name="controller"
-            type="java.lang.Boolean" />
-        <variable
-            name="viewModel"
-            type="java.lang.Boolean" />
-    </data>
+    <variable
+        name="controller"
+        type="java.lang.Boolean"
+        />
+    <variable
+        name="viewModel"
+        type="java.lang.Boolean"
+        />
+  </data>
 
-    <android.support.v4.widget.Space
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+  <FrameLayout
+      android:id="@+id/container"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      />
+
 </layout>

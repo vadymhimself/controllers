@@ -211,7 +211,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
             stackTransaction.rollBack();
             // We still throw to crash the current runtime. If it is a coroutine
             // it will fail but not leave the stack in an unpredicted state (rollback)
-            throw new RuntimeException("Transaction failed", t);
+            throw new RuntimeException("Controller transaction failed", t);
         }
 
         onControllerChanged(next);
