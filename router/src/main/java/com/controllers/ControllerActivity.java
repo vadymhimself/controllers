@@ -207,8 +207,12 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
             transaction.commitNow();
             stackTransaction.commit();
         } catch (Throwable t) {
-            // TODO: should re-render top controller?
+            // roll back stack changes
             stackTransaction.rollBack();
+
+            // TODO: re-render top controller (stupid fragments leave the view in a broken state)
+            // do not break the old view unless the new one is inflated when move to views
+
             // We still throw to crash the current runtime. If it is a coroutine
             // it will fail but not leave the stack in an unpredicted state (rollback)
             throw new RuntimeException("Controller transaction failed", t);
