@@ -2,11 +2,11 @@ package com.controllers
 
 internal class MockRouterStack<T : IController> : RouterStack<T>(StubRouter()) {
   fun populate(vararg items: T) {
-    beginTransaction { trasaction ->
+    transaction { t ->
       items.forEach {
-        trasaction.add(it)
+        t.add(it)
       }
-      trasaction.commit()
+      t.commit()
     }
   }
 }

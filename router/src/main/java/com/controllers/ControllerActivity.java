@@ -44,7 +44,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
             return false;
         }
 
-        stack.beginTransaction(new RouterStack.TransactionBlock<Controller>() {
+        stack.transaction(new RouterStack.TransactionBlock<Controller>() {
             @Override public void run(RouterStack.Transaction<Controller> transaction) {
                 transaction.add(next);
                 applyTransaction(prev, next, enter, exit, transaction);
@@ -73,7 +73,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
             return false;
         }
 
-        stack.beginTransaction(new RouterStack.TransactionBlock<Controller>() {
+        stack.transaction(new RouterStack.TransactionBlock<Controller>() {
             @Override public void run(RouterStack.Transaction<Controller> transaction) {
                 transaction.pop();
                 applyTransaction(prev, next, enter, exit, transaction);
@@ -119,7 +119,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
         final int depth = i;
         final Controller finalNext = next;
 
-        stack.beginTransaction(new RouterStack.TransactionBlock<Controller>() {
+        stack.transaction(new RouterStack.TransactionBlock<Controller>() {
             @Override public void run(RouterStack.Transaction<Controller> transaction) {
                 transaction.pop(depth);
                 applyTransaction(prev, finalNext, enter, exit, transaction);
@@ -146,7 +146,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
             return false;
         }
 
-        stack.beginTransaction(new RouterStack.TransactionBlock<Controller>() {
+        stack.transaction(new RouterStack.TransactionBlock<Controller>() {
             @Override public void run(RouterStack.Transaction<Controller> transaction) {
                 if (prev != null) {
                     transaction.pop();
@@ -175,7 +175,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
             return false;
         }
 
-        stack.beginTransaction(new RouterStack.TransactionBlock<Controller>() {
+        stack.transaction(new RouterStack.TransactionBlock<Controller>() {
             @Override public void run(RouterStack.Transaction<Controller> transaction) {
                 // pop all controllers
                 transaction.pop(stack.size());
@@ -289,7 +289,7 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
             final Controller controller = stack.peek();
             if (controller == null) throw new IllegalStateException();
 
-            stack.beginTransaction(new RouterStack.TransactionBlock<Controller>() {
+            stack.transaction(new RouterStack.TransactionBlock<Controller>() {
                 @Override public void run(RouterStack.Transaction<Controller> transaction) {
                     applyTransaction(null, controller, 0, 0, transaction);
                 }

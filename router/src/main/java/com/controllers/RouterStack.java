@@ -74,7 +74,7 @@ public class RouterStack<T extends IController> implements Serializable, Iterabl
         return inTransaction;
     }
 
-    synchronized void beginTransaction(TransactionBlock<T> block) {
+    synchronized void transaction(TransactionBlock<T> block) {
         StackTransaction transaction = new StackTransaction();
         transaction.begin();
         try {

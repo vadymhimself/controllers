@@ -8,14 +8,14 @@ import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = StubApp::class)
-class StackTest {
+class RouterStackTest {
 
   @Test
   fun testIsInTransactionDuringTransaction() {
     val stack = RouterStack<Controller<*>>(StubRouter())
     assertThat(!stack.isInTransaction)
 
-    stack.beginTransaction {
+    stack.transaction {
       assertThat(stack.isInTransaction)
       it.commit()
     }
@@ -28,7 +28,7 @@ class StackTest {
     val stack = RouterStack<Controller<*>>(StubRouter())
     val ctrl = StubController()
 
-    stack.beginTransaction {
+    stack.transaction {
       it.add(ctrl)
       it.commit()
     }
@@ -41,7 +41,7 @@ class StackTest {
     val stack = MockRouterStack<Controller<*>>()
     stack.populate(StubController())
 
-    stack.beginTransaction {
+    stack.transaction {
       it.pop()
       it.commit()
     }
@@ -56,7 +56,7 @@ class StackTest {
 
     stack.populate(firstCtrl, StubController(), StubController())
 
-    stack.beginTransaction {
+    stack.transaction {
       it.pop(2)
       it.commit()
     }
@@ -76,7 +76,7 @@ class StackTest {
 
     stack.populate(*ctrls)
 
-    stack.beginTransaction {
+    stack.transaction {
       it.pop(2)
       it.rollBack()
     }
@@ -90,7 +90,7 @@ class StackTest {
     val ctrl = StubController()
 
     try {
-      stack.beginTransaction {
+      stack.transaction {
         it.add(ctrl)
         throw Exception()
       }
@@ -121,7 +121,7 @@ class StackTest {
 
     val fourth = StubController()
 
-    stack.beginTransaction {
+    stack.transaction {
       it.pop(2)
       it.pop()
       it.add(fourth)
@@ -133,6 +133,6 @@ class StackTest {
     assertThat(first.isAttachedToStack)
     assertThat(fourth.isAttachedToStack)
     assertThat(!second.isAttachedToStack)
-    assertThat(!second.isAttachedToStack)
+    assertThat(!third.isAttachedToStack)
   }
 }
