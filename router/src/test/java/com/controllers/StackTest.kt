@@ -85,13 +85,29 @@ class StackTest {
   }
 
   @Test
+  fun testExceptionalRollback() {
+    val stack = RouterStack<Controller<*>>(StubRouter())
+    val ctrl = StubController()
+
+    try {
+      stack.beginTransaction {
+        it.add(ctrl)
+        throw Exception()
+      }
+      assert(false, { "Didn't rethrow" })
+    } catch (e: Exception) {
+      assertThat(stack).isEmpty()
+    }
+
+  }
+
+  @Test
   fun testStackNotifications() {
     val stack = MockRouterStack<Controller<*>>()
 
     val first = StubController()
     val second = StubController()
     val third = StubController()
-
 
     val ctrls = arrayOf(
         first,
