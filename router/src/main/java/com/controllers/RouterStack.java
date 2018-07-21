@@ -74,7 +74,7 @@ public class RouterStack<T extends IController> implements Serializable, Iterabl
         return inTransaction;
     }
 
-    void beginTransaction(TransactionBlock<T> block) {
+    synchronized void beginTransaction(TransactionBlock<T> block) {
         StackTransaction transaction = new StackTransaction();
         transaction.begin();
         try {
@@ -110,19 +110,23 @@ public class RouterStack<T extends IController> implements Serializable, Iterabl
 
         private ArrayList<T> stackBackup;
 
-        private synchronized void begin() {
-            checkNotInTransaction();
-            this.stackBackup = stack;
-            stack = new ArrayList<>(stackBackup);
-            inTransaction = true;
+        private void begin() {
+            synchronized (RouterStack.this) {
+                checkNotInTransaction();
+                this.stackBackup = stack;
+                stack = new ArrayList<>(stackBackup);
+                inTransaction = true;
+            }
         }
 
         @Override
-        public synchronized void commit() {
-            checkInTransaction();
-            notifyControllerStackChanges();
-            stackBackup = null;
-            inTransaction = false;
+        public void commit() {
+            synchronized (RouterStack.this) {
+                checkInTransaction();
+                notifyControllerStackChanges();
+                stackBackup = null;
+                inTransaction = false;
+            }
         }
 
         private void notifyControllerStackChanges() {
@@ -142,11 +146,13 @@ public class RouterStack<T extends IController> implements Serializable, Iterabl
         }
 
         @Override
-        public synchronized void rollBack() {
-            checkInTransaction();
-            stack = stackBackup;
-            stackBackup = null;
-            inTransaction = false;
+        public void rollBack() {
+            synchronized (RouterStack.this) {
+                checkInTransaction();
+                stack = stackBackup;
+                stackBackup = null;
+                inTransaction = false;
+            }
         }
 
         @Override
