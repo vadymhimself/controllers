@@ -2,7 +2,7 @@ package com.controllers
 
 import android.app.Application
 
-class TestApp: Application() {
+class StubApp: Application() {
 
   override fun onCreate() {
     super.onCreate()

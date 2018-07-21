@@ -160,7 +160,7 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment
     @Override
     public void onDestroy() {
         super.onDestroy();
-        logd("onDestroyView");
+        logd("onDestroy");
 
         if (binding != null) {
             binding = null;
