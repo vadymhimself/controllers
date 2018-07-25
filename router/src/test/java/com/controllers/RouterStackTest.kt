@@ -13,14 +13,14 @@ class RouterStackTest {
   @Test
   fun testIsInTransactionDuringTransaction() {
     val stack = RouterStack<Controller<*>>(StubRouter())
-    assertThat(!stack.isInTransaction)
+    assert(!stack.isInTransaction)
 
     stack.transaction {
-      assertThat(stack.isInTransaction)
+      assert(stack.isInTransaction)
       it.commit()
     }
 
-    assertThat(!stack.isInTransaction)
+    assert(!stack.isInTransaction)
   }
 
   @Test
@@ -130,9 +130,9 @@ class RouterStackTest {
     }
 
     assertThat(stack).containsExactly(fourth, first)
-    assertThat(first.isAttachedToStack)
-    assertThat(fourth.isAttachedToStack)
-    assertThat(!second.isAttachedToStack)
-    assertThat(!third.isAttachedToStack)
+    assert(first.isAttachedToStack)
+    assert(fourth.isAttachedToStack)
+    assert(!second.isAttachedToStack)
+    assert(!third.isAttachedToStack)
   }
 }

@@ -16,7 +16,7 @@ import java.util.Iterator;
  * 18.10.2016.
  */
 
-public abstract class ControllerActivity extends AppCompatActivity implements Router, Host, View {
+public abstract class ControllerActivity extends AppCompatActivity implements Router, Host {
 
     private static final String TAG = ControllerActivity.class.getSimpleName();
     private static final String KEY_STACK = "_controller_stack";

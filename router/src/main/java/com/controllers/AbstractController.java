@@ -37,6 +37,9 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         void unsubscribe(ViewLifecycleConsumer consumer);
     }
 
+    /**
+     * TODO: document use cases. Example: MapView
+     */
     public interface ViewLifecycleConsumer {
         void onCreate(Bundle var1);
         void onStart();
@@ -44,6 +47,16 @@ public abstract class AbstractController<B extends ViewDataBinding> extends
         void onPause();
         void onStop();
         void onDestroy();
+    }
+
+    enum ViewLifecycleEvent {
+        CREATE(0), START(1), RESUME(2), PAUSE(3), STOP(4), DESTROY(5);
+
+        int order;
+
+        ViewLifecycleEvent(int order) {
+            this.order = order;
+        }
     }
 
     @Nullable private Router router;

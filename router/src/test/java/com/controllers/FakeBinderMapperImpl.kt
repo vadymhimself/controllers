@@ -1,21 +1,32 @@
 package android.databinding
 
 import android.view.View
+import com.controllers.LifecycleDataBinderMapper
 
 class DataBinderMapperImpl : MergedDataBinderMapper() {
+
+  init {
+    addMapper(LifecycleDataBinderMapper())
+  }
 
   override fun getDataBinder(
     bindingComponent: DataBindingComponent?,
     view: View?,
     layoutId: Int
-  ): ViewDataBinding = FakeViewDataBinding(bindingComponent, view, 0)
+  ): ViewDataBinding  {
+    return super.getDataBinder(bindingComponent, view, layoutId) ?: FakeViewDataBinding(bindingComponent, view, 0)
+  }
 }
 
 internal class FakeViewDataBinding(
   component: DataBindingComponent?,
-  view: View?,
+  val rootView: View?,
   localFieldCount: Int
-) : ViewDataBinding(component, view, localFieldCount) {
+) : ViewDataBinding(component, rootView, localFieldCount) {
+
+  init {
+    setRootTag(rootView)
+  }
 
   override fun executeBindings() {
   }

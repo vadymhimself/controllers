@@ -1,6 +1,7 @@
 package com.controllers;
 
 import android.annotation.SuppressLint;
+import android.database.Observable;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.controllers.AbstractController.ViewLifecycleConsumer;
+import com.controllers.AbstractController.ViewLifecycleEvent;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,7 +24,6 @@ import java.util.Set;
  * Controller upon recreation of activity.
  *
  * TODO: replace with simple ViewGroup
- * TODO: make sure that onCreate is pushed to the LifecycleConsumers
  * Created by Vadym Ovcharenko
  * 27.11.2016.
  */
@@ -37,6 +38,8 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment
     B binding;
 
     private final Set<ViewLifecycleConsumer> consumers = new HashSet<>();
+
+    private final ReplaySubject subject = new ReplaySubject();
 
 
     InnerFragment(SerializableController c) {
@@ -91,9 +94,7 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        for (ViewLifecycleConsumer c : consumers) {
-            c.onCreate(savedInstanceState); // TODO is it delivered?
-        }
+        subject.notifyObservers(ViewLifecycleEvent.CREATE);
     }
 
     @Override public void onViewAttachedToWindow(View v) {
@@ -109,36 +110,28 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment
     public void onStart() {
         super.onStart();
         logd("onStart");
-        for (ViewLifecycleConsumer c : consumers) {
-            c.onStart();
-        }
+        subject.notifyObservers(ViewLifecycleEvent.START);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         logd("onResume");
-        for (ViewLifecycleConsumer c : consumers) {
-            c.onResume();
-        }
+        subject.notifyObservers(ViewLifecycleEvent.RESUME);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         logd("onPause");
-        for (ViewLifecycleConsumer c : consumers) {
-            c.onPause();
-        }
+        subject.notifyObservers(ViewLifecycleEvent.PAUSE);
     }
 
     @Override
     public void onStop() {
         super.onStop();
         logd("onStop");
-        for (ViewLifecycleConsumer c : consumers) {
-            c.onStop();
-        }
+        subject.notifyObservers(ViewLifecycleEvent.STOP);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -166,21 +159,70 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment
             binding = null;
         }
 
-        for (ViewLifecycleConsumer c : consumers) {
-            c.onDestroy();
-            unsubscribe(c);
-        }
+        subject.notifyObservers(ViewLifecycleEvent.DESTROY);
+        subject.unregisterAll();
     }
 
     void subscribe(ViewLifecycleConsumer consumer) {
-        consumers.add(consumer);
+        subject.registerObserver(consumer);
     }
 
     void unsubscribe(ViewLifecycleConsumer consumer) {
-        consumers.remove(consumer);
+        subject.unregisterObserver(consumer);
     }
 
     private void logd(String msg) {
         controller.logd(getClass().getSimpleName(), msg);
+    }
+
+    static class ReplaySubject extends Observable<ViewLifecycleConsumer> {
+
+        private int index = -1;
+
+        void notifyObservers(ViewLifecycleEvent event) {
+            for (ViewLifecycleConsumer consumer : mObservers) {
+                deliverEvent(event, consumer);
+            }
+            this.index = event.order;
+        }
+
+        private void deliverEvent(ViewLifecycleEvent event,
+            ViewLifecycleConsumer consumer) {
+            switch (event) {
+                case CREATE:
+                    // we never save fragment state to bundle
+                    consumer.onCreate(null);
+                    break;
+                case START:
+                    consumer.onStart();
+                    break;
+                case RESUME:
+                    consumer.onResume();
+                    break;
+                case PAUSE:
+                    consumer.onPause();
+                    break;
+                case STOP:
+                    consumer.onStop();
+                    break;
+                case DESTROY:
+                    consumer.onDestroy();
+                    break;
+            }
+        }
+
+        private void replayEvents(ViewLifecycleConsumer consumer) {
+            for (ViewLifecycleEvent event : ViewLifecycleEvent.values()) {
+                if (event.order <= index) {
+                    deliverEvent(event, consumer);
+                }
+            }
+        }
+
+        @Override
+        public void registerObserver(ViewLifecycleConsumer consumer) {
+            super.registerObserver(consumer);
+            replayEvents(consumer);
+        }
     }
 }

@@ -4,6 +4,6 @@ import android.databinding.ViewDataBinding
 
 class StubController : Controller<ViewDataBinding>() {
 
-  override fun getLayoutId(): Int = R.layout.fake_layout
+  override fun getLayoutId(): Int = R.layout.layout_fake
 
 }
