@@ -26,7 +26,7 @@ class RouterStackTest {
   @Test
   fun testAdd() {
     val stack = RouterStack<Controller<*>>(StubRouter())
-    val ctrl = StubController()
+    val ctrl = TestController()
 
     stack.transaction {
       it.add(ctrl)
@@ -39,7 +39,7 @@ class RouterStackTest {
   @Test
   fun testPop() {
     val stack = MockRouterStack<Controller<*>>()
-    stack.populate(StubController())
+    stack.populate(TestController())
 
     stack.transaction {
       it.pop()
@@ -52,9 +52,9 @@ class RouterStackTest {
   @Test
   fun testPopCount() {
     val stack = MockRouterStack<Controller<*>>()
-    val firstCtrl = StubController()
+    val firstCtrl = TestController()
 
-    stack.populate(firstCtrl, StubController(), StubController())
+    stack.populate(firstCtrl, TestController(), TestController())
 
     stack.transaction {
       it.pop(2)
@@ -69,9 +69,9 @@ class RouterStackTest {
     val stack = MockRouterStack<Controller<*>>()
 
     val ctrls = arrayOf(
-        StubController(),
-        StubController(),
-        StubController()
+        TestController(),
+        TestController(),
+        TestController()
     )
 
     stack.populate(*ctrls)
@@ -87,7 +87,7 @@ class RouterStackTest {
   @Test
   fun testExceptionalRollback() {
     val stack = RouterStack<Controller<*>>(StubRouter())
-    val ctrl = StubController()
+    val ctrl = TestController()
 
     try {
       stack.transaction {
@@ -105,9 +105,9 @@ class RouterStackTest {
   fun testStackNotifications() {
     val stack = MockRouterStack<Controller<*>>()
 
-    val first = StubController()
-    val second = StubController()
-    val third = StubController()
+    val first = TestController()
+    val second = TestController()
+    val third = TestController()
 
     val ctrls = arrayOf(
         first,
@@ -119,7 +119,7 @@ class RouterStackTest {
 
     ctrls.forEach { assertThat(it.isAttachedToStack) }
 
-    val fourth = StubController()
+    val fourth = TestController()
 
     stack.transaction {
       it.pop(2)

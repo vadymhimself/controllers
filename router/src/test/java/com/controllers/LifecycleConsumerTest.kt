@@ -29,14 +29,8 @@ class LifecycleConsumerTest {
     val activity = activityController.get()
     val consumer = TestLifecycleConsumerController()
 
-    activityController.create()
+    activityController.setup()
     activity.show(consumer)
-
-    activityController.postCreate(null)
-        .start()
-        .resume()
-        .postResume()
-        .visible()
 
     ShadowLooper.runUiThreadTasks()
 
@@ -51,14 +45,8 @@ class LifecycleConsumerTest {
     val activity = activityController.get()
     val consumer = TestLifecycleConsumerController()
 
-    activityController.create()
+    activityController.setup()
     activity.show(consumer)
-
-    activityController.postCreate(null)
-        .start()
-        .resume()
-        .postResume()
-        .visible()
 
     ShadowLooper.runUiThreadTasks()
 
@@ -74,12 +62,7 @@ class LifecycleConsumerTest {
     val activity = activityController.get()
     val consumer = TestLifecycleConsumerController()
 
-    activityController.create()
-        .postCreate(null)
-        .start()
-        .resume()
-        .postResume()
-        .visible()
+    activityController.setup()
 
     ShadowLooper.runUiThreadTasks()
 
