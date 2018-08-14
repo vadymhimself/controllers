@@ -1,6 +1,9 @@
 package com.controllers
 
-internal class MockRouterStack<T : IController> : RouterStack<T>(StubRouter()) {
+import com.controllers.core.RouterStack
+import com.controllers.core.ViewModel
+
+internal class MockRouterStack<T : ViewModel<*>> : RouterStack<T>() {
   fun populate(vararg items: T) {
     transaction { t ->
       items.forEach {

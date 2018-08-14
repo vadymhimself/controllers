@@ -2,7 +2,7 @@ package com.controllers
 
 import android.databinding.ViewDataBinding
 import android.os.Bundle
-import com.controllers.AbstractController.ViewLifecycleConsumer
+import com.controllers.Controller.ViewLifecycleConsumer
 
 /**
  * Controller that consumes it's own view events

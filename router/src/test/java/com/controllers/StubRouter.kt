@@ -1,6 +1,13 @@
 package com.controllers
 
-class StubRouter : Router {
+import com.controllers.core.Router
+import com.controllers.core.Router.Transition
+
+class StubRouter : Router<Controller<*>> {
+  override fun make(transition: Transition<Controller<*>>?): Boolean {
+    return false
+  }
+
   override fun show(controller: Controller<*>?): Boolean {
     return false
   }

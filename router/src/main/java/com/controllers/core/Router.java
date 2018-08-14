@@ -1,10 +1,11 @@
-package com.controllers;
+package com.controllers.core;
 
 import android.support.annotation.AnimRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import com.controllers.Controller;
 
-public interface Router {
+public interface Router<T extends ViewModel> {
 
     boolean show(Controller controller);
 
@@ -33,7 +34,7 @@ public interface Router {
     boolean clear(Controller controller, @AnimRes int enter, @AnimRes int exit);
 
     @Nullable
-    <T> T findByClass(Class<T> clazz);
+    <C> C findByClass(Class<C> clazz);
 
     @Nullable
     Controller findByTag(Object tag);
@@ -46,4 +47,10 @@ public interface Router {
 
     @Nullable
     Controller getBottom();
+
+    boolean make(Transition<T> transition);
+
+    interface Transition<R extends ViewModel> {
+        boolean run(RouterStack<R> stack);
+    }
 }

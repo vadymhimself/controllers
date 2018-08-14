@@ -1,4 +1,4 @@
-package com.controllers;
+package com.controllers.core;
 
 import android.support.annotation.GuardedBy;
 import android.support.annotation.NonNull;
@@ -13,15 +13,13 @@ import java.util.Map;
 
 /**
  *
- * TODO: properly synchronize
- *
  * Created by Vadym Ovcharenko
  * 18.10.2016.
  */
 
-public class RouterStack<T extends IController> implements Serializable, Iterable<T> {
+public class RouterStack<T extends ViewModel> implements Serializable, Iterable<T> {
 
-    interface Transaction<T> {
+    public interface Transaction<T> {
         void commit();
         void rollBack();
         boolean isInTransaction();
@@ -31,7 +29,7 @@ public class RouterStack<T extends IController> implements Serializable, Iterabl
         void add(T element);
     }
 
-    interface TransactionBlock<T> {
+    public interface TransactionBlock<T> {
         void run(Transaction<T> transaction);
     }
 
@@ -42,27 +40,20 @@ public class RouterStack<T extends IController> implements Serializable, Iterabl
     @GuardedBy("this")
     private boolean inTransaction; // guarded by this
 
-    @NonNull
-    transient Router router; // late init, injected from the router
-
-    RouterStack(@NonNull Router router) {
-        this.router = router;
-    }
-
     @Nullable
-    T peek() {
+    public T peek() {
         if (stack.isEmpty()) {
             return null;
         }
         return stack.get(stack.size() - 1);
     }
 
-    T peek(int indexFromEnd) {
+    public T peek(int indexFromEnd) {
         if (indexFromEnd > stack.size()) throw new IllegalArgumentException();
         return stack.get(stack.size() - indexFromEnd - 1);
     }
 
-    T get(int index) {
+    public T get(int index) {
         return stack.get(index);
     }
 
@@ -70,11 +61,11 @@ public class RouterStack<T extends IController> implements Serializable, Iterabl
         return stack.size();
     }
 
-    synchronized boolean isInTransaction() {
+    public synchronized boolean isInTransaction() {
         return inTransaction;
     }
 
-    synchronized void transaction(TransactionBlock<T> block) {
+    public synchronized void transaction(TransactionBlock<T> block) {
         StackTransaction transaction = new StackTransaction();
         transaction.begin();
         try {
@@ -134,14 +125,14 @@ public class RouterStack<T extends IController> implements Serializable, Iterabl
             for (T element : stack) {
                 if (!stackBackup.remove(element)) { // pop all remained elements
                     // was not in the old list, so it's new
-                    element.onAttachedToStack(router);
+                    element.onAttachedToRouter();
                 }
             }
 
             // by this time all remained elements were removed
             for (T removed : stackBackup) {
                 // only removed left
-                removed.onDetachedFromStack(router);
+                removed.onDetachedFromRouter();
             }
         }
 

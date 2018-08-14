@@ -47,26 +47,26 @@ class AsyncHandle {
   }
 }
 
-class JobObserver(private val context: CoroutineContext) : ObservableController.Observer {
-  override fun onAttachedToStack(observable: ObservableController<*>) {
+class JobObserver(private val context: CoroutineContext) : Controller.Observer {
+  override fun onAttachedToRouter(observable: Controller<*>) {
 
   }
 
-  override fun onDetachedFromStack(observable: ObservableController<*>) {
+  override fun onDetachedFromRouter(observable: Controller<*>) {
     // TODO may be null if context is deserialized
     context.cancel()
     observable.removeObserver(this)
   }
 
-  override fun onAttachedToScreen(observable: ObservableController<*>) {
+  override fun onAttachedToScreen(observable: Controller<*>) {
 
   }
 
-  override fun onDetachedFromScreen(observable: ObservableController<*>) {
+  override fun onDetachedFromScreen(observable: Controller<*>) {
 
   }
 
-  override fun onRestored(observable: ObservableController<*>) {
+  override fun onRestored(observable: Controller<*>) {
 
   }
 

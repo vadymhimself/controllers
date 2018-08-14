@@ -11,14 +11,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.controllers.AbstractController.ViewLifecycleConsumer;
-import com.controllers.AbstractController.ViewLifecycleEvent;
+import com.controllers.Controller.ViewLifecycleConsumer;
+import com.controllers.Controller.ViewLifecycleEvent;
 import java.lang.reflect.Field;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
- * Representation of the basic Controller in terms of Android.
+ * Fragment-based BindingView
  *
  * Fragments are never recreated by Android, state is saved through
  * Controller upon recreation of activity.
@@ -29,20 +27,18 @@ import java.util.Set;
  */
 
 @SuppressLint("ValidFragment") // Fragments are never recreated by Android
-public final class InnerFragment<B extends ViewDataBinding> extends Fragment
-    implements View.OnAttachStateChangeListener, com.controllers.View {
+public final class FragmentBindingView<B extends ViewDataBinding> extends Fragment
+    implements View.OnAttachStateChangeListener, Controller.BindingView<B> {
 
     @NonNull
-    final AbstractController controller;
+    final Controller<B> controller;
     @Nullable
     B binding;
-
-    private final Set<ViewLifecycleConsumer> consumers = new HashSet<>();
 
     private final ReplaySubject subject = new ReplaySubject();
 
 
-    InnerFragment(SerializableController c) {
+    FragmentBindingView(@NonNull Controller<B> c) {
         this.controller = c;
     }
 
@@ -163,17 +159,24 @@ public final class InnerFragment<B extends ViewDataBinding> extends Fragment
         subject.unregisterAll();
     }
 
-    void subscribe(ViewLifecycleConsumer consumer) {
+    @Nullable
+    @Override
+    public B getBinding() {
+        return binding;
+    }
+
+    public void subscribe(ViewLifecycleConsumer consumer) {
         subject.registerObserver(consumer);
     }
 
-    void unsubscribe(ViewLifecycleConsumer consumer) {
+    public void unsubscribe(ViewLifecycleConsumer consumer) {
         subject.unregisterObserver(consumer);
     }
 
     private void logd(String msg) {
         controller.logd(getClass().getSimpleName(), msg);
     }
+
 
     static class ReplaySubject extends Observable<ViewLifecycleConsumer> {
 

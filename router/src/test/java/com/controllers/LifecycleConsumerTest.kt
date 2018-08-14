@@ -109,7 +109,7 @@ internal class LifecycleViewDataBinding(
     // fake execution
     synchronized(this) {
       if (controller != null) {
-        controller?.subscribe(controller)
+        controller?.view?.subscribe(controller)
         hasPendingBindings = false
       }
     }

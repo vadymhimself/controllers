@@ -1,5 +1,6 @@
 package com.controllers
 
+import com.controllers.core.RouterStack
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -12,7 +13,7 @@ class RouterStackTest {
 
   @Test
   fun testIsInTransactionDuringTransaction() {
-    val stack = RouterStack<Controller<*>>(StubRouter())
+    val stack = RouterStack<Controller<*>>()
     assert(!stack.isInTransaction)
 
     stack.transaction {
@@ -25,7 +26,7 @@ class RouterStackTest {
 
   @Test
   fun testAdd() {
-    val stack = RouterStack<Controller<*>>(StubRouter())
+    val stack = RouterStack<Controller<*>>()
     val ctrl = TestController()
 
     stack.transaction {
@@ -86,7 +87,7 @@ class RouterStackTest {
 
   @Test
   fun testExceptionalRollback() {
-    val stack = RouterStack<Controller<*>>(StubRouter())
+    val stack = RouterStack<Controller<*>>()
     val ctrl = TestController()
 
     try {
