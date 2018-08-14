@@ -16,7 +16,7 @@ licenses:
   - android-sdk-license-.+
   - google-gdk-license-.+
 script:
-  - ./gradlew testDebug --stacktrace --no-daemon --parallel
+  - ./gradlew testDebug --info --stacktrace --no-daemon --parallel
 before_install:
   - chmod +x gradlew
 git:
