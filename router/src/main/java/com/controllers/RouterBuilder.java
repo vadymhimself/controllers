@@ -14,7 +14,7 @@ public class RouterBuilder<T extends Controller> {
   @SuppressWarnings("unchecked")
   public Router<T> build() {
     checkState();
-    return view.new RouterHandle();
+    return new SimpleRouter<>(view.getStack());
   }
 
   private void checkState() {

@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
-import com.controllers.core.Router;
 import com.controllers.core.RouterStack;
 import com.controllers.core.ViewModel;
 
@@ -45,52 +44,11 @@ public class ContainerView<T extends ViewModel> extends FrameLayout {
     this.stack = state.stack;
   }
 
-  class RouterHandle implements Router<T> {
-
-    RouterHandle() {
-      if (stack == null) {
-        stack = new RouterStack<>();
-      }
+  RouterStack<T> getStack() {
+    if (stack == null) {
+      stack = new RouterStack<>();
     }
-
-    @Override
-    public boolean make(Transition<T> transition) {
-      return transition.run(stack);
-    }
-
-    @Override
-    @Nullable
-    public <C> C findByClass(Class<C> clazz) {
-      for (T t : stack) {
-        if (clazz.isAssignableFrom(t.getClass())) {
-          return clazz.cast(t);
-        }
-      }
-      return null;
-    }
-
-    @Nullable
-    @Override
-    public T getTop() {
-      return stack.peek();
-    }
-
-    @Nullable
-    @Override
-    public T getPrevious() {
-      return stack.peek(1);
-    }
-
-    @Nullable
-    @Override
-    public T getBottom() {
-      return stack.peek(stack.size() - 1);
-    }
-
-    @Override
-    public int size() {
-      return stack.size();
-    }
+    return stack;
   }
 
   static class SavedState extends BaseSavedState {
