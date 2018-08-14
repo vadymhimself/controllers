@@ -197,7 +197,7 @@ public abstract class Controller<B extends ViewDataBinding> extends
     /**
      * @return true if want to override default behaviour
      */
-    protected boolean onBackPressed() {
+    public boolean onBackPressed() {
         return false;
     }
 

@@ -8,4 +8,8 @@ class StubActivity : ControllerActivity() {
     setContentView(R.layout.layout_fake)
     setControllerContainer(R.id.container)
   }
+
+  fun show(c : Controller<*>) {
+    make(FragmentTransitions.Show(R.id.container, this, 0, 0, c))
+  }
 }

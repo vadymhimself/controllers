@@ -1,9 +1,7 @@
 package com.controllers;
 
 import android.os.Bundle;
-import android.support.annotation.AnimRes;
 import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import com.controllers.core.Router;
@@ -17,7 +15,6 @@ import com.controllers.core.RouterStack;
 
 public abstract class ControllerActivity extends AppCompatActivity implements Router<Controller> {
 
-    private static final String TAG = ControllerActivity.class.getSimpleName();
     private static final String KEY_STACK = "_controller_stack";
     private static final String KEY_CONTAINER_ID = "_container_id";
 
@@ -32,34 +29,6 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
     @Override
     public boolean make(Transition<Controller> transition) {
         return transition.run(stack);
-    }
-
-    @Override
-    public boolean show(@NonNull final Controller next,
-                           @AnimRes final int enter, @AnimRes final int exit) {
-        return make(new FragmentTransitions.Show(containerId,this, enter, exit, next));
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    @Override
-    public boolean back(@AnimRes final int enter, @AnimRes final int exit) {
-        return make(new FragmentTransitions.Back(containerId,this, enter, exit));
-    }
-
-    @Override
-    public boolean goBackTo(Controller controller, @AnimRes final int enter, @AnimRes final int exit) {
-        return make(new FragmentTransitions.GoBackTo(containerId,this, enter, exit, controller));
-    }
-
-    @Override
-    public boolean replace(final Controller next,
-                              @AnimRes final int enter, @AnimRes final int exit) {
-        return make(new FragmentTransitions.Replace(containerId,this, enter, exit, next));
-    }
-
-    @Override
-    public boolean clear(final Controller next, @AnimRes final int enter, @AnimRes final int exit) {
-        return make(new FragmentTransitions.Clear(containerId,this, enter, exit, next));
     }
 
     @Override
@@ -85,20 +54,6 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
             }
         }
         return null;
-    }
-
-    /**
-     *
-     * This method can be used to prevent controllers change.
-     * TODO: unit-tests
-     * @return true if want to override controllers change.
-     */
-    protected boolean beforeControllersChanged(Controller previous, Controller next) {
-        return false; // stub
-    }
-
-    protected void onControllerChanged(Controller controller) {
-
     }
 
     @SuppressWarnings("unchecked")
@@ -161,40 +116,6 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
         }
     }
 
-    /**
-     * Shows controller with default animation
-     */
-    @Override
-    public boolean show(@NonNull Controller controller) {
-        return show(controller, R.anim.slide_in_right, R.anim.slide_out_left);
-    }
-
-    /**
-     * Pops top controller with default animation
-     */
-    @Override
-    public boolean back() {
-        return back(R.anim.slide_in_left, R.anim.slide_out_right);
-    }
-
-    /**
-     * Backs to given controller with default animation
-     */
-    @Override
-    public boolean goBackTo(Controller controller) {
-        return goBackTo(controller, R.anim.slide_in_left, R.anim.slide_out_right);
-    }
-
-    @Override
-    public boolean replace(Controller controller) {
-        return replace(controller, android.R.anim.fade_in, android.R.anim.fade_out);
-    }
-
-    @Override
-    public boolean clear(Controller controller) {
-        return clear(controller, R.anim.fade_in_short, R.anim.fade_out_short);
-    }
-
     @Nullable
     @Override
     public Controller getTop() {
@@ -222,18 +143,6 @@ public abstract class ControllerActivity extends AppCompatActivity implements Ro
             return stack.peek(stack.size() - 1);
         } else {
             return null;
-        }
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    @Override
-    public void onBackPressed() {
-        if (!stack.peek().onBackPressed()) {
-            if (stack.size() > 1) {
-                back();
-            } else {
-                super.onBackPressed();
-            }
         }
     }
 }
