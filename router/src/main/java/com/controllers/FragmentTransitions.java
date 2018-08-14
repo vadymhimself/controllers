@@ -29,15 +29,14 @@ public abstract class FragmentTransitions {
       this.exit = exit;
     }
 
-    @Override
-    public boolean run(RouterStack<Controller> stack) {
+    final boolean busy(RouterStack<Controller> stack) {
       if (stack.isInTransaction() || activity.isFinishing()) {
         // TODO: logger
         Log.w(Const.LOG_PREFIX, "ignored transition call for router in transaction");
-        return false;
+        return true;
       }
 
-      return true;
+      return false;
     }
 
     final void applyTransition(@IdRes int containerId, final Controller<?> next,
@@ -87,7 +86,7 @@ public abstract class FragmentTransitions {
 
     @Override
     public boolean run(RouterStack<Controller> stack) {
-      if (!super.run(stack)) return false;
+      if (busy(stack)) return false;
 
       stack.transaction(new RouterStack.TransactionBlock<Controller>() {
         @Override public void run(RouterStack.Transaction<Controller> transaction) {
@@ -110,7 +109,7 @@ public abstract class FragmentTransitions {
     public boolean run(RouterStack<Controller> stack) {
       if (stack.size() <= 1) throw new IllegalStateException("Stack must be bigger than 1");
 
-      if (!super.run(stack)) return false;
+      if (busy(stack)) return false;
 
       final Controller prev = stack.peek();
       final Controller next = stack.peek(1);
@@ -143,7 +142,7 @@ public abstract class FragmentTransitions {
 
     @Override
     public boolean run(RouterStack<Controller> stack) {
-      if (!super.run(stack)) return false;
+      if (busy(stack)) return false;
 
       final Controller prev = stack.peek();
 
@@ -190,7 +189,7 @@ public abstract class FragmentTransitions {
 
     @Override
     public boolean run(RouterStack<Controller> stack) {
-      if (!super.run(stack)) return false;
+      if (busy(stack)) return false;
 
       final Controller prev = stack.peek();
 
@@ -224,7 +223,7 @@ public abstract class FragmentTransitions {
 
     @Override
     public boolean run(final RouterStack<Controller> stack) {
-      if (!super.run(stack)) return false;
+      if (busy(stack)) return false;
 
       final Controller prev = stack.peek();
 
