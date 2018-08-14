@@ -1,7 +1,6 @@
 package com.controllers.core;
 
 import android.support.annotation.Nullable;
-import com.controllers.Controller;
 
 public interface Router<T extends ViewModel> {
 
@@ -9,16 +8,15 @@ public interface Router<T extends ViewModel> {
     <C> C findByClass(Class<C> clazz);
 
     @Nullable
-    Controller findByTag(Object tag);
+    T getPrevious();
 
     @Nullable
-    Controller getPrevious();
+    T getTop();
 
     @Nullable
-    Controller getTop();
+    T getBottom();
 
-    @Nullable
-    Controller getBottom();
+    int size();
 
     boolean make(Transition<T> transition);
 

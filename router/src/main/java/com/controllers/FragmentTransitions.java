@@ -78,7 +78,7 @@ public abstract class FragmentTransitions {
 
     final Controller next;
 
-    public Show(int containerId, ControllerActivity activity, int enter, int exit,
+    public Show(int containerId, AppCompatActivity activity, int enter, int exit,
         Controller next) {
       super(containerId, activity, enter, exit);
       this.next = next;
@@ -101,7 +101,7 @@ public abstract class FragmentTransitions {
 
   public static class Back extends FragmentTransition {
 
-    public Back(int containerId, ControllerActivity activity, int enter, int exit) {
+    public Back(int containerId, AppCompatActivity activity, int enter, int exit) {
       super(containerId, activity, enter, exit);
     }
 
@@ -134,7 +134,7 @@ public abstract class FragmentTransitions {
 
     final Controller next;
 
-    public GoBackTo(int containerId, ControllerActivity activity, int enter, int exit,
+    public GoBackTo(int containerId, AppCompatActivity activity, int enter, int exit,
         Controller next) {
       super(containerId, activity, enter, exit);
       this.next = next;
@@ -181,7 +181,7 @@ public abstract class FragmentTransitions {
   public static class Replace extends FragmentTransition {
     final Controller next;
 
-    public Replace(int containerId, ControllerActivity activity, int enter, int exit,
+    public Replace(int containerId, AppCompatActivity activity, int enter, int exit,
         Controller next) {
       super(containerId, activity, enter, exit);
       this.next = next;
@@ -215,7 +215,7 @@ public abstract class FragmentTransitions {
   public static class Clear extends FragmentTransition {
     final Controller next;
 
-    public Clear(int containerId, ControllerActivity activity, int enter, int exit,
+    public Clear(int containerId, AppCompatActivity activity, int enter, int exit,
         Controller next) {
       super(containerId, activity, enter, exit);
       this.next = next;
@@ -252,7 +252,7 @@ public abstract class FragmentTransitions {
 
     final Controller next;
 
-    Render(int containerId, ControllerActivity activity, Controller next) {
+    public Render(int containerId, AppCompatActivity activity, Controller next) {
       super(containerId, activity, 0, 0);
       this.next = next;
     }

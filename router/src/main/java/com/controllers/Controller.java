@@ -162,7 +162,7 @@ public abstract class Controller<B extends ViewDataBinding> extends
         }
     }
 
-    void onRestoredInternal() {
+    final void onRestoredInternal() {
         if (attachedToScreen || !attachedToStack) throw new IllegalStateException();
         if (observers != null) {
             for (Observer observer : new ArrayList<>(observers)) {
