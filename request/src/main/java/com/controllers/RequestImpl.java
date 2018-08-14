@@ -1,7 +1,5 @@
 package com.controllers;
 
-import android.support.annotation.NonNull;
-
 /**
  * Basically a {@link Promise} builder
  * Created by Vadym Ovcharenko
@@ -10,14 +8,14 @@ import android.support.annotation.NonNull;
 
 final class RequestImpl<T> extends Request<T> {
 
-    private ObservableController context;
+    private Controller context;
     private Promise.ErrorAction errorAction;
     private Promise.Action cancelledAction;
     private Promise.Action finallyAction;
 
     private final Task<T> task;
 
-    RequestImpl(ObservableController context, Task<T> task) {
+    RequestImpl(Controller context, Task<T> task) {
         this.context = context;
         this.task = task;
     }

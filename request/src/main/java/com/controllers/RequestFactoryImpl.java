@@ -8,10 +8,10 @@ package com.controllers;
 
 class RequestFactoryImpl<I> implements RequestFactory<I> {
 
-    private final ObservableController context;
+    private final Controller context;
     private final I service;
 
-    RequestFactoryImpl(ObservableController context, Class<I> service) {
+    RequestFactoryImpl(Controller context, Class<I> service) {
         this.context = context;
         this.service = ServiceContainer.getService(service);
         if (this.service == null) {

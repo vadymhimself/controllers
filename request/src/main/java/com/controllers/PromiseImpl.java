@@ -1,8 +1,8 @@
 package com.controllers;
 
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.util.Log;
-
 import java.io.Serializable;
 
 /**
@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 
 class PromiseImpl<T> implements PromiseInternal<T>, Serializable,
-        ObservableController.Observer {
+        Controller.Observer {
 
     private static final String TAG = PromiseImpl.class.getSimpleName();
 
@@ -21,11 +21,11 @@ class PromiseImpl<T> implements PromiseInternal<T>, Serializable,
     private final Action cancelledAction;
     private final Action finallyAction;
 
-    private ObservableController context;
+    private Controller context;
     private boolean terminated;
     private boolean cancelled;
 
-    PromiseImpl(ObservableController context, Task<T> task,
+    PromiseImpl(Controller context, Task<T> task,
                 SuccessAction<T> successAction, ErrorAction errorAction,
                 Action cancelledAction, Action finallyAction) {
         this.context = context;
@@ -118,7 +118,7 @@ class PromiseImpl<T> implements PromiseInternal<T>, Serializable,
     }
 
     @Override
-    public void onRestored(ObservableController observable) {
+    public void onRestored(@NonNull Controller observable) {
         if (!terminated) {
             // Self-enqueue upon restoring if was not terminated
             enqueue();
@@ -126,7 +126,7 @@ class PromiseImpl<T> implements PromiseInternal<T>, Serializable,
     }
 
     @Override
-    public void onDetachedFromStack(ObservableController observable) {
+    public void onDetachedFromRouter(@NonNull Controller observable) {
         // Host controller was detached from stack and will probably get
         // garbage collected. The promise will never be satisfied for it.
         if (!terminated) {
@@ -136,17 +136,17 @@ class PromiseImpl<T> implements PromiseInternal<T>, Serializable,
     }
 
     @Override
-    public void onAttachedToStack(ObservableController observable) {
+    public void onAttachedToRouter(@NonNull Controller observable) {
 
     }
 
     @Override
-    public void onAttachedToScreen(ObservableController observable) {
+    public void onAttachedToScreen(@NonNull Controller observable) {
 
     }
 
     @Override
-    public void onDetachedFromScreen(ObservableController observable) {
+    public void onDetachedFromScreen(@NonNull Controller observable) {
 
     }
 
