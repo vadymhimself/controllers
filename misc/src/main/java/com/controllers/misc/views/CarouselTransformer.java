@@ -1,4 +1,4 @@
-package com.controllers.misc;
+package com.controllers.misc.views;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

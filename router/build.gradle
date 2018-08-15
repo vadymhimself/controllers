@@ -1,5 +1,11 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.dcendents.android-maven'
+
+repositories {
+  mavenCentral()
+}
 
 android {
     compileSdkVersion compileVersion
@@ -19,6 +25,11 @@ android {
     dataBinding {
         enabled = true
     }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -30,6 +41,10 @@ dependencies {
 
     implementation "com.android.support:appcompat-v7:$supportVersion"
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.robolectric:robolectric:3.8"
+    testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    testImplementation "com.google.truth:truth:0.42"
+    kapt "com.android.databinding:compiler:$gradlePluginVer"
 }
 
 // build a jar with source files

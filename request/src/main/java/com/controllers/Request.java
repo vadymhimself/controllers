@@ -38,7 +38,7 @@ public abstract class Request<T> {
         ServiceContainer.registerService(s);
     }
 
-    public static <S> RequestFactory<S> with(ObservableController controller,
+    public static <S> RequestFactory<S> with(Controller controller,
                                              Class<S> service) {
         return new RequestFactoryImpl<>(controller, service);
     }

@@ -1,4 +1,4 @@
-package com.controllers.misc;
+package com.controllers.misc.views;
 
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
