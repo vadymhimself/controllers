@@ -2,7 +2,7 @@ package com.controllers.core;
 
 import android.support.annotation.Nullable;
 
-public interface Router<T extends ViewModel> {
+public interface Router<T extends ViewModel> extends Iterable<T> {
 
     @Nullable
     <C> C findByClass(Class<C> clazz);

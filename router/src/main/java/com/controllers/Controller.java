@@ -98,14 +98,6 @@ public abstract class Controller<B extends ViewDataBinding> extends
     }
 
     @Nullable
-    public final Activity getActivity() {
-        if (view != null) {
-            return view.getActivity();
-        }
-        return null;
-    }
-
-    @Nullable
     @Override
     public FragmentBindingView<B> getView() {
         return view;
@@ -181,11 +173,11 @@ public abstract class Controller<B extends ViewDataBinding> extends
 
     }
 
-    boolean isAttachedToScreen() {
+    public final boolean isAttachedToScreen() {
         return attachedToScreen;
     }
 
-    boolean isAttachedToStack() {
+    public final boolean isAttachedToStack() {
         return attachedToStack;
     }
 

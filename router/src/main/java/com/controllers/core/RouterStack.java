@@ -20,8 +20,6 @@ import java.util.Map;
 public class RouterStack<T extends ViewModel> implements Serializable, Iterable<T> {
 
     public interface Transaction<T> {
-        void commit();
-        void rollBack();
         boolean isInTransaction();
 
         List<T> pop(int howMany);
@@ -70,6 +68,9 @@ public class RouterStack<T extends ViewModel> implements Serializable, Iterable<
         transaction.begin();
         try {
             block.run(transaction);
+            if (isInTransaction()) {
+                transaction.commit();
+            }
         } catch (Throwable t) {
             // check if user rolled back manually
             if (transaction.isInTransaction()) {
@@ -110,8 +111,7 @@ public class RouterStack<T extends ViewModel> implements Serializable, Iterable<
             }
         }
 
-        @Override
-        public void commit() {
+        void commit() {
             synchronized (RouterStack.this) {
                 checkInTransaction();
                 notifyControllerStackChanges();
@@ -136,8 +136,7 @@ public class RouterStack<T extends ViewModel> implements Serializable, Iterable<
             }
         }
 
-        @Override
-        public void rollBack() {
+        void rollBack() {
             synchronized (RouterStack.this) {
                 checkInTransaction();
                 stack = stackBackup;

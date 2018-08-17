@@ -18,7 +18,6 @@ class RouterStackTest {
 
     stack.transaction {
       assert(stack.isInTransaction)
-      it.commit()
     }
 
     assert(!stack.isInTransaction)
@@ -31,7 +30,6 @@ class RouterStackTest {
 
     stack.transaction {
       it.add(ctrl)
-      it.commit()
     }
 
     assertThat(stack).containsExactly(ctrl)
@@ -44,7 +42,6 @@ class RouterStackTest {
 
     stack.transaction {
       it.pop()
-      it.commit()
     }
 
     assertThat(stack).isEmpty()
@@ -59,30 +56,9 @@ class RouterStackTest {
 
     stack.transaction {
       it.pop(2)
-      it.commit()
     }
 
     assertThat(stack).containsExactly(firstCtrl)
-  }
-
-  @Test
-  fun testRollBack() {
-    val stack = MockRouterStack<Controller<*>>()
-
-    val ctrls = arrayOf(
-        TestController(),
-        TestController(),
-        TestController()
-    )
-
-    stack.populate(*ctrls)
-
-    stack.transaction {
-      it.pop(2)
-      it.rollBack()
-    }
-
-    assertThat(stack).containsExactly(*ctrls)
   }
 
   @Test
@@ -127,7 +103,6 @@ class RouterStackTest {
       it.pop()
       it.add(fourth)
       it.add(first)
-      it.commit()
     }
 
     assertThat(stack).containsExactly(fourth, first)

@@ -9,7 +9,6 @@ internal class MockRouterStack<T : ViewModel<*>> : RouterStack<T>() {
       items.forEach {
         t.add(it)
       }
-      t.commit()
     }
   }
 }

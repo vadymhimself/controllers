@@ -1,15 +1,18 @@
 package com.controllers
 
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 
-class StubActivity : ControllerActivity() {
+class StubActivity : AppCompatActivity() {
+
+  val router = RouterBuilder<Controller<*>>().build()
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.layout_fake)
-    setControllerContainer(R.id.container)
   }
 
   fun show(c : Controller<*>) {
-    make(FragmentTransitions.Show(R.id.container, this, 0, 0, c))
+    router.make(FragmentTransitions.Show(R.id.container, this, supportFragmentManager, 0, 0, c))
   }
 }

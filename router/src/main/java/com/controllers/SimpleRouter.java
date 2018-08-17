@@ -6,6 +6,7 @@ import com.controllers.core.Router;
 import com.controllers.core.RouterStack;
 import com.controllers.core.ViewModel;
 import java.io.Serializable;
+import java.util.Iterator;
 
 class SimpleRouter<T extends ViewModel> implements Router<T>, Serializable {
 
@@ -52,5 +53,11 @@ class SimpleRouter<T extends ViewModel> implements Router<T>, Serializable {
   @Override
   public int size() {
     return stack.size();
+  }
+
+  @NonNull
+  @Override
+  public Iterator<T> iterator() {
+    return stack.iterator();
   }
 }

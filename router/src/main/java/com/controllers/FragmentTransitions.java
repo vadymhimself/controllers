@@ -1,10 +1,11 @@
 package com.controllers;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.support.annotation.AnimRes;
 import android.support.annotation.IdRes;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import com.controllers.core.Router;
 import com.controllers.core.RouterStack;
@@ -17,14 +18,17 @@ public abstract class FragmentTransitions {
   static abstract class FragmentTransition implements Router.Transition<Controller> {
 
     final @IdRes int containerId;
-    final AppCompatActivity activity;
+    final Activity activity;
+    final FragmentManager fragmentManager;
 
     @AnimRes int enter;
     @AnimRes int exit;
 
-    FragmentTransition(int containerId, AppCompatActivity activity, int enter, int exit) {
+    public FragmentTransition(int containerId, Activity activity,
+        FragmentManager fragmentManager, int enter, int exit) {
       this.containerId = containerId;
       this.activity = activity;
+      this.fragmentManager = fragmentManager;
       this.enter = enter;
       this.exit = exit;
     }
@@ -39,11 +43,10 @@ public abstract class FragmentTransitions {
       return false;
     }
 
-    final void applyTransition(@IdRes int containerId, final Controller<?> next,
-        final RouterStack.Transaction<Controller> stackTransaction) {
+    final void applyTransition(@IdRes int containerId, final Controller<?> next) {
 
       @SuppressLint("CommitTransaction")
-      FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+      FragmentTransaction transaction = fragmentManager.beginTransaction();
 
       if (enter != 0 || exit != 0) {
         transaction = transaction.setCustomAnimations(enter, exit);
@@ -55,22 +58,7 @@ public abstract class FragmentTransitions {
       }
 
       transaction.replace(containerId, view, next.ID);
-
-      try {
-        transaction.commitNow();
-        stackTransaction.commit();
-      } catch (Throwable t) {
-        // roll back stack changes
-        stackTransaction.rollBack();
-
-        // TODO: re-render top controller (stupid fragments leave the view in a broken state)
-        // do not break the old view unless the new one is inflated when move to views
-
-        // We still throw to crash the current runtime. If it is a coroutine
-        // it will fail but not leave the stack in an unpredicted state (rollback)
-        throw new RuntimeException("Controller transaction failed", t);
-      }
-
+      transaction.commitNow(); // TODO: re-render top controller on exception (stupid fragments leave the view in a broken state)
     }
   }
 
@@ -78,9 +66,9 @@ public abstract class FragmentTransitions {
 
     final Controller next;
 
-    public Show(int containerId, AppCompatActivity activity, int enter, int exit,
-        Controller next) {
-      super(containerId, activity, enter, exit);
+    public Show(int containerId, Activity activity,
+        FragmentManager fragmentManager, int enter, int exit, Controller next) {
+      super(containerId, activity, fragmentManager, enter, exit);
       this.next = next;
     }
 
@@ -91,7 +79,7 @@ public abstract class FragmentTransitions {
       stack.transaction(new RouterStack.TransactionBlock<Controller>() {
         @Override public void run(RouterStack.Transaction<Controller> transaction) {
           transaction.add(next);
-          applyTransition(containerId, next, transaction);
+          applyTransition(containerId, next);
         }
       });
 
@@ -101,8 +89,9 @@ public abstract class FragmentTransitions {
 
   public static class Back extends FragmentTransition {
 
-    public Back(int containerId, AppCompatActivity activity, int enter, int exit) {
-      super(containerId, activity, enter, exit);
+    public Back(int containerId, Activity activity,
+        FragmentManager fragmentManager, int enter, int exit) {
+      super(containerId, activity, fragmentManager, enter, exit);
     }
 
     @Override
@@ -122,7 +111,7 @@ public abstract class FragmentTransitions {
         @Override
         public void run(RouterStack.Transaction<Controller> transaction) {
           transaction.pop();
-          applyTransition(containerId, next, transaction);
+          applyTransition(containerId, next);
         }
       });
 
@@ -134,9 +123,9 @@ public abstract class FragmentTransitions {
 
     final Controller next;
 
-    public GoBackTo(int containerId, AppCompatActivity activity, int enter, int exit,
-        Controller next) {
-      super(containerId, activity, enter, exit);
+    public GoBackTo(int containerId, Activity activity,
+        FragmentManager fragmentManager, int enter, int exit, Controller next) {
+      super(containerId, activity, fragmentManager, enter, exit);
       this.next = next;
     }
 
@@ -170,7 +159,7 @@ public abstract class FragmentTransitions {
       stack.transaction(new RouterStack.TransactionBlock<Controller>() {
         @Override public void run(RouterStack.Transaction<Controller> transaction) {
           transaction.pop(depth);
-          applyTransition(containerId, next, transaction);
+          applyTransition(containerId, next);
         }
       });
 
@@ -181,9 +170,9 @@ public abstract class FragmentTransitions {
   public static class Replace extends FragmentTransition {
     final Controller next;
 
-    public Replace(int containerId, AppCompatActivity activity, int enter, int exit,
-        Controller next) {
-      super(containerId, activity, enter, exit);
+    public Replace(int containerId, Activity activity,
+        FragmentManager fragmentManager, int enter, int exit, Controller next) {
+      super(containerId, activity, fragmentManager, enter, exit);
       this.next = next;
     }
 
@@ -204,7 +193,7 @@ public abstract class FragmentTransitions {
             transaction.pop();
           }
           transaction.add(next);
-          applyTransition(containerId, next, transaction);
+          applyTransition(containerId, next);
         }
       });
 
@@ -215,9 +204,9 @@ public abstract class FragmentTransitions {
   public static class Clear extends FragmentTransition {
     final Controller next;
 
-    public Clear(int containerId, AppCompatActivity activity, int enter, int exit,
-        Controller next) {
-      super(containerId, activity, enter, exit);
+    public Clear(int containerId, Activity activity,
+        FragmentManager fragmentManager, int enter, int exit, Controller next) {
+      super(containerId, activity, fragmentManager, enter, exit);
       this.next = next;
     }
 
@@ -237,7 +226,7 @@ public abstract class FragmentTransitions {
           transaction.pop(stack.size());
           // attach new controller
           transaction.add(next);
-          applyTransition(containerId, next, transaction);
+          applyTransition(containerId, next);
         }
       });
 
@@ -252,8 +241,9 @@ public abstract class FragmentTransitions {
 
     final Controller next;
 
-    public Render(int containerId, AppCompatActivity activity, Controller next) {
-      super(containerId, activity, 0, 0);
+    public Render(int containerId, Activity activity,
+        FragmentManager fragmentManager, Controller next) {
+      super(containerId, activity, fragmentManager, 0, 0);
       this.next = next;
     }
 
@@ -261,7 +251,7 @@ public abstract class FragmentTransitions {
     public boolean run(final RouterStack<Controller> stack) {
       stack.transaction(new RouterStack.TransactionBlock<Controller>() {
         @Override public void run(RouterStack.Transaction<Controller> transaction) {
-          applyTransition(containerId, next, transaction);
+          applyTransition(containerId, next);
         }
       });
       return true;
