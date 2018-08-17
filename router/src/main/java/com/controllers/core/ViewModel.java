@@ -1,5 +1,6 @@
 package com.controllers.core;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 /**
@@ -12,8 +13,8 @@ public interface ViewModel<T extends View> {
     void onAttachedToRouter();
     void onDetachedFromRouter();
 
-    void onAttachedToScreen(T view);
-    void onDetachedFromScreen(T view);
+    void onAttachedToScreen(@NonNull T view);
+    void onDetachedFromScreen(@NonNull T view);
 
     @Nullable
     T getView();

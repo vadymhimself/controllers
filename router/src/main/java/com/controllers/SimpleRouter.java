@@ -12,8 +12,8 @@ class SimpleRouter<T extends ViewModel> implements Router<T>, Serializable {
 
   private final RouterStack<T> stack;
 
-  SimpleRouter(@NonNull RouterStack<T> router) {
-    this.stack = router;
+  SimpleRouter(@NonNull RouterStack<T> stack) {
+    this.stack = stack;
   }
 
   @Override

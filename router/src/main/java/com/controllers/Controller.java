@@ -104,7 +104,7 @@ public abstract class Controller<B extends ViewDataBinding> extends
     }
 
     @Override
-    public void onAttachedToScreen(FragmentBindingView<B> view) {
+    public void onAttachedToScreen(@NonNull FragmentBindingView<B> view) {
         if (attachedToScreen) throwIllegalState("already attached");
         logd(LOG_TAG, "onAttachedToScreen: ");
         this.view = view;
@@ -117,7 +117,7 @@ public abstract class Controller<B extends ViewDataBinding> extends
     }
 
     @Override
-    public void onDetachedFromScreen(FragmentBindingView<B> view) {
+    public void onDetachedFromScreen(@NonNull FragmentBindingView<B> view) {
         if (!attachedToScreen) throwIllegalState("already detached");
         logd(LOG_TAG, "onDetachedFromScreen: ");
         // we don't null view reference in case controller will be reused
@@ -152,25 +152,6 @@ public abstract class Controller<B extends ViewDataBinding> extends
                 observer.onDetachedFromRouter(this);
             }
         }
-    }
-
-    final void onRestoredInternal() {
-        if (attachedToScreen || !attachedToStack) throw new IllegalStateException();
-        if (observers != null) {
-            for (Observer observer : new ArrayList<>(observers)) {
-                observer.onRestored(this);
-            }
-        }
-        onRestored();
-    }
-
-    /**
-     * This method is called when the controllers stack was restored after the
-     * activity recreation.
-     *.
-     */
-    void onRestored() {
-
     }
 
     public final boolean isAttachedToScreen() {
