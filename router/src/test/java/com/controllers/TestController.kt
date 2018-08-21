@@ -5,7 +5,7 @@ import android.databinding.ViewDataBinding
 class TestController : Controller<ViewDataBinding>() {
 
   fun assertAttachedToStack() {
-    assert(isAttachedToStack)
+    assert(isAttachedToRouter)
   }
 
   fun assertAttachedToScreen() {

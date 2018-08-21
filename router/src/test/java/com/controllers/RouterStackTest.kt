@@ -94,7 +94,7 @@ class RouterStackTest {
 
     stack.populate(*ctrls)
 
-    ctrls.forEach { assertThat(it.isAttachedToStack) }
+    ctrls.forEach { assertThat(it.isAttachedToRouter) }
 
     val fourth = TestController()
 
@@ -106,9 +106,9 @@ class RouterStackTest {
     }
 
     assertThat(stack).containsExactly(fourth, first)
-    assert(first.isAttachedToStack)
-    assert(fourth.isAttachedToStack)
-    assert(!second.isAttachedToStack)
-    assert(!third.isAttachedToStack)
+    assert(first.isAttachedToRouter)
+    assert(fourth.isAttachedToRouter)
+    assert(!second.isAttachedToRouter)
+    assert(!third.isAttachedToRouter)
   }
 }

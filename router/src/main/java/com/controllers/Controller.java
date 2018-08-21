@@ -80,7 +80,7 @@ public abstract class Controller<B extends ViewDataBinding> extends
     @Nullable private transient FragmentBindingView<B> view;
 
     private transient boolean attachedToScreen;
-    private boolean attachedToStack;
+    private boolean attachedToRouter;
 
     private Set<Observer> observers;
 
@@ -132,9 +132,9 @@ public abstract class Controller<B extends ViewDataBinding> extends
     @SuppressWarnings("unchecked")
     @Override
     public void onAttachedToRouter() {
-        if (attachedToStack) throwIllegalState("already attached");
+        if (attachedToRouter) throwIllegalState("already attached");
         logd(LOG_TAG, "onAttachedToRouter: ");
-        attachedToStack = true;
+        attachedToRouter = true;
         if (observers != null) {
             for (Observer observer : new ArrayList<>(observers)) {
                 observer.onAttachedToRouter(this);
@@ -144,9 +144,9 @@ public abstract class Controller<B extends ViewDataBinding> extends
 
     @Override
     public void onDetachedFromRouter() {
-        if (!attachedToStack) throwIllegalState("already detached");
+        if (!attachedToRouter) throwIllegalState("already detached");
         logd(LOG_TAG, "onDetachedFromRouter: ");
-        attachedToStack = false;
+        attachedToRouter = false;
         if (observers != null) {
             for (Observer observer : new ArrayList<>(observers)) {
                 observer.onDetachedFromRouter(this);
@@ -158,8 +158,8 @@ public abstract class Controller<B extends ViewDataBinding> extends
         return attachedToScreen;
     }
 
-    public final boolean isAttachedToStack() {
-        return attachedToStack;
+    public final boolean isAttachedToRouter() {
+        return attachedToRouter;
     }
 
     @Nullable

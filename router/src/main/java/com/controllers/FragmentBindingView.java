@@ -59,7 +59,7 @@ public final class FragmentBindingView<B extends ViewDataBinding> extends Fragme
             // if view was retained
             try {
                 // clear fucking parent reference (because SDK fails to do it)
-                Field f = View.class.getDeclaredField("mParent");
+                Field f = View.class.getDeclaredField("mParent"); // TODO reflection proguard rule
                 f.setAccessible(true);
                 f.set(binding.getRoot(), null);
                 return binding.getRoot();
@@ -161,7 +161,7 @@ public final class FragmentBindingView<B extends ViewDataBinding> extends Fragme
 
     @Nullable
     @Override
-    public B getBinding() {
+    public final B getBinding() {
         return binding;
     }
 
