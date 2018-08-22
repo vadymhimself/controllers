@@ -56,6 +56,8 @@ public class HackyRecyclerView extends RecyclerView {
             if (getLayoutManager() != null) {
                 getLayoutManager().onRestoreInstanceState(state.lmState);
             }
+        } else {
+            super.onRestoreInstanceState(parcelable);
         }
     }
 
