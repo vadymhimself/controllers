@@ -75,6 +75,11 @@ public abstract class ImageViewAdapters {
         ImageViewCompat.setImageTintList(iv, ColorStateList.valueOf(colorInt));
     }
 
+    @BindingAdapter("tintColorList")
+    public static void _bindTintColorList(ImageView iv, @ColorRes int colorInt) {
+        ImageViewCompat.setImageTintList(iv, iv.getContext().getResources().getColorStateList(colorInt));
+    }
+
     @BindingAdapter("tint")
     public static void _bindTint(ImageView iv, @ColorRes int res) {
         Drawable d = DrawableCompat.wrap(iv.getDrawable());
