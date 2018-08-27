@@ -11,7 +11,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.ImageViewCompat;
 import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -80,6 +79,11 @@ public abstract class ImageViewAdapters {
         Drawable d = DrawableCompat.wrap(iv.getDrawable());
         DrawableCompat.setTint(d, ContextCompat.getColor(iv.getContext(), res));
         iv.setImageDrawable(d);
+    }
+
+    @BindingAdapter("tintList")
+    public static void _bindTintList(ImageView iv, @ColorRes int colorInt) {
+        ImageViewCompat.setImageTintList(iv, iv.getContext().getResources().getColorStateList(colorInt));
     }
 
 }
