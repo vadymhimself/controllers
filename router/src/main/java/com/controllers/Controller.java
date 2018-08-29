@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import com.controllers.core.View;
 import com.controllers.core.ViewModel;
 import java.io.Serializable;
@@ -27,8 +26,6 @@ import java.util.UUID;
 
 public abstract class Controller<B extends ViewDataBinding> extends
     BaseObservable implements ViewModel<FragmentBindingView<B>>, Serializable {
-
-    public final String LOG_TAG = Const.LOG_PREFIX + getClass().getSimpleName();
 
     /**
      * ID is generated once per creation of the controller and is a unique identifier.
@@ -80,9 +77,10 @@ public abstract class Controller<B extends ViewDataBinding> extends
     @Nullable private transient FragmentBindingView<B> view;
 
     private transient boolean attachedToScreen;
-    private boolean attachedToRouter;
 
+    private boolean attachedToRouter;
     private Set<Observer> observers;
+    private Logger logger = new DefaultLogger(getClass().getSimpleName());
 
     protected abstract @LayoutRes int getLayoutId();
 
@@ -106,7 +104,7 @@ public abstract class Controller<B extends ViewDataBinding> extends
     @Override
     public void onAttachedToScreen(@NonNull FragmentBindingView<B> view) {
         if (attachedToScreen) throwIllegalState("already attached");
-        logd(LOG_TAG, "onAttachedToScreen: ");
+        logger.logi("onAttachedToScreen", "");
         this.view = view;
         attachedToScreen = true;
         if (observers != null) {
@@ -119,7 +117,7 @@ public abstract class Controller<B extends ViewDataBinding> extends
     @Override
     public void onDetachedFromScreen(@NonNull FragmentBindingView<B> view) {
         if (!attachedToScreen) throwIllegalState("already detached");
-        logd(LOG_TAG, "onDetachedFromScreen: ");
+        logger.logi("onDetachedFromScreen", "");
         // we don't null view reference in case controller will be reused
         attachedToScreen = false;
         if (observers != null) {
@@ -133,7 +131,7 @@ public abstract class Controller<B extends ViewDataBinding> extends
     @Override
     public void onAttachedToRouter() {
         if (attachedToRouter) throwIllegalState("already attached");
-        logd(LOG_TAG, "onAttachedToRouter: ");
+        logger.logi("onAttachedToRouter", "");
         attachedToRouter = true;
         if (observers != null) {
             for (Observer observer : new ArrayList<>(observers)) {
@@ -145,7 +143,7 @@ public abstract class Controller<B extends ViewDataBinding> extends
     @Override
     public void onDetachedFromRouter() {
         if (!attachedToRouter) throwIllegalState("already detached");
-        logd(LOG_TAG, "onDetachedFromRouter: ");
+        logger.logi("onDetachedFromRouter", "");
         attachedToRouter = false;
         if (observers != null) {
             for (Observer observer : new ArrayList<>(observers)) {
@@ -192,9 +190,11 @@ public abstract class Controller<B extends ViewDataBinding> extends
         throw new IllegalStateException(getClass().getSimpleName() + ": " + message);
     }
 
-    public void logd(String tag, String msg) {
-        if (BuildConfig.DEBUG) {
-            Log.d(LOG_TAG + "/" + tag, msg);
-        }
+    public void setLogger(Logger logger) {
+        this.logger = logger;
+    }
+
+    public Logger getLogger() {
+        return this.logger;
     }
 }

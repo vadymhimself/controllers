@@ -105,35 +105,35 @@ public final class FragmentBindingView<B extends ViewDataBinding> extends Fragme
     @Override
     public void onStart() {
         super.onStart();
-        logd("onStart");
+        logi("onStart");
         subject.notifyObservers(ViewLifecycleEvent.START);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        logd("onResume");
+        logi("onResume");
         subject.notifyObservers(ViewLifecycleEvent.RESUME);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        logd("onPause");
+        logi("onPause");
         subject.notifyObservers(ViewLifecycleEvent.PAUSE);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        logd("onStop");
+        logi("onStop");
         subject.notifyObservers(ViewLifecycleEvent.STOP);
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override public void onDestroyView() {
         super.onDestroyView();
-        logd("onDestroyView");
+        logi("onDestroyView");
 
         if (controller.shouldRetainView()) {
             // keep alive
@@ -149,7 +149,7 @@ public final class FragmentBindingView<B extends ViewDataBinding> extends Fragme
     @Override
     public void onDestroy() {
         super.onDestroy();
-        logd("onDestroy");
+        logi("onDestroy");
 
         if (binding != null) {
             binding = null;
@@ -173,10 +173,9 @@ public final class FragmentBindingView<B extends ViewDataBinding> extends Fragme
         subject.unregisterObserver(consumer);
     }
 
-    private void logd(String msg) {
-        controller.logd(getClass().getSimpleName(), msg);
+    private void logi(String msg) {
+        controller.getLogger().logi(getClass().getSimpleName(), msg);
     }
-
 
     static class ReplaySubject extends Observable<ViewLifecycleConsumer> {
 

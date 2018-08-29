@@ -76,6 +76,8 @@ public abstract class FragmentTransitions {
     public boolean run(RouterStack<Controller> stack) {
       if (busy(stack)) return false;
 
+      final Controller prev = stack.peek();
+
       stack.transaction(new RouterStack.TransactionBlock<Controller>() {
         @Override public void run(RouterStack.Transaction<Controller> transaction) {
           transaction.add(next);
@@ -83,6 +85,8 @@ public abstract class FragmentTransitions {
         }
       });
 
+      next.getLogger().logi(getClass().getSimpleName(), "successful transition " +
+          (prev == null ? "" : prev.getClass().getSimpleName() + "->" + next.getClass().getSimpleName()));
       return true;
     }
   }
@@ -102,8 +106,9 @@ public abstract class FragmentTransitions {
 
       final Controller prev = stack.peek();
       final Controller next = stack.peek(1);
+      assert prev != null;
 
-      if (prev != null && prev.beforeChanged(next)) {
+      if (prev.beforeChanged(next)) {
         return false;
       }
 
@@ -115,6 +120,8 @@ public abstract class FragmentTransitions {
         }
       });
 
+      next.getLogger().logi(getClass().getSimpleName(), "successful transition " +
+          prev.getClass().getSimpleName() + "->" + next.getClass().getSimpleName());
       return true;
     }
   }
@@ -163,6 +170,8 @@ public abstract class FragmentTransitions {
         }
       });
 
+      next.getLogger().logi(getClass().getSimpleName(), "successful transition " +
+          (prev == null ? "" : prev.getClass().getSimpleName() + "->" + next.getClass().getSimpleName()));
       return true;
     }
   }
@@ -197,6 +206,8 @@ public abstract class FragmentTransitions {
         }
       });
 
+      next.getLogger().logi(getClass().getSimpleName(), "successful transition " +
+          (prev == null ? "" : prev.getClass().getSimpleName() + "->" + next.getClass().getSimpleName()));
       return true;
     }
   }
@@ -230,6 +241,8 @@ public abstract class FragmentTransitions {
         }
       });
 
+      next.getLogger().logi(getClass().getSimpleName(), "successful transition " +
+          (prev == null ? "" : prev.getClass().getSimpleName() + "->" + next.getClass().getSimpleName()));
       return true;
     }
   }
@@ -254,6 +267,7 @@ public abstract class FragmentTransitions {
           applyTransition(containerId, next);
         }
       });
+      next.getLogger().logi(getClass().getSimpleName(), "successful transition");
       return true;
     }
   }
