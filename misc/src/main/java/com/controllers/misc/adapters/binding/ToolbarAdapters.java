@@ -21,6 +21,10 @@ public abstract class ToolbarAdapters {
     public static void _bindMenu(Toolbar toolbar, @MenuRes Integer menuRes) {
         if (menuRes != null && menuRes != 0) {
             toolbar.inflateMenu(menuRes);
+        } else {
+            if (toolbar.getMenu() != null) {
+                toolbar.getMenu().clear();
+            }
         }
     }
 

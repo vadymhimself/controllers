@@ -15,7 +15,9 @@ public abstract class TabLayoutAdapters {
     @BindingAdapter("tabSelectedListener")
     public static void _bindItemSelected(TabLayout view,
                                          TabLayout.OnTabSelectedListener listener) {
+      if (listener != null) {
         view.addOnTabSelectedListener(listener);
+      }
     }
 
     @BindingAdapter("viewPager")
@@ -32,4 +34,20 @@ public abstract class TabLayoutAdapters {
     public static void _bindTabClickListener(TabLayout view, TabLayout.OnTabSelectedListener listener) {
         view.addOnTabSelectedListener(listener);
     }
+
+  @BindingAdapter("selectedTab")
+  public static void bindSelectedTab(TabLayout view, int index) {
+    if (view.getTabCount() == 0) {
+      return;
+    }
+    if (index < 0) {
+      index = 0;
+    } else if (index >= view.getTabCount()) {
+      index = view.getTabCount() - 1;
+    }
+    TabLayout.Tab tab = view.getTabAt(index);
+    if (tab != null && !tab.isSelected()) {
+      tab.select();
+    }
+  }
 }
