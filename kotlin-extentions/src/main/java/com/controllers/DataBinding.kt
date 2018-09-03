@@ -1,16 +1,15 @@
 package com.controllers
 
-import android.databinding.BaseObservable
 import java.io.Serializable
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-class BindableProperty<in R : BaseObservable, T>(
+class BindableProperty<in R : Controller<*>, T : Serializable>(
   private val propBrId: Int,
-  initializer: () -> T? = { null }
+  private val lazyInitializer: suspend () -> T? = { null }
 ) : ReadWriteProperty<R, T?>, Serializable {
 
-  var field: T? = initializer()
+  var field: T? = null
 
   override fun setValue(
     thisRef: R,
@@ -25,6 +24,12 @@ class BindableProperty<in R : BaseObservable, T>(
     thisRef: R,
     property: KProperty<*>
   ): T? {
+    if (field == null) {
+      thisRef.async {
+        field = lazyInitializer()
+        thisRef.notifyPropertyChanged(propBrId)
+      }
+    }
     return field
   }
 
