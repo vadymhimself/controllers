@@ -4,7 +4,7 @@ import java.io.Serializable
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-class BindableProperty<in R : Controller<*>, T : Serializable>(
+class BindableProperty<in R : Controller<*>, T : Serializable?>(
   private val propBrId: Int,
   private val lazyInitializer: suspend () -> T? = { null }
 ) : ReadWriteProperty<R, T?>, Serializable {
