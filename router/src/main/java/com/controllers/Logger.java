@@ -8,4 +8,5 @@ public interface Logger extends Serializable {
   void logi(String tag, String msg);
   void logw(String tag, String msg);
   void loge(String tag, String msg);
+  void loge(String tag, String msg, Throwable t);
 }
