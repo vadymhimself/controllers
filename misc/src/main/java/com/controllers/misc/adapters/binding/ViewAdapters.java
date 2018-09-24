@@ -84,6 +84,26 @@ public abstract class ViewAdapters {
         v.setPadding(v.getPaddingLeft(), top, v.getPaddingRight(), v.getPaddingBottom());
     }
 
+    @BindingAdapter("android:paddingBottom")
+    public static void _bindPaddingBottom(View v, int bottom) {
+        v.setPadding(v.getPaddingLeft(), v.getPaddingTop(), v.getPaddingRight(), bottom);
+    }
+
+    @BindingAdapter("android:paddingLeft")
+    public static void _bindPaddingLeft(View v, int left) {
+        v.setPadding(left, v.getPaddingTop(), v.getPaddingRight(), v.getPaddingBottom());
+    }
+
+    @BindingAdapter("android:paddingRight")
+    public static void _bindPaddingRight(View v, int right) {
+        v.setPadding(v.getPaddingLeft(), v.getPaddingTop(), right, v.getPaddingBottom());
+    }
+
+    @BindingAdapter("android:padding")
+    public static void _bindPadding(View v, int padding) {
+        v.setPadding(padding, padding, padding, padding);
+    }
+
     @BindingAdapter("android:scaleX")
     public static void _bindScaleX(View v, float scale) {
         v.setScaleX(scale);
