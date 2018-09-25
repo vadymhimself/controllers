@@ -32,7 +32,6 @@ public class HackyTabLayout extends TabLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    @Override
     public void addOnTabSelectedListener(@NonNull TabLayout.OnTabSelectedListener listener) {
         if (listener instanceof OnTabSelectedListener) {
             this.listener = (OnTabSelectedListener) listener;
