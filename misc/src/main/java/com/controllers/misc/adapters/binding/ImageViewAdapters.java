@@ -36,7 +36,8 @@ public abstract class ImageViewAdapters {
     }
 
     @BindingAdapter(value = {"android:src", "circleTransform", "placeholder"}, requireAll = false)
-    public static void _bindSrc(ImageView iv, Object uri, boolean circleTransform, Integer placeholder) {
+    public static void _bindSrc(ImageView iv, Object uri, boolean circleTransform,
+        Integer placeholder) {
         RequestOptions options = new RequestOptions();
 
         if (circleTransform) {
@@ -66,7 +67,9 @@ public abstract class ImageViewAdapters {
 
     @BindingAdapter("backgroundTint")
     public static void _bindBgrTint(ImageView view, @ColorRes int colorRes) {
-        view.getBackground().mutate().setColorFilter(ContextCompat.getColor(view.getContext(), colorRes), PorterDuff.Mode.MULTIPLY);
+        view.getBackground().mutate()
+            .setColorFilter(ContextCompat.getColor(view.getContext(), colorRes),
+                PorterDuff.Mode.MULTIPLY);
     }
 
     @BindingAdapter("tintColor")
