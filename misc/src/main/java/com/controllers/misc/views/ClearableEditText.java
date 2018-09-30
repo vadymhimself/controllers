@@ -12,7 +12,7 @@ import android.view.View;
 /**
  * Created by Artem Sisetskyi on 2/20/18.
  * CustomerTimes Inc.
- * artem.sisetskyi@ctdev.io
+ * sisetskyi.a@gmail.com
  */
 
 /**

@@ -4,7 +4,6 @@ import android.databinding.BindingAdapter;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
-import com.controllers.misc.views.EndlessRecyclerView;
 import com.controllers.misc.views.RecyclerItemClickListener;
 
 /**
@@ -56,12 +55,6 @@ public abstract class RecyclerViewAdapters {
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(cb);
         itemTouchHelper.attachToRecyclerView(recyclerView);
-    }
-
-    @BindingAdapter("loadMoreListener")
-    public static void _bindLoadMoreListener(EndlessRecyclerView recyclerView,
-        EndlessRecyclerView.LoadMoreListener listener) {
-        recyclerView.setLoadMoreListener(listener);
     }
 
     public interface ItemSwipeListener {
