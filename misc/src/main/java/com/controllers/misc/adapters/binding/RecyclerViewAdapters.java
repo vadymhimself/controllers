@@ -54,7 +54,7 @@ public abstract class RecyclerViewAdapters {
 
             @Override
             public int getSwipeDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-                if (swipeListener.isSwipable(viewHolder.getAdapterPosition())) return 0;
+                if (!swipeListener.isSwipable(viewHolder.getAdapterPosition())) return 0;
                 return super.getSwipeDirs(recyclerView, viewHolder);
             }
         };
