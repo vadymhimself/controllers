@@ -46,6 +46,11 @@ dependencies {
     kapt "com.android.databinding:compiler:$gradlePluginVer"
 
     implementation project(':router')
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.robolectric:robolectric:3.8"
+    testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    testImplementation "com.google.truth:truth:0.42"
 }
 
 // build a jar with source files
