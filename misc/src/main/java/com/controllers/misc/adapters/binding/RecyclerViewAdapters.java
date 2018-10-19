@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import com.controllers.misc.views.RecyclerItemClickListener;
+import java.util.List;
 
 /**
  * Created by Artem Sisetskyi on 6/20/18.
@@ -36,7 +37,7 @@ public abstract class RecyclerViewAdapters {
     }
 
     @BindingAdapter("itemSwipeListener")
-    public static void _bindItemSwipeListener(RecyclerView recyclerView, final ItemSwipeListener swipeListener) {
+    public static void _bindItemSwipeListener(RecyclerView recyclerView, final ItemSwipeInterface swipeListener) {
         if (swipeListener == null) return;
 
         ItemTouchHelper.SimpleCallback cb = new ItemTouchHelper.SimpleCallback(
@@ -51,13 +52,20 @@ public abstract class RecyclerViewAdapters {
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 swipeListener.onItemSwiped(viewHolder.getAdapterPosition());
             }
+
+            @Override
+            public int getSwipeDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                if (swipeListener.getNonSwipeablePositions().contains(viewHolder.getAdapterPosition())) return 0;
+                return super.getSwipeDirs(recyclerView, viewHolder);
+            }
         };
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(cb);
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    public interface ItemSwipeListener {
+    public interface ItemSwipeInterface {
         void onItemSwiped(int index);
+        List<Integer> getNonSwipeablePositions();
     }
 }
