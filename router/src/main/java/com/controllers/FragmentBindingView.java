@@ -46,6 +46,8 @@ public final class FragmentBindingView<B extends ViewDataBinding> extends Fragme
     @Nullable @Override public View onCreateView(@NonNull LayoutInflater inflater,
                                                  @Nullable ViewGroup parent,
                                                  @Nullable Bundle savedInstanceState) {
+        logi("onCreateView");
+
         if (controller == null) {
             throw new IllegalStateException();
         }
@@ -87,6 +89,12 @@ public final class FragmentBindingView<B extends ViewDataBinding> extends Fragme
         return binding.getRoot();
     }
 
+    @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        logi("onViewCreated");
+        controller.onAttachedToScreen(this);
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -94,12 +102,10 @@ public final class FragmentBindingView<B extends ViewDataBinding> extends Fragme
     }
 
     @Override public void onViewAttachedToWindow(View v) {
-        controller.onAttachedToScreen(this);
     }
 
     @Override public void onViewDetachedFromWindow(View v) {
-        controller.onDetachedFromScreen(this);
-        v.removeOnAttachStateChangeListener(this);
+      v.removeOnAttachStateChangeListener(this);
     }
 
     @Override
@@ -139,6 +145,8 @@ public final class FragmentBindingView<B extends ViewDataBinding> extends Fragme
             // keep alive
             return;
         }
+
+        controller.onDetachedFromScreen(this);
 
         if (binding != null) {
             binding.unbind();
