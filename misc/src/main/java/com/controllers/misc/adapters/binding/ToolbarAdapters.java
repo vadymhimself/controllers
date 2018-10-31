@@ -19,12 +19,11 @@ public abstract class ToolbarAdapters {
 
     @BindingAdapter("menu")
     public static void _bindMenu(Toolbar toolbar, @MenuRes Integer menuRes) {
+        if (toolbar.getMenu() != null) {
+            toolbar.getMenu().clear();
+        }
         if (menuRes != null && menuRes != 0) {
             toolbar.inflateMenu(menuRes);
-        } else {
-            if (toolbar.getMenu() != null) {
-                toolbar.getMenu().clear();
-            }
         }
     }
 
