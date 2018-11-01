@@ -119,6 +119,11 @@ public abstract class ViewAdapters {
         v.post(() -> l.onReady(v));
     }
 
+  @BindingAdapter("activated")
+  public static void _bindActivated(View v, boolean activated) {
+    v.setActivated(activated);
+  }
+
     public interface OnViewReadyListener {
         void onReady(View view);
     }
