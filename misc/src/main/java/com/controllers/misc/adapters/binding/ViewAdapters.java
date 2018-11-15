@@ -1,10 +1,13 @@
 package com.controllers.misc.adapters.binding;
 
 import android.databinding.BindingAdapter;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 /**
@@ -35,6 +38,25 @@ public abstract class ViewAdapters {
     public static void _bindBackground(View view, @DrawableRes Integer res) {
         if (res != null) {
             view.setBackground(ContextCompat.getDrawable(view.getContext(), res));
+        }
+    }
+
+    @BindingAdapter("android:foreground")
+    public static void _bindForeground(View view, @DrawableRes int res) {
+        _bindForeground(view, ContextCompat.getDrawable(view.getContext(), res));
+    }
+
+    @BindingAdapter("android:foreground")
+    public static void _bindForeground(View view, Drawable drawable) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (view instanceof FrameLayout) {
+                FrameLayout fl = (FrameLayout) view;
+                fl.setForeground(drawable);
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    view.setForeground(drawable);
+                }
+            }
         }
     }
 
