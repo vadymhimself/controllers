@@ -3,8 +3,6 @@ package com.controllers.misc.adapters.binding;
 import android.databinding.BindingAdapter;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -40,13 +38,6 @@ public abstract class ViewAdapters {
     public static void _bindBackground(View view, @DrawableRes Integer res) {
         if (res != null) {
             view.setBackground(ContextCompat.getDrawable(view.getContext(), res));
-        }
-    }
-
-    @BindingAdapter("android:background")
-    public static void _backgroundColor(View view, @ColorInt Integer res) {
-        if (res != null) {
-            view.setBackgroundColor(res);
         }
     }
 
