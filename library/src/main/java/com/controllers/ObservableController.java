@@ -1,7 +1,6 @@
 package com.controllers;
 
 import android.databinding.ViewDataBinding;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,7 +9,9 @@ import java.util.Set;
 /**
  * Controller that notifies of its lifecycle. All observers are serialized.
  */
-abstract class ObservableController<B extends ViewDataBinding> extends SerializableController<B> {
+//this must be public to work with kotlin a really don`t know why
+abstract public class ObservableController<B extends ViewDataBinding>
+    extends SerializableController<B> {
 
 
     public interface Observer extends Serializable {
