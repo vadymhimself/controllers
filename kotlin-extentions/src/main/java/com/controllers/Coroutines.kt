@@ -35,14 +35,14 @@ class AsyncHandle {
   }
 }
 
-class JobObserver(private val context: CoroutineContext) : Controller.Observer {
+class JobObserver(@Transient private val context: CoroutineContext?) : Controller.Observer {
   override fun onAttachedToRouter(observable: Controller<*>) {
 
   }
 
   override fun onDetachedFromRouter(observable: Controller<*>) {
     // TODO may be null if context is deserialized
-    context.cancel()
+    context?.cancel()
     observable.removeObserver(this)
   }
 
