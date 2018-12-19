@@ -1,13 +1,10 @@
 package com.controllers
 
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.android.Main
-import kotlinx.coroutines.experimental.cancel
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
-import kotlin.coroutines.experimental.CoroutineContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * TODO: postpone coroutine launch until controller is attached
@@ -16,8 +13,12 @@ import kotlin.coroutines.experimental.CoroutineContext
 fun <T : Controller<*>> T.async(block: suspend AsyncHandle.() -> Unit): Job {
 
   // launch a new UI coroutine in the context of new job
-  return GlobalScope.launch(Dispatchers.Main) {
-    val jobObserver = JobObserver(coroutineContext)
+  val job = Job()
+  val coroutineScoupe = object: CoroutineScope {
+    override val coroutineContext = job + Dispatchers.Main
+  }
+ return coroutineScoupe.launch {
+    val jobObserver = JobObserver(job)
     this@async.addObserver(jobObserver)
     try {
       block(AsyncHandle())
@@ -35,14 +36,14 @@ class AsyncHandle {
   }
 }
 
-class JobObserver(private val context: CoroutineContext) : Controller.Observer {
+class JobObserver(private val job: Job) : Controller.Observer {
   override fun onAttachedToRouter(observable: Controller<*>) {
 
   }
 
   override fun onDetachedFromRouter(observable: Controller<*>) {
     // TODO may be null if context is deserialized
-    context.cancel()
+    job.cancel()
     observable.removeObserver(this)
   }
 
