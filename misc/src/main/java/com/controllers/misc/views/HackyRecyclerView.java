@@ -16,6 +16,8 @@ import android.util.AttributeSet;
 
 public class HackyRecyclerView extends RecyclerView {
 
+    @Nullable private Parcelable savedLayoutManagerState = null;
+
     public HackyRecyclerView(Context context) {
         this(context, null, 0);
     }
@@ -48,6 +50,14 @@ public class HackyRecyclerView extends RecyclerView {
         return superState;
     }
 
+    @Override public void setLayoutManager(@Nullable LayoutManager layout) {
+        super.setLayoutManager(layout);
+        if(savedLayoutManagerState != null && getLayoutManager() != null){
+            getLayoutManager().onRestoreInstanceState(savedLayoutManagerState);
+            savedLayoutManagerState = null;
+        }
+    }
+
     @Override
     protected void onRestoreInstanceState(Parcelable parcelable) {
         if (parcelable != null && parcelable instanceof SavedState) {
@@ -55,6 +65,8 @@ public class HackyRecyclerView extends RecyclerView {
             super.onRestoreInstanceState(state.getSuperState());
             if (getLayoutManager() != null) {
                 getLayoutManager().onRestoreInstanceState(state.lmState);
+            } else {
+                savedLayoutManagerState = state.lmState;
             }
         } else {
             super.onRestoreInstanceState(parcelable);
