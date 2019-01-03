@@ -20,17 +20,21 @@ public abstract class TextViewAdapters {
     @BindingAdapter(value = {"android:drawableRight", "android:drawableTint"}, requireAll = true)
     public static void _bindDrawableTint(TextView tv, @DrawableRes int drawableRes, @ColorRes Integer colorRes) {
         Drawable d = VectorDrawableCompat.create(tv.getResources(), drawableRes, null);
-        d = d.mutate();
-        DrawableCompat.setTint(d, ContextCompat.getColor(tv.getContext(), colorRes));
-        tv.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
+        if(d != null){
+            d = d.mutate();
+            DrawableCompat.setTint(d, ContextCompat.getColor(tv.getContext(), colorRes));
+            tv.setCompoundDrawablesWithIntrinsicBounds(null, null, d, null);
+        }
     }
 
     @BindingAdapter(value = {"android:drawableLeft", "android:drawableTint"}, requireAll = true)
     public static void _bindDrawableLeftTint(TextView tv, @DrawableRes int drawableRes, @ColorRes Integer colorRes) {
         Drawable d = VectorDrawableCompat.create(tv.getResources(), drawableRes, null);
-        d = d.mutate();
-        DrawableCompat.setTint(DrawableCompat.unwrap(d), ContextCompat.getColor(tv.getContext(), colorRes));
-        tv.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
+        if(d != null){
+          d = d.mutate();
+          DrawableCompat.setTint(DrawableCompat.unwrap(d), ContextCompat.getColor(tv.getContext(), colorRes));
+          tv.setCompoundDrawablesWithIntrinsicBounds(d, null, null, null);
+        }
     }
 
     @BindingAdapter("editorActionListener")
