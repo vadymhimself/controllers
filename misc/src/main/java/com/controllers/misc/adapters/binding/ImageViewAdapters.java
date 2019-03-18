@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.ImageViewCompat;
@@ -35,20 +36,37 @@ public abstract class ImageViewAdapters {
         view.setScaleType(type);
     }
 
-    @BindingAdapter(value = {"android:src", "circleTransform", "placeholder"}, requireAll = false)
-    public static void _bindSrc(ImageView iv, Object uri, boolean circleTransform,
-        Integer placeholder) {
+  @BindingAdapter(value = {
+      "android:src", "placeholder", "fallback", "circleTransform"
+  }, requireAll = false)
+  public static void _bindSrc(ImageView iv, @Nullable Object image,
+      @Nullable Object placeholder, @Nullable Object fallBack, boolean circleTransform) {
         RequestOptions options = new RequestOptions();
 
+    if (placeholder != null) {
+      if (placeholder instanceof Drawable) {
+        options = options.placeholder((Drawable) placeholder);
+      } else if (placeholder instanceof Integer) {
+        options = options.placeholder((Integer) placeholder);
+      } else {
+        throw new UnsupportedOperationException(
+            "Unsupported placeholder type " + placeholder.getClass());
+      }
+    }
+    if (fallBack != null) {
+      if (fallBack instanceof Drawable) {
+        options = options.fallback((Drawable) fallBack);
+      } else if (fallBack instanceof Integer) {
+        options = options.fallback((Integer) fallBack);
+      } else {
+        throw new UnsupportedOperationException("Unsupported fallBack type " + fallBack.getClass());
+      }
+    }
         if (circleTransform) {
             options = options.circleCrop();
         }
-
-        if (placeholder != null) {
-            options = options.placeholder(placeholder);
-        }
-
-        Glide.with(iv).load(uri).apply(options).into(iv);
+    options = options.dontAnimate();
+    Glide.with(iv).load(image).apply(options).into(iv);
     }
 
     @BindingAdapter("circleSrc")
